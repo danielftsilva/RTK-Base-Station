@@ -13,15 +13,15 @@
 %%------------------------------------------------------------
 % Thesis/Dissertation title (valid for all languages unless redefined as below)
 %   syntax: \nttitle[lang]{title}
-\nttitle[en]{A Very Long and Impressive\\Thesis Title with a Forced Line Break}%
-\nttitle[pt]{Um Título de Tese Longo\\e com uma Mudança de Linha Forçada}%
+\nttitle[en]{Design and implementation of a low-power RTK positioning\\base station for precise navigation}%
+\nttitle[pt]{     falta meter aqui    }%
 %   \nttitle{A Very Long and Impressive Thesis Title}%
 %   \nttitle[en]{The title in a Specific language}%
 
 %%------------------------------------------------------------
 % Thesis/Dissertation subtitle (valid for all languages unless redefined as below)
 %   syntax: \nttitle{title}
-\ntsubtitle{Some thoughts on the Life, the Universe,\\and Everything Else}%
+%\ntsubtitle{Some thoughts on the Life, the Universe,\\and Everything Else}%            caso tenha subtitulos, meter aqui!
 %   \ntsubtitle{Some thoughts on the Life and the Universe}%
 %   \nttitle[en]{The title in a Specific language}%
 
@@ -41,40 +41,40 @@
 % Degree customization
 %   If the degree includes a specialization
 %   syntax: \ntspecialization(language){name}
-\ntspecialization(pt){\embrace{Designação da Especialidade}}
-\ntspecialization(en){\embrace{Speciality Name}}
+%\ntspecialization(pt){\embrace{Designação da Especialidade}}
+%\ntspecialization(en){\embrace{Speciality Name}}
 
 %%------------------------------------------------------------
 % Sponsors
 %   Some Schools require the work sponsors to be listed in the cover
 %   syntax: \ntsponsors(language){names}
-\ntsponsors(pt){\embrace{Fontes de Financiamento}}
-\ntsponsors(en){\embrace{Funding Sponsors}}
+%\ntsponsors(pt){\embrace{Fontes de Financiamento}}
+%\ntsponsors(en){\embrace{Funding Sponsors}}
 
 %%------------------------------------------------------------
 % Author full name, abbreviated name, and gender
 %   use [f] for female and [m] for male author
 %   syntax: \ntauthorname(language){full name}{abbreviated name}
-\ntauthorname[m]{John Very Longname Doe}{John Doe}
+\ntauthorname[m]{Daniel Alexandre Feiteira da Silva}{Daniel Silva}
 
 %%------------------------------------------------------------
 % Author previous degree
 %   syntax: \ntauthordegree{degree}
-\ntauthordegree{Master in \embrace{name of previous degree}}
+\ntauthordegree{Bachelor in Electrical and Computer Engineering}
 
 %%------------------------------------------------------------
 % Submission date
 %   syntax: \ntdatemonth{month}
 %           \ntdateyear{year}
-\ntdatemonth{\embrace{month}}
-\ntdateyear{\embrace{year}}
+\ntdatemonth{September}
+\ntdateyear{2022}
 
 %%------------------------------------------------------------
 % Advisers' gender and info (name, position, school, etc)
 %   use [f] for female and [m] for male
 %   use "\\" to break the lines in the appropriate place
 %   syntax: \ntaddperson{adviser}[gender]{Name, Position, School}
-\ntaddperson{adviser}[f]{{Mary Doe Adviser Name, Full Professor, NOVA University Lisbon}}
+\ntaddperson{adviser}[m]{{João Pedro Oliveira, Assistant Professor, NOVA University Lisbon}}               % jpao
 % \ntaddperson{adviser}[f]{{Mary Doe other Adviser Name, Full Professor, NOVA University Lisbon}}
 % \ntaddperson{adviser}[f]{{Mary Doe yet another Adviser Name, Full Professor, NOVA University Lisbon}}
 
@@ -83,11 +83,11 @@
 %   use [f] for female and [m] for male
 %   use "\\" to break the lines in the appropriate place
 %   syntax: \ntaddperson{coadviser}[gender]{Name, Position, School}
-\ntaddperson{coadviser}[f]{John Doe Co-Adviser Name, Associate Professor, NOVA University Lisbon}
-\ntaddperson{coadviser}[f]{John Doe other Co-Adviser Name, Full Professor, NOVA University Lisbon}
+%\ntaddperson{coadviser}[m]{John Doe Co-Adviser Name, Associate Professor, NOVA University Lisbon}       % pedro lousã
+%\ntaddperson{coadviser}[m]{John Doe other Co-Adviser Name, Full Professor, NOVA University Lisbon}      % andré?
 
 %%------------------------------------------------------------
-% Committee members
+% Committee members                                                 % para isto aparecer, ir ao 1_novathesis.tex, l.61
 %   For [role] use: [c] for committee chair
 %                   [r] for rapporteurs
 %                   [a] for advisers
