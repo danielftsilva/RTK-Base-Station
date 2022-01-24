@@ -6,89 +6,48 @@
 %% Chapter with introduction
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% NOTE: Cite \cite{novathesis-manual} somewhere, in your thesis/dissertation with “\verb!\cite{novathesis-manual}!”, any place you think it makes sense.  If you cite it this way, the correct entry will be added automatically to your bibliography (there no need to add it to your BibTeX file);
+
 \typeout{NT FILE chapter1.tex}
 
-\chapter{Introduction}
-\label{cha:introduction}
+\chapter{Introduction}\label{cha:introduction}
 
 \prependtographicspath{{Chapters/Figures/Covers/phd/}{Chapters/Figures/Covers/msc/}}
 
 % epigraph configuration
-\epigraphfontsize{\small\itshape}
-\setlength\epigraphwidth{12.5cm}
-\setlength\epigraphrule{0pt}
+% \epigraphfontsize{\small\itshape}
+% \setlength\epigraphwidth{12.5cm}
+% \setlength\epigraphrule{0pt}
 
-\epigraph{
-  This work is licensed under the \href{LaTeX project public license}{\LaTeX\ Project Public License v1.3c}.
-  To view a copy of this license, visit \url{LaTeX project public license}.
-}
+\begin{figure}[H]
+  \centering
+	\includegraphics[width=0.5\textwidth, keepaspectratio]{Chapters/Figures/Intro/old_BS.jpeg}
+	\caption{Old base station.}
+	\label{fig:old_BS}
+\end{figure}
 
-This is the \novathesis\ \LaTeX\ template version v\novathesisversion\ from \novathesisdate.
+% \epigraph{
+%   This work is licensed under the \href{LaTeX project public license}{\LaTeX\ Project Public License v1.3c}.
+%   To view a copy of this license, visit \url{LaTeX project public license}.
+% }
 
-\section{If You Use this Template…} 
-\label{sub:if_you_use_this_template}
+This is Figure \ref{fig:old_BS}. It shows the current \gls{base_station}.
 
-This Chapter presents an introduction to the template and how it is organized. In the next chapter you can find some specific instructions. Please read the next sections carefully.
+\section{Subsection 1.1}\label{sub:sub1_1}
 
-Someone spent a few dozens of hours working on this template to make your life easier and to allow you to be more productive.  Those working hours were not paid and were “stolen” from family.
-If you use this template, please go to the
-\href{https://github.com/joaomlourenco/novathesis_word}{project web page in GitHub}
-and:
-\begin{enumerate}
-  \item Cite it \cite{novathesis-manual} in your thesis/dissertation with “\verb!\cite{novathesis-manual}!”, any place you think it makes sense.  If you cite it this way, the correct entry will be added automatically to your bibliography (there no need to add it to your BibTeX file);
-  \item Give the project a star (marked with a red ellipse at the top-right in Figure~\ref{fig:github}); and
-  \item Make a small donation (marked with a red ellipse at the bottom-left in Figure~\ref{fig:github}).
-\end{enumerate}
+\section{Subsection 1.2}\label{sec:sub1_2}
 
-\section{The \emph{NOVAthesis} template}
-\label{sec:a_bit_of_history}
-
-\newcommand{\mysmallcoversize}{0.09\linewidth}
-\renewcommand{\theadfont}{\large\bfseries}
-\definecolor{Schlgray}{gray}{0.95}  
-\newtoggle{ntRow}
-
-\newcommand{\ntSchool}[4]{%
-    % #1 = cover image
-    % #2 = School name
-    % #3 = School acronym
-    % #3 = School URL
-    \iftoggle{ntRow}{\rowcolor{GhostWhite}\global\togglefalse{ntRow}}{\global\toggletrue{ntRow}}
-    \setlength{\fboxsep}{0pt}%
-    \makecell*[cc]{\fbox{\colorbox{White}{\includegraphics[width=\mysmallcoversize]{#1}}}}
-    & #2 \href{#4}{(#3)}\\%
-}
-
-\newenvironment{ntUniversity}[1]{
-    \togglefalse{ntRow}
-    \xltabular{\linewidth}{lX}%
-    \toprule%
-    \rowcolor{Gainsboro}%
-    & \Gape[1.5ex]{\thead[l]{#1}}\\
-    \midrule%
-}{%
-    \bottomrule
-    \endxltabular%
-}
-
-The \gls{novathesis} was initially directed to the PhD and MSc students thesis at \gls{DI} of the \gls{FCT} of the \gls{NOVA}, Portugal, but currently it supports other Universities and Schools, namely:
-
-\section{Getting Started}
-\label{sec:getting_started}
+\section{Subsection 1.3}\label{sec:sub1_3}
 
 The template provides an \emph{easy-to-use} setting for you to write your thesis/dissertation in \LaTeX:
 
 \subsection{Using Overleaf}\label{sub:using_overleaf}
 
-\begin{wrapfigure}{r}{0.5\linewidth}
-\vspace*{-15ex}\includegraphics[width=\linewidth]{overleaf}
-\end{wrapfigure}
-
 If you do not have an account in \href{https://www.overleaf.com?r=f5160636&rm=d&rs=b}{Overleaf}, you must \href{https://www.overleaf.com?r=f5160636&rm=d&rs=b}{create one first}.
 
-Once you have an account, please access the \glsxtrlong{novathesis} in \href{https://www.overleaf.com/latex/templates/new-university-of-lisbon-universidade-nova-de-lisboa-slash-unl-thesis-template/fwbztcrptjmg}{Overleaf} and select the green button \emph{Open as Template}. 
+Once you have an account, please access the \glsxtrlong{novathesis} in \href{https://www.overleaf.com/latex/templates/new-university-of-lisbon-universidade-nova-de-lisboa-slash-unl-thesis-template/fwbztcrptjmg}{Overleaf} and select the green button \emph{Open as Template}.
 
-\emph{Please note that the version currently available in Overleaf (v4.1.3) is outdated. A new version will be submitted to Overleaf soon.}  
+\emph{Please note that the version currently available in Overleaf (v4.1.3) is outdated. A new version will be submitted to Overleaf soon.}
 
 \subsection{Using a Local \LaTeX\ Installation}
 \label{sub:using_local_latex}
@@ -102,10 +61,6 @@ Just access the \glsxtrlong{novathesis} in \href{https://github.com/joaomlourenc
 \section{Getting Help}
 \label{sec:getting_help}
 
-\begin{center}  
-  \fbox{\textbf{Please do not send me emails!  I will not answer them!}}
-\end{center}
- 
 \subsection{Google}
 \label{sub:group_google}
 
@@ -125,7 +80,7 @@ There were huge changes from version 4.x.y to version 5.a.b so, please, \textbf{
 \subsection{Reporting Problems}
 \label{sub:reporting_problems}
 
-If you just need some help, see above \Autoref{sub:group_google} and \Autoref{sub:group_support}.
+If you just need some help, see above \ref{sub:group_google} and \ref{sub:group_support} \Autoref{sub:group_google} and \Autoref{sub:group_support}.
 
 If you believe \emph{you found a bug} or if \emph{you need some improvement} in the template, please \href{https://github.com/joaomlourenco/novathesis/issues}{fill an issue in github} at \url{https://github.com/joaomlourenco/novathesis/issues}.
 
@@ -138,10 +93,10 @@ This template is the result of hundreds (yes! \emph{may hundreds}!) of hours of 
 \label{ssub:donors_2020}
 
 \begin{inparaitem}[]
-  \item João Carvalho, 
-  \item David Romão, 
+  \item João Carvalho,
+  \item David Romão,
   \item DisplayersereStream, and
-  \item António Estêvão.  
+  \item António Estêvão.
 \end{inparaitem}
 
 \subsubsection*{Donors 2019}
@@ -149,7 +104,7 @@ This template is the result of hundreds (yes! \emph{may hundreds}!) of hours of 
 
 \begin{inparaitem}[]
   \item Jorge Barreto and
-  \item Raissa Almeida.  
+  \item Raissa Almeida.
 \end{inparaitem}
 
 \section{Disclaimer}
