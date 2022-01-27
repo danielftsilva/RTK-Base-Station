@@ -82,7 +82,7 @@
 %%%%% Configure Graphics
 \RequirePackage[nobeamer]{graphbox}% improved version of "graphicx"
 \graphicspath{{Chapters/Figures/}}
-\DeclareGraphicsExtensions{.pdf,.png,.jpg,.tif}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg,.tif,.jpeg}
 \providecommand*\appendtographicspath[1]{\gappto\Ginput@path{#1}}
 \providecommand*\prependtographicspath[1]{\gpreto\Ginput@path{#1}}
 
