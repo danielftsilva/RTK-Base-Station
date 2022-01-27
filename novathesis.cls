@@ -80,7 +80,7 @@
 % To process lists and other stuff
 
 %%%%% Configure Graphics
-\RequirePackage[nobeamer]{graphbox}% improved version of "graphicx"
+\RequirePackage{graphicx}% improved version of "graphicx"
 \graphicspath{{Chapters/Figures/}}
 \DeclareGraphicsExtensions{.pdf,.png,.jpg,.tif,.jpeg}
 \providecommand*\appendtographicspath[1]{\gappto\Ginput@path{#1}}
