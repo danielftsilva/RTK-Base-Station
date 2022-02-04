@@ -56,11 +56,14 @@ Regarding surveillance, sight is more than often the most important sense to con
 %              Danger Zone Patrol
 %              Occurrence Control Management
 When using UAVs, constantly having to manually control them in tedious and lengthy tasks (e.g. agricultural field surveying) might be impractical.
-A solution for this type of problem would be to automate the processes assigned to the devices. For that, one can't just rely on GPS for accurate real time corrections; here comes the purpose of RTK; % .......
-this technology is used to improve the accuracy of GNSS receivers in real time, so it is perfect for autonomous vehicles to carry out certain missions, with virtually no human assistance during the course of the same (missions). For this, it is necessary to have a high accuracy in real-time UAV positioning;
-however, as this equipment is in motion constant, it is very difficult to obtain an accurate reading in real time;
+A solution for this type of problem would be to automate the processes assigned to the devices. For that, one can't only rely on GPS for extremely accurate positioning, specially in a real time scenario, since this service does not provide the level of accuracy needed for precise navigation, which must be in the order of centimeters. Real-time kinematics (RTK) solves this issue~\cite{gps_USGov,8714161}.
+
+RTK is a technology designed to improve the accuracy of GNSS receivers in real time, so it is perfect for autonomous vehicles to carry out certain missions, with virtually no human assistance during the course of the same (missions). For this, it is necessary to have a high accuracy in real-time UAV positioning;
+however, as this equipment is in motion constant,
+
+it is very difficult to obtain an accurate reading in real time;
 for that, it shows if in turn It is necessary to use equipment capable of helping the UAV to obtain its position accurately, in time real - base station. the base station is an equipment (GNSS receiver) that, through (single or multi)-link to the vast array of satellites (either GPS, GLONASS, GALILEO, BeiDou, or QZSS),
-having previously fixed and known position (transcribe video of the troop) (never move), is able to set the position of the rover in an extremely accurate, real-time manner.
+having previously fixed and known position (transcribe video of the troop) (never move), is able to set the position of the rover in an extremely accurate, real time manner.
 in this case, the rtk base on which to work (beRTK) has 2 major functions: the first is to use the u-blox ZED-F9P to obtain a highly accurate fixed position and transmit RTK corrections via ZigBee for the Drone (HEIFU);
 the second is to connect to a ReNEP NTRIP server, in order to obtain a precise location much faster (by pure GPS, as said, it takes a long time, it can up to hours, until an accuracy below 10cm (REFERENCE NEEDED) is obtained, with the help of NTRIP it takes just minutes).
 The idea proposed in this dissertation is to find a lower power solution than the one that Beyond Vision currently owns. What currently exists makes use of a Raspberry Pi Model 4B (micro)computer with two WiFi modules:
@@ -95,7 +98,7 @@ Talk about:
     8.3. baselines
     in: https://www.e-education.psu.edu/geog862/node/1725
 
-    9. GNSS - "The performance of GNSS is assessed using four criteria: Accuracy, Integrity, Continuity and Availability. The correlated range errors due to ephemeris prediction errors and residual satellite clock, ionosphere and troposphere errors may vary slowly with time and user location.
+    9. GNSS - The performance of GNSS is assessed using four criteria: Accuracy, Integrity, Continuity and Availability. The correlated range errors due to ephemeris prediction errors and residual satellite clock, ionosphere and troposphere errors may vary slowly with time and user location.
     Therefore, by comparing pseudo-range measurements with those made by equipment at a presurveyed location, known as a REFERENCE STATION or BASE STATION, the correlated range errors may be calibrated out, improving the navigation-solution Accuracy! This is the priciple behind Differential GNSS (DGNSS)~\cite{edseee_9101092}. % fazer desenho .svg de base station a "acertar" o drone com os satelites
     10. L2C and L5 (signal availability) bands;
     11. the future L1C
@@ -137,11 +140,3 @@ analysis
 
 h. RTK+ System for Precise Navigation in Shadowed
 Areas 
-
-\section{Section 1.1}\label{sub:sub1_1}
-
-\section{Section 1.2}\label{sec:sub1_2}
-
-\section{Section 1.3}\label{sec:sub1_3}
-
-\section{Section 1.4}\label{sec:sub1_4}
