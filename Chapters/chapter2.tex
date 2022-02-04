@@ -32,3 +32,48 @@ In geometry, the area enclosed by a circle of radius \gls{r} is $\pi r^2$. Here 
 Lets add ``\gls{computer}'' to the glossary!
 
 % \printbibliography[heading=subbibliography, segment=\therefsegment, title={\bibname\ for chapter~\thechapter}]
+introduçao
+    descrição do problema - de forma a poder usar UAVs nas mais diversas aplicações, o constante controlo deste equipamento em aplicações tediosas e longas (ex o surveying de um campo agricola, surveillance, infrastructure) é tarefa pouco prática. uma solução para este tipo de probelams seria automatizar os processos atribuidos aos UAVs; para tal, não se pode apenas rely no GPS para correções accurate em tempo real; aqui entra o proposito de RTK; esta tecnologia é usada para melhorar a accuracy de receivers GNSS em tempo real, pelo que é perfeita para veiculos autonomos a realizar dadas missoes, com virtualmente nenhum auxilio humano durante o decorrer das mesmas(missoes). para tal, mostra-se necessaria uma alta precisao no posicionamento em tempo real do UAV; porem, como este equipamento se encontra em movimento constante, é muito dificol obter um reading accurate em tempo real; para tal, mostra se por sua vez necesssario o uso de um equipamento capaz de auxiliar o UAV a obter a sua posiçao accurately, em tempo real - base station. a base station é um equipamento (GNSS receiver) que, atraves de (single ou multi)-link ao vasto array de satelites (seja de GPS, GLONASS, GALILEO, , ou QZSS), tendo ainda, previamente, a sua posiçao fixa e conhecida (transcrever video do tropa) (nao se mexe nunca), é capaz de acertar a posição do rover de uma forma exteremamente accurate, em tempo real.
+    neste caso, a base rtk sobre a qual se vai trabalhar (beRTK) tem 2 grandes funçoes: a primeira é usar o u-blox ZED-F9P para obter uma posiçao fixa de grande precisao e transmitir correçoes RTK atraves de ZigBee para o Drone (HEIFU); a segunda é conectar-se a um servidor NTRIP da ReNEP, de forma a obter uma localizaçao de grande precisao muito mais rapidamente (por GPS puro, como dito, demora muito tempo, pode ser até horas, até se obter uma precisão abaixo de 10cm (REFERENCE NEEDED), com a ajuda do NTRIP demora apenas minutos).
+    A ideia proposta nesta dissertaçao é encontrar uma solução mais low power que aquela que a Beyond Vision possui atualmente. O que atualmente existe faz uso de um (micro)computador Raspberry Pi Model 4B com dois modulos WiFi: um para se conectar a uma rede WiFI e ir efetivamente ao servidor NTRIP fetch dados; outro para criar uma rede local que possui, por sua vez, um Web server com uma pagina de configuraçao da base (RTCM e cenas assim, VER DATASHEET DA beRTK). Pretende-se entao usar um (ou dois) microcontroladores de forma a efetuar estas funçoes, mantendo o ZED-F9P e o ZigBee.
+    temabem na lista de alteraçoes, mas com prioridade mais reduzida, enta um sistema de baterias mais robusto, algo que permita carregar e utilizar a base ao mesmo tempo (de preferencia algo que carregue por USB-C).
+    % meter uma definição NUTSHELL de RTK, 
+    pretende-se uma base station que seja capaz de afinar a posiçao do rover (drone);
+    na descriçao do problema tenho de falar que quero uma solução que seja:
+        low-power;
+        use RTK - aka provides precise navigation;
+        use ZigBee;
+        use ZED-F9P;
+        não use Raspberry Pi, mas sim 1 ou 2 microcontroladores (STM32);
+        use NTRIP;
+            da ReNEP?
+        use sistema de baterias que permita carregar e usar a base ao mm tempo;
+
+state-of-the-art/backgroud cientifico
+    o que é GNSS? %referir ao docx word
+        como e que funcionam os staelites?
+        como e que funcionam GPS receivers (trilateration...)?
+            de forma analogia GALILEO tambem funciona
+            mostrar satellites layout
+    o que é RTK?  %referir ao docx word
+        como e que RTK funciona?/permite afinar a posiçao em tempo real?
+        explicar todos os termos que aparecem em tecnologia RTK
+            L1/L2 bands
+            single-band multi-band receivers
+            baseline (fazer figura - NOUN PROJECT)
+            accuracy
+            ppm
+        o que e que ja existe no mercado e seja eficiente?
+        ZED-F9P;
+    o que é NTRIP?
+        o que é NTRIP da ReNEP?
+    baterias - importancia de carregar e utilizar ao mm tempo
+        baterias de Li-ion externas utilizadas vs baterias de Li-ion possiveis de carregar por USB-C
+            como e que funciona o carregamento usb-C?
+            vantagens e desvanteagens;
+            o que e que ja existe no mercado e seja eficiente?
+    NO FINAL DESTE CAPITULO - mete-se a tabela de excel e:
+        apontam se as soluçoes mais relevantes que ja existem;
+        fazer ligaçao dos termos explciados anteriormente com o que cada base station tem;
+
+    
