@@ -24,20 +24,54 @@
 
 %mudar o começo desta frase -> tirar os parenteses
 Around twelve thousand years ago, the way of life of the average human being -- which, until then, simply followed primitive and sometimes unproductive ways of hunting -- changed completely. The domestication of plants and breeding of animals started in the Neolithic period, which paved the way for the revolution and subsequent development of agriculture~\cite{Zeder2011TheOO}.
-
-%juntar estes dois paragrafos / OU meter este paragrafo la em baixo, no fim da introduçao.          SERÁ QUE ESTE PARAGRAFO ESTA A MAIS?
-Over the years, the discovery of countless phenomena as well as the development of numerous techniques have been made possible by exploring this laborous sector, and the doors that lead to the exploration seem far from being closed.
+%juntar este paragrafos com o do "Over the years,"
 
 The invention of the cotton gin in 1792 introduced the first ever mechanisation of an agricultural process, resulting immediately in enormous volumes of production, quickly enriching societies around the globe~\cite{Roe1926}.
 This resulted in a new age in agriculture that continues to this day, where machines are created and improved in order to efficiently complement and facilitate human work in almost every process possible.
-However, some tasks remain relatively tedious (such as pesticide sprayers mounted on tractors) or are just too inefficient, despite the use of machines. Robotics-oriented devices are able to patch the holes in both situations, notably in the latter.
-%falar de infraestruturas e segurança
-With the rapid technological advancement, a factor foreseen to be virtually removed was, precisely, the human contribution. Thus, when developing a device capable of performing tasks that, normally, a human would do, the main focus should be envisioning how each of those tasks could be performed by that given device. In agriculture, for example, sight is (arguably) the most important sense to consider, therefore, S
+However, some tasks remain relatively tedious (such as pesticide sprayers mounted on tractors) or are just too inefficient, despite the use of machines. Robotics-oriented devices are able to patch the holes in both cases, notably in the latter.
+%falar de infraestruturas e segurança agora
+It is also quite obvious that work of this nature is not exclusive to the agricultural sector, as there are thousands of people responsible for jobs regarding a vital need of society: surveillance.
+Taking the example of Siberia's sadly expected annual wildfires which, in 2021, reported the most devastating one of the 21$^{st}$ century~\cite{dixon_2021,roth_2021}, situations like these as well as workplace accidents are just two examples of what is intended to be mitigated (helped? nao porque helped significa 'ser ajudado') with the help of surveillance.
+
+With the rapid technological advancement, a factor foreseen to be virtually removed was, precisely, the human contribution. Thus, when developing a device capable of performing tasks that, normally, a human would do, the main focus should be envisioning how each of those tasks could be performed by it.
+Regarding surveillance, sight is more than often the most important sense to consider, therefore, a device capable of ``seeing'', acknowledging and mapping an area of work would be an excellent starting point for the previously mentioned sectors. Nowadays, tasks like these can be performed by a device known as an ``Unmanned Aerial Vehicle'' (or UAV).
+
+% OU meter este paragrafo la em baixo, no fim da introduçao.
+% SERÁ QUE ESTE PARAGRAFO ESTA A MAIS?
+% Over the years, the discovery of countless phenomena as well as the development of numerous techniques have been made possible by exploring this laborous sector, and the doors that lead to the exploration seem far from being closed.
 
 \section{Description of the Problem}\label{I_description}
 
-But there is still a great ally for such efficiency, which sometimes goes unnoticed is even forgotten: Image Processing.
+% falar dos objetivos da beyond
+% Agriculture:
+%              Multispectral Data Collection
+%              Creation of Aerial Maps
+%              Data Evaluation
+% Infrastructure:
+%              Data Collection
+%              Production of Aerial Maps
+%              Project Management
+% Safety:
+%              Autonomous Patrol
+%              Danger Zone Patrol
+%              Occurrence Control Management
+When using UAVs, constantly having to manually control them in tedious and lengthy tasks (e.g. agricultural field surveying) might be impractical.
+A solution for this type of problem would be to automate the processes assigned to the devices. For that, one can't just rely on GPS for accurate real time corrections; here comes the purpose of RTK; % .......
+this technology is used to improve the accuracy of GNSS receivers in real time, so it is perfect for autonomous vehicles to carry out certain missions, with virtually no human assistance during the course of the same (missions). For this, it is necessary to have a high accuracy in real-time UAV positioning;
+however, as this equipment is in motion constant, it is very difficult to obtain an accurate reading in real time;
+for that, it shows if in turn It is necessary to use equipment capable of helping the UAV to obtain its position accurately, in time real - base station. the base station is an equipment (GNSS receiver) that, through (single or multi)-link to the vast array of satellites (either GPS, GLONASS, GALILEO, BeiDou, or QZSS),
+having previously fixed and known position (transcribe video of the troop) (never move), is able to set the position of the rover in an extremely accurate, real-time manner.
+in this case, the rtk base on which to work (beRTK) has 2 major functions: the first is to use the u-blox ZED-F9P to obtain a highly accurate fixed position and transmit RTK corrections via ZigBee for the Drone (HEIFU);
+the second is to connect to a ReNEP NTRIP server, in order to obtain a precise location much faster (by pure GPS, as said, it takes a long time, it can up to hours, until an accuracy below 10cm (REFERENCE NEEDED) is obtained, with the help of NTRIP it takes just minutes).
+The idea proposed in this dissertation is to find a lower power solution than the one that Beyond Vision currently owns. What currently exists makes use of a Raspberry Pi Model 4B (micro)computer with two WiFi modules:
+one to connect to a WiFi network and effectively go to the NTRIP fetch data server;
+other to create a local network that has, in turn, a Web server with a base configuration page (RTCM and scenes like that, SEE beRTK DATASHEET). It is therefore intended to use one (or two) microcontrollers of in order to perform these functions, keeping the ZED-F9P and ZigBee.
+They are fine on the change list, but with lower priority, so a more robust battery system, something that allows charging and using the base at the same time (preferably something that charges via USB-C).
+% enter a NUTSHELL setting of RTK,
+a base station is intended that is capable of fine-tuning the position of the rover (drone);
 
+% |=|=|=|=|=|=|=|=|=|
+But there is still a great ally for such efficiency, which sometimes goes unnoticed is even forgotten: Image Processing.
 
 Começar com:
 I. o que é uma base station? fazer analogia
@@ -45,7 +79,6 @@ II. dizer para que e que serve
 III. onde/no que é que eu vou empregá-la?
 IV. que tecnologias utiliza?
 V. explicar cada tecnologia relativamente a base
-
 
 Talk about:
     1. Satellite Navigation Device
@@ -72,8 +105,7 @@ Talk about:
     15. what is a 120-channel receiver?
     16. explicar o que cada célula do excel significa, tanto as que considerei mais importantes como as outras
     17. RTK / RTK-GNSS / D-RTK / dynamic differential technology~\cite{ayers_geosystems_2011}
-        
-
+       
     land surveying - In the context of external land surveying, a base station is a GPS receiver at an accurately-known fixed location which is used to derive correction information for nearby portable GPS receivers. This correction data allows propagation and other effects to be corrected out of the position data obtained by the mobile stations, which gives greatly increased location precision and accuracy over the results obtained by uncorrected GPS receivers.
 
     how long does it take for a radio signal to be emitted from a satellite to reach the surface of the earth? 
