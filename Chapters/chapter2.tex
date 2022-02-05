@@ -45,26 +45,109 @@ how many satellites in each constellation;
 
 % \end{tabularx}
 
-\begin{table}[ht]       % provavelmente devo meter as palavras "parameter"/"base station"?
-	\centering
+\begin{table}[ht]       % provavelmente devo meter as palavras "parameter"/"base station" na caption?
+	\centering          % ou devo eliminar a celula toda?
     \captionsetup{justification=centering}
     \caption{Compilation of the most relevant solutions available in the market (as of the date of the present document).}
-	\label{tab:current_solutions}
-	\begin{tabular}{cccccc}
+	\label{tab:current_solutions_1}
+	\begin{tabular}{|c|c|c|c|c|c|} % 8 colunas
 		\toprule
-		\multicolumn{1}{c}{\textbf{beRTK (Beyond Vision)}} & \textbf{Reach RS2 (Emlid)} & \textbf{D-RTK 2 (DJI)} & \textbf{HiPer V (Topcon)} & \textbf{S990A GNSS Receiver (Stonex)}\\
-		\midrule
-		\textbf{Exterior} & 2 & 2 & 1 & 1 & 1 \\
-		\textbf{Correction Technology} & 2 & 2 & 1 & 1 & 1 \\
-        \textbf{Supported Constellations} & 2 & 2 & 1 & 1 & 1 \\
-        \textbf{Positioning Accuracy} & 2 & 2 & 1 & 1 & 1 \\
-        \textbf{Range of Correction Transmission} & 2 & 2 & 1 & 1 & 1 \\
-        \textbf{Communication} & 2 & 2 & 1 & 1 & 1 \\
-        \textbf{Data} & 2 & 2 & 1 & 1 & 1 \\
-        \textbf{Power Supply, EPI,battery)} & 2 & 2 & 1 & 1 & 1 \\
-        \textbf{Autonomy} & 2 & 2 & 1 & 1 & 1 \\
-        \textbf{Dimensions, Weight} & 2 & 2 & 1 & 1 & 1 \\
-        \textbf{Environmental} & 2 & 2 & 1 & 1 & 1 \\
+		
+        {} & {} & {} & \vtop{\hbox{\strut \textbf{beRTK}}\hbox{\strut \textbf{(Beyond Vision)}}} & \vtop{\hbox{\strut \textbf{Reach RS2}}\hbox{\strut \textbf{(Emlid)}}} & \vtop{\hbox{\strut \textbf{D-RTK 2}}\hbox{\strut \textbf{(DJI)}}}\\        
+        
+        \midrule
+
+        \rotatebox{90}{\textbf{pizza}} & 2 & 2 & 2 & 2 & 2\\
+        \midrule
+
+        \multirow{2}{*}{Multirow}&X\\
+        &X & t\\
+
+        \midrule
+
+        \multirow{8}{*}{\rotatebox{90}{\textbf{Positioning}}}& X\\
+        &X\\
+        &X\\
+        &X\\
+        &X\\
+        &X\\
+        &X\\
+        &X\\
+
+        \midrule\addlinespace[1.5ex]
+        
+        {} & \includegraphics[height=1.4cm]{Chapters/Figures/base_stations/beRTK_2.png} & \includegraphics[height=1.4cm]{Chapters/Figures/base_stations/REACH-RS2.png} & \includegraphics[height=1.4cm]{Chapters/Figures/base_stations/d-rtk-2.png}\\
+		
+        \bottomrule
+        
+	\end{tabular}
+\end{table}
+
+\begin{table}[ht]       % provavelmente devo meter as palavras "parameter"/"base station" na caption?
+	\centering          % ou devo eliminar a celula toda?
+    \captionsetup{justification=centering}
+    \caption{Compilation of the most relevant solutions available in the market (as of the date of the present document).}
+	\label{tab:current_solutions_2}
+	\begin{tabular}{|c|c|c|c|c|} % 8 colunas
+		\toprule
+		{} & {} & {} & \vtop{\hbox{\strut \textbf{HiPer V}}\hbox{\strut \textbf{(Topcon)}}} & \vtop{\hbox{\strut \textbf{S990A GNSS Receiver}}\hbox{\strut \textbf{(Stonex)}}}\\        
+        \midrule
+        \rotatebox{90}{\textbf{pizza}} & 2 & 2 & 2 & 2\\
+        \midrule\addlinespace[1.5ex]
+        {} & \includegraphics[height=1.4cm]{Chapters/Figures/base_stations/HiPer-V.png} & \includegraphics[height=1.4cm]{Chapters/Figures/base_stations/S990A.png}\\
 		\bottomrule
 	\end{tabular}
+\end{table}
+
+
+
+
+
+
+
+% tabela com palavras rodadas:
+% \begin{tabular}{m{1em}c}
+%     \rotatebox{90}{\textbf{Electrical }}& \makecell{\textbf{Supply} \\ \textbf{Input}\\ \textbf{Battery} \\ \textbf{Autonomy}}\\
+% \end{tabular}\\
+
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+\begin{table}[ht]
+    \centering
+    \captionsetup{justification=centering}
+    \caption{Compilation of the most relevant solutions available in the market (as of the date of the present document).}
+	\label{tab:currednt_solutions}
+    \begin{tabular}{|M{2.5cm}|M{2.5cm}|M{2.5cm}|}
+      \hline
+      Reconstruction strategy & aa          & bb( \%) \\ \hline
+      Classic                 & 3342 voxels & 68 \%   \\ \hline
+      VC                      & 4296 voxels & 87 \%   \\ \hline
+      V m=7                   & 4745 voxels & 96 \%   \\ \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[ht] 
+    \centering 
+    \begin{tabular}{  >{\raggedright}m{4.5cm}  m{5cm}}      % centered columns (3 columns) 
+    \toprule                                   %inserts double horizontal lines 
+    Building Block  & Circuits\\  % inserts table heading 
+    \midrule\addlinespace[1.5ex]
+            Inverting op-amp\\
+            (linear amplifier)
+            & \includegraphics[height=1cm]{Chapters/Figures/base_stations/beRTK_2.png} \\
+    \midrule\addlinespace[1.5ex]
+            Integrator 
+            & \includegraphics[height=1cm]{Chapters/Figures/base_stations/REACH-RS2.png} \\
+    \midrule\addlinespace[1.5ex]
+            AC integrator \\ with DC gain
+            & \includegraphics[height=1cm]{Chapters/Figures/base_stations/d-rtk-2.png} \\
+    \midrule\addlinespace[1.5ex]
+            Differentiator
+            & \includegraphics[height=1cm]{Chapters/Figures/base_stations/HiPer-V.png} \\
+    \midrule\addlinespace[1.5ex]
+            AC differentiator \\ with DC gain
+            & \includegraphics[height=1cm]{Chapters/Figures/base_stations/S990A.png} \\
+    \bottomrule
+        \end{tabular}
+        \caption{A few basic circuit blocks and their frequency response for servo design.}
+        \label{table4.2}
 \end{table}
