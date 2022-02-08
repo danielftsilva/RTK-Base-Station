@@ -30,17 +30,19 @@ The invention of the cotton gin in 1792 introduced the first ever mechanisation 
 This resulted in a new age in agriculture that continues to this day, where machines are created and improved in order to efficiently complement and facilitate human work in almost every process possible.
 However, some tasks remain relatively tedious (such as pesticide sprayers mounted on tractors) or are just too inefficient, despite the use of machines. Robotics-oriented devices are able to patch the holes in both cases, notably in the latter.
 %falar de infraestruturas e segurança agora
-It is also quite obvious that work of this nature is not exclusive to the agricultural sector, as there are thousands of people responsible for jobs regarding a vital need of society: surveillance.
-Taking the example of Siberia's sadly expected annual wildfires which, in 2021, reported the most devastating one of the 21$^{st}$ century~\cite{dixon_2021,roth_2021}, situations like these as well as workplace accidents are just two examples of what is intended to be mitigated (helped? nao porque helped significa 'ser ajudado') with the help of surveillance.
+It is also quite obvious that work of this nature is not exclusive to the agricultural sector; there are thousands of people responsible for jobs regarding an important and sometimes overlooked need of society: surveillance.
+Taking the example of developing projects % ir ao site da aeriya ver o que o drone faz; meter aqui
+workplace accidents or, in a more drastic approach, Siberia's sadly expected annual wildfires (which, in 2021, reported the most devastating one of the 21$^{st}$ century~\cite{dixon_2021,roth_2021}), the mitigation of situations that could, possibly, negatively impact human life is undoubtedly imperative.%%%%%%%%%%%%%%%%%
 
-With the rapid technological advancement, a factor foreseen to be virtually removed was, precisely, the human contribution. Thus, when developing a device capable of performing tasks that, normally, a human would do, the main focus should be envisioning how each of those tasks could be performed by it.
-Regarding surveillance, sight is more than often the most important sense to consider, therefore, a device capable of ``seeing'', acknowledging and mapping an area of work would be an excellent starting point for the previously mentioned sectors. Nowadays, tasks like these can be performed by a device known as an ``Unmanned Aerial Vehicle'' (or UAV).
+With rapid technological advancement, a factor foreseen to be virtually removed was, precisely, the human contribution. Thus, when developing a device capable of performing tasks that, normally, a human would be responsible for, the main focus should be envisioning how each of those could be performed (approached?) by it.
+
+Sight is more than often the most important sense to consider, therefore, bearing all of this in mind, a device capable of ``seeing'', acknowledging and mapping an area of work would be an excellent starting point for the previously mentioned sectors. Nowadays, tasks like these can be performed by devices known as ``Unmanned Aerial Vehicles'' (or UAVs), designed for a vast array of functions.
 
 % OU meter este paragrafo la em baixo, no fim da introduçao.
 % SERÁ QUE ESTE PARAGRAFO ESTA A MAIS?
 % Over the years, the discovery of countless phenomena as well as the development of numerous techniques have been made possible by exploring this laborous sector, and the doors that lead to the exploration seem far from being closed.
 
-\section{Description of the Problem}\label{I_description}
+\section{Description of the Problem}\label{sec:I_description}
 % falar dos objetivos da beyond
 % Agriculture:
 %              Multispectral Data Collection
@@ -62,14 +64,19 @@ Regarding surveillance, sight is more than often the most important sense to con
 %%%% 2. analise da concorrencia no final da abordagem do problema - vao se selecionar 6 colunas (specs) da tabela do excel que eu fiz (o pedro vai selecionar) e eu tenho de escolher 4 soluções (base stations) (5 no máximo) que possa usar como guidelines para a realização do meu trabalho
 
 When using UAVs, constantly having to manually control them in tedious and lengthy tasks (e.g. agricultural field surveying) might be impractical.
-A solution for this type of problem would be to automate the processes assigned to the devices. For that, one can't only rely on GPS for extremely accurate positioning, specially in a real time scenario, since this service does not provide the level of accuracy needed for precise navigation, which must be in the order of centimeters. Real-time kinematics (RTK) solves this issue~\cite{gps_USGov,8714161}.
+A solution for this type of problem would be to automate the processes assigned to the devices. For that, one can't only rely on GPS for extremely accurate positioning, specially in a real time scenario, since this service does not provide the level of accuracy needed for precise navigation, which must be in the order of centimeters. Real-time kinematics (RTK) solves this issue~\cite{gps_USGov,8714161},
+since it is a technology designed to improve the accuracy of GNSS receivers in real time. This means it perfecty fits the high percision need of autonomous vehicles, imperative to carry out certain missions with virtually to no human assistance. Therefore, high accuracy is absolutely necessary in real-time UAV positioning.
+% AND LANDING OF THE DRONE ?????????????
+However, as this type of equipment is in constant motion, the problem of obtaining highly accurate position readings in real time arises, which in turn calls for a solution that is capable of providing such readings -- a base station.
 
-RTK is a technology designed to improve the accuracy of GNSS receivers in real time, so it is perfect for autonomous vehicles to carry out certain missions, with virtually no human assistance during the course of the same (missions). For this, it is necessary to have a high accuracy in real-time UAV positioning; AND LANDING OF THE DRONE
-however, as this equipment is in motion constant,
+\subsection{What is a Base Station?}\label{sec:I_base_station}
 
-it is very difficult to obtain an accurate reading in real time;
-for that, it shows if in turn It is necessary to use equipment capable of helping the UAV to obtain its position accurately, in time real - base station. the base station is an equipment (GNSS receiver) that, through (single or multi)-link to the vast array of satellites (either GPS, GLONASS, GALILEO, BeiDou, or QZSS),
-having previously fixed and known position (transcribe video of the troop) (never move), is able to set the position of the rover in an extremely accurate, real time manner.
+A UAV used in precision agriculture or surveillance, for example, usually has a GNSS receiver integrated in its board which, just like a regular smartphone, helps tracking down its current position. However, as mentioned in section~\ref{sec:I_description}, the offered
+precision is not the best for real-time applications. To solve this issue, a base station can be used as a position adjustment auxiliary.
+Also called a GNSS receiver itself, a base station is a stationary equipment that, through a link to the vast array of satellites arranged in outer space (also known as constellations), is able to send position corrections to another GNSS receiver linked to it (usually a rover -- a UAV in this case).
+In order for this to be possible, the base station must have information regarding its exact position, which can be determined through either a GNSS constelation or NTRIP network (explained in more detail in chapter~\ref{cha:II_SotA}) % DÚVIDA: só há estas 2 maneiras?
+it is required that the base station having a previously fixed and known position (transcrever video do tropa) (i.e. never moving). This enables it to confirm the exact position of the rover in an extremely accurate, real-time manner.
+
 in this case, the rtk base on which to work (beRTK) has 2 major functions: the first is to use the u-blox ZED-F9P to obtain a highly accurate fixed position and transmit RTK corrections via ZigBee for the Drone (HEIFU);
 the second is to connect to a ReNEP NTRIP server, in order to obtain a precise location much faster (by pure GPS, as said, it takes a long time, it can up to hours, until an accuracy below 10cm (REFERENCE NEEDED) is obtained, with the help of NTRIP it takes just minutes).
 The idea proposed in this dissertation is to find a lower power solution than the one that Beyond Vision currently owns. What currently exists makes use of a Raspberry Pi Model 4B (micro)computer with two WiFi modules:
