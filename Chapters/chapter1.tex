@@ -64,92 +64,27 @@ Sight is more than often the most important sense to consider, therefore, bearin
 %%%% 2. analise da concorrencia no final da abordagem do problema - vao se selecionar 6 colunas (specs) da tabela do excel que eu fiz (o pedro vai selecionar) e eu tenho de escolher 4 soluções (base stations) (5 no máximo) que possa usar como guidelines para a realização do meu trabalho
 
 When using UAVs, constantly having to manually control them in tedious and lengthy tasks (e.g. agricultural field surveying) might be impractical.
-A solution for this type of problem would be to automate the processes assigned to the devices. For that, one can't only rely on GPS for extremely accurate positioning, specially in a real time scenario, since this service does not provide the level of accuracy needed for precise navigation, which must be in the order of centimeters. Real-time kinematics (RTK) solves this issue~\cite{gps_USGov,8714161},
+A solution for this type of problem would be to automate the processes assigned to the devices. For that, one can't only rely on GPS for extremely precise positioning, specially in a real time scenario, since this service does not provide the level of accuracy needed for precise navigation, which must be in the order of centimeters. Real-time kinematics (RTK) solves this issue~\cite{gps_USGov,8714161},
 since it is a technology designed to improve the accuracy of GNSS receivers in real time. This means it perfecty fits the high percision need of autonomous vehicles, imperative to carry out certain missions with virtually to no human assistance. Therefore, high accuracy is absolutely necessary in real-time UAV positioning.
 % AND LANDING OF THE DRONE ?????????????
-However, as this type of equipment is in constant motion, the problem of obtaining highly accurate position readings in real time arises, which in turn calls for a solution that is capable of providing such readings -- a base station.
+However, as this type of equipment is in constant motion, the problem of obtaining highly precise position readings in real time arises, which in turn calls for a solution that is capable of providing such readings -- a base station.
 
-\subsection{What is a Base Station?}\label{sec:I_base_station}
+%\subsection{What is a Base Station?}\label{sec:I_base_station}
+A UAV used in precision agriculture or surveillance, for example, usually includes a GNSS receiver integrated in its board which, just like a regular smartphone, helps tracking down its current position. However, as mentioned in section~\ref{sec:I_description}, the offered
+precision is not the best for real-time applications. To solve this issue, an equipment known as ``base station'' can be used as a position adjustment auxiliary.
+Also containing a GNSS receiver itself, a base station is stationary and,through a link to the vast array of satellites arranged in outer space (also known as constellations), is able to send position corrections to another GNSS receiver linked to it (usually a rover, e.g. a UAV), in a real-time manner.
+In order for this to be possible, the base station must be fixed and have information regarding its exact position, which can be determined directly from a GNSS constelation or through the internet.
+As soon as that is established, the corrections made by it will be extremely trustworthy and precise.
+%(explained in more detail in chapter~\ref{cha:II_SotA})
+% DÚVIDA: só há estas 2 maneiras?
 
-A UAV used in precision agriculture or surveillance, for example, usually has a GNSS receiver integrated in its board which, just like a regular smartphone, helps tracking down its current position. However, as mentioned in section~\ref{sec:I_description}, the offered
-precision is not the best for real-time applications. To solve this issue, a base station can be used as a position adjustment auxiliary.
-Also called a GNSS receiver itself, a base station is a stationary equipment that, through a link to the vast array of satellites arranged in outer space (also known as constellations), is able to send position corrections to another GNSS receiver linked to it (usually a rover -- a UAV in this case).
-In order for this to be possible, the base station must have information regarding its exact position, which can be determined through either a GNSS constelation or NTRIP network (explained in more detail in chapter~\ref{cha:II_SotA}) % DÚVIDA: só há estas 2 maneiras?
-it is required that the base station having a previously fixed and known position (transcrever video do tropa) (i.e. never moving). This enables it to confirm the exact position of the rover in an extremely accurate, real-time manner.
+% The Problem to Solve
+This dissertation aims to redesign the RTK base station produced by the company in collaboration with. This product is known as beRTK~\cite{beRTK_2022} and, currently, has two major functions: the first is to use a high precision GNSS module named \textbf{ZED-F9P}, in order to obtain highly precise positioning of the base and broadcasting of RTK corrections via \textbf{ZigBee technology} to a UAV; % falar do HEIFU?
+the second is to connect the base to an NTRIP network in order to obtain a precise location much faster (as, through pure GPS positioning, obtaining a precision value below 10 centimeters takes a long time -- up to hours; with the help of NTRIP it takes just minutes or even seconds).
+The proposed idea (in this dissertation) is to work on finding a solution that consumes less power than the one currently developed.
+%low-power solution than the one that Beyond Vision currently owns.
 
-in this case, the rtk base on which to work (beRTK) has 2 major functions: the first is to use the u-blox ZED-F9P to obtain a highly accurate fixed position and transmit RTK corrections via ZigBee for the Drone (HEIFU);
-the second is to connect to a ReNEP NTRIP server, in order to obtain a precise location much faster (by pure GPS, as said, it takes a long time, it can up to hours, until an accuracy below 10cm (REFERENCE NEEDED) is obtained, with the help of NTRIP it takes just minutes).
-The idea proposed in this dissertation is to find a lower power solution than the one that Beyond Vision currently owns. What currently exists makes use of a Raspberry Pi Model 4B (micro)computer with two WiFi modules:
-one to connect to a WiFi network and effectively go to the NTRIP fetch data server;
-other to create a local network that has, in turn, a Web server with a base configuration page (RTCM and scenes like that, SEE beRTK DATASHEET). It is therefore intended to use one (or two) microcontrollers of in order to perform these functions, keeping the ZED-F9P and ZigBee.
-They are fine on the change list, but with lower priority, so a more robust battery system, something that allows charging and using the base at the same time (preferably something that charges via USB-C).
-% enter a NUTSHELL setting of RTK,
-a base station is intended that is capable of fine-tuning the position of the rover (drone);
-
-% |=|=|=|=|=|=|=|=|=|
-But there is still a great ally for such efficiency, which sometimes goes unnoticed is even forgotten: Image Processing.
-
-Começar com:
-I. o que é uma base station? fazer analogia
-II. dizer para que e que serve
-III. onde/no que é que eu vou empregá-la?
-IV. que tecnologias utiliza?
-V. explicar cada tecnologia relativamente a base
-
-Talk about:
-    1. Satellite Navigation Device
-    2. Transceiver
-    3. Base station
-    4. Aerial base station
-    5. how GPS works - https://electronics.howstuffworks.com/gadgets/travel/gps.htm
-    6. how satellites work - https://science.howstuffworks.com/satellite.htm
-    7. atomic clocks - https://science.howstuffworks.com/atomic-clock.htm
-
-    8. differential GPS (DGPS) - The term differential GPS, or DGPS, sometimes indicates the application of this technique with coded pseudorange measurements
-    8.1. relative GPS - usually indicates the application of this technique with carrier phase measurements
-    8.2. carrier phase measurements
-    8.3. baselines
-    in: https://www.e-education.psu.edu/geog862/node/1725
-
-    9. GNSS - The performance of GNSS is assessed using four criteria: Accuracy, Integrity, Continuity and Availability. The correlated range errors due to ephemeris prediction errors and residual satellite clock, ionosphere and troposphere errors may vary slowly with time and user location.
-    Therefore, by comparing pseudo-range measurements with those made by equipment at a presurveyed location, known as a REFERENCE STATION or BASE STATION, the correlated range errors may be calibrated out, improving the navigation-solution Accuracy! This is the priciple behind Differential GNSS (DGNSS)~\cite{edseee_9101092}. % fazer desenho .svg de base station a "acertar" o drone com os satelites
-    10. L2C and L5 (signal availability) bands;
-    11. the future L1C
-    12. Capacity of continuous measurements
-    13. static precision measurement
-    14. dynamic precision measurement
-    15. what is a 120-channel receiver?
-    16. explicar o que cada célula do excel significa, tanto as que considerei mais importantes como as outras
-    17. RTK / RTK-GNSS / D-RTK / dynamic differential technology~\cite{ayers_geosystems_2011}
-       
-    land surveying - In the context of external land surveying, a base station is a GPS receiver at an accurately-known fixed location which is used to derive correction information for nearby portable GPS receivers. This correction data allows propagation and other effects to be corrected out of the position data obtained by the mobile stations, which gives greatly increased location precision and accuracy over the results obtained by uncorrected GPS receivers.
-
-    how long does it take for a radio signal to be emitted from a satellite to reach the surface of the earth? 
-    R.: given that a satellite circles the globe at an altitude of about 19.3 km --> d = v*t => 19.3*10$^3$ / 300 000 000 = t = 6.43*10$^{-5}$ = 64.3 us.
-
-% artigos que li:
-a. Experimental Testbed and Methodology for the
-Assessment of RTK GNSS Receivers Used
-in Precision Agriculture;
-
-b. DETERMINATION OF THE POSITION USING
-RECEIVERS INSTALLED IN UAV
-
-c. High-Precision/Throughput Growth Measurement of
-Crops by Drone with Stereo Matching Based on
-RTK-GNSS and Single Camera
-
-d. Estimation of the Base Station Position Error in a
-RTK Receiver Using State Augmentation in a
-Kalman Filter
-
-e. Resilient Deployment of Drone Base Stations
-
-f. Based on a single-base station RTK control survey
-and precision analysis 
-
-g. Design of an Autonomous drone for IoT deployment
-analysis 
-
-h. RTK+ System for Precise Navigation in Shadowed
-Areas 
+The current solution manages WiFi connections through a \textbf{Raspberry Pi 4 Model B}: a \textbf{single-board computer (SBC)} with two WiFi modules;
+one able to connect the base station to a WiFi network and fetch positioning data from the NTRIP network, and another that enables the remote configuration of the base from a web-based application, through the creation of a local network.
+It is, therefore, intended to replace the \textbf{SBC} used with microcontrollers able to perform these operations, whilst keeping both \textbf{ZED-F9P} and \textbf{ZigBee} modules.
+Also on the list of changes, yet with lower priority, is a more robust battery system -- one that allows charging and using the base at the same time (preferably via \textbf{USB-C}). The power consumption of this sector is intended to be cut in approximately half.
