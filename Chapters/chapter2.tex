@@ -168,7 +168,56 @@ HEIFU, beRTK and beXStream can be used for:
 
 \section{Global Navigation Satellite System}\label{sec:II_gnss}
 
-Nowadays, whenever someone wishes to know their current location on Earth, just a few, effortless taps on a smartphone will be enough; this is often associated with GPS, which has been around for many years. In a more general manner, this technology can be described as a Global Navigation Satellite System, or GNSS. This term refers to any satellite constellation that can be used to help navigate throughout the world (as the name suggests). derives from a set of artificial satellites that comprises a network, and such network belongs 
+Whenever someone wishes to know their current location on Earth, just a few, effortless taps on a smartphone will be the quickest way to do it; this is often associated with the radionavigational system of GPS, which has been around for many years. In a more general manner, this technology can be described as a Global Navigation Satellite System, or GNSS, which refers to any satellite constellation that can be used in order to help navigation throughout the world (as the name suggests) by providing positioning and timing services. According to~\cite{fed_rad_plan_2008}, this means that, to enjoy the perks of \textbf{auxiliated} navigation, the quality behaviour of a GNSS must be ensured. A smart approach for that is to analyse the following four performance criteria:
+
+\begin{itemize}
+    \item Accuracy: Should not be confused with precision; this parameter acts as a measure of coherence between the estimated (predicted) and actual position of a vehicle, aircraft, or vessel, at any given time;
+    \item Availability: In a percentile manner, this gives the navigator the ability to know the amount of time available to benefit from the services provided by the system, within a certain specified coverage area.
+    \item Conitnuity: Refers, in probabilistic terms, to the ability of the entire system of maintaining all required functions, whilst keeping any interruptions out of question. This ensures the operation of the system in a smooth way, within a given time interval of operation. All of this assuming that the system was fully available at the start of this operational phase;
+    \item Integrity: Measuring the trustworthiness of the information supplied by a navigation system, integrity is also able to consistently issue warnings when navigation through the use of the system is not recommended.
+\end{itemize}
+All these parameters are defined as a way to rate the performance of a satellite constellation, which helps tracking down any discrepancies or even problems that might make accurate navigation unacceptable.
+Their foundation is known as the RNP specification, which defines the imperative performance indicators within a defined airspace. By ensuring the proper conduct of a constellation, the perks of a GNSS for navigation purposes are clear.
+
+With the introduction of the GPS to civilian use in 1983, the technological evolution inevitably made it so that the precision of that GNSS became somewhat less reliable~\cite{novatel_gnss}. This opened a new way to the development of other GNSSs that, together with the already existing GPS, could improve navigational accuracy and also cover an even larger portion of the globe.
+
+Currently there are \textbf{6} major satellite arrangements that complement world navigation and precise positioning:
+
+
+GPS: GPS was the first GNSS system. GPS was launched
+in the late 1970s by the United States Department
+of Defense. It uses a constellation of 27 satellites,
+and provides global coverage.
+\begin{itemize}
+    \item GLONASS (Russia): \textbf{Date/n. of satellites} GLONASS is operated by the Russian government. The GLONASS constellation consists of 24 satellites and provides global coverage;
+    \item Galileo (European Union): \textbf{Date/n. of satellites} Galileo is a civil GNSS system operated by the European Global Navigation Satellite Systems
+    Agency (GSA). Galileo will use 27 satellites with the first Full Operational Capability (FOC) satellites being launched in 2014. The full constellation was planned to be deployed by 2020 (noticia~\cite{euspa_news_2022});
+    \item BeiDou (China): \textbf{Date/n. of satellites} BeiDou is the Chinese navigation satellite system. The system will consist of 35 satellites. A regional service became operational in December of 2012. BeiDou will be extended to provide global coverage by end of 2020;
+    \item NavIC (old name: IRNSS; India): \textbf{Date/n. of satellites} 
+    The Indian Regional Navigation Satellite System (IRNSS) provides service to India and the surrounding area. The full constellation of seven satellites is planned to be deployed by 2015.
+    In April 2016, with the last launch of the constellation's satellite, IRNSS was renamed Navigation Indian Constellation (NAVIC) by India's Prime Minister Narendra Modi~\cite{navic_news_2016};
+    \item QZSS: \textbf{Date/n. of satellites} QZSS is a regional navigation satellite system that provides service to Japan and the Asia-Oceania region. The QZSS system is planned to be deployed by 2018.
+    In Chapter 3, we will provide additional information about these systems. As GNSS constellations and satellites are added, we will be able to calculate position more accurately and in more and more places.
+\end{itemize}
+Every constellation follows the same purpose of accurately covering every point on Earth's surface, something which engineers work on to improve everyday, whether it is with precision tweaks to the satellites' atomic clocks or ever launching new satellites to further complement the existing GNSSs~\cite{euspa_news_2022}.
+
+%meter/FAZER!!! polygons - imagens das coverages:
+
+% do Word:
+“Global Navigation Satellite System” -- it is a general term describing any satellite constellation that provides positioning, navigation, and timing (PNT) services on a global or regional basis.
+
+    PNT -- Positioning, the ability to accurately and precisely determine one's location and orientation two-dimensionally (or three-dimensionally when required) referenced to a standard geodetic system (such as World Geodetic System 1984, or WGS84);
+    Navigation, the ability to determine current and desired position (relative or absolute) and apply corrections to course, orientation, and speed to attain a desired position anywhere around the world, from sub-surface to surface and from surface to space; and
+    Timing, the ability to acquire and maintain accurate and precise time from a standard (Coordinated Universal Time, or UTC), anywhere in the world and within user-defined timeliness parameters. Timing also includes time transfer.
+    When PNT is used in combination with map data and other information (weather or traffic data, for instance) the result is the most popular and recognizable service--the modern navigation system better known as the Global Positioning System (GPS).
+
+“a smartphone has GNSS receiver; GPS navigation in a car has GNSS receiver; and a surveying device has a GNSS receiver. All these devices have GNSS receivers in them to help them find their location using satellites.
+
+What is a GNSS receiver?
+The satellites that are orbiting Earth are sending out signals that are being received by the receivers (hence the name). this will help them calculate their position on Earth in relation to the satellites, in the following manner:
+	Satellites will start to transmit their position in real time;
+	The receiver on Earth is looking for a signal from the satellite, and by the time it receives that signal, the time will have changed (e.g. the signal of the satellite was transmitted at 09:00:00 am, and the receiver received that same signal at 09:00:01 am, then the time difference that it took for the satellite signal to reach Earth was 1 second). By knowing at what time the signal was sent out and at what time it was received, a GNSS receiver is able to take the difference between the two and find the time it took to receive the signal. By taking the time it took to receiver the signal and multiplying it be the speed of light ($c$), it is possible to calculate the distance from the satellite to the receiver, a process known as ``trilateration''.
+
 
 to the average smartphone nowadays works as a GNSS receiver.
 global navigation satellite system comprises a network of satellites that continuously orbit the Earth, constantly emmiting radio-frequecy (hyphen?) signals carrying information about their current status, position in space and precise time.
@@ -177,6 +226,12 @@ This information is acheived through atomic clocks, installed within the satelli
 smartphone = single-band ou multi-band?
 how many constellations;
 how many satellites in each constellation;
+
+%NovAtel Inc.:
+As shown in Figure 12, GPS satellites transmit information on the L1, L2 and L5 frequencies. You may ask, “How can all GPS satellites
+transmit on the same frequencies?”
+GPS works the way it does because of the transmission scheme it uses, which is called CDMA. CDMA is a form of spread spectrum. GPS satellite signals, although they are on the same frequency, are modulated by a unique pseudorandom digital sequence, or code.
+
 % falar de todos os topicos que estejam no doc Word GNSS
 
 \subsection{Trilateration}\label{sec:II_gnss_trilateration}
@@ -184,6 +239,8 @@ how many satellites in each constellation;
 \subsection{Differential GPS}\label{sec:II_gnss_dgps}
 
 \subsection{SBAS}\label{sec:II_gnss_sbas}
+
+\subsection{Frequency Bands}\label{sec:II_gnss_freq_bands}
 
 \section{Precise Point Positioning}\label{sec:II_ppp}
 
