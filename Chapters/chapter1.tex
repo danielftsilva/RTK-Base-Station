@@ -70,21 +70,21 @@ since it is a technology designed to improve the accuracy of GNSS receivers in r
 However, as this type of equipment is in constant motion, the problem of obtaining highly precise position readings in real time arises, which in turn calls for a solution that is capable of providing such readings -- a base station.
 
 %\subsection{What is a Base Station?}\label{sec:I_base_station}
-A UAV used in precision agriculture or surveillance, for example, usually includes a GNSS receiver integrated in its board which, just like a regular smartphone, helps tracking down its current position. However, as mentioned in section~\ref{sec:I_description}, the offered
-precision is not the best for real-time applications. To solve this issue, an equipment known as ``base station'' can be used as a position adjustment auxiliary.
-Also containing a GNSS receiver itself, a base station is stationary and,through a link to the vast array of satellites arranged in outer space (also known as constellations), is able to send position corrections to another GNSS receiver linked to it (usually a rover, e.g. a UAV), in a real-time manner.
-In order for this to be possible, the base station must be fixed and have information regarding its exact position, which can be determined directly from a GNSS constelation or through the internet.
+A UAV used in precision agriculture or surveillance, for example, usually includes a GNSS receiver integrated in its board which, just like a regular smartphone, helps tracking down its current position. However, as mentioned in section~\ref{sec:I_description}, the offered precision is not the best for real-time applications.
+To solve this issue, an equipment known as ``base station'' can be used as a position adjustment auxiliary.
+Also containing a GNSS receiver itself, a base station is stationary and, through a link to the vast array of satellites arranged in outer space (also known as constellations), is able to send position corrections to another GNSS receiver linked to it (usually a rover, e.g. a UAV), in a real-time manner.
+In order for this to be possible, the base station must be fixed and have information regarding its exact position, which can be determined directly from a GNSS constellation or through the internet.
 As soon as that is established, the corrections made by it will be extremely trustworthy and precise.
 %(explained in more detail in chapter~\ref{cha:II_SotA})
 % DÚVIDA: só há estas 2 maneiras?
 
 % The Problem to Solve
-This dissertation aims to redesign the RTK base station produced by the company in collaboration with. This product is known as beRTK~\cite{beRTK_2022} and, currently, has two major functions: the first is to use a high precision GNSS module named \textbf{ZED-F9P}, in order to obtain highly precise positioning of the base and broadcasting of RTK corrections via \textbf{ZigBee technology} to a UAV; % falar do HEIFU?
-the second is to connect the base to an NTRIP network in order to obtain a precise location much faster (as, through pure GPS positioning, obtaining a precision value below 10 centimeters takes a long time -- up to hours; with the help of NTRIP it takes just minutes or even seconds).
-The proposed idea (in this dissertation) is to work on finding a solution that consumes less power than the one currently developed.
+This dissertation aims at the redesign of the RTK base station produced by the company in collaboration with\footnote{Beyond Vision.}. This product is known as beRTK\textsuperscript{\textregistered}~\cite{beRTK_2022} and, currently, has two major \textbf{(main?)} functions: the first is to use a high precision GNSS module named \textbf{ZED-F9P}, in order to obtain its position in a highly precise manner and then broadcasting RTK corrections via \textbf{ZigBee technology} to a UAV; % falar do HEIFU?
+the second is to connect itself to an NTRIP network in order to obtain its precise location much faster (as, through pure GPS positioning, obtaining a precision value below 10 centimeters takes a long time -- up to hours; relying on NTRIP reduces that same waiting time to just minutes or even seconds).
+The proposed idea \textbf{(in this dissertation?)} is to work on finding a solution that consumes \textbf{(uses?)} less power than the one currently developed.
 %low-power solution than the one that Beyond Vision currently owns.
 
-The current solution manages WiFi connections through a \textbf{Raspberry Pi 4 Model B}: a \textbf{single-board computer (SBC)} with two WiFi modules;
+The current solution manages WiFi connections through a \textbf{Raspberry Pi 4 Model B}, a \textbf{single-board computer (SBC)} with two WiFi modules:
 one able to connect the base station to a WiFi network and fetch positioning data from the NTRIP network, and another that enables the remote configuration of the base from a web-based application, through the creation of a local network.
-It is, therefore, intended to replace the \textbf{SBC} used with microcontrollers able to perform these operations, whilst keeping both \textbf{ZED-F9P} and \textbf{ZigBee} modules.
-Also on the list of changes, yet with lower priority, is a more robust battery system -- one that allows charging and using the base at the same time (preferably via \textbf{USB-C}). The power consumption of this sector is intended to be cut in approximately half.
+It is, therefore, intended to replace the \textbf{SBC} used with microcontrollers able to perform these same operations, while keeping both \textbf{ZED-F9P} and \textbf{ZigBee} modules.
+Also on the list of changes, yet with lower priority, is a more robust battery system -- one \textbf{(an option?)} that allows charging and using the base at the same time (preferably via \textbf{USB-C}). The power consumption of this sector is intended to be cut in approximately half.
