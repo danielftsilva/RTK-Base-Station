@@ -181,23 +181,21 @@ Their foundation is known as the RNP specification, which defines the imperative
 
 With the introduction of the GPS to civilian use in 1983, the technological evolution inevitably made it so that the precision of that GNSS became somewhat less reliable~\cite{novatel_gnss}. This opened a new way to the development of other GNSSs that, together with the already existing GPS, could improve navigational accuracy and also cover an even larger portion of the globe.
 
-Currently there are \textbf{6} major satellite arrangements that complement world navigation and precise positioning:
+The development and establishment of this first GNSS -- carried out by the United Satates Department of Defense near the end of the 1970s~\cite{novatel_gnss} -- relies on a constellation made up of a total of 31 satellites, on which the U.S. Government works to maintain constant operability of a minimum of 24, 95\% of the time, to guarantee global coverage~\cite{gps_USGov}. Along with this network, there are currently four global satellite arrangements that complement world navigation and precise positioning:
 
-
-GPS: GPS was the first GNSS system. GPS was launched
-in the late 1970s by the United States Department
-of Defense. It uses a constellation of 27 satellites,
-and provides global coverage.
 \begin{itemize}
     \item GLONASS (Russia): \textbf{Date/n. of satellites} GLONASS is operated by the Russian government. The GLONASS constellation consists of 24 satellites and provides global coverage;
     \item Galileo (European Union): \textbf{Date/n. of satellites} Galileo is a civil GNSS system operated by the European Global Navigation Satellite Systems
     Agency (GSA). Galileo will use 27 satellites with the first Full Operational Capability (FOC) satellites being launched in 2014. The full constellation was planned to be deployed by 2020 (noticia~\cite{euspa_news_2022});
-    \item BeiDou (China): \textbf{Date/n. of satellites} BeiDou is the Chinese navigation satellite system. The system will consist of 35 satellites. A regional service became operational in December of 2012. BeiDou will be extended to provide global coverage by end of 2020;
-    \item NavIC (old name: IRNSS; India): \textbf{Date/n. of satellites} 
-    The Indian Regional Navigation Satellite System (IRNSS) provides service to India and the surrounding area. The full constellation of seven satellites is planned to be deployed by 2015.
-    In April 2016, with the last launch of the constellation's satellite, IRNSS was renamed Navigation Indian Constellation (NAVIC) by India's Prime Minister Narendra Modi~\cite{navic_news_2016};
+    \item BeiDou (China): \textbf{Date/n. of satellites} BeiDou is the Chinese navigation satellite system. The system will consist of 35 satellites. A regional service became operational in December of 2012. BeiDou will be extended to provide global coverage by end of 2020.
+\end{itemize}
+On an additional manner, there are also two extra systems, that were developed to provide territorial coverage:
+
+\begin{itemize}
     \item QZSS: \textbf{Date/n. of satellites} QZSS is a regional navigation satellite system that provides service to Japan and the Asia-Oceania region. The QZSS system is planned to be deployed by 2018.
-    In Chapter 3, we will provide additional information about these systems. As GNSS constellations and satellites are added, we will be able to calculate position more accurately and in more and more places.
+    In Chapter 3, we will provide additional information about these systems. As GNSS constellations and satellites are added, we will be able to calculate position more accurately and in more and more places;
+    \item NavIC (India): \textbf{Date/n. of satellites} The Indian Regional Navigation Satellite System (IRNSS) provides service to India and the surrounding area. The full constellation of seven satellites is planned to be deployed by 2015.
+    In April 2016, with the last launch of the constellation's satellite, IRNSS was renamed Navigation Indian Constellation (NAVIC) by India's Prime Minister Narendra Modi~\cite{navic_news_2016}.
 \end{itemize}
 Every constellation follows the same purpose of accurately covering every point on Earth's surface, something which engineers work on to improve everyday, whether it is with precision tweaks to the satellites' atomic clocks or ever launching new satellites to further complement the existing GNSSs~\cite{euspa_news_2022}.
 
@@ -263,29 +261,29 @@ The traditional DGPS uses an older antiquated protocol while RTK uses a newer al
 \section{NTRIP}\label{sec:II_ntrip}
 % falar de todos os topicos que estejam no doc Word NTRIP
 
-\section{Battery System}\label{sec:II_battery}
-% falar de todos os topicos que estejam no doc Word Battery
+% \section{Battery System}\label{sec:II_battery}
+% % falar de todos os topicos que estejam no doc Word Battery
 
-The formula is (Wh)/(h) = (W). For example, if you have 100 Wh for a duration of 2 hours, then the wattage is (100)/(2) = (50) Watts.
-(Watthours is a measure of energy and watts is a unit of power. Power multiplied by time is enery).
+% The formula is (Wh)/(h) = (W). For example, if you have 100 Wh for a duration of 2 hours, then the wattage is (100)/(2) = (50) Watts.
+% (Watthours is a measure of energy and watts is a unit of power. Power multiplied by time is enery).
 
-como cada uma das baterias atualmente em uso is rated for (as?) 7.4V, 1070 mAh, that corresponds to 7.918 Wh.
+% como cada uma das baterias atualmente em uso is rated for (as?) 7.4V, 1070 mAh, that corresponds to 7.918 Wh.
 
-% LiFePO$_4$ better than Li-ion batteries?
-``The LiFePO$_4$ battery has the edge over lithium-ion, both in terms of cycle life (it lasts 4-5x longer), and safety. This is a key advantage because lithium ion batteries can overheat and even catch fire, while LiFePO4 does not''% citation needed
+% % LiFePO$_4$ better than Li-ion batteries?
+% ``The LiFePO$_4$ battery has the edge over lithium-ion, both in terms of cycle life (it lasts 4-5x longer), and safety. This is a key advantage because lithium ion batteries can overheat and even catch fire, while LiFePO4 does not''% citation needed
 
-\subsection{USB Type-C}\label{sec:II_usb_c}
-% ler wiki do USB-C e derivar os topicos daí
-% depois ir ao IEEEXplore procurar papers que dêem backup
+% \subsection{USB Type-C}\label{sec:II_usb_c}
+% % ler wiki do USB-C e derivar os topicos daí
+% % depois ir ao IEEEXplore procurar papers que dêem backup
 
-\subsubsection{Power Delivery}\label{sec:II_usb_c_PD}
-% PD is a protocol
+% \subsubsection{Power Delivery}\label{sec:II_usb_c_PD}
+% % PD is a protocol
 
 \section{Current Solutions}\label{sec:II_curr_solutions}
 It is necessary to adapt all the solutions abordadas to the current software component; this means that all the solutions have to be implemented.
-% \begin{tabularx}
 
-% \end{tabularx}
+% gravar como pdf/imagem; meter no corpo do texto
+% na versao final a tabela sera feita completamente em latex
 
 \begin{table}[ht]       % provavelmente devo meter as palavras "parameter"/"base station" na caption?
 	\centering          % ou devo eliminar a celula toda?
