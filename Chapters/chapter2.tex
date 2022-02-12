@@ -173,15 +173,42 @@ Whenever someone wishes to know their current location on Earth, just a few, eff
 \begin{itemize}
     \item Accuracy: Should not be confused with precision; this parameter acts as a measure of coherence between the estimated (predicted) and actual position of a vehicle, aircraft, or vessel, at any given time;
     \item Availability: In a percentile manner, this gives the navigator the ability to know the amount of time available to benefit from the services provided by the system, within a certain specified coverage area.
-    \item Conitnuity: Refers, in probabilistic terms, to the ability of the entire system of maintaining all required functions, whilst keeping any interruptions out of question. This ensures the operation of the system in a smooth way, within a given time interval of operation. All of this assuming that the system was fully available at the start of this operational phase;
+    \item Continuity: Refers, in probabilistic terms, to the ability of the entire system of maintaining all required functions, whilst keeping any interruptions out of question. This ensures the operation of the system in a smooth way within a given time interval. All of this assuming that the system was fully available at the start of this operational phase;
     \item Integrity: Measuring the trustworthiness of the information supplied by a navigation system, integrity is also able to consistently issue warnings when navigation through the use of the system is not recommended.
 \end{itemize}
 All these parameters are defined as a way to rate the performance of a satellite constellation, which helps tracking down any discrepancies or even problems that might make accurate navigation unacceptable.
-Their foundation is known as the RNP specification, which defines the imperative performance indicators within a defined airspace. By ensuring the proper conduct of a constellation, the perks of a GNSS for navigation purposes are clear.
+Their foundation is known as the RNP \textbf{(definition)} specification, which characterizes the imperative performance indicators within a defined airspace. By ensuring the proper conduct of a constellation, the perks of a GNSS for navigation purposes are clear.
 
-With the introduction of the GPS to civilian use in 1983, the technological evolution inevitably made it so that the precision of that GNSS became somewhat less reliable~\cite{novatel_gnss}. This opened a new way to the development of other GNSSs that, together with the already existing GPS, could improve navigational accuracy and also cover an even larger portion of the globe.
+The development and establishment of the first GNSS ever -- GPS, which was carried out by the United Satates Department of Defense near the end of the 1970s~\cite{novatel_gnss} -- relies on a constellation made up of a total of 31 satellites, on which the U.S. Government works to maintain constant operability of a minimum of 24, 95\% of the time, to guarantee global coverage~\cite{gps_USGov}.
+Upon the introduction to civilian use in 1983, the desire to cover an even larger portion of the globe only grew, which led to the development of other GNSSs that, together with the already existing GPS, could improve navigational accuracy. Thus,( along with this network,) there are currently four global satellite arrangements that complement world navigation and precise positioning~\cite{novatel_gnss}:
 
-The development and establishment of this first GNSS -- carried out by the United Satates Department of Defense near the end of the 1970s~\cite{novatel_gnss} -- relies on a constellation made up of a total of 31 satellites, on which the U.S. Government works to maintain constant operability of a minimum of 24, 95\% of the time, to guarantee global coverage~\cite{gps_USGov}. Along with this network, there are currently four global satellite arrangements that complement world navigation and precise positioning:
+%\newcommand{\centered}[1]{\begin{tabular}{c} #1 \end{tabular}}
+% table:
+\begingroup
+\begin{table}[ht]
+	\caption{Global satellite positioning systems.}
+	\label{tab:5_GsNSSs}
+	\centering%@{}l@{}@{}c@{}@{}c@{}@{}c@{}@{}c@{}
+    % \setlength{\tabcolsep}{10pt} % Default value: 6pt
+    % \renewcommand{\arraystretch}{1.5} % Default value: 1
+	\begin{tabular}{lcccc}
+        \toprule
+        \multirow{2}*{\textbf{Constellation}} & \multirow{2}*{\textbf{Satellites}} & \textbf{Orbital} & \textbf{Orbital}     & \textbf{Orbit} \\
+                                              &                                    & \textbf{Planes}  & \textbf{Inclination} & \textbf{Radius} \\
+        \midrule
+		GPS     & 27 + 4 (spares) & 6 & 55 degrees	& $20,200$ km\\
+        \midrule
+		GLONASS & 24 + 3 (spares)	& 3	& 64.8 degrees	& $19,140$ km \\
+        \midrule
+		Galileo & 27 + 3 (spares) & 3 & 56 degrees & $23,222$ km \\
+        \midrule
+        \multirow{3}*{BeiDou} & 5 GEO & --- & --- & $35,787$ km \\
+                                       & 3 IGSO & --- & 55 degrees & $35,787$ km \\
+                                       & 27 MEO & 3 & 55 degrees & $21,525$ km \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\endgroup
 
 \begin{itemize}
     \item GLONASS (Russia): \textbf{Date/n. of satellites} GLONASS is operated by the Russian government. The GLONASS constellation consists of 24 satellites and provides global coverage;
@@ -256,6 +283,14 @@ The traditional DGPS uses an older antiquated protocol while RTK uses a newer al
 
 \subsection{Parameters}\label{sec:II_rtk_parameters}
 
+\subsection{LoRa}\label{sec:II_rtk_LoRa}
+
+``There are number of communication technologies available for interaction between IoT devices today, and the most popular ones are Wi-Fi and Bluetooth. But the problem with Wi-Fi and Bluetooth technology is high power consumption. They also have other limitations like limited range, limited access points etc. ESP8266 module is the most popular Wi-Fi module used in IoT devices, using which we have previously built lot of IoT projects.
+
+Cellular networks also have the same problems of high power consumption and both LAN and Cellular network are quite expensive to cover a wide area. The IoT industries introduced lots of technologies, but none of them was ideal for IoT devices, as they needed to transmit information to long distance without using much power, until the LoRa technology was introduced. LoRa Technology can perform very-long range transmission with low power consumption.
+
+LoRa (Long Range) is a wireless technology that offers long-range, low power, and secure data transmission for M2M (Machine to Machine) and IoT applications. LoRa is a spread spectrum modulation technology that is derived from chirp spread spectrum (CSS) technology. LoRa can be used to connect sensors, gateways, machines, devices, etc. wirelessly. In Europe region, it operates in the 868 MHz band.'' % https://iotdesignpro.com/projects/lora-communication-between-two-arduino-using-LoRa-Module-SX1278
+
 \section{Post-Processed Kinematics}\label{sec:II_ppk}
 
 \section{NTRIP}\label{sec:II_ntrip}
@@ -284,135 +319,3 @@ It is necessary to adapt all the solutions abordadas to the current software com
 
 % gravar como pdf/imagem; meter no corpo do texto
 % na versao final a tabela sera feita completamente em latex
-
-\begin{table}[ht]       % provavelmente devo meter as palavras "parameter"/"base station" na caption?
-	\centering          % ou devo eliminar a celula toda?
-    \captionsetup{justification=centering}
-    \caption{Compilation of the most relevant solutions available in the market (as of the date of the present document).}
-	\label{tab:current_solutions_1}
-	\begin{tabular}{|c|c|c|c|c|c|} % 8 colunas
-		\toprule
-		
-        {} & {} & {} & \vtop{\hbox{\strut \textbf{beRTK}}\hbox{\strut \textbf{(Beyond Vision)}}} & \vtop{\hbox{\strut \textbf{Reach RS2}}\hbox{\strut \textbf{(Emlid)}}} & \vtop{\hbox{\strut \textbf{D-RTK 2}}\hbox{\strut \textbf{(DJI)}}}\\        
-        
-        \midrule
-
-        \multirow{8}{*}{\rotatebox{90}{\textbf{Positioning}}}&\textbf{CorrectionT}\\
-        &\multirow{5}{*}{\rotatebox{90}{\textbf{SupportedC}}}&\textbf{GPS}\\
-        &\textbf{GLONASS}\\
-        &X\\
-        &X\\
-        &X\\
-        &X\\
-        &X\\
-        \midrule
-        
-        \rotatebox{90}{\textbf{Connectivity}} & 2 & 2 & 2 & 2 & 2\\
-        \midrule
-
-        \multirow{2}{*}{Multirow}&X\\
-        &X & t\\
-
-        \midrule\addlinespace[1.5ex]
-        
-        {} & \includegraphics[height=1.4cm]{Chapters/Figures/base_stations/beRTK_2.png} & \includegraphics[height=1.4cm]{Chapters/Figures/base_stations/REACH-RS2.png} & \includegraphics[height=1.4cm]{Chapters/Figures/base_stations/d-rtk-2.png}\\
-		
-        \bottomrule
-        
-	\end{tabular}
-\end{table}
-
-% tabela como multirow dento de multirow:
-% \multirow{6}{*}{W2} & \multirow{3}{*}{3} & $0.090475\pm 0.011115$ & \multirow{3}{*}{21} & \multirow{3}{*}{6} & \multirow{3}{*}{3} \\
-                    % &                    & $0.14861\pm 0.03562$   &                     &                    &                    \\
-                    % &                    & $0.1861 \pm 0.01728$   &                     &                    &                    \\
-                    % & 6                  & 8                      & 14                  & 5                  & 2                  \\
-                    % & 9                  & 8                      & 14                  & 5                  & 2                  \\
-                    % & 12                 & 8                      & 14                  & 5                  & 2                  \\
-
-
-% \begin{table}[ht]
-%     \centering
-%     \captionsetup{justification=centering}
-%     \caption{Compilation of the most relevant solutions available in the market (as of the date of the present document).}
-% 	\label{tab:curr_solutions_positioning}
-%     \begin{tabular}{cccccccc} % 8 colunas
-% 		\toprule
-%         \multicolumn{8}{c}{\textbf{Positioning}}\\
-%         \textbf{CorrectionT} &.
-% 		\multicolumn{5}{c}{\textbf{SupportedC}}\\
-%         \textbf{GPS}&   \textbf{GLONASS}   &   \textbf{Galileo}   &   \textbf{BeiDou}   &   \textbf{NavIC}\\
-%         \bottomrule
-% 	\end{tabular}
-% \end{table}
-
-
-
-\begin{table}[ht]       % provavelmente devo meter as palavras "parameter"/"base station" na caption?
-	\centering          % ou devo eliminar a celula toda?
-    \captionsetup{justification=centering}
-    \caption{Compilation of the most relevant solutions available in the market (as of the date of the present document).}
-	\label{tab:current_solutions_2}
-	\begin{tabular}{|c|c|c|c|c|} % 8 colunas
-		\toprule
-		{} & {} & {} & \vtop{\hbox{\strut \textbf{HiPer V}}\hbox{\strut \textbf{(Topcon)}}} & \vtop{\hbox{\strut \textbf{S990A GNSS Receiver}}\hbox{\strut \textbf{(Stonex)}}}\\        
-        \midrule
-        \rotatebox{90}{\textbf{pizza}} & 2 & 2 & 2 & 2\\
-        \midrule\addlinespace[1.5ex]
-        {} & \includegraphics[height=1.4cm]{Chapters/Figures/base_stations/HiPer-V.png} & \includegraphics[height=1.4cm]{Chapters/Figures/base_stations/S990A.png}\\
-		\bottomrule
-	\end{tabular}
-\end{table}
-
-
-
-
-
-
-
-% tabela com palavras rodadas:
-% \begin{tabular}{m{1em}c}
-%     \rotatebox{90}{\textbf{Electrical }}& \makecell{\textbf{Supply} \\ \textbf{Input}\\ \textbf{Battery} \\ \textbf{Autonomy}}\\
-% \end{tabular}\\
-
-\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
-\begin{table}[ht]
-    \centering
-    \captionsetup{justification=centering}
-    \caption{Compilation of the most relevant solutions available in the market (as of the date of the present document).}
-	\label{tab:currednt_solutions}
-    \begin{tabular}{|M{2.5cm}|M{2.5cm}|M{2.5cm}|}
-      \hline
-      Reconstruction strategy & aa          & bb( \%) \\ \hline
-      Classic                 & 3342 voxels & 68 \%   \\ \hline
-      VC                      & 4296 voxels & 87 \%   \\ \hline
-      V m=7                   & 4745 voxels & 96 \%   \\ \hline
-    \end{tabular}
-\end{table}
-
-\begin{table}[ht] 
-    \centering 
-    \begin{tabular}{  >{\raggedright}m{4.5cm}  m{5cm}}      % centered columns (3 columns) 
-    \toprule                                   %inserts double horizontal lines 
-    Building Block  & Circuits\\  % inserts table heading 
-    \midrule\addlinespace[1.5ex]
-            Inverting op-amp\\
-            (linear amplifier)
-            & \includegraphics[height=1cm]{Chapters/Figures/base_stations/beRTK_2.png} \\
-    \midrule\addlinespace[1.5ex]
-            Integrator 
-            & \includegraphics[height=1cm]{Chapters/Figures/base_stations/REACH-RS2.png} \\
-    \midrule\addlinespace[1.5ex]
-            AC integrator \\ with DC gain
-            & \includegraphics[height=1cm]{Chapters/Figures/base_stations/d-rtk-2.png} \\
-    \midrule\addlinespace[1.5ex]
-            Differentiator
-            & \includegraphics[height=1cm]{Chapters/Figures/base_stations/HiPer-V.png} \\
-    \midrule\addlinespace[1.5ex]
-            AC differentiator \\ with DC gain
-            & \includegraphics[height=1cm]{Chapters/Figures/base_stations/S990A.png} \\
-    \bottomrule
-        \end{tabular}
-        \caption{A few basic circuit blocks and their frequency response for servo design.}
-        \label{table4.2}
-\end{table}
