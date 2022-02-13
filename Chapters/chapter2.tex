@@ -168,7 +168,50 @@ HEIFU, beRTK and beXStream can be used for:
 
 \section{Global Navigation Satellite System}\label{sec:II_gnss}
 
-Whenever someone wishes to know their current location on Earth, just a few, effortless taps on a smartphone will be the quickest way to do it; this is often associated with the radionavigational system of GPS, which has been around for many years. In a more general manner, this technology can be described as a Global Navigation Satellite System, or GNSS, which refers to any satellite constellation that can be used in order to help navigation throughout the world (as the name suggests) by providing positioning and timing services. According to~\cite{fed_rad_plan_2008}, this means that, to enjoy the perks of \textbf{auxiliated} navigation, the quality behaviour of a GNSS must be ensured. A smart approach for that is to analyse the following four performance criteria:
+Whenever someone wishes to know their current location on Earth, just a few, effortless taps on a smartphone will be the quickest way to do it; this is often associated with the radionavigational system of GPS, which has been around for many years. In a more general manner, this technology can be described as a Global Navigation Satellite System, or GNSS, which refers to any satellite constellation that can be used in order to help navigation throughout the world (as the name suggests).
+Therefore it is possible to conclude that, in order to help tracking their location through the use of satellites, typical smartphones or GPS navigation systems in cars have GNSS receivers, just like a specially designed surveying device.
+
+According to~\cite{novatel_gnss}, the best way to address GNSS receivers as a whole is to start by acknowledging its working basis: satellites. While orbiting the Earth, these machines send out signals that are then acknowledged by receivers (hence the name), helping them calculate their own location on Earth by comparing the received information from other satellites.
+This means that a GNSS comprises a network of satellites that continuously orbit the Earth, constantly emmiting radio-frequecy signals carrying information about their current status, position in space and precise time.
+This information is acheived through atomic clocks, installed within the satellite itself. Thus, the process unfolds as follows:
+
+\begin{enumerate}
+    \item Satellites will start the transmission of their position in real time;
+    \item As this happens, the receiver on Earth will be looking for a signal from the satellite, and by the time that signal is received, there will be a delay between transmission and reception, beign that radio signals travel at the speed of light ($c$);
+    \item Knowing both these timestamps, a GNSS receiver is then able to calculate the difference between the two and determine the time it took to receive the signal;
+    \item Lastly, multiplying this calculated time interval by the speed of light, it is then possible to find the distance from the satellite to the receiver.
+\end{enumerate}
+This process is known as ``trilateration'' and is explained in more detail in the following section.
+
+\subsection{Trilateration}\label{sec:II_gnss_trilateration}
+
+Incorporating the idea that the time ($t$) it takes to receive a signal from a satellite multiplied by the speed of light ($c$) will equal the distance ($d$), i.e.
+
+\begin{equation}
+    d = v\,t = c\,t\,,\medskip
+\end{equation}
+it indicates that the signal emitted by the satellite propagates in an omnidirectional way, which can be pictured as a sphere around the satellite -- as it's known from radiation and Propagation of electromagnetic waves theory --, meaning the signal can reach the Earth in numerous locations (Figure~\ref{fig:omnidirectional}).
+Having another satellite orbiting around Earth, the signal emitted by it will reach the surface at some other particular time. Geometrically, this means that the intersection of the spheres that represent these two signals will correspond to a circle, which limits the extensive list of possible solutions -- note that, however, there is still a large amount --, not allowing yet to have an exact location. Adding a third satellite to this scenario will further limit the possible locations of the receiver, narrowing them down to only two points: one in space and another one down on the surface of the Earth. Knowing that a receiver is down on Earth, by using the latter as a fourth surface, the correct location (in a set of $x$, $y$, $z$ coordinates) can be determined.
+However, just three satellites are not enough for an accurate reading, although in theory this process should be enough. The practical use of trilateration must account with a minimum of four satellites in direct line of sight of any point on the surface of the Earth (usually to help clocks synchronisation).% Logically, it is immediately (and rightfully) assumed that the more satellites there are, the higher the positional accuracy will be for the receiver. For that, to achieve a successful observation, three major segments are necessary: the space segment, the control segment and the user segment.
+% meter imagem word:
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/demo.png}
+	\caption{Propagation of satellite signals.}
+	\label{fig:omnidirectional}
+\end{figure}
+
+\subsection{Space Segment}\label{sec:II_gnss_space_seg}
+
+Sapce segments are the satellites that are up in the air. All these satellites are orbiting around 20 km above the Earth's surface and their job is to help to find the location of the GNSS-enabled devices down on the ground.
+There are several networks of satellites from different nations around the world, with GPS being the most widely known and navigation-associated GNSS of all -- it was developed by the United States Department of Defense for military purposes, but was made available for civilian years later. % citation needed
+Examples of other GNSSs are:
+% minha tabela
+
+Therefore, all these constellations are used globally, they help each other elevating the precision of location at any given time on Earth.
+
+%---- minha parte:
+According to~\cite{fed_rad_plan_2008}, this means that, to enjoy the perks of \textbf{auxiliated} navigation, the quality behaviour of a GNSS must be ensured. A smart approach for that is to analyse the following four performance criteria:
 
 \begin{itemize}
     \item Accuracy: Should not be confused with precision; this parameter acts as a measure of coherence between the estimated (predicted) and actual position of a vehicle, aircraft, or vessel, at any given time;
@@ -180,94 +223,115 @@ All these parameters are defined as a way to rate the performance of a satellite
 Their foundation is known as the RNP \textbf{(definition)} specification, which characterizes the imperative performance indicators within a defined airspace. By ensuring the proper conduct of a constellation, the perks of a GNSS for navigation purposes are clear.
 
 The development and establishment of the first GNSS ever -- GPS, which was carried out by the United Satates Department of Defense near the end of the 1970s~\cite{novatel_gnss} -- relies on a constellation made up of a total of 31 satellites, on which the U.S. Government works to maintain constant operability of a minimum of 24, 95\% of the time, to guarantee global coverage~\cite{gps_USGov}.
-Upon the introduction to civilian use in 1983, the desire to cover an even larger portion of the globe only grew, which led to the development of other GNSSs that, together with the already existing GPS, could improve navigational accuracy. Thus,( along with this network,) there are currently four global satellite arrangements that complement world navigation and precise positioning~\cite{novatel_gnss}:
+Upon the introduction to civilian use in 1983, the desire to cover an even larger portion of the globe only grew, which led to the development of other GNSSs that, together with the already existing GPS, could improve navigational accuracy. Thus, there are currently four global satellite arrangements that make world navigation and precise positioning possible~\cite{novatel_gnss}:
 
 %\newcommand{\centered}[1]{\begin{tabular}{c} #1 \end{tabular}}
-% table:
+% table:-----------------------------
 \begingroup
 \begin{table}[ht]
 	\caption{Global satellite positioning systems.}
-	\label{tab:5_GsNSSs}
+	\label{tab:5_GNSSs}
 	\centering%@{}l@{}@{}c@{}@{}c@{}@{}c@{}@{}c@{}
     % \setlength{\tabcolsep}{10pt} % Default value: 6pt
     % \renewcommand{\arraystretch}{1.5} % Default value: 1
-	\begin{tabular}{lcccc}
+	\begin{tabular}{lcccccc}
         \toprule
-        \multirow{2}*{\textbf{Constellation}} & \multirow{2}*{\textbf{Satellites}} & \textbf{Orbital} & \textbf{Orbital}     & \textbf{Orbit} \\
-                                              &                                    & \textbf{Planes}  & \textbf{Inclination} & \textbf{Radius} \\
+        \multicolumn{2}{c}{\multirow{2}*{\textbf{Constellation}}} & \multirow{2}*{\textbf{Satellites}} & \textbf{Orbital} & \textbf{Orbital}     & \textbf{Orbit} \\
+        \multicolumn{2}{c}{}                                      &                                    & \textbf{Planes}  & \textbf{Inclination} & \textbf{Radius} \\
         \midrule
-		GPS     & 27 + 4 (spares) & 6 & 55 degrees	& $20,200$ km\\
+     
+        \multirow{3}*{\includegraphics[height=1cm]{Chapters/Figures/flags/usa.png}}&\multirow{3}*{GPS} &  &  &  & \\
+        \multirow{3}*{}   &{}             & 27 + 4 (spares) & 6 & 55 degrees & $20,200$ km \\
+        \multirow{3}*{}   &{}          & & & & \\
+
         \midrule
-		GLONASS & 24 + 3 (spares)	& 3	& 64.8 degrees	& $19,140$ km \\
+
+        \multirow{3}*{\includegraphics[height=1cm]{Chapters/Figures/flags/Russia.png}}&\multirow{3}*{GLONASS} &  &  &  & \\
+        \multirow{3}*{}   &{}             & 24 + 3 (spares) & 3 & 64.8 degrees & $19,140$ km \\
+        \multirow{3}*{}   &{}          & & & & \\
+
         \midrule
-		Galileo & 27 + 3 (spares) & 3 & 56 degrees & $23,222$ km \\
+
+        \multirow{3}*{\includegraphics[height=1cm]{Chapters/Figures/flags/Europe.png}}&\multirow{3}*{Galileo} &  &  &  & \\
+        \multirow{3}*{}   &{}             & 27 + 3 (spares) & 3 & 56 degrees & $23,222$ km \\
+        \multirow{3}*{}   &{}          & & & & \\
+
         \midrule
-        \multirow{3}*{BeiDou} & 5 GEO & --- & --- & $35,787$ km \\
-                                       & 3 IGSO & --- & 55 degrees & $35,787$ km \\
-                                       & 27 MEO & 3 & 55 degrees & $21,525$ km \\
+        \multirow{3}*{\includegraphics[height=1cm]{Chapters/Figures/flags/China.png}}&\multirow{3}*{BeiDou} & 5 GEO & --- & --- & $35,787$ km \\
+        \multirow{3}*{}   &{}             & 3 IGSO & --- & 55 degrees & $35,787$ km \\
+        \multirow{3}*{}   &{}          & 27 MEO & 3 & 55 degrees & $21,525$ km \\
         \bottomrule
     \end{tabular}
 \end{table}
 \endgroup
 
-\begin{itemize}
-    \item GLONASS (Russia): \textbf{Date/n. of satellites} GLONASS is operated by the Russian government. The GLONASS constellation consists of 24 satellites and provides global coverage;
-    \item Galileo (European Union): \textbf{Date/n. of satellites} Galileo is a civil GNSS system operated by the European Global Navigation Satellite Systems
-    Agency (GSA). Galileo will use 27 satellites with the first Full Operational Capability (FOC) satellites being launched in 2014. The full constellation was planned to be deployed by 2020 (noticia~\cite{euspa_news_2022});
-    \item BeiDou (China): \textbf{Date/n. of satellites} BeiDou is the Chinese navigation satellite system. The system will consist of 35 satellites. A regional service became operational in December of 2012. BeiDou will be extended to provide global coverage by end of 2020.
-\end{itemize}
-On an additional manner, there are also two extra systems, that were developed to provide territorial coverage:
+On an additional manner, there are also two extra systems that were developed to provide regional coverage~\cite{novatel_gnss}:
 
 \begin{itemize}
-    \item QZSS: \textbf{Date/n. of satellites} QZSS is a regional navigation satellite system that provides service to Japan and the Asia-Oceania region. The QZSS system is planned to be deployed by 2018.
-    In Chapter 3, we will provide additional information about these systems. As GNSS constellations and satellites are added, we will be able to calculate position more accurately and in more and more places;
-    \item NavIC (India): \textbf{Date/n. of satellites} The Indian Regional Navigation Satellite System (IRNSS) provides service to India and the surrounding area. The full constellation of seven satellites is planned to be deployed by 2015.
-    In April 2016, with the last launch of the constellation's satellite, IRNSS was renamed Navigation Indian Constellation (NAVIC) by India's Prime Minister Narendra Modi~\cite{navic_news_2016}.
+    \item NavIC (India): Planned to be made up of seven satellites, this Regional Navigation Satellite System was developed by India to grant regional coverage (hence the (outdated) name IRNSS) to India and its neighbouring area.
+    As a result of the launch of the constellation's last satellite in 2016, the IRNSS title was changed to Navigation Indian Constellation (NavIC), by India's Prime Minister Narendra Modi~\cite{navic_news_2016};
+    \item QZSS: Working as another regional navigation satellite system, the development of the Quasi-Zenith Satellite System was accredited by the Japanese Government in order to ensure service to Japan, as well as the Asia-Oceania region and consists of four satellites.
+    However, this constellation limits accuracy in its standalone mode, which means it functions as GPS augmentation service\footnote{Augmentation services will be covered in more detail in section~\ref{sec:II_gnss_sbas}.} by synchronisation of clocks use of same frequencies, allowing the use of this system's machinery as extra GPS satellites.
 \end{itemize}
-Every constellation follows the same purpose of accurately covering every point on Earth's surface, something which engineers work on to improve everyday, whether it is with precision tweaks to the satellites' atomic clocks or ever launching new satellites to further complement the existing GNSSs~\cite{euspa_news_2022}.
 
-%meter/FAZER!!! polygons - imagens das coverages:
+Every constellation follows the same purpose of providing services of:
 
-% do Word:
-“Global Navigation Satellite System” -- it is a general term describing any satellite constellation that provides positioning, navigation, and timing (PNT) services on a global or regional basis.
+\begin{itemize}
+    \item Positioning: Referring to the ability of determining one's location and orientation in an accurate and precise manner, either two-dimensionally or three-dimensionally (whenever necessary), taking a standard reference geodetic system (e.g. World Geodetic System 1984, or WGS84);
+    \item Navigation, the ability to determine current and desired position (relative or absolute) and apply corrections to course, orientation, and speed to attain a desired position anywhere around the world, from sub-surface to surface and from surface to space;
+    \item Timing, the ability to acquire and maintain accurate and precise time from a standard (Coordinated Universal Time, or UTC), anywhere in the world and within user-defined timeliness parameters. Timing also includes time transfer.
+\end{itemize}
+These are known as PNT services.
+When used in combination with map data and other information (weather or traffic data, for instance) the result is the most popular and recognizable service--the modern navigation system better known as the Global Positioning System (GPS).
 
-    PNT -- Positioning, the ability to accurately and precisely determine one's location and orientation two-dimensionally (or three-dimensionally when required) referenced to a standard geodetic system (such as World Geodetic System 1984, or WGS84);
-    Navigation, the ability to determine current and desired position (relative or absolute) and apply corrections to course, orientation, and speed to attain a desired position anywhere around the world, from sub-surface to surface and from surface to space; and
-    Timing, the ability to acquire and maintain accurate and precise time from a standard (Coordinated Universal Time, or UTC), anywhere in the world and within user-defined timeliness parameters. Timing also includes time transfer.
-    When PNT is used in combination with map data and other information (weather or traffic data, for instance) the result is the most popular and recognizable service--the modern navigation system better known as the Global Positioning System (GPS).
+accurately covering every point on Earth's surface, something which engineers work on to improve everyday, whether it being with precision tweaks to the satellites' atomic clocks or even launching new ones to further complement the existing GNSSs~\cite{euspa_news_2022}.
 
-“a smartphone has GNSS receiver; GPS navigation in a car has GNSS receiver; and a surveying device has a GNSS receiver. All these devices have GNSS receivers in them to help them find their location using satellites.
+%meter/FAZER!!! polygons - imagens das coverages:    !!!!!
+% !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-What is a GNSS receiver?
-The satellites that are orbiting Earth are sending out signals that are being received by the receivers (hence the name). this will help them calculate their position on Earth in relation to the satellites, in the following manner:
-	Satellites will start to transmit their position in real time;
-	The receiver on Earth is looking for a signal from the satellite, and by the time it receives that signal, the time will have changed (e.g. the signal of the satellite was transmitted at 09:00:00 am, and the receiver received that same signal at 09:00:01 am, then the time difference that it took for the satellite signal to reach Earth was 1 second). By knowing at what time the signal was sent out and at what time it was received, a GNSS receiver is able to take the difference between the two and find the time it took to receive the signal. By taking the time it took to receiver the signal and multiplying it be the speed of light ($c$), it is possible to calculate the distance from the satellite to the receiver, a process known as ``trilateration''.
+\subsection{Control Segment}\label{sec:II_gnss_control_seg}
 
+The second system is known as the control segment. These internal orbital modules are known as the ephemeris, and they take car of the health and calibration of the satellites in the sky. This segment is down on Earth and is found in a stationary location. The control element of this segment is used to correct any errors that come from the satellites, and the more satellites that can be observed in the control segment, the more likely we are to find an error and correct it, therefore, increasing our accuracy at the user segment. A good example for the control segment is, precisely, a base station: by setting up a receiver in a stationary location, it will continuously collect data from the satellite and any changes or discrepancies in the readings can then be corrected and transferred over to the user segment. Now there are long-term reference systems that are set up and they can be accessed by the public and, that way, there is no need of having two receivers; having the base and the rover together might be excess equipment in some situations and thus more cost. So to solve this, one could just take the rover receiver, connect it to some kind of reference frame and that will be the control segment in order to complete the solution (NTRIP?). Usually these are found in very populated areas; anywhere that is more rural or not really connected to society, there reference frames might not be available, so there will be the need of having two receivers (base station and rover), in order to complete all three segments.
 
-to the average smartphone nowadays works as a GNSS receiver.
-global navigation satellite system comprises a network of satellites that continuously orbit the Earth, constantly emmiting radio-frequecy (hyphen?) signals carrying information about their current status, position in space and precise time.
-This information is acheived through atomic clocks, installed within the satellite itself.
+\subsection{User Segment}\label{sec:II_gnss_user_seg}
 
-smartphone = single-band ou multi-band?
-how many constellations;
-how many satellites in each constellation;
+This segment includes a rover, smartphone and anything that has a GNSS receiver installed in it. The user segment is the end result; is what we are trying to measure; it's the location that we are trying to find. The other two previous segments are just a means of helping us achieve a more accurate position for our user segment. Now, as a surveyer it is our job to take measurements accurately, whether that is a relative measurement between two points like we do with total stations and levels, or if it is absolute measurements like satellite positioning, as we try to find the location of a point in a certain datum or coordinate system. Regardless of what you are doing, your job as a surveyer is to ensure that all the data collected is accurate and any elements of corrections that are being used should be fully understood."
 
+There is also Dillution of Prescision (DOP): %https://en.wikipedia.org/wiki/Dilution_of_precision_(navigation)
+
+% -----------------------------
 %NovAtel Inc.:
-As shown in Figure 12, GPS satellites transmit information on the L1, L2 and L5 frequencies. You may ask, “How can all GPS satellites
-transmit on the same frequencies?”
-GPS works the way it does because of the transmission scheme it uses, which is called CDMA. CDMA is a form of spread spectrum. GPS satellite signals, although they are on the same frequency, are modulated by a unique pseudorandom digital sequence, or code.
+"As shown in Figure 12, GPS satellites transmit information on the L1, L2 and L5 frequencies. You may ask, "How can all GPS satellites
+transmit on the same frequencies?"
+GPS works the way it does because of the transmission scheme it uses, which is called CDMA. CDMA is a form of spread spectrum. GPS satellite signals, although they are on the same frequency, are modulated by a unique pseudorandom digital sequence, or code."
+
+As GNSS constellations and satellites are added, we will be able to calculate position more accurately and in more and more places.
 
 % falar de todos os topicos que estejam no doc Word GNSS
 
-\subsection{Trilateration}\label{sec:II_gnss_trilateration}
-
 \subsection{Differential GPS}\label{sec:II_gnss_dgps}
+
+"Differential" - Aumento infinitamente pequeno de uma quantidade variável.
+
+- Is an enhancement to the Global Positioning System (GPS) which provides improved location accuracy, in the range of operations of each system, from the 15-metre (49 ft) nominal GPS accuracy to about 1-3 centimetres (0.39-1.18 in) in case of the best implementations.
+- Differential positioning requires a data link between the base station and rovers, if corrections need to be applied in real-time, and at least four GNSS satellites in view at both the base station and the rovers. The absolute accuracy of the rover's computed position will depend on the absolute accuracy of the base station's position [in pg. 53 of "An Introduction to GNSS, Second Edition"].
 
 \subsection{SBAS}\label{sec:II_gnss_sbas}
 
+Used to provide integrity assurance;
+Used to increase accuracy and to reduce position errors to less than 1 meter.
+"Augmentation of a global navigation satellite system (GNSS) is a method of improving the navigation system's attributes, such as accuracy, reliability, and availability, through the integration of external information into the calculation process."
+
 \subsection{Frequency Bands}\label{sec:II_gnss_freq_bands}
+% NovAtel livro:
 
 \section{Precise Point Positioning}\label{sec:II_ppp}
+
+- A standalone receiver finds out its position relying on the data obtained from satellites only. Along with raw data from those satellites, the receiver gets navigation messages with satellite clock offset, ionospheric and tropospheric corrections (atmospheric-related disturbances), etc. Due to information about these offsets, the receiver may calculate its position with a few meters' accuracy. If there were (was) no navigation data, the accuracy would be much worse.
+- In RTK and PPK, these offsets might be eliminated since both (the) base station and the rover operate in quite similar conditions.
+- PPP allows the single receiver (rover) to achieve high-level accuracy without the use of corrections from the base station.
+- To calculate the coordinates, PPP uses the same data that is provided by the navigation message but much more accurate. Thereby, the single receiver (rover) might determine its position with a centimetre-level accuracy using only raw data and precise ephemerides and clock offsets provided by a PPP service.
+- The PPP technique is commonly used for determining the absolute base position for further RTK/PPK surveys.
 
 \section{Real-Time Kinematics}\label{sec:II_rtk}
 % falar de todos os topicos que estejam no doc Word RTK (single- multi-link,...)
@@ -281,7 +345,43 @@ RTK stands for real-time kinematic and commonly uses the RTCM protocol.
 The traditional DGPS uses an older antiquated protocol while RTK uses a newer algorithm, and the protocol is based on RTCM3. 
 %____________
 
+- Used to improve the accuracy of standalone GNSS receivers. Traditional GNSS receivers can only determine the position with na accuracy of about 2-4 meters (?). RTK provides centimeter accuracy.
+- GNSS receiver measure how long it takes for a signal to travel from a satellite to the receiver. Due to the presence of atmosphere between the satellite and the receiver, the transmitted signals are slowed down and are introduced to perturbations. With this in mind, one can immediately assume that transmission times will differ according to the weather at the time of the event. That is the reason why a standalone receiver has a hard time determining its position accurately. RTK is a Technology that solves this issue.
+- 2 receivers are used in RTK. One of them is stationary, the other is a moving rover.
+- Real Time Kinematic (RTK) is a GPS correction technology technique that provides real-time corrections to location data as the drone is surveying and capturing images from a site.
+
 \subsection{Parameters}\label{sec:II_rtk_parameters}
+
+\subsubsection{Frequency Bands}\label{sec:II_rtk_parameters_freq_bands}
+- L1, L2, ... bands
+
+\subsubsection{RTK Initialisation Time}\label{sec:II_rtk_parameters_init_time}
+
+- RTK Initialisation Time
+
+\subsubsection{Single-band vs Multi-band}\label{sec:II_rtk_parameters_s_m_band}
+
+- Single-band vs Multi-band receiver
+
+\subsubsection{Baseline}\label{sec:II_rtk_parameters_baseline}
+
+Baseline in RTK mode and Baseline in PPK mode -- for different projects, a different distance from the rover to the base might be needed. Working near a city is more likely to have base station stations nearby. However, when working in rural areas, base stations are likely to be further away.
+Multi-band receivers can work at a longer baseline due to the use of multiple satellite constellations -- as these help in the correction of the readings taken by the base, as mentioned before (earlier?). beRTK can operate with the baseline up to 2.5 km.
+fazer uma imagem parecida a esta:
+% meter imagem da baseline Emlid
+
+\subsubsection{Accuracy}\label{sec:II_rtk_parameters_accuracy}
+
+H: 7 mm + 1 ppm
+V: 14 mm + 1 ppm	MEANING OF THIS???
+% http://www.apegm.mb.ca/pdf/PD_Papers/GNSSPositioning.pdf
+Both single-band and multi-band receivers are capable of centimeter-level absolute accuracy. The main difference is that more factors can influence the stable fix solution in the single-band receiver. Thus, when using a single-band receiver, you can obtain the same absolute accuracy, but only if you have reasonable working conditions.
+
+\subsubsection{PPM}\label{sec:II_rtk_parameters_ppm}
+
+PPM expresses a standardized measurement of error -- in millimeters per 1,000 meters -- in relation to orthometric heights. For instance, an orthometric height that has a 2 PPM error rate would indicate an error in measurement equal to 2 millimeters per 1,000 meters traveled. So, if a mountain resort located 1,000 meters inland had a PPM of 2 millimeters, the orthometric height, or elevation, indicated would be accurate to within 2 millimeters.
+% https://sciencing.com/difference-between-agl-msl-8524698.html
+% https://unstats.un.org/unsd/geoinfo/ungegn/docs/_data_icacourses/_HtmlModules/_Selfstudy/S06/S06_03a.html
 
 \subsection{LoRa}\label{sec:II_rtk_LoRa}
 
@@ -293,8 +393,38 @@ LoRa (Long Range) is a wireless technology that offers long-range, low power, an
 
 \section{Post-Processed Kinematics}\label{sec:II_ppk}
 
+PPK is na alternative technique to RTK. With PPK workflow, accurate positioning does not happen in real time, since all algorithms are applied afterwards. Both base station on the ground and rover (usually an UAV) record raw GNSS logs, which are then processed to receive na accurate positioning track.
+%meter/fazer imagem do Word:
+
+- PPK is mainly used for UAV mapping.
+- Offers a more flexible workflow, allowing to run the processing multiple times using different settings the processing is applied on the logs returned by the both the base station and the rover used on (the?) field.
+- PPK allows the inspection of much wider areas, which is why the baseline is greater than the baseline available while working in RTK mode.
+- Post Processed Kinematic (PPK) is a GPS correction technology technique that corrects location data after it is collected and uploaded. The data can be uploaded to the cloud for processing or processed using specialise software on your desktop after the flight has been concluded.
+
 \section{NTRIP}\label{sec:II_ntrip}
 % falar de todos os topicos que estejam no doc Word NTRIP
+
+The fact that beRTK is connected to the NTRIP network allows you to start with a more precise idea of its location and therefore faster convergence.
+"Real Time Kinematic technique requires 2 receivers. One of them is stationary and is called "base station", the other one is "rover". The base station measures errors, and knowing that it is stationary transmits corrections to the rover (refer to How RTK works for more information about RTK). Sometimes CORS and NTRIP networks take the place of traditional base stations. They provide accurate absolute position and send corrections over the Internet. Typically the distance between the reference station and local rover shouldn't exceed 10-15 km due to the ionospheric effect. So if the reference station is located too far or simply is absent in the area you will need a local base station. Other advantages of your own base are independence from the Internet connection and lack of NTRIP subscription fees."
+
+- If the accurate absolute position of the base has been determined only after the job has been done, the offset of the map can be determined and corrected.
+
+----------------
+% https://www.youtube.com/watch?v=uytd48Vb-fs&ab_channel=RamiTamimi
+"NTRIP (Network Transport of RTCM via Internet Protocol) and CORS (Continuously Operating Reference Station) are forms of RTK differential correction that are done using a cellular modem and base station network."
+"how to obtain high accuracy positioning utilising just one GNSS recevier?
+As described in section (\textbf{ref}) , it is possible obtain high accuracy positioning by setting up two GNSS receivers, which will act as a base station and a rover. Therefore, this method requires double the cost of the method presented in this section. There is a way to use only one GNSS receiver and have RTK-enabled positioning, through the use of a CORS (Continuously Operating Reference System) network. These stations are permanentely set up on a single known location, and continue to observe satellites and perform corrections based on any errors that they observe. Most municipalities, states and countries own these systems and allow public access to anyone that sets up na account. CORS stations are used by geodesists in order to measure any changes that happen on the Earth's surface, and using the same position that they are in, can also help geodesist measures earthquakes, volcanic eruptions or any tectonic movement (the latter can be concluded due to the fact that, in Portugal's network of CORS stations (ReNEP), the information available online also displays the tectonic plate on which the particular station is located.) -- this means that CORS stations can be used as the control segment for rover positioning."
+
+
+NTRIP network -- The Network Transport of RTCM via Internet Protocol is, as the name suggests, a process able to be performed through the internet.
+
+If there are no NTRIP stations within a radius of (?) from the intended mission site, a base station will need to be used in order to obtain the precise positioning through RTK, i.e. through the methodology described in section (\textbf{ref}).
+"it is very fast to obtain a fix. Rather than utilising our own base station for the corrections, the public NTRIP network is used, and the receiver (rover) will be connected to a base station in that network."
+Fazer uma imagem parecida a esta: % ver Word
+
+An internet based application that makes the RTCM Correction data from the CORS stations available to anyone with an internet connection and the appropriate log on credentials to the NTRIP server. Typically uses a mobile link to get to the internet and the NTRIP server. % https://www.teejet.com/CMSImages/TEEJET/documents/technical-updates/98-01410%20r0%20en%20tech%20update%20ntrip%20rx610.pdf
+
+
 
 % \section{Battery System}\label{sec:II_battery}
 % % falar de todos os topicos que estejam no doc Word Battery
