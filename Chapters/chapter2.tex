@@ -206,15 +206,11 @@ Logically, it is immediately (and rightfully) assumed that the more satellites t
 
 \subsection{Space Segment}\label{sec:II_gnss_space_seg}
 
-Space segments are the satellites that are up in the air. All these satellites are orbiting around 20 km above the Earth's surface and their job is to help to find the location of the GNSS-enabled devices down on the ground.
-There are several networks of satellites from different nations around the world, with GPS being the most widely known and navigation-associated GNSS of all -- it was developed by the United States Department of Defense for military purposes, but was made available for civilian years later. % citation needed
-Examples of other GNSSs are:
-% minha tabela
-
-Therefore, all these constellations are used globally, they help each other elevating the precision of location at any given time on Earth.
-
-%---- minha parte:
-According to~\cite{fed_rad_plan_2008}, this means that, to enjoy the perks of \textbf{auxiliated} navigation, the quality behaviour of a GNSS must be ensured. A smart approach for that is to analyse the following four performance criteria:
+The space segment corresponds to the GNSS satellites. All of these follow a certain orbital path thousands of kilometers above the Earth's surface, aiming to assist in the precise location of GNSS-enabled devices on the ground.
+Different nations around the world have various satellite networks, with GPS being the most widely known GNSS associated with navigation of all.
+% minha parte:
+According to~\cite{fed_rad_plan_2008}, this means that, to enjoy the perks of assisted navigation, the quality behaviour of a GNSS must be ensured. 
+A smart approach for that is to analyse the following four performance criteria:
 
 \begin{itemize}
     \item Accuracy: Should not be confused with precision; this parameter acts as a measure of coherence between the estimated (predicted) and actual position of a vehicle, aircraft, or vessel, at any given time;
@@ -222,13 +218,12 @@ According to~\cite{fed_rad_plan_2008}, this means that, to enjoy the perks of \t
     \item Continuity: Refers, in probabilistic terms, to the ability of the entire system of maintaining all required functions, whilst keeping any interruptions out of question. This ensures the operation of the system in a smooth way within a given time interval. All of this assuming that the system was fully available at the start of this operational phase;
     \item Integrity: Measuring the trustworthiness of the information supplied by a navigation system, integrity is also able to consistently issue warnings when navigation through the use of the system is not recommended.
 \end{itemize}
-All these parameters are defined as a way to rate the performance of a satellite constellation, which helps tracking down any discrepancies or even problems that might make accurate navigation unacceptable.
-Their foundation is known as the RNP \textbf{(definition)} specification, which characterizes the imperative performance indicators within a defined airspace. By ensuring the proper conduct of a constellation, the perks of a GNSS for navigation purposes are clear.
+All of these parameters are defined as a way to rate the performance of a satellite constellation, which helps tracking down any discrepancies or even problems that might make accurate navigation unacceptable.
+Their foundation is known as the Required Navigation Performance (RNP) specification, which characterizes the imperative performance indicators within a defined airspace. By ensuring the proper conduct of a constellation, the perks of a GNSS for navigation purposes are clear.
 
-The development and establishment of the first GNSS ever -- GPS, which was carried out by the United Satates Department of Defense near the end of the 1970s~\cite{novatel_gnss} -- relies on a constellation made up of a total of 31 satellites, on which the U.S. Government works to maintain constant operability of a minimum of 24, 95\% of the time, to guarantee global coverage~\cite{gps_USGov}.
+The development and establishment of the first GNSS ever -- GPS, which was carried out by the United Satates Department of Defense near the end of the 1970s -- relies on a constellation made up of a total of 31 satellites, on which the U.S. Government works to maintain constant operability of a minimum of 24, 95\% of the time, to guarantee global coverage~\cite{gps_USGov}.
 Upon the introduction to civilian use in 1983, the desire to cover an even larger portion of the globe only grew, which led to the development of other GNSSs that, together with the already existing GPS, could improve navigational accuracy. Thus, there are currently four global satellite arrangements that make world navigation and precise positioning possible~\cite{novatel_gnss}:
 
-%\newcommand{\centered}[1]{\begin{tabular}{c} #1 \end{tabular}}
 % table:-----------------------------
 \begingroup
 \begin{table}[ht]
@@ -268,7 +263,7 @@ Upon the introduction to civilian use in 1983, the desire to cover an even large
 \end{table}
 \endgroup
 
-On an additional manner, there are also two extra systems that were developed to provide regional coverage~\cite{novatel_gnss}:
+On an additional manner, there are also two extra systems that were developed to provide regional coverage:
 
 \begin{itemize}
     \item NavIC (India): Planned to be made up of seven satellites, this Regional Navigation Satellite System was developed by India to grant regional coverage (hence the (outdated) name IRNSS) to India and its neighbouring area.
@@ -281,13 +276,19 @@ Every constellation follows the same purpose of providing services of:
 
 \begin{itemize}
     \item Positioning: Referring to the ability of determining one's location and orientation in an accurate and precise manner, either two-dimensionally or three-dimensionally (whenever necessary), taking a standard reference geodetic system (e.g. World Geodetic System 1984, or WGS84);
-    \item Navigation, the ability to determine current and desired position (relative or absolute) and apply corrections to course, orientation, and speed to attain a desired position anywhere around the world, from sub-surface to surface and from surface to space;
+    % mudar:
+    \item Navigation: Enables the determination of the current and desired position (relative or absolute) and apply corrections to course, orientation, and speed to attain a desired position anywhere around the world, from sub-surface to surface and from surface to space;
+    % mudar:
     \item Timing, the ability to acquire and maintain accurate and precise time from a standard (Coordinated Universal Time, or UTC), anywhere in the world and within user-defined timeliness parameters. Timing also includes time transfer.
 \end{itemize}
+% mudar:
 These are known as PNT services.
 When used in combination with map data and other information (weather or traffic data, for instance) the result is the most popular and recognizable service--the modern navigation system better known as the Global Positioning System (GPS).
-
+% mudar:
 accurately covering every point on Earth's surface, something which engineers work on to improve everyday, whether it being with precision tweaks to the satellites' atomic clocks or even launching new ones to further complement the existing GNSSs~\cite{euspa_news_2022}.
+
+% mudar:
+Therefore, all these constellations are used globally, they help each other elevating the precision of location at any given time on Earth.
 
 %meter/FAZER!!! polygons - imagens das coverages:    !!!!!
 % !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
