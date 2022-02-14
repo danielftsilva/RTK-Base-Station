@@ -169,11 +169,11 @@ HEIFU, beRTK and beXStream can be used for:
 \section{Global Navigation Satellite System}\label{sec:II_gnss}
 
 Whenever someone wishes to know their current location on Earth, just a few, effortless taps on a smartphone will be the quickest way to do it; this is often associated with the radionavigational system of GPS, which has been around for many years. In a more general manner, this technology can be described as a Global Navigation Satellite System, or GNSS, which refers to any satellite constellation that can be used in order to help navigation throughout the world (as the name suggests).
-Therefore it is possible to conclude that, in order to help tracking their location through the use of satellites, typical smartphones or GPS navigation systems in cars have GNSS receivers, just like a specially designed surveying device.
+Therefore, it is possible to conclude that, in order to help tracking their location through the use of satellites, typical smartphones or GPS navigation systems in cars have GNSS receivers, just like a specially designed surveying device.
 
 According to~\cite{novatel_gnss}, the best way to address GNSS receivers as a whole is to start by acknowledging its working basis: satellites. While orbiting the Earth, these machines send out signals that are then acknowledged by receivers (hence the name), helping them calculate their own location on Earth by comparing the received information from other satellites.
-This means that a GNSS comprises a network of satellites that continuously orbit the Earth, constantly emmiting radio-frequecy signals carrying information about their current status, position in space and precise time.
-This information is acheived through atomic clocks, installed within the satellite itself. Thus, the process unfolds as follows:
+This means that a GNSS comprises a network of satellites that continuously orbit the Earth, constantly emitting radiofrequency signals carrying information about their current status, position in space and precise time.
+This information is achieved through atomic clocks, installed within the satellite itself. Thus, the process unfolds as follows:
 
 \begin{enumerate}
     \item Satellites will start the transmission of their position in real time;
@@ -185,15 +185,18 @@ This process is known as ``trilateration'' and is explained in more detail in th
 
 \subsection{Trilateration}\label{sec:II_gnss_trilateration}
 
-Incorporating the idea that the time ($t$) it takes to receive a signal from a satellite multiplied by the speed of light ($c$) will equal the distance ($d$), i.e.
+Incorporating the idea that the time ($t$) it takes to receive a signal from a satellite multiplied by the speed of light ($c$) will equal the distance ($d$),
 
 \begin{equation}
     d = v\,t = c\,t\,,\medskip
 \end{equation}
-it indicates that the signal emitted by the satellite propagates in an omnidirectional way, which can be pictured as a sphere around the satellite -- as it's known from radiation and Propagation of electromagnetic waves theory --, meaning the signal can reach the Earth in numerous locations (Figure~\ref{fig:omnidirectional}).
+it indicates that the signal emitted by the satellite propagates in an omnidirectional way, which can be pictured as a sphere around the satellite -- as it's known from radiation and propagation of electromagnetic waves theory --, meaning the signal will reach the Earth in numerous locations (Figure~\ref{fig:omnidirectional}).
 Having another satellite orbiting around Earth, the signal emitted by it will reach the surface at some other particular time. Geometrically, this means that the intersection of the spheres that represent these two signals will correspond to a circle, which limits the extensive list of possible solutions -- note that, however, there is still a large amount --, not allowing yet to have an exact location. Adding a third satellite to this scenario will further limit the possible locations of the receiver, narrowing them down to only two points: one in space and another one down on the surface of the Earth. Knowing that a receiver is down on Earth, by using the latter as a fourth surface, the correct location (in a set of $x$, $y$, $z$ coordinates) can be determined.
-However, just three satellites are not enough for an accurate reading, although in theory this process should be enough. The practical use of trilateration must account with a minimum of four satellites in direct line of sight of any point on the surface of the Earth (usually to help clocks synchronisation).% Logically, it is immediately (and rightfully) assumed that the more satellites there are, the higher the positional accuracy will be for the receiver. For that, to achieve a successful observation, three major segments are necessary: the space segment, the control segment and the user segment.
-% meter imagem word:
+However, just three satellites are not enough for an accurate reading, although in theory this process should be enough. The practical use of trilateration must account with a minimum of four satellites in direct line of sight of any point on the surface of the Earth, in order to synchronise the receiver's clock with the satellites', as well as to better the precision of the solution.
+There is, nonetheless, one particular phenomenon able to damage the received signal, resulting in less accurate calculations; it is called Dilution of Precision (DOP). This numerical quantity can be measured statistically, while accounting for satellite geometry and location (relative to the receiver) and may, for instance, be impacted by atmospheric or even urban factors.~\cite{novatel_gnss, ayers_geosystems_2011}.
+% meter imagem de predios e sinais afetados
+Logically, it is immediately (and rightfully) assumed that the more satellites there are, the higher the positional accuracy will be for the receiver. For that, to achieve a successful observation, three major segments are necessary: the space segment, the control segment and the user segment.
+% meter imagem word: propagação
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=1.0\textwidth]{Chapters/Figures/demo.png}
@@ -203,7 +206,7 @@ However, just three satellites are not enough for an accurate reading, although 
 
 \subsection{Space Segment}\label{sec:II_gnss_space_seg}
 
-Sapce segments are the satellites that are up in the air. All these satellites are orbiting around 20 km above the Earth's surface and their job is to help to find the location of the GNSS-enabled devices down on the ground.
+Space segments are the satellites that are up in the air. All these satellites are orbiting around 20 km above the Earth's surface and their job is to help to find the location of the GNSS-enabled devices down on the ground.
 There are several networks of satellites from different nations around the world, with GPS being the most widely known and navigation-associated GNSS of all -- it was developed by the United States Department of Defense for military purposes, but was made available for civilian years later. % citation needed
 Examples of other GNSSs are:
 % minha tabela
@@ -270,7 +273,7 @@ On an additional manner, there are also two extra systems that were developed to
 \begin{itemize}
     \item NavIC (India): Planned to be made up of seven satellites, this Regional Navigation Satellite System was developed by India to grant regional coverage (hence the (outdated) name IRNSS) to India and its neighbouring area.
     As a result of the launch of the constellation's last satellite in 2016, the IRNSS title was changed to Navigation Indian Constellation (NavIC), by India's Prime Minister Narendra Modi~\cite{navic_news_2016};
-    \item QZSS: Working as another regional navigation satellite system, the development of the Quasi-Zenith Satellite System was accredited by the Japanese Government in order to ensure service to Japan, as well as the Asia-Oceania region and consists of four satellites.
+    \item QZSS (Japan): Working as another regional navigation satellite system, the development of the Quasi-Zenith Satellite System was accredited by the Japanese Government in order to ensure service to Japan, as well as the Asia-Oceania region and consists of four satellites.
     However, this constellation limits accuracy in its standalone mode, which means it functions as GPS augmentation service\footnote{Augmentation services will be covered in more detail in section~\ref{sec:II_gnss_sbas}.} by synchronisation of clocks use of same frequencies, allowing the use of this system's machinery as extra GPS satellites.
 \end{itemize}
 
@@ -297,7 +300,7 @@ The second system is known as the control segment. These internal orbital module
 
 This segment includes a rover, smartphone and anything that has a GNSS receiver installed in it. The user segment is the end result; is what we are trying to measure; it's the location that we are trying to find. The other two previous segments are just a means of helping us achieve a more accurate position for our user segment. Now, as a surveyer it is our job to take measurements accurately, whether that is a relative measurement between two points like we do with total stations and levels, or if it is absolute measurements like satellite positioning, as we try to find the location of a point in a certain datum or coordinate system. Regardless of what you are doing, your job as a surveyer is to ensure that all the data collected is accurate and any elements of corrections that are being used should be fully understood."
 
-There is also Dillution of Prescision (DOP): %https://en.wikipedia.org/wiki/Dilution_of_precision_(navigation)
+There is also Dilution of Prescision (DOP): %https://en.wikipedia.org/wiki/Dilution_of_precision_(navigation)
 
 % -----------------------------
 %NovAtel Inc.:
