@@ -218,6 +218,8 @@ A good example for the control segment is, precisely, a base station: by install
 So, in order to solve this, the rover receiver just needs to be connected to some kind of frame of reference, which will be the control segment used to complete the solution (this could be, for example, an NTRIP network\footnote{NTRIP will be covered in more detail in section~\ref{sec:II_ntrip}.}).
 This type of references are generally found in heavily populated areas; anywhere that is more rural or not really connected to society, they may not be available, so the need to have two receivers (base station and rover) in order to complete the three segments will inevitably be felt.
 
+One of the tasks of this segment that is worth mentioning is the constant monitoring of the satellites, i.e. the regular adjustment of trajectory and time information, in order to keep all the transmitted information highly accurate.
+
 \subsection{User Segment}\label{sec:II_gnss_user_seg}
 
 The user segment includes smartphones, rovers and anything that has a GNSS receiver installed; Basically, it is the end result and refers to what needs to be measured (i.e. the location to find). The other two segments act only as a means of helping reach a more precise position for the user segment.
@@ -227,35 +229,213 @@ As we try to find the location of a point in a given \gls{geodetic_datum} or coo
 
 It has already been affirmed in section~\ref{sec:II_gnss_trilateration} that GNSS satellites communicate with receivers through radiofrequency signals -- which are electromagnetic signals -- that propagate omnidirectionally. As the name states, these signals rely rigourously on frequency, and that leaves the wonder on how satellite communication actually works.
 
-These machines are supposed to orbit along their respective trajectories, and therefore the signals that are transmitted at the speed of light might run into problems while on their way to Earth, which can be, for example, atmospheric or occur while the receiver is blocked by something such as a building. An affected signal reaching a recevier will result in a poor reading precision.
+These machines are designed to continuously orbit along their respective trajectories, and therefore the signals transmitted might run into problems while on their way to Earth, which can occur due to atmospheric reasons or even while the receiver is blocked by something such as a building, for example. An affected signal reaching a recevier will result in a poor reading precision. Table~\ref{tab:GNSS_sys_errors} shows the typical errors intrinsic to the GNSS system.
+
+% no final meter tabela: ATENÇÃO À POSIÇÃO DA TABELA!!
+\begingroup
+\begin{table}[h]
+	\caption{Typical GNSS system errors (adapted from~\cite{novatel_gnss}).}
+	\label{tab:GNSS_sys_errors}
+	\centering%@{}l@{}@{}c@{}@{}c@{}@{}c@{}@{}c@{}
+    % \setlength{\tabcolsep}{10pt} % Default value: 6pt
+    % \renewcommand{\arraystretch}{1.5} % Default value: 1
+	\begin{tabular}{lc}
+        \toprule
+        \textbf{Source} & \textbf{Error range} \\
+        \midrule     
+        Satellite clocks & $\pm 2.0$ m \\
+        \midrule
+        Orbit errors & $\pm 2.5$ m \\
+        \midrule
+        Ionospheric delays & $\pm 5.0$ m \\
+        \midrule
+        Tropospheric delays & $\pm 0.5$ m \\
+        \midrule
+        Receiver noise & $\pm 0.3$ m \\
+        \midrule
+        Multipath & $\pm 1.0$ m \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\endgroup
 
 %dizer isto por outras palavras:
-"Describing these signals requires equally complex words like pseudorandom, correlation, and Code Division Multiple Access (CDMA). To explain these GNSS concepts, letss first discuss GPS satellite signals."
-
+The communication process can be characterized through an intricate set of terms such as \gls{pseudorandom}, \gls{correlation} and code division multiple access (CDMA). According to~\cite{novatel_gnss}, GPS is known to be an excellent example capable of clarifying these concepts.
 % dar o exemplo de GPS: tem CDMA -> falar de CDMA:
-"As shown in Figure 12, GPS satellites transmit information on the L1, L2 and L5 frequencies. You may ask, "How can all GPS satellites
-transmit on the same frequencies?"
-GPS works the way it does because of the transmission scheme it uses, which is called CDMA. CDMA is a form of spread spectrum. GPS satellite signals, although they are on the same frequency, are modulated by a unique pseudorandom digital sequence, or code."
+The way GPS satellites communicate through the same frequency bands is through CDMA. This form of spread spectrum enables the modulation of signals via a code defined as being pseudorandom. Receivers know beforehand the code intrinsic to each satellite, which allows synchronisation (correlation) between receivers and that same CDMA code. That way, theoretically, information should be able to flow smoothly, however, due to the aforementioned dilution of precision, signals may be affected while travelling through the atmosphere;
+the propagation signal can be affected when it passes through the ionosphere (a layer located roughly 50-1,000 km above Earth's surface) or the troposphere (located about 8-14.5 km above the surface), which correspond to the upper and lower zones of the atmosphere, respectively. These effects depend significantly on frequency, so it is worth noting that signals can be compromised by reflection and even absorption, scintillation, Faraday rotation and \textbf{bandwidth decoherence}~\cite{au_gov_satell}. Considering these problems, GPS was designed to operate in frequencies within the interval of 1 to 2 GHz, which corresponds to a section of the radio spectrum known as the L-band, as represented by Figure~\ref{fig:gps_bands} (which shows the frequncy bands used in GPS communication, known as the L1, L2 and L5 frequencies).
+% meter/fazer figura das frequencias do GPS:
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/demo.png}
+	\caption{GPS frequency bands.}
+	\label{fig:gps_bands}
+\end{figure}
 
-%falar de ionospehre:
-"Satellite signals are refracted by the ionosphere. Explanation: Below 30MHz frequency the ionosphere almost acts like a mirror reflecting the signal back to Earth. At higher frequencies, such as those used in satellite communication, radio waves pass through the atmosphere."
+This band solves a great part of the stated problems due to its high frequencies, as it 
+
+% razões 1: MUDAR
+Simplification of antenna design. If the frequency had been much higher, user antennas may have had to be a bit more complex.
+- Ionospheric delay is more significant at lower frequencies.
+- Except through a vacuum, the speed of light is lower at lower frequencies
+- The coding scheme requires a high bandwidth, which was not available in every frequency band.
+- The frequency band was chosen to minimize the effect that weather has on GPS signal propagation.
+
+% razões 2: MUDAR
+L1 transmits a navigation message, the coarse acquisition C/A code (freely available to the public) and an encrypted precision (P) code, called the P(Y) code (restricted access). The navigation message is a low bit rate message that includes the following information:
+- GPS date and time.
+- Satellite status and health. If the satellite is having problems or its orbit is being adjusted, it will not be usable. When this happens, the satellite will transmit the out-of-service message.
+- Satellite ephemeris data, which allows the receiver to calculate the satellite's position. This information is accurate to many, many decimal places. Receivers can determine exactly where the satellite was when it transmitted its time.
+- Almanac, which contains information and status for all GPS satellites, so receivers know which satellites are available for tracking. On start up, a receiver will recover this "almanac".
+The almanac consists of coarse orbit and status information for each satellite in the constellation.
+
+The P(Y) code is for military use.
+
+GPS. The L2 frequency transmits the P(Y) code and, on newer GPS satellites, it also transmits the C/A code (referred to as L2C), providing a second publicly available code to civilian users.
+
+\subsubsection{Signal Propagation}\label{sec:II_gnss_comm_propag}
+
+The layer of the atmosphere that most influences the transmission of GPS (and other GNSS) signals is the ionosphere. These electrons influence electromagnetic wave propagation, including GPS satellite signal broadcasts. Ionospheric delays are frequency dependent so by calculating the range using both L1 and L2, the effect of the ionosphere can be virtually eliminated by the receiver.
+
+The other layer of the atmosphere that influences the transmission of GPS signals is the troposphere. Tropospheric delay is a function of local temperature, pressure and relative humidity. L1 and L2 are equally delayed, so the effect of tropospheric delay cannot be eliminated the way ionospheric delay can be.
+
+Some of the signal energy transmitted by the satellite is reflected on the way to the receiver. This phenomenon is referred to as "multipath propagation". These reflected signals are delayed from the direct signal and, if they are strong enough, can interfere with the desired signal. Techniques have been developed whereby the receiver only considers the earliest-arriving signals and ignores multipath signals.
+
+%meter imagem de sinais de satelite a serem deflected e refleced em predios e tal:
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/demo.png}
+	\caption{GNSS satellite signal propagation.}
+	\label{fig:signals_deflected}
+\end{figure}
+
+Upon reception of the signals:
+The use of more satellites, if they are available, will improve the position solution;
+
+To determine a fix (position) and time, GNSS receivers need to be able to track at least four satellites. This means there needs to be a line of sight between the receiver's antenna and the four satellites.
+
+Receivers vary in terms of which constellation or constellations they track, and how many satellites they track simultaneously. For each satellite being tracked, the receiver determines the propagation time. It can do this because of the pseudorandom nature of the signals.
+
+Since the receiver knows the pseudorandom code for each satellite, it can determine the time it received the code from a particular satellite. In this way, it can determine the time of propagation.
+
+% fim da parte de propagação.
+
+Important requirement: the requirement of CDMA to operate in a high bandwidth, therefore truly benefiting from this L-band.
+
+It was also specially selected to work on due to the fact that it 
+
+C/A P-code~\cite{ca_p_code_1991}
+
+It is worth stating that the navigation message transmitted is has a low bit rate.
 
 This can explain the reason why these signals should be transmitted in high frequencies, which paves the ground for the next question: Which frequency bands yield the best transmission results for each GNSS?
 
 \subsubsection{Frequency Bands}\label{sec:II_gnss_comm_freq_bands}
 
-% no final meter tabela:
-%meter imagem das frequencias de todas as constelações no memso referencial:
-% meter imagem svg do planeta com todas as GNSS:
+% no final meter tabela: ATENÇÃO À POSIÇÃO DA TABELA!!
+\begingroup
+\begin{table}[h]
+	\caption{GNSS signals and frequencies (adapted from~\cite{novatel_gnss}).}
+	\label{tab:GNSS_freqs}
+	\centering%@{}l@{}@{}c@{}@{}c@{}@{}c@{}@{}c@{}
+    % \setlength{\tabcolsep}{10pt} % Default value: 6pt
+    % \renewcommand{\arraystretch}{1.5} % Default value: 1
+	\begin{tabular}{lcc}
+        \toprule
+
+        \textbf{System} & \textbf{Signal} & \textbf{Frequency (MHz)} \\
+
+        \midrule
+     
+        \multirow{5}*{GPS}      & L1 C/A    & 1575.42 \\
+        \multirow{5}*{}         & L1C       & 1575.42 \\
+        \multirow{5}*{}         & L2C       & 1227.60 \\
+        \multirow{5}*{}         & L2P       & 1227.60 \\
+        \multirow{5}*{}         & L5        & 1176.45 \\
+
+        \midrule
+
+        \multirow{4}*{GLONASS}  & L1 C/A    & 1598.0625-1609.3125 \\
+        \multirow{4}*{}         & L2C       & 1242.9375-1251.6875 \\
+        \multirow{4}*{}         & L2P       & 1242.9375-1251.6875 \\
+        \multirow{4}*{}         & L3 OC     & 1202.025            \\
+        
+        \midrule
+
+        \multirow{5}*{Galileo}  & E1        & 1575.42  \\
+        \multirow{5}*{}         & E5a       & 1575.42  \\
+        \multirow{5}*{}         & E5b       & 1207.14  \\
+        \multirow{5}*{}         & E5 AltBOC & 1191.795 \\
+        \multirow{5}*{}         & E6        & 1278.75  \\
+
+        \midrule
+
+        \multirow{6}*{BeiDou}   & B1l       & 1561.098 \\
+        \multirow{6}*{}         & B2l       & 1207.14  \\
+        \multirow{6}*{}         & B3l       & 1268.52  \\
+        \multirow{6}*{}         & B1C       & 1575.42  \\
+        \multirow{6}*{}         & B2a       & 1176.45  \\
+        \multirow{6}*{}         & B2b       & 1207.14  \\
+
+        \midrule
+
+        NavIC     & L5        & 1176.45 \\
+
+        \midrule
+
+        \multirow{6}*{QZSS}     & L1C/A     & 1575.42 \\
+        \multirow{6}*{}         & L1C       & 1575.42 \\
+        \multirow{6}*{}         & L1S       & 1575.42 \\
+        \multirow{6}*{}         & L2C       & 1227.6  \\
+        \multirow{6}*{}         & L5        & 1176.45 \\
+        \multirow{6}*{}         & L6        & 1278.75 \\
+
+        \midrule
+
+        \multirow{2}*{SBAS}     & L1        & 1575.42 \\
+        \multirow{2}*{}         & L5        & 1176.45 \\
+
+        \bottomrule
+    \end{tabular}
+\end{table}
+\endgroup
+
+%meter imagem das frequencias de todas aonstelações no mesmo referencial: figura 36 novatel_gnss
+% meter imagem svg do planeta com todas as GNSS?
+
+%falar de cada frequência: ...
+L5:
+The United States has implemented a third civil
+GPS frequency (L5) at 1176.45 MHz. The modernized
+GPS satellites (Block II-F and later) are
+transmitting L5.
+the modernied benefits of the L5 signal include meeting
+the requirements for critical safety-of-life applications
+such as that needed for civil aviation
+and providing:
+- Improved ionospheric correction.
+- Signal redundancy.
+- Improved signal accuracy.
+- Improved interference rejection.
 
 % NOTA FINAL SOBRE GNSS:
 As GNSS constellations and satellites are added, we will be able to calculate position more accurately and in more and more places.
 
-\subsection{Differential GPS}\label{sec:II_gnss_dgps}
+
+
+\section{GNSS Augmentation}\label{sec:II_gnssAug}
+
+\subsection{Satellite-based Augmentation System (SBAS)}\label{sec:II_gnssAug_sbas}
+
+Used to provide integrity assurance;
+Used to increase accuracy and to reduce position errors to less than 1 meter.
+"Augmentation of a global navigation satellite system (GNSS) is a method of improving the navigation system's attributes, such as accuracy, reliability, and availability, through the integration of external information into the calculation process."
+
+\subsection{Differential GNSS}\label{sec:II_gnssAug_dgnss}
 
 "Differential" - Aumento infinitamente pequeno de uma quantidade variável.
 
-- Is an enhancement to the Global Positioning System (GPS) which provides improved location accuracy, in the range of operations of each system, from the 15-metre (49 ft) nominal GPS accuracy to about 1-3 centimetres (0.39-1.18 in) in case of the best implementations.
+example: DGPS - Is an enhancement to the Global Positioning System (GPS) which provides improved location accuracy, in the range of operations of each system, from the 15-metre (49 ft) nominal GPS accuracy to about 1-3 centimetres (0.39-1.18 in) in case of the best implementations.
 - Differential positioning requires a data link between the base station and rovers, if corrections need to be applied in real-time, and at least four GNSS satellites in view at both the base station and the rovers. The absolute accuracy of the rover's computed position will depend on the absolute accuracy of the base station's position [in pg. 53 of "An Introduction to GNSS, Second Edition"].
 
 8. differential GPS (DGPS) - The term differential GPS, or DGPS, sometimes indicates the application of this technique with coded pseudorange measurements
@@ -266,80 +446,59 @@ in: https://www.e-education.psu.edu/geog862/node/1725
 
 Therefore, by comparing pseudo-range measurements with those made by equipment at a presurveyed location, known as a REFERENCE STATION or BASE STATION, the correlated range errors may be calibrated out, improving the navigation-solution Accuracy! This is the priciple behind Differential GNSS (DGNSS)~\cite{edseee_9101092}. % fazer desenho .svg de base station a "acertar" o drone com os satelites
 
-\subsection{SBAS}\label{sec:II_gnss_sbas}
+\subsection{Real-Time Kinematics (RTK)}\label{sec:II_gnssAug_rtk}
+\begin{itemize}
+    \item % falar de todos os topicos que estejam no doc Word RTK (single- multi-link,...)
+    % link da base station ao UAV
+    
+    %MUDAR, ESTÁ COPIADO!
+    So, the difference between RTK and DGPS is that DGPS is the traditional differential GPS.
+    RTK is a specific type of DGPS.
+    but it uses a newer technology than the traditional DGPS.
+    RTK stands for real-time kinematic and commonly uses the RTCM protocol.
+    The traditional DGPS uses an older antiquated protocol while RTK uses a newer algorithm, and the protocol is based on RTCM3. 
+    %____________
+    
+    - Used to improve the accuracy of standalone GNSS receivers. Traditional GNSS receivers can only determine the position with na accuracy of about 2-4 meters (?). RTK provides centimeter accuracy.
+    - GNSS receiver measure how long it takes for a signal to travel from a satellite to the receiver. Due to the presence of atmosphere between the satellite and the receiver, the transmitted signals are slowed down and are introduced to perturbations. With this in mind, one can immediately assume that transmission times will differ according to the weather at the time of the event. That is the reason why a standalone receiver has a hard time determining its position accurately. RTK is a Technology that solves this issue.
+    - 2 receivers are used in RTK. One of them is stationary, the other is a moving rover.
+    - Real Time Kinematic (RTK) is a GPS correction technology technique that provides real-time corrections to location data as the drone is surveying and capturing images from a site.    
+\end{itemize}
 
-Used to provide integrity assurance;
-Used to increase accuracy and to reduce position errors to less than 1 meter.
-"Augmentation of a global navigation satellite system (GNSS) is a method of improving the navigation system's attributes, such as accuracy, reliability, and availability, through the integration of external information into the calculation process."
-
-\section{Precise Point Positioning}\label{sec:II_ppp}
-
-- A standalone receiver finds out its position relying on the data obtained from satellites only. Along with raw data from those satellites, the receiver gets navigation messages with satellite clock offset, ionospheric and tropospheric corrections (atmospheric-related disturbances), etc. Due to information about these offsets, the receiver may calculate its position with a few meters' accuracy. If there were (was) no navigation data, the accuracy would be much worse.
-- In RTK and PPK, these offsets might be eliminated since both (the) base station and the rover operate in quite similar conditions.
-- PPP allows the single receiver (rover) to achieve high-level accuracy without the use of corrections from the base station.
-- To calculate the coordinates, PPP uses the same data that is provided by the navigation message but much more accurate. Thereby, the single receiver (rover) might determine its position with a centimetre-level accuracy using only raw data and precise ephemerides and clock offsets provided by a PPP service.
-- The PPP technique is commonly used for determining the absolute base position for further RTK/PPK surveys.
-
-\section{Real-Time Kinematics}\label{sec:II_rtk}
-% falar de todos os topicos que estejam no doc Word RTK (single- multi-link,...)
-% link da base station ao UAV
-
-%MUDAR, ESTÁ COPIADO!
-So, the difference between RTK and DGPS is that DGPS is the traditional differential GPS.
-RTK is a specific type of DGPS.
-but it uses a newer technology than the traditional DGPS.
-RTK stands for real-time kinematic and commonly uses the RTCM protocol.
-The traditional DGPS uses an older antiquated protocol while RTK uses a newer algorithm, and the protocol is based on RTCM3. 
-%____________
-
-- Used to improve the accuracy of standalone GNSS receivers. Traditional GNSS receivers can only determine the position with na accuracy of about 2-4 meters (?). RTK provides centimeter accuracy.
-- GNSS receiver measure how long it takes for a signal to travel from a satellite to the receiver. Due to the presence of atmosphere between the satellite and the receiver, the transmitted signals are slowed down and are introduced to perturbations. With this in mind, one can immediately assume that transmission times will differ according to the weather at the time of the event. That is the reason why a standalone receiver has a hard time determining its position accurately. RTK is a Technology that solves this issue.
-- 2 receivers are used in RTK. One of them is stationary, the other is a moving rover.
-- Real Time Kinematic (RTK) is a GPS correction technology technique that provides real-time corrections to location data as the drone is surveying and capturing images from a site.
-
-\subsection{Parameters}\label{sec:II_rtk_parameters}
-
-\subsubsection{Frequency Bands}\label{sec:II_rtk_parameters_freq_bands}
+\subsubsection{Frequency Bands}\label{sec:II_gnssAug_rtk_freqbands}
 - L1, L2, ... bands
 
-\subsubsection{RTK Initialisation Time}\label{sec:II_rtk_parameters_init_time}
-
+\subsubsection{Initialisation Time}\label{sec:II_gnssAug_rtk_inittime}
 - RTK Initialisation Time
 
-\subsubsection{Single-band vs Multi-band}\label{sec:II_rtk_parameters_s_m_band}
-
+\subsubsection{Single-band vs Multi-band}\label{sec:II_gnssAug_rtk_smband}
 - Single-band vs Multi-band receiver
 
-\subsubsection{Baseline}\label{sec:II_rtk_parameters_baseline}
-
+\subsubsection{Baseline}\label{sec:II_gnssAug_rtk_baseline}
 Baseline in RTK mode and Baseline in PPK mode -- for different projects, a different distance from the rover to the base might be needed. Working near a city is more likely to have base station stations nearby. However, when working in rural areas, base stations are likely to be further away.
 Multi-band receivers can work at a longer baseline due to the use of multiple satellite constellations -- as these help in the correction of the readings taken by the base, as mentioned before (earlier?). beRTK can operate with the baseline up to 2.5 km.
 fazer uma imagem parecida a esta:
 % meter imagem da baseline Emlid
 
-\subsubsection{Accuracy}\label{sec:II_rtk_parameters_accuracy}
-
+\subsubsection{Accuracy}\label{sec:II_gnssAug_rtk_accuracy}
 H: 7 mm + 1 ppm
 V: 14 mm + 1 ppm	MEANING OF THIS???
 % http://www.apegm.mb.ca/pdf/PD_Papers/GNSSPositioning.pdf
 Both single-band and multi-band receivers are capable of centimeter-level absolute accuracy. The main difference is that more factors can influence the stable fix solution in the single-band receiver. Thus, when using a single-band receiver, you can obtain the same absolute accuracy, but only if you have reasonable working conditions.
 
-\subsubsection{PPM}\label{sec:II_rtk_parameters_ppm}
-
+\subsubsection{PPM}\label{sec:II_gnssAug_rtk_ppm}
 PPM expresses a standardized measurement of error -- in millimeters per 1,000 meters -- in relation to orthometric heights. For instance, an orthometric height that has a 2 PPM error rate would indicate an error in measurement equal to 2 millimeters per 1,000 meters traveled. So, if a mountain resort located 1,000 meters inland had a PPM of 2 millimeters, the orthometric height, or elevation, indicated would be accurate to within 2 millimeters.
 % https://sciencing.com/difference-between-agl-msl-8524698.html
 % https://unstats.un.org/unsd/geoinfo/ungegn/docs/_data_icacourses/_HtmlModules/_Selfstudy/S06/S06_03a.html
 
-\subsection{LoRa}\label{sec:II_rtk_LoRa}
-
+\subsubsection{LoRa}\label{sec:II_gnssAug_rtk_LoRa}
 ``There are number of communication technologies available for interaction between IoT devices today, and the most popular ones are Wi-Fi and Bluetooth. But the problem with Wi-Fi and Bluetooth technology is high power consumption. They also have other limitations like limited range, limited access points etc. ESP8266 module is the most popular Wi-Fi module used in IoT devices, using which we have previously built lot of IoT projects.
 
 Cellular networks also have the same problems of high power consumption and both LAN and Cellular network are quite expensive to cover a wide area. The IoT industries introduced lots of technologies, but none of them was ideal for IoT devices, as they needed to transmit information to long distance without using much power, until the LoRa technology was introduced. LoRa Technology can perform very-long range transmission with low power consumption.
 
 LoRa (Long Range) is a wireless technology that offers long-range, low power, and secure data transmission for M2M (Machine to Machine) and IoT applications. LoRa is a spread spectrum modulation technology that is derived from chirp spread spectrum (CSS) technology. LoRa can be used to connect sensors, gateways, machines, devices, etc. wirelessly. In Europe region, it operates in the 868 MHz band.'' % https://iotdesignpro.com/projects/lora-communication-between-two-arduino-using-LoRa-Module-SX1278
 
-\section{Post-Processed Kinematics}\label{sec:II_ppk}
-
+\subsection{Post-Processed Kinematics (PPK)}\label{sec:II_gnssAug_ppk}
 PPK is na alternative technique to RTK. With PPK workflow, accurate positioning does not happen in real time, since all algorithms are applied afterwards. Both base station on the ground and rover (usually an UAV) record raw GNSS logs, which are then processed to receive na accurate positioning track.
 %meter/fazer imagem do Word:
 
@@ -348,9 +507,21 @@ PPK is na alternative technique to RTK. With PPK workflow, accurate positioning 
 - PPK allows the inspection of much wider areas, which is why the baseline is greater than the baseline available while working in RTK mode.
 - Post Processed Kinematic (PPK) is a GPS correction technology technique that corrects location data after it is collected and uploaded. The data can be uploaded to the cloud for processing or processed using specialise software on your desktop after the flight has been concluded.
 
-\section{NTRIP}\label{sec:II_ntrip}
-% falar de todos os topicos que estejam no doc Word NTRIP
+\subsection{Precise Point Positioning (PPP)}\label{sec:II_gnssAug_ppp}
+- A standalone receiver finds out its position relying on the data obtained from satellites only. Along with raw data from those satellites, the receiver gets navigation messages with satellite clock offset, ionospheric and tropospheric corrections (atmospheric-related disturbances), etc. Due to information about these offsets, the receiver may calculate its position with a few meters' accuracy. If there were (was) no navigation data, the accuracy would be much worse.
+- In RTK and PPK, these offsets might be eliminated since both (the) base station and the rover operate in quite similar conditions.
+- PPP allows the single receiver (rover) to achieve high-level accuracy without the use of corrections from the base station.
+- To calculate the coordinates, PPP uses the same data that is provided by the navigation message but much more accurate. Thereby, the single receiver (rover) might determine its position with a centimetre-level accuracy using only raw data and precise ephemerides and clock offsets provided by a PPP service.
+- The PPP technique is commonly used for determining the absolute base position for further RTK/PPK surveys.
 
+%
+
+\subsection{NTRIP}\label{sec:II_ntrip}
+
+%daniel:
+As stated in section~\ref{sec:II_gnss_comm}, if a receiver relies solely on satellite signals for positioning, the rate at wich information will be received will be rather low. A great way to bypass such (problem) is to rely on internet connection to get position corrections. A great example of this is the Network Transport of RTCM via Internet Protocol, or NTRIP.
+
+% falar de todos os topicos que estejam no doc Word NTRIP
 The fact that beRTK is connected to the NTRIP network allows you to start with a more precise idea of its location and therefore faster convergence.
 "Real Time Kinematic technique requires 2 receivers. One of them is stationary and is called "base station", the other one is "rover". The base station measures errors, and knowing that it is stationary transmits corrections to the rover (refer to How RTK works for more information about RTK). Sometimes CORS and NTRIP networks take the place of traditional base stations. They provide accurate absolute position and send corrections over the Internet. Typically the distance between the reference station and local rover shouldn't exceed 10-15 km due to the ionospheric effect. So if the reference station is located too far or simply is absent in the area you will need a local base station. Other advantages of your own base are independence from the Internet connection and lack of NTRIP subscription fees."
 
