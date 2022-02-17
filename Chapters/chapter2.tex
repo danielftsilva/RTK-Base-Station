@@ -87,8 +87,22 @@ HEIFU, beRTK and beXStream can be used for:
 Whenever someone wishes to know their current location on Earth, just a few, effortless taps on a smartphone will be the quickest way to do it; this is often associated with the radionavigational system of GPS, which has been around for many years. In a more general manner, this technology can be described as a Global Navigation Satellite System, or GNSS, which refers to any satellite constellation that can be used in order to help navigation throughout the world (as the name suggests).
 Therefore, it is possible to conclude that, in order to help tracking their location through the use of satellites, typical smartphones or GPS navigation systems in cars have GNSS receivers, just like a specially designed surveying device.
 
-According to~\cite{novatel_gnss}, the best way to address GNSS receivers as a whole is to start by acknowledging its working basis: satellites. While orbiting the Earth, these machines send out signals that are then acknowledged by receivers (hence the name), helping them calculate their own location on Earth by comparing the received information from other satellites.
-This means that a GNSS comprises a network of satellites that continuously orbit the Earth, constantly emitting radiofrequency signals carrying information about their current status, position in space and precise time.
+According to~\cite{novatel_gnss}, the best way to address GNSS receivers as a whole is to start by acknowledging its working basis: satellites. While orbiting the Earth, these machines send out signals that are then acknowledged by receivers (hence the name), assisting them on the calculation of their own location on Earth by comparing the received information from other satellites.
+
+% minha parte: METER ISTO NA INTRODUÇÃO DESTA SECÇÃO - GNSS (GERAL)
+Through~\cite{fed_rad_plan_2008}, it is possible to understand that, in order to enjoy the perks of assisted navigation, the quality behaviour of a GNSS must be ensured. 
+A smart approach for that is to analyse the following four performance criteria:
+
+\begin{itemize}
+    \item Accuracy: Should not be confused with precision; this parameter acts as a measure of coherence between the estimated (predicted) and actual position of a vehicle, aircraft, or vessel, at any given time;
+    \item Availability: In a percentile manner, this gives the navigator the ability to know the amount of time available to benefit from the services provided by the system, within a certain specified coverage area.
+    \item Continuity: Refers, in probabilistic terms, to the ability of the entire system of maintaining all required functions, whilst keeping any interruptions out of question. This ensures the operation of the system in a smooth way within a given time interval. All of this assuming that the system was fully available at the start of this operational phase;
+    \item Integrity: Measuring the trustworthiness of the information supplied by a navigation system, integrity is also able to consistently issue warnings when navigation through the use of the system is not recommended.
+\end{itemize}
+All of these parameters are defined as a way to rate the performance of a satellite constellation, which helps tracking down any discrepancies or even problems that might make accurate navigation unacceptable.
+Their foundation is known as the Required Navigation Performance (RNP) specification, which characterizes the imperative performance indicators within a defined airspace. By ensuring the proper conduct of a constellation, the perks of a GNSS for navigation purposes are clear.
+
+Therefore, it is possible to understand that a GNSS comprises a network of satellites that, while continuously orbiting the planet, constantly emit radiofrequency signals carrying information about their current status, position in space and precise time.
 This information is achieved through atomic clocks, installed within the satellite itself. Thus, the process unfolds as follows:
 
 \begin{enumerate}
@@ -103,7 +117,7 @@ This process is known as ``trilateration'' and is explained in more detail in th
 
 Incorporating the idea that the time ($t$) it takes to receive a signal from a satellite multiplied by the speed of light ($c$) will equal the distance ($d$),
 
-\begin{equation}
+\begin{equation}\label{eq:2_1}
     d = v\,t = c\,t\,,\medskip
 \end{equation}
 it indicates that the signal emitted by the satellite propagates in an omnidirectional way, which can be pictured as a sphere around the satellite -- as it's known from radiation and propagation of electromagnetic waves theory --, meaning the signal will reach the Earth in numerous locations (Figure~\ref{fig:omnidirectional}).
@@ -130,21 +144,7 @@ Logically, it is immediately (and rightfully) assumed that the more satellites t
 \subsection{Space Segment}\label{sec:II_gnss_space_seg}
 
 The space segment corresponds to the GNSS satellites. All of these follow a certain orbital path thousands of kilometers above the Earth's surface, aiming to assist in the precise location of GNSS-enabled devices on the ground.
-Different nations around the world have various satellite networks, with GPS being the most widely known GNSS associated with navigation of all.
-% minha parte:
-Through~\cite{fed_rad_plan_2008}, it is possible to understand that, in order to enjoy the perks of assisted navigation, the quality behaviour of a GNSS must be ensured. 
-A smart approach for that is to analyse the following four performance criteria:
-
-\begin{itemize}
-    \item Accuracy: Should not be confused with precision; this parameter acts as a measure of coherence between the estimated (predicted) and actual position of a vehicle, aircraft, or vessel, at any given time;
-    \item Availability: In a percentile manner, this gives the navigator the ability to know the amount of time available to benefit from the services provided by the system, within a certain specified coverage area.
-    \item Continuity: Refers, in probabilistic terms, to the ability of the entire system of maintaining all required functions, whilst keeping any interruptions out of question. This ensures the operation of the system in a smooth way within a given time interval. All of this assuming that the system was fully available at the start of this operational phase;
-    \item Integrity: Measuring the trustworthiness of the information supplied by a navigation system, integrity is also able to consistently issue warnings when navigation through the use of the system is not recommended.
-\end{itemize}
-All of these parameters are defined as a way to rate the performance of a satellite constellation, which helps tracking down any discrepancies or even problems that might make accurate navigation unacceptable.
-Their foundation is known as the Required Navigation Performance (RNP) specification, which characterizes the imperative performance indicators within a defined airspace. By ensuring the proper conduct of a constellation, the perks of a GNSS for navigation purposes are clear.
-
-The development and establishment of the first GNSS ever -- GPS, which was carried out by the United Satates Department of Defense near the end of the 1970s -- relies on a constellation made up of a total of 31 satellites, on which the U.S. Government works to maintain constant operability of a minimum of 24, 95\% of the time, to guarantee global coverage~\cite{gps_USGov}.
+Different nations around the world have various satellite networks, with GPS being the most widely known GNSS of all. Developed and established by the United Satates Department of Defense near the end of the 1970s, GPS relies on a constellation made up of a total of 31 satellites, on which the U.S. Government works to maintain constant operability of a minimum of 24, 95\% of the time, to guarantee global coverage~\cite{gps_USGov}.
 Upon its the introduction to civilian use, the desire to cover an even larger portion of the globe only grew, which led to the development of other GNSSs that, together with the already existing GPS, could improve navigational accuracy. Thus, there are currently four global satellite arrangements that make world navigation and precise positioning possible:
 
 % table:-----------------------------
@@ -195,7 +195,7 @@ On an additional manner, there are also two extra systems that were developed to
     \item NavIC (India): Planned to be made up of seven satellites, this Regional Navigation Satellite System was developed by India to grant regional coverage (hence the (outdated) name IRNSS) to India and its neighbouring area.
     As a result of the launch of the constellation's last satellite in 2016, the IRNSS title was changed to Navigation Indian Constellation (NavIC), by India's Prime Minister Narendra Modi~\cite{navic_news_2016};
     \item QZSS (Japan): Working as another regional navigation satellite system, the development of the Quasi-Zenith Satellite System was accredited by the Japanese Government in order to ensure service to Japan, as well as the Asia-Oceania region and consists of four satellites.
-    However, this constellation limits accuracy in its standalone mode, which means it functions as GPS augmentation service\footnote{Augmentation services will be covered in more detail in section~\ref{sec:II_gnss_sbas}.} by synchronisation of clocks use of same frequencies, allowing the use of this system's machinery as extra GPS satellites.
+    However, this constellation limits accuracy in its standalone (also known as single-point positioning) mode, which means it functions as GPS augmentation service\footnote{Augmentation services will be covered in more detail in section~\ref{sec:II_gnss_sbas}.} by synchronisation of clocks use of same frequencies, allowing the use of this system's machinery as extra GPS satellites.
 \end{itemize}
 
 Every constellation follows the same purpose of providing services of:
@@ -231,7 +231,7 @@ It has already been affirmed in section~\ref{sec:II_gnss_trilateration} that GNS
 
 These machines are designed to continuously orbit along their respective trajectories, and therefore the signals transmitted might run into problems while on their way to Earth, which can occur due to atmospheric reasons or even while the receiver is blocked by something such as a building, for example. An affected signal reaching a recevier will result in a poor reading precision. Table~\ref{tab:GNSS_sys_errors} shows the typical errors intrinsic to the GNSS system.
 
-% no final meter tabela: ATENÇÃO À POSIÇÃO DA TABELA!!
+% typical errors: ATENÇÃO À POSIÇÃO DA TABELA!!
 \begingroup
 \begin{table}[h]
 	\caption{Typical GNSS system errors (adapted from~\cite{novatel_gnss}).}
@@ -259,11 +259,11 @@ These machines are designed to continuously orbit along their respective traject
 \end{table}
 \endgroup
 
-%dizer isto por outras palavras:
-The communication process can be characterized through an intricate set of terms such as \gls{pseudorandom}, \gls{correlation} and code division multiple access (CDMA). According to~\cite{novatel_gnss}, GPS is known to be an excellent example capable of clarifying these concepts.
+The communication process can be characterized through an intricate set of terms such as \gls{pseudorandom}, \gls{correlation} and code division multiple access (CDMA). According to~\cite{novatel_gnss}, this categorizes the GNSS positioning technique as ``code-based'', meaning the receiver operates through pseudorandom noise codes (or PRN codes) transmitted by four or more satellites, correlating with these in order to determine time and position. GPS is an excellent example capable of clarifying these concepts.
+
 % dar o exemplo de GPS: tem CDMA -> falar de CDMA:
-The way GPS satellites communicate through the same frequency bands is through CDMA. This form of spread spectrum enables the modulation of signals via a code defined as being pseudorandom. Receivers know beforehand the code intrinsic to each satellite, which allows synchronisation (correlation) between receivers and that same CDMA code. That way, theoretically, information should be able to flow smoothly, however, due to the aforementioned dilution of precision, signals may be affected while travelling through the atmosphere;
-the propagation signal can be affected when it passes through the ionosphere (a layer located roughly 50-1,000 km above Earth's surface) or the troposphere (located about 8-14.5 km above the surface), which correspond to the upper and lower zones of the atmosphere, respectively. These effects depend significantly on frequency, so it is worth noting that signals can be compromised by reflection and even absorption, scintillation, Faraday rotation and \textbf{bandwidth decoherence}~\cite{au_gov_satell}. Considering these problems, GPS was designed to operate in frequencies within the interval of 1 to 2 GHz, which corresponds to a section of the radio spectrum known as the L-band, as represented by Figure~\ref{fig:gps_bands} (which shows the frequncy bands used in GPS communication, known as the L1, L2 and L5 frequencies).
+The way GPS satellites communicate through the same frequency bands is through CDMA. This form of spread spectrum enables the modulation of signals via a code defined as being pseudorandom, meaning that receivers can, beforehand, associate the code intrinsic to each satellite, which allows synchronisation (correlation) between themselves and that same CDMA code. That way, theoretically, information should be able to flow smoothly, however, due to the aforementioned dilution of precision (DOP), signals may be affected while travelling through the atmosphere;
+the propagation signal can be affected when it passes through the ionosphere (a layer located roughly 50-1,000 km above Earth's surface) or the troposphere (located about 8-14.5 km above the surface), which correspond to the upper and lower zones of the atmosphere, respectively. These effects depend significantly on frequency, so it is worth noting that signals can be compromised by negative effects such as reflection and even absorption, scintillation, Faraday rotation and \textbf{bandwidth decoherence}~\cite{au_gov_satell}. Considering these problems, GPS was designed to operate in frequencies within the interval of 1 to 2 GHz, which corresponds to a section of the radio spectrum known as the L-band, as represented by Figure~\ref{fig:gps_bands} (which shows the frequncy bands used in GPS communication, known as the L1, L2 and L5 frequencies).
 % meter/fazer figura das frequencias do GPS:
 \begin{figure}[ht]
 	\centering
@@ -299,15 +299,43 @@ The layer of the atmosphere that most influences the transmission of GPS (and ot
 
 The other layer of the atmosphere that influences the transmission of GPS signals is the troposphere. Tropospheric delay is a function of local temperature, pressure and relative humidity. L1 and L2 are equally delayed, so the effect of tropospheric delay cannot be eliminated the way ionospheric delay can be.
 
-Some of the signal energy transmitted by the satellite is reflected on the way to the receiver. This phenomenon is referred to as "multipath propagation". These reflected signals are delayed from the direct signal and, if they are strong enough, can interfere with the desired signal. Techniques have been developed whereby the receiver only considers the earliest-arriving signals and ignores multipath signals.
+Some of the signal energy transmitted by the satellite is reflected on the way to the receiver. This phenomenon is referred to as "multipath propagation" and is represented in Figure~\ref{fig:multipath}. These reflected signals are delayed from the direct signal and, if they are strong enough, can interfere with the desired signal. Techniques have been developed whereby the receiver only considers the earliest-arriving signals and ignores multipath signals.
 
 %meter imagem de sinais de satelite a serem deflected e refleced em predios e tal:
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=1.0\textwidth]{Chapters/Figures/demo.png}
-	\caption{GNSS satellite signal propagation.}
-	\label{fig:signals_deflected}
+	\caption{GNSS satellite signal multipath propagation.}
+	\label{fig:multipath}
 \end{figure}
+
+% example of multipath propagation:--------------------------------------
+As an example of the effects of mulipath propagation:
+If either the transmitter or the receiver, or both, are inside man-made structures, then additional propagation losses typically occur. These losses should be added (in decibels) to the propagation losses computed using the models described previously.
+Building penetration losses vary considerably with building construction, materials, structure, and the location of the receiver or transmitter within the building. The presence or absence of windows, and even the difference between metal window frames and wooden window frames, can make a significant difference in the propagation loss into a room. Besides propagation loss, signals received within a building often experience significant multipath. 
+Building penetration losses are discussed extensively [41]. The following discussion is based on [40]. The excess loss in decibels due to building penetration is typically modeled, for signals arriving from above the building, as
+
+\begin{equation}
+    L=L_{roof}+n_{floor}\,L_{floor}\,,\medskip
+\end{equation}
+where
+- Lroof is the roof penetration loss, which can range from 1 dB to 30 dB at L-band;
+- nfloor is the number of floors penetrated;
+- Lfloor is the loss per floor, which can range from 1 dB to 10 dB at L-band. For building penetration through walls, the excess loss in decibels is similarly typically modeled as
+
+\begin{equation}
+    L=L_{ext}+n_{int}\,L_{int}\,,\medskip
+\end{equation}
+where
+- Lext is the exterior wall penetration loss, which can range from 1 dB to 30 dB at L-band;
+- nint is the number of interior walls penetrated;
+- Lint is the loss per interior wall, which can range from 1 dB to 10 dB at L-band.
+
+Table 9.13 lists representative losses for different building materials, drawing from an extensive set of measurements reported in [42].
+
+%meter tabela 9.13
+
+%----------------------------------------------------------------------
 
 Upon reception of the signals:
 The use of more satellites, if they are available, will improve the position solution;
@@ -425,14 +453,41 @@ As GNSS constellations and satellites are added, we will be able to calculate po
 
 \section{GNSS Augmentation}\label{sec:II_gnssAug}
 
-\subsection{Satellite-based Augmentation System (SBAS)}\label{sec:II_gnssAug_sbas}
+Regarding precise navigation, the precision obtained by solely relying on GNSS is not good enough (it has meter-level accuracy~\cite{novatel_gnss}) -- possible to conclude by looking at Table~\ref{tab:GNSS_sys_errors}. Taking the example of an autonomous drone used in all the processes mentioned in section \textbf{??}
+%~\ref{sec:}
+, the need for a higher precision degree is definetely clear. To make such navigation possible, the top priority is to bring GNSS system errors down to a minimum.
 
-Used to provide integrity assurance;
-Used to increase accuracy and to reduce position errors to less than 1 meter.
-"Augmentation of a global navigation satellite system (GNSS) is a method of improving the navigation system's attributes, such as accuracy, reliability, and availability, through the integration of external information into the calculation process."
+At this point it is clear that the focal point behind GNSS positioning is related to equation (\ref{eq:2_1}), which means that any error connected to distance, velocity or time will affect the transmitted signal's quality, and thus, mitigation of these problems will yield better results.
+The way to do so is through techniques relying on the augmentation of GNSS positioning capabilities~\cite{novatel_gnss,kaplan_2017}, which portray an ingenious way of improving the four performance parameters described in section~\ref{sec:II_gnss} (accuracy, availability, continuity and integrity).
+%For the purpose of this dissertation, the focus of error correction through GNSS augmentation will be set on differential corrections (more precisely, Differential GNSS, or DGNSS), as this is method relates directly with the beRTK base station.
+
+% Breaking augmentation systems in a twofold way, accuracy and integrity ssuring further development of accuracy from GNSS augmentation 
+
+% % wiki:
+% Based on its main feature, GNSS augmentation systems can be classified as those providing integrity information to the primary GNSS satellites constellation(s) and those improving the accuracy of the user solution with respect to the only use of the primary GNSS constellation(s).
+
+% A further classification may be done according to an additional relevant feature, which for the former relates on whether the augmentation information comes from satellites (satellite-based augmentation system) or from ground (ground-based augmentation system) and for the latter on whether the accuracy improvements use a dense network of reference stations (Differential GNSS, Real Time Kinematics - RTK - or Wide Area RTK (WARTK)) or just a few stations (Precise Point Positioning - PPP) for the computation of the augmentation information.
+% meter imagem: wiki Accuracy Performances for GNSS and GNSS Augmentation Techniques - METER (adapted from) !!!!!!!!!!!!!
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/demo.png}
+	\caption{Accuracy Performances for GNSS and GNSS Augmentation Techniques.}
+	\label{fig:accuracy_perfromances}
+\end{figure}
 
 \subsection{Differential GNSS}\label{sec:II_gnssAug_dgnss}
 
+Unlike the conventional method presented in section~\ref{sec:II_gnss_comm}, DGNSS is a carrier-based method, which means the measurement of the carrier wave's phase corresponds to a measurement of the distance (commonly known as range) between the satellite and the receiver, expressed in number of cycles of the carrier frequency~\cite{inside_GNSS}. Outputs higher accuracy results.
+
+% book kaplan_2017 - chapter 12:
+Both DGNSS and PPP are methods to improve the positioning or timing performance of GNSS by making use of measurements from one or more reference
+stations at known locations, each equipped with at least one GNSS receiver. The
+reference station(s) provides information that is useful to improve PNT performance (accuracy, integrity, continuity, and availability) for the end user~\cite{kaplan_2017}.
+
+The reference station(s) data may be supplied in real-time to the end user using any one of a variety of data links, for example, radio links at frequencies ranging from low frequencies (LF) below 300 kHz to L-band (1,000-2,000 MHz) and beyond, the Internet, and importantly, the link may not be real time. For instance, it is possible to implement DGNSS methods using two GNSS receivers that each simply log data to a hard drive or other storage device (PPK, section~\ref{sec:II_gnssAug_ppk}).
+
+
+% .----- videos:
 "Differential" - Aumento infinitamente pequeno de uma quantidade variável.
 
 example: DGPS - Is an enhancement to the Global Positioning System (GPS) which provides improved location accuracy, in the range of operations of each system, from the 15-metre (49 ft) nominal GPS accuracy to about 1-3 centimetres (0.39-1.18 in) in case of the best implementations.
@@ -444,7 +499,30 @@ example: DGPS - Is an enhancement to the Global Positioning System (GPS) which p
 8.3. baselines
 in: https://www.e-education.psu.edu/geog862/node/1725
 
-Therefore, by comparing pseudo-range measurements with those made by equipment at a presurveyed location, known as a REFERENCE STATION or BASE STATION, the correlated range errors may be calibrated out, improving the navigation-solution Accuracy! This is the priciple behind Differential GNSS (DGNSS)~\cite{edseee_9101092}. % fazer desenho .svg de base station a "acertar" o drone com os satelites
+Therefore, by comparing pseudo-range measurements with those made by equipment at a presurveyed location, known as a REFERENCE STATION or BASE STATION, the correlated range errors may be calibrated out, improving the navigation-solution Accuracy! This is the priciple behind Differential GNSS (DGNSS)~\cite{edseee_9101092}.
+%meter imagem de desenho .svg de base station a "acertar" o drone com os satelites
+
+%book kaplan_2017: chapter 12
+
+\subsection{Satellite-based Augmentation System (SBAS)}\label{sec:II_gnssAug_sbas}
+
+%wiki:--------------
+A Satellite Based Augmentation System (SBAS) is a civil aviation safety-critical system that supports wide-area or regional augmentation - even continental scale - through the use of geostationary (GEO) satellites which broadcast the augmentation information[1][2]. A SBAS augments primary GNSS constellation(s) by providing GEO ranging, integrity and correction information. While the main goal of SBAS is to provide integrity assurance, it also increases the accuracy with position errors below 1 metre (1 sigma).
+
+The ground infrastructure includes the accurately-surveyed sensor stations which receive the data from the primary GNSS satellites and a Central Processing Facility (CPF) which computes integrity, corrections and GEO ranging data forming the SBAS signal-in-space (SIS). The SBAS GEO satellites relay the SIS to the SBAS users which determine their position and time information. For this, they use measurements and satellite positions both from the primary GNSS constellation(s) and the SBAS GEO satellites and apply the SBAS correction data and its integrity.
+
+The augmentation information provided by SBAS covers corrections and integrity for satellite position errors, satellite clock - time - errors and errors induced by the estimation of the delay of the signal while crossing the ionosphere. For the errors induced by the estimation of the delay caused by the troposphere and its integrity, the user applies a tropospheric delay model.
+
+SBAS systems, such as EGNOS or WAAS, are usable for the safety-critical task of guiding aircraft -vertically as well as horizontally- during different operations, including landing approaches (approach with vertical guidance, APV).
+%----------------------
+
+Used to provide integrity assurance;
+Used to increase accuracy and to reduce position errors to less than 1 meter.
+"Augmentation of a global navigation satellite system (GNSS) is a method of improving the navigation system's attributes, such as accuracy, reliability, and availability, through the integration of external information into the calculation process."
+
+
+
+%meter imagem do Service areas of satellite-based augmentation systems (SBAS). -> aquela com WAAS, EGNOS, ...
 
 \subsection{Real-Time Kinematics (RTK)}\label{sec:II_gnssAug_rtk}
 \begin{itemize}
@@ -464,6 +542,8 @@ Therefore, by comparing pseudo-range measurements with those made by equipment a
     - 2 receivers are used in RTK. One of them is stationary, the other is a moving rover.
     - Real Time Kinematic (RTK) is a GPS correction technology technique that provides real-time corrections to location data as the drone is surveying and capturing images from a site.    
 \end{itemize}
+
+%se calhar nao sao precisas estas subsubsections! tirar!:
 
 \subsubsection{Frequency Bands}\label{sec:II_gnssAug_rtk_freqbands}
 - L1, L2, ... bands
@@ -498,25 +578,7 @@ Cellular networks also have the same problems of high power consumption and both
 
 LoRa (Long Range) is a wireless technology that offers long-range, low power, and secure data transmission for M2M (Machine to Machine) and IoT applications. LoRa is a spread spectrum modulation technology that is derived from chirp spread spectrum (CSS) technology. LoRa can be used to connect sensors, gateways, machines, devices, etc. wirelessly. In Europe region, it operates in the 868 MHz band.'' % https://iotdesignpro.com/projects/lora-communication-between-two-arduino-using-LoRa-Module-SX1278
 
-\subsection{Post-Processed Kinematics (PPK)}\label{sec:II_gnssAug_ppk}
-PPK is na alternative technique to RTK. With PPK workflow, accurate positioning does not happen in real time, since all algorithms are applied afterwards. Both base station on the ground and rover (usually an UAV) record raw GNSS logs, which are then processed to receive na accurate positioning track.
-%meter/fazer imagem do Word:
-
-- PPK is mainly used for UAV mapping.
-- Offers a more flexible workflow, allowing to run the processing multiple times using different settings the processing is applied on the logs returned by the both the base station and the rover used on (the?) field.
-- PPK allows the inspection of much wider areas, which is why the baseline is greater than the baseline available while working in RTK mode.
-- Post Processed Kinematic (PPK) is a GPS correction technology technique that corrects location data after it is collected and uploaded. The data can be uploaded to the cloud for processing or processed using specialise software on your desktop after the flight has been concluded.
-
-\subsection{Precise Point Positioning (PPP)}\label{sec:II_gnssAug_ppp}
-- A standalone receiver finds out its position relying on the data obtained from satellites only. Along with raw data from those satellites, the receiver gets navigation messages with satellite clock offset, ionospheric and tropospheric corrections (atmospheric-related disturbances), etc. Due to information about these offsets, the receiver may calculate its position with a few meters' accuracy. If there were (was) no navigation data, the accuracy would be much worse.
-- In RTK and PPK, these offsets might be eliminated since both (the) base station and the rover operate in quite similar conditions.
-- PPP allows the single receiver (rover) to achieve high-level accuracy without the use of corrections from the base station.
-- To calculate the coordinates, PPP uses the same data that is provided by the navigation message but much more accurate. Thereby, the single receiver (rover) might determine its position with a centimetre-level accuracy using only raw data and precise ephemerides and clock offsets provided by a PPP service.
-- The PPP technique is commonly used for determining the absolute base position for further RTK/PPK surveys.
-
-%
-
-\subsection{NTRIP}\label{sec:II_ntrip}
+\subsubsection{NTRIP}\label{sec:II_ntrip}
 
 %daniel:
 As stated in section~\ref{sec:II_gnss_comm}, if a receiver relies solely on satellite signals for positioning, the rate at wich information will be received will be rather low. A great way to bypass such (problem) is to rely on internet connection to get position corrections. A great example of this is the Network Transport of RTCM via Internet Protocol, or NTRIP.
@@ -541,6 +603,29 @@ If there are no NTRIP stations within a radius of (?) from the intended mission 
 Fazer uma imagem parecida a esta: % ver Word
 
 An internet based application that makes the RTCM Correction data from the CORS stations available to anyone with an internet connection and the appropriate log on credentials to the NTRIP server. Typically uses a mobile link to get to the internet and the NTRIP server. % https://www.teejet.com/CMSImages/TEEJET/documents/technical-updates/98-01410%20r0%20en%20tech%20update%20ntrip%20rx610.pdf
+
+% book kaplan_2017:
+As mobile packet-switched cellular networks proliferated around the world,
+delivery of DGNSS and PPP data through the Internet Protocol (IP) has become increasingly popular. Section 12.5.3 describes one last widely used RTCM standard,
+which is for the Networked Transport of RTCM via IP (NTRIP).
+
+\subsection{Post-Processed Kinematics (PPK)}\label{sec:II_gnssAug_ppk}
+PPK is na alternative technique to RTK. With PPK workflow, accurate positioning does not happen in real time, since all algorithms are applied afterwards. Both base station on the ground and rover (usually an UAV) record raw GNSS logs, which are then processed to receive na accurate positioning track.
+%meter/fazer imagem do Word:
+
+- PPK is mainly used for UAV mapping.
+- Offers a more flexible workflow, allowing to run the processing multiple times using different settings the processing is applied on the logs returned by the both the base station and the rover used on (the?) field.
+- PPK allows the inspection of much wider areas, which is why the baseline is greater than the baseline available while working in RTK mode.
+- Post Processed Kinematic (PPK) is a GPS correction technology technique that corrects location data after it is collected and uploaded. The data can be uploaded to the cloud for processing or processed using specialise software on your desktop after the flight has been concluded.
+
+\subsection{Precise Point Positioning (PPP)}\label{sec:II_gnssAug_ppp}
+- A standalone receiver finds out its position relying on the data obtained from satellites only. Along with raw data from those satellites, the receiver gets navigation messages with satellite clock offset, ionospheric and tropospheric corrections (atmospheric-related disturbances), etc. Due to information about these offsets, the receiver may calculate its position with a few meters' accuracy. If there were (was) no navigation data, the accuracy would be much worse.
+- In RTK and PPK, these offsets might be eliminated since both (the) base station and the rover operate in quite similar conditions.
+- PPP allows the single receiver (rover) to achieve high-level accuracy without the use of corrections from the base station.
+- To calculate the coordinates, PPP uses the same data that is provided by the navigation message but much more accurate. Thereby, the single receiver (rover) might determine its position with a centimetre-level accuracy using only raw data and precise ephemerides and clock offsets provided by a PPP service.
+- The PPP technique is commonly used for determining the absolute base position for further RTK/PPK surveys.
+
+%
 
 
 
@@ -567,5 +652,6 @@ It is necessary to adapt all the solutions abordadas to the current software com
 
 16. explicar o que cada célula do excel significa, tanto as que considerei mais importantes como as outras
 
+as stated in section~\ref{sec:II_gnssAug_ppk}, Post-processing generally results in a more accurate, comprehensive solution than is possible in real-time, as it is possible to observe through Table \textbf{TABLE?}.
 % gravar como pdf/imagem; meter no corpo do texto
 % na versao final a tabela sera feita completamente em latex
