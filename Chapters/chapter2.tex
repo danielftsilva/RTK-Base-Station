@@ -453,12 +453,21 @@ As GNSS constellations and satellites are added, we will be able to calculate po
 
 \section{GNSS Augmentation}\label{sec:II_gnssAug}
 
-Regarding precise navigation, the precision obtained by solely relying on GNSS is not good enough (it has meter-level accuracy~\cite{novatel_gnss}) -- possible to conclude by looking at Table~\ref{tab:GNSS_sys_errors}. Taking the example of an autonomous drone used in all the processes mentioned in section \textbf{??}
-%~\ref{sec:}
+Regarding precise navigation, the precision obtained solely by relying on GNSS is not good enough (as it only offers meter-level accuracy~\cite{novatel_gnss}) -- possible to conclude by looking at Table~\ref{tab:GNSS_sys_errors}. Taking the example of an autonomous drone used in all the processes mentioned in section \textbf{??}
+%~\ref{sec:} // falta ainda mencionar os processos dos drones!
 , the need for a higher precision degree is definetely clear. To make such navigation possible, the top priority is to bring GNSS system errors down to a minimum.
 
 At this point it is clear that the focal point behind GNSS positioning is related to equation (\ref{eq:2_1}), which means that any error connected to distance, velocity or time will affect the transmitted signal's quality, and thus, mitigation of these problems will yield better results.
-The way to do so is through techniques relying on the augmentation of GNSS positioning capabilities~\cite{novatel_gnss,kaplan_2017}, which portray an ingenious way of improving the four performance parameters described in section~\ref{sec:II_gnss} (accuracy, availability, continuity and integrity).
+The way to do so is through techniques relying on the augmentation of GNSS positioning capabilities~\cite{novatel_gnss,kaplan_2017}, which portrays an ingenious way of improving the four performance parameters described in section~\ref{sec:II_gnss} (accuracy, availability, continuity and integrity).
+These techniques range from least to most effective, and can rely on:
+
+\begin{itemize}
+    \item Average calculation of recurring measurements at the same location;
+    \item Prediction of correction values through modeling of the event causing the error;
+    \item Differential Corrections (DGNSS).
+\end{itemize}
+DGNSS solutions represent the highest efficiency attainable. % citation needed
+
 %For the purpose of this dissertation, the focus of error correction through GNSS augmentation will be set on differential corrections (more precisely, Differential GNSS, or DGNSS), as this is method relates directly with the beRTK base station.
 
 % Breaking augmentation systems in a twofold way, accuracy and integrity ssuring further development of accuracy from GNSS augmentation 
@@ -467,6 +476,7 @@ The way to do so is through techniques relying on the augmentation of GNSS posit
 % Based on its main feature, GNSS augmentation systems can be classified as those providing integrity information to the primary GNSS satellites constellation(s) and those improving the accuracy of the user solution with respect to the only use of the primary GNSS constellation(s).
 
 % A further classification may be done according to an additional relevant feature, which for the former relates on whether the augmentation information comes from satellites (satellite-based augmentation system) or from ground (ground-based augmentation system) and for the latter on whether the accuracy improvements use a dense network of reference stations (Differential GNSS, Real Time Kinematics - RTK - or Wide Area RTK (WARTK)) or just a few stations (Precise Point Positioning - PPP) for the computation of the augmentation information.
+
 % meter imagem: wiki Accuracy Performances for GNSS and GNSS Augmentation Techniques - METER (adapted from) !!!!!!!!!!!!!
 \begin{figure}[ht]
 	\centering
@@ -475,16 +485,40 @@ The way to do so is through techniques relying on the augmentation of GNSS posit
 	\label{fig:accuracy_perfromances}
 \end{figure}
 
+
+
+% --------------- PARTE A VERDE: DONE
+The conventional code-based method presented in section~\ref{sec:II_gnss_comm} is not capable of providing low-order levels of precision, so another method known as ``carrier-based'' was developed.
+This type of method means that the measurement of the carrier wave phase corresponds to a measurement of the distance (also known as range) between the satellite and the receiver, expressed in number of cycles of the carrier frequency~\cite{inside_GNSS} (Figure~\ref{fig:dgnss_corrections}), which results in more accurate output results, ideal for UAV missions.
+Among the best-known techniques that adopt this method capable of calculating highly accurate solutions (ie orders of magnitude more accurate than those obtained through code-based GNSS) is Real-Time Kinematic (RTK) positioning\footnote{Addressed in more detail in section~\ref{sec:II_gnssAug_rtk}.}, which is the main focus of the beRTK base station.
+%meter imagem figura 40 base station a fazer correçoes:
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/demo.png}
+	\caption{Differential GNSS workings.}
+	\label{fig:dgnss_corrections}
+\end{figure}
+
+Taking into account the possible signal ambiguities that may arise when using a carrier-based technique, the accuracy of the solution can only be maximized after they are resolved. This is possible through phase modulation of the carrier waves using a PRN code which, as mentioned, is capable of differentiating satellite signals, as well as making temporal corrections in order to perform range calculations.
+% ------------------ fim da PARTE VERDE.
+
 \subsection{Differential GNSS}\label{sec:II_gnssAug_dgnss}
 
-Unlike the conventional method presented in section~\ref{sec:II_gnss_comm}, DGNSS is a carrier-based method, which means the measurement of the carrier wave's phase corresponds to a measurement of the distance (commonly known as range) between the satellite and the receiver, expressed in number of cycles of the carrier frequency~\cite{inside_GNSS}. Outputs higher accuracy results.
+% --------------- PARTE VERMELHA: DONE
+Looking again at Figure~\ref{fig:dgnss_corrections}, one can clearly see a device emphatically mentioned in~\ref{sec:I_description}: the base station. A crucial technique to understand the operation of RTK is Differential GNSS, or DGNSS, which is a carrier-based method consisting on the use of a fixed GNSS receiver that sits in a static and known position (obtained in a highly accurate way through conventional surveying techniques) -- base station. Due to the existence of an internal GNSS receiver in this machine, the ranges to each GNSS satellite in line of sight are effectively determined using a code-based technique (such as the conventional GNSS technique), and the location of each of these satellites is also calculated taking into account precisely known orbit ephemeris as well as the time of each satellite.
+When comparing the measured position with the calculated one (from the ranges to each satellite -- also calculated), it can be clearly assumed that the differences between both positions will be ephemeris-related, as well as due to the differences between clocks -- bearing in mind that, unlike a GNSS satellite, a base station does not have an atomic clock. However, delays related to the passage of the signal through the atmosphere are the most recurring and common errors.
+Subsequently, in order to incorporate the corrections in the calculated solutions, the base station performs the task of sending the detected errors to other receivers that also obtain their position through GNSS positioning (rovers).
+For this, it is necessary to establish a link for the supply of data between the base station and the rover, keeping in mind the fast transmission and reception of corrections happening in real-time. Connections like these can be made through radio frequency\footnote{The LoRa protocol is good example for this; it is addressed in more detail in section~\ref{sec:II_gnssAug_rtk_LoRa}.} -- by using a frequency interval with values ranging from under 300 kHz (low frequencies, or LF) to around 1-2 GHz (corresponding to the L-band (first mentioned in section~\ref{sec:II_gnss_comm})) and above -- or even the internet.
+
+In case the need arises for a quick calculation of corrections, i.e. in real-time, both devices will need to have in their line of sight at least four GNSS satellites -- three for the determination of the position according to $x$, $y$ and $z$ (as explained in~\ref{sec:II_gnss_trilateration}) and an extra one to correct for clock time differences between satellites and receivers, commonly called time offset. Thus, it is concluded that, in order to obtain a high-precision position for the rover, it must also be possible to obtain a high-precision position at the base station, considering the dependence between the two. If it is assumed that, for the missions performed, the rover does not move too far from the base station, the real-time accuracy of the measurements will be high, taking into account that the signals received by each of the devices will pass through, sensibly, the same atmosphere conditions. In this way, the greater the distance possible to maintain between devices, the better.
+
+If one wishes to put aside the real-time factor of the job, there are also other techniques capable of providing precise positioning -- in some cases, the precision values may even be higher than those obtained through RTK -- through the simple use of two GNSS receivers, which are trusted with the task of logging positioning data to a storage device. Later, the gathered data can be processed however it's intended to. Section~\ref{sec:II_gnssAug_ppk} describes an example of such method, known as Post-Processed Kinematic positioning~\cite{kaplan_2017}.
+% ------------------ fim da PARTE VERMELHA.     parei aqui
 
 % book kaplan_2017 - chapter 12:
 Both DGNSS and PPP are methods to improve the positioning or timing performance of GNSS by making use of measurements from one or more reference
 stations at known locations, each equipped with at least one GNSS receiver. The
-reference station(s) provides information that is useful to improve PNT performance (accuracy, integrity, continuity, and availability) for the end user~\cite{kaplan_2017}.
-
-The reference station(s) data may be supplied in real-time to the end user using any one of a variety of data links, for example, radio links at frequencies ranging from low frequencies (LF) below 300 kHz to L-band (1,000-2,000 MHz) and beyond, the Internet, and importantly, the link may not be real time. For instance, it is possible to implement DGNSS methods using two GNSS receivers that each simply log data to a hard drive or other storage device (PPK, section~\ref{sec:II_gnssAug_ppk}).
+reference station(s) provides information that is useful to improve PNT performance (accuracy, integrity, continuity, and availability) for the end user.
 
 
 % .----- videos:
@@ -493,20 +527,41 @@ The reference station(s) data may be supplied in real-time to the end user using
 example: DGPS - Is an enhancement to the Global Positioning System (GPS) which provides improved location accuracy, in the range of operations of each system, from the 15-metre (49 ft) nominal GPS accuracy to about 1-3 centimetres (0.39-1.18 in) in case of the best implementations.
 - Differential positioning requires a data link between the base station and rovers, if corrections need to be applied in real-time, and at least four GNSS satellites in view at both the base station and the rovers. The absolute accuracy of the rover's computed position will depend on the absolute accuracy of the base station's position [in pg. 53 of "An Introduction to GNSS, Second Edition"].
 
-8. differential GPS (DGPS) - The term differential GPS, or DGPS, sometimes indicates the application of this technique with coded pseudorange measurements
-8.1. relative GPS - usually indicates the application of this technique with carrier phase measurements
-8.2. carrier phase measurements
-8.3. baselines
-in: https://www.e-education.psu.edu/geog862/node/1725
-
-Therefore, by comparing pseudo-range measurements with those made by equipment at a presurveyed location, known as a REFERENCE STATION or BASE STATION, the correlated range errors may be calibrated out, improving the navigation-solution Accuracy! This is the priciple behind Differential GNSS (DGNSS)~\cite{edseee_9101092}.
+Therefore, by comparing pseudo-range measurements with those made by equipment at a presurveyed location, known as a REFERENCE STATION or BASE STATION, the correlated range errors may be calibrated out, improving the navigation-solution Accuracy! This is the main priciple behind Differential GNSS (DGNSS)~\cite{groves_2008}.
 %meter imagem de desenho .svg de base station a "acertar" o drone com os satelites
 
 %book kaplan_2017: chapter 12
 
 \subsection{Satellite-based Augmentation System (SBAS)}\label{sec:II_gnssAug_sbas}
 
-%wiki:--------------
+% --------------- PARTE A LARANJA:
+For applications where the cost of a differential GNSS system is not justified, or if the rover stations are spread over too large an area, a Satellite Based Augmentation System (SBAS) may be more appropriate for enhancing position accuracy.
+SBAS systems are geosynchronous satellite systems that provide services for improving the accuracy, integrity and availability of basic GNSS signals.
+- Accuracy is enhanced through the transmission of wide-area corrections for GNSS range errors.
+- Integrity is enhanced by the SBAS network quickly detecting satellite signal errors and sending alerts to receivers that they should not track the failed satellite.
+- Signal availability can be improved if the SBAS transmits ranging signals from its satellites.
+
+\textbf{some of the SBAS services that have been implemented around the world or that are planned:}
+\begin{itemize}
+    \item Wide Area Augmentation System (WAAS);
+    \item European Geostationary Navigation Overlay Service (EGNOS);
+    \item MTSAT Satellite Based Augmentation System (MSAS);
+    \item GPS-Aided GEO Augmented Navigation system (GAGAN);
+    \item System for Differential Corrections and Monitoring (SDCM).
+\end{itemize}
+
+\textbf{Other SBAS Systems:} China is planning SNAS (Satellite Navigation Augmentation System), to provide WAAS-like service for the China region.
+% ------------------ fim da PARTE LARANJA.
+
+Ground Based Augmentation System: %meter wiki disto:
+Ground-Based Augmentation System (GBAS) aim at enhancing GNSS service levels for aviation during approach, landing and departure phases, as well as for surface operations. They have a local coverage (e.g. the surroundings of an airport) with the primary objective of meeting aviation requirements for the aforementioned operations and phases, in terms of accuracy, integrity and safety. Actually, whereas the main goal of GBAS is to provide integrity assurance, it also increases the accuracy with position errors below 1 m (1 sigma).
+
+The ground infrastructure includes two or more GNSS receivers which collect pseudoranges for all the primary GNSS satellites in view and computes and broadcasts differential corrections and integrity-related information for them based on its own surveyed position. These differential corrections are transmitted from the ground system via a Very High Frequency (VHF) Data Broadcast (VDB). The broadcast information includes pseudorange corrections, integrity parameters and various locally relevant data such as Final Approach Segment (FAS) data, referenced to the World Geodetic System (WGS-84). Any aircraft (within the area of coverage of the ground station) may use those corrections to compute their own measurements to compute a (differentially corrected) position, which at the same time is used to generate navigation guidance signals.
+
+GBAS and SBAS are both GNSS safety critical systems for civil aviation which share similar principles. The main difference comes from the fact that GBAS provides local corrections to the satellite pseudoranges using just ground infrastructure in the vicinity of the served airport, whilst SBAS broadcasts corrections to the different components of the pseudorange error valid for an area as big as a continent; the price to pay is that the SBAS infrastructure needs tens of sensor distributed in the augmented area and two or more GEO satellites to broadcast the information.
+
+
+%wiki: ..................
 A Satellite Based Augmentation System (SBAS) is a civil aviation safety-critical system that supports wide-area or regional augmentation - even continental scale - through the use of geostationary (GEO) satellites which broadcast the augmentation information[1][2]. A SBAS augments primary GNSS constellation(s) by providing GEO ranging, integrity and correction information. While the main goal of SBAS is to provide integrity assurance, it also increases the accuracy with position errors below 1 metre (1 sigma).
 
 The ground infrastructure includes the accurately-surveyed sensor stations which receive the data from the primary GNSS satellites and a Central Processing Facility (CPF) which computes integrity, corrections and GEO ranging data forming the SBAS signal-in-space (SIS). The SBAS GEO satellites relay the SIS to the SBAS users which determine their position and time information. For this, they use measurements and satellite positions both from the primary GNSS constellation(s) and the SBAS GEO satellites and apply the SBAS correction data and its integrity.
@@ -514,7 +569,7 @@ The ground infrastructure includes the accurately-surveyed sensor stations which
 The augmentation information provided by SBAS covers corrections and integrity for satellite position errors, satellite clock - time - errors and errors induced by the estimation of the delay of the signal while crossing the ionosphere. For the errors induced by the estimation of the delay caused by the troposphere and its integrity, the user applies a tropospheric delay model.
 
 SBAS systems, such as EGNOS or WAAS, are usable for the safety-critical task of guiding aircraft -vertically as well as horizontally- during different operations, including landing approaches (approach with vertical guidance, APV).
-%----------------------
+%............................
 
 Used to provide integrity assurance;
 Used to increase accuracy and to reduce position errors to less than 1 meter.
