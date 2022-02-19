@@ -581,8 +581,7 @@ It should also be noted that the services provided by all these systems are comp
 %parte AMARELA: --------------------
 As mentioned in section~\ref{sec:II_gnssAug}, carrier-based methods are the go-to when dealing with navigation in a real-time scenario, which perfectly describes Real-Time Kinematic positioning, a method that is precisely one of the main topics of this Dissertation.
 
-RTK fits, as indicated, in situations in which high precision is indispensable for the performance of a certain task (e.g. use of a UAV to distribute pesticides in an agricultural field); as such, the accuracy levels obtained should be of the smallest order possible -- again recall Table~\ref{tab:GNSS_sys_errors}, which, from an RTK point of view,
-works like a ``do not get'' list.
+RTK fits, as indicated, in situations where high precision is indispensable for the performance of a certain task (e.g. use of a UAV to distribute pesticides in an agricultural field); as such, the accuracy levels obtained should be of the smallest order possible -- recalling Table~\ref{tab:GNSS_sys_errors}, which, from an RTK point of view, would be unacceptable.
 
 %meter imagem da Figura 42 - base station + rover RTK
 \begin{figure}[ht]
@@ -592,25 +591,20 @@ works like a ``do not get'' list.
 	\label{fig:rtk_workings}
 \end{figure}
 
-Looking at Figure~\ref{fig:rtk_workings}, the base station-rover pair can be seen again, so it is possible to draw an analogy to Figure~\ref{fig:dgnss_corrections}. The basic operation behind this precise positioning method consists, essentialy, in the process characterized by the detection and correction of positioning errors through the determination of ranges to GNSS satellites -- again based on the equation (\ref{eq:2_1}). Conceptually, the calculation of these ranges is performed as explained in section~\ref{sec:II_gnssAug}, with regard to the carrier-based methodology: by calculating the number of cycles of the carrier wave between the satellite and the receiver installed on the rover ($n$) and multiplying it by its own wavelength ($\lambda$), where
+Looking at Figure~\ref{fig:rtk_workings}, the base station-rover pair can be seen again, so it is possible to draw an analogy to Figure~\ref{fig:dgnss_corrections}. The basic operation behind this precise positioning method consists, essentialy, in the process characterized by the detection and correction of positioning errors through the determination of ranges to GNSS satellites -- again based on equation (\ref{eq:2_1}). Conceptually, the calculation of these ranges is performed as explained in section~\ref{sec:II_gnssAug}, with regard to the carrier-based methodology: by calculating the number of cycles of the carrier wave between the satellite and the receiver installed on the rover ($n$) and multiplying it by its own wavelength ($\lambda$), where
 
 \begin{equation}\label{eq:2_4}
     \lambda = \frac{v}{f}\medskip
 \end{equation}
 In this case, $v$ and $f$ are the propagation velocity and frequency of the carrier wave, respectively.
 
-% next to translate:
-The calculated ranges still include errors from such sources as satellite clock and ephemerides, and ionospheric and tropospheric delays. To eliminate these errors and to take advantage of the precision of carrier-based measurements, RTK performance requires measurements to be transmitted from the base station to the rover station.
-A complicated process called "ambiguity resolution" is needed to determine the number of whole cycles. Despite being a complex process, high precision GNSS receivers can resolve the ambiguities almost instantaneously. For a brief description of ambiguities, see the GNSS Measurements-Code and Carrier Phase Precision section earlier in this chapter. For further information about ambiguity resolution, see the references at the back of this book.
-Rovers determine their position using algorithms that incorporate ambiguity resolution and differential correction. Like DGNSS, the position accuracy achievable by the rover depends on, among other things, its distance from the base station (referred to as the "baseline") and the accuracy of the differential corrections.
-Corrections are as accurate as the known location of the base station and the quality of the base station's satellite observations. Site selection is important for minimizing environmental effects such as interference and multipath, as is the quality of the base station and rover receivers and antennas.
+However, the calculations performed will inevitably continue to have range errors related to the already known effects intrinsic to satellite clocks and the Earth's atmosphere. It is precisely at this stage that the rover's positioning corrections by the base station come in, corrections that are then transmitted through, typically, a radiofrequency link.
 
-% falta meter isto na tradutor ainda:
-\textbf{Network RTK}:
-Network RTK is based on the use of several widely spaced permanent stations. 
-Depending on the implementation, positioning data from the permanent stations is regularly communicated to a central processing station.
-On demand from RTK user terminals, which transmit their approximate location to the central station, the central station calculates and transmits correction information or corrected position to the RTK user terminal.
-The benefit of this approach is an overall reduction in the number of RTK base stations required. Depending on the implementation, data may be transmitted over cellular radio links or other wireless medium.
+As explained in~\ref{sec:II_gnssAug}, the use of a technique based on carrier waves often leads to ambiguity problems, so their resolution must be prioritized, so that it is possible to determine the number of complete cycles ($n$), properly taking advantage of the calculated corrections -- this can be done with the help of PRN codes, which, in high-precision GNSS receivers, happens almost instantly.
+
+Thus, it is known that the ability to determine the exact position in RTK positioning depends on the correction of errors derived from the sources already mentioned, which confirms the use of the term ``differential'', as used in the DGNSS technique, since the determination of the rover's position in both methods depends on a base station. However, the crucial difference between these methods lies in the fact that the latter makes use of a code-based methodology, which, as is known, leads to results with lower precision than those obtained using a carrier-based methodology. Note also from Figure~\ref{fig:rtk_workings} that there is yet another factor to consider for the accuracy of measurements, which is the distance from the base station itself to the rover, known as ``baseline''. The variation of this distance does, as can be intuitively deduced, also vary the accuracy of the determined location. When compared to RTK positioning, the DGNSS positioning technique allows baselines, which is due to the use of the code-based methodology. However, the trade-off occurs, as we know, at lower precision values.
+
+There is still another factor to consider for accuracy, which, in turn, is not represented in Figure~\ref{fig:rtk_workings}: the positioning of the base station. This parameter should not, in any way, be neglected, since, when connections are established through radiofrequency with a rover, the propagation of correction information will be done, as the term implies, through radio waves; due to their nature, these waves may suffer the same problems already observed in the propagation of waves from GNSS satellites -- such as interference and multipath --, so the location selection is important to minimize all negative effects. Another way to do this could also be to improve the quality of the rover's antennas.
 % ------------------ fim da PARTE AMARELA.
 
 %MUDAR, ESTÁ COPIADO!
@@ -625,6 +619,55 @@ The traditional DGPS uses an older antiquated protocol while RTK uses a newer al
 - GNSS receiver measure how long it takes for a signal to travel from a satellite to the receiver. Due to the presence of atmosphere between the satellite and the receiver, the transmitted signals are slowed down and are introduced to perturbations. With this in mind, one can immediately assume that transmission times will differ according to the weather at the time of the event. That is the reason why a standalone receiver has a hard time determining its position accurately. RTK is a Technology that solves this issue.
 - 2 receivers are used in RTK. One of them is stationary, the other is a moving rover.
 - Real Time Kinematic (RTK) is a GPS correction technology technique that provides real-time corrections to location data as the drone is surveying and capturing images from a site.    
+
+
+\subsubsection{Networked RTK}\label{sec:II_ntrip}
+
+Obtaining position corrections with RTK can also be done in a way that does not require the aid of a base station set up by the end-user -- through a process known as Network RTK.
+Network RTK is a technique that relies on the use of stations permanently fixed at known and spaced positions -- which are, essentially, base stations -- to obtain positioning corrections over the internet. Thus, this process can be seen for what it literally is: a way to obtain positioning corrections through a network of virtual base stations, which immediately leads to the conclusion that long baselines cease to be a problem.
+
+As stated in section~\ref{sec:II_gnss_comm}, if a receiver relies solely on satellite signals for positioning, the rate at which information will be received will be rather low. Relying on internet connection to get position corrections is a great way to bypass such problem. The use of a CORS (Continuously Operating Reference Station) network is an example of networked RTK. Its operation is based on the use of stations that are permanently installed in previously known and properly inter-spaced locations, making regular observations of the GNSS satellites correcting any errors based on such.
+Most countries have systems of this kind, which are openly accessible to the public. In addition to helping with positioning corrections, CORS stations can also transmit (through knowledge of their position) information about changes in the Earth's surface, thus helping to detect any tectonic movements -- which, in consequence, assists in measuring earthquakes and volcanic eruptions. An example of such is the portuguese CORS network (ReNEP\footnote{Accessible through \url{https://renep.dgterritorio.gov.pt}.}); consisting of 47 permanent GNSS stations throughout the country, this system provides not only navigation information byt also information about the tectonic plate on which a particular station is located~\cite{ReNEP_ppt_2018}.
+
+%daniel:
+The next step when dealing with the virtual base stations is for the rover to effectively fetch their positioning data from the internet, so that the corrections can take place. In order to do so, a different type of network can be used: an NTRIP network (Network Transport of RTCM via Internet Protocol). RTCM is a communications protocol ~\cite{rtcm_2003}
+
+ntrip client, caster, ?
+%emlid:
+The Networked Transport of RTCM via Internet Protocol or NTRIP network was developed by the German Federal Agency for Cartography and Geodesy in 2004. NTRIP allows your rover to accept corrections over the Internet with no need for the second local receiver acting as a base.
+
+NTRIP includes three main components of the system: base, caster, and client's rover. Usually, in this case, there's a stationary continuously operating reference station or CORS. The data is then sent to the NTRIP caster, where it is retransmitted through the Internet port to the client rover connected via a particular port and authorized. 
+
+% https://www.youtube.com/watch?v=uytd48Vb-fs&ab_channel=RamiTamimi
+"NTRIP (Network Transport of RTCM via Internet Protocol) and CORS (Continuously Operating Reference Station) are forms of RTK differential correction that are done using a cellular modem and base station network."
+"how to obtain high accuracy positioning utilising just one GNSS recevier?
+As described in section (\textbf{ref}) , it is possible obtain high accuracy positioning by setting up two GNSS receivers, which will act as a base station and a rover. Therefore, this method requires double the cost of the method presented in this section. There is a way to use only one GNSS receiver and have RTK-enabled positioning, through the use of a CORS (Continuously Operating Reference System) network.% corte aqui
+These stations are permanentely set up on a single known location, and continue to observe satellites and perform corrections based on any errors that they observe. Most municipalities, states and countries own these systems and allow public access to anyone that sets up na account.
+
+% next:
+Depending on the implementation, positioning data from the permanent stations is regularly communicated to a central processing station.
+On demand from RTK user terminals, which transmit their approximate location to the central station, the central station calculates and transmits correction information or corrected position to the RTK user terminal.
+The benefit of this approach is an overall reduction in the number of RTK base stations required. Depending on the implementation, data may be transmitted over cellular radio links or other wireless medium.
+
+
+
+% falar de todos os topicos que estejam no doc Word NTRIP
+The fact that beRTK is connected to the NTRIP network allows you to start with a more precise idea of its location and therefore faster convergence.
+"Real Time Kinematic technique requires 2 receivers. One of them is stationary and is called "base station", the other one is "rover". The base station measures errors, and knowing that it is stationary transmits corrections to the rover (refer to How RTK works for more information about RTK). Sometimes CORS and NTRIP networks take the place of traditional base stations. They provide accurate absolute position and send corrections over the Internet. Typically the distance between the reference station and local rover shouldn't exceed 10-15 km due to the ionospheric effect. So if the reference station is located too far or simply is absent in the area you will need a local base station. Other advantages of your own base are independence from the Internet connection and lack of NTRIP subscription fees."
+
+- If the accurate absolute position of the base has been determined only after the job has been done, the offset of the map can be determined and corrected.
+
+
+If there are no NTRIP stations within a radius of (?) from the intended mission site, a base station will be needed in order to obtain the precise positioning through RTK, as described in~\ref{sec:II_gnssAug_rtk}.
+"it is very fast to obtain a fix. Rather than utilising our own base station for the corrections, the public NTRIP network is used, and the receiver (rover) will be connected to a base station in that network."
+Fazer uma imagem parecida a esta: % ver Word
+
+An internet based application that makes the RTCM Correction data from the CORS stations available to anyone with an internet connection and the appropriate log on credentials to the NTRIP server. Typically uses a mobile link to get to the internet and the NTRIP server. % https://www.teejet.com/CMSImages/TEEJET/documents/technical-updates/98-01410%20r0%20en%20tech%20update%20ntrip%20rx610.pdf
+
+% book kaplan_2017:
+As mobile packet-switched cellular networks proliferated around the world,
+delivery of DGNSS and PPP data through the Internet Protocol (IP) has become increasingly popular. Section 12.5.3 describes one last widely used RTCM standard,
+which is for the Networked Transport of RTCM via IP (NTRIP).
 
 %se calhar nao sao precisas estas subsubsections! tirar!:
 
@@ -654,43 +697,12 @@ PPM expresses a standardized measurement of error -- in millimeters per 1,000 me
 % https://sciencing.com/difference-between-agl-msl-8524698.html
 % https://unstats.un.org/unsd/geoinfo/ungegn/docs/_data_icacourses/_HtmlModules/_Selfstudy/S06/S06_03a.html
 
-\subsubsection{LoRa}\label{sec:II_gnssAug_rtk_LoRa}
+\subsubsection{LoRa -- meter na footnote}\label{sec:II_gnssAug_rtk_LoRa}
 ``There are number of communication technologies available for interaction between IoT devices today, and the most popular ones are Wi-Fi and Bluetooth. But the problem with Wi-Fi and Bluetooth technology is high power consumption. They also have other limitations like limited range, limited access points etc. ESP8266 module is the most popular Wi-Fi module used in IoT devices, using which we have previously built lot of IoT projects.
 
 Cellular networks also have the same problems of high power consumption and both LAN and Cellular network are quite expensive to cover a wide area. The IoT industries introduced lots of technologies, but none of them was ideal for IoT devices, as they needed to transmit information to long distance without using much power, until the LoRa technology was introduced. LoRa Technology can perform very-long range transmission with low power consumption.
 
 LoRa (Long Range) is a wireless technology that offers long-range, low power, and secure data transmission for M2M (Machine to Machine) and IoT applications. LoRa is a spread spectrum modulation technology that is derived from chirp spread spectrum (CSS) technology. LoRa can be used to connect sensors, gateways, machines, devices, etc. wirelessly. In Europe region, it operates in the 868 MHz band.'' % https://iotdesignpro.com/projects/lora-communication-between-two-arduino-using-LoRa-Module-SX1278
-
-\subsubsection{NTRIP}\label{sec:II_ntrip}
-
-%daniel:
-As stated in section~\ref{sec:II_gnss_comm}, if a receiver relies solely on satellite signals for positioning, the rate at wich information will be received will be rather low. A great way to bypass such (problem) is to rely on internet connection to get position corrections. A great example of this is the Network Transport of RTCM via Internet Protocol, or NTRIP.
-
-% falar de todos os topicos que estejam no doc Word NTRIP
-The fact that beRTK is connected to the NTRIP network allows you to start with a more precise idea of its location and therefore faster convergence.
-"Real Time Kinematic technique requires 2 receivers. One of them is stationary and is called "base station", the other one is "rover". The base station measures errors, and knowing that it is stationary transmits corrections to the rover (refer to How RTK works for more information about RTK). Sometimes CORS and NTRIP networks take the place of traditional base stations. They provide accurate absolute position and send corrections over the Internet. Typically the distance between the reference station and local rover shouldn't exceed 10-15 km due to the ionospheric effect. So if the reference station is located too far or simply is absent in the area you will need a local base station. Other advantages of your own base are independence from the Internet connection and lack of NTRIP subscription fees."
-
-- If the accurate absolute position of the base has been determined only after the job has been done, the offset of the map can be determined and corrected.
-
-----------------
-% https://www.youtube.com/watch?v=uytd48Vb-fs&ab_channel=RamiTamimi
-"NTRIP (Network Transport of RTCM via Internet Protocol) and CORS (Continuously Operating Reference Station) are forms of RTK differential correction that are done using a cellular modem and base station network."
-"how to obtain high accuracy positioning utilising just one GNSS recevier?
-As described in section (\textbf{ref}) , it is possible obtain high accuracy positioning by setting up two GNSS receivers, which will act as a base station and a rover. Therefore, this method requires double the cost of the method presented in this section. There is a way to use only one GNSS receiver and have RTK-enabled positioning, through the use of a CORS (Continuously Operating Reference System) network. These stations are permanentely set up on a single known location, and continue to observe satellites and perform corrections based on any errors that they observe. Most municipalities, states and countries own these systems and allow public access to anyone that sets up na account. CORS stations are used by geodesists in order to measure any changes that happen on the Earth's surface, and using the same position that they are in, can also help geodesist measures earthquakes, volcanic eruptions or any tectonic movement (the latter can be concluded due to the fact that, in Portugal's network of CORS stations (ReNEP), the information available online also displays the tectonic plate on which the particular station is located.) -- this means that CORS stations can be used as the control segment for rover positioning."
-
-
-NTRIP network -- The Network Transport of RTCM via Internet Protocol is, as the name suggests, a process able to be performed through the internet.
-
-If there are no NTRIP stations within a radius of (?) from the intended mission site, a base station will need to be used in order to obtain the precise positioning through RTK, i.e. through the methodology described in section (\textbf{ref}).
-"it is very fast to obtain a fix. Rather than utilising our own base station for the corrections, the public NTRIP network is used, and the receiver (rover) will be connected to a base station in that network."
-Fazer uma imagem parecida a esta: % ver Word
-
-An internet based application that makes the RTCM Correction data from the CORS stations available to anyone with an internet connection and the appropriate log on credentials to the NTRIP server. Typically uses a mobile link to get to the internet and the NTRIP server. % https://www.teejet.com/CMSImages/TEEJET/documents/technical-updates/98-01410%20r0%20en%20tech%20update%20ntrip%20rx610.pdf
-
-% book kaplan_2017:
-As mobile packet-switched cellular networks proliferated around the world,
-delivery of DGNSS and PPP data through the Internet Protocol (IP) has become increasingly popular. Section 12.5.3 describes one last widely used RTCM standard,
-which is for the Networked Transport of RTCM via IP (NTRIP).
 
 \subsection{Post-Processed Kinematics (PPK)}\label{sec:II_gnssAug_ppk}
 PPK is na alternative technique to RTK. With PPK workflow, accurate positioning does not happen in real time, since all algorithms are applied afterwards. Both base station on the ground and rover (usually an UAV) record raw GNSS logs, which are then processed to receive na accurate positioning track.
