@@ -581,17 +581,31 @@ It should also be noted that the services provided by all these systems are comp
 %parte AMARELA: --------------------
 As mentioned in section~\ref{sec:II_gnssAug}, carrier-based methods are the go-to when dealing with navigation in a real-time scenario, which perfectly describes Real-Time Kinematic positioning, a method that is precisely one of the main topics of this Dissertation.
 
-For applications that require higher accuracies, RTK is a technique that uses carrier-based ranging and provides ranges (and therefore positions) that are orders of magnitude more precise than those available through code-based positioning. % ja traduzi ate aqui
+RTK fits, as indicated, in situations in which high precision is indispensable for the performance of a certain task (e.g. use of a UAV to distribute pesticides in an agricultural field); as such, the accuracy levels obtained should be of the smallest order possible -- again recall Table~\ref{tab:GNSS_sys_errors}, which, from an RTK point of view,
+works like a ``do not get'' list.
 
 %meter imagem da Figura 42 - base station + rover RTK
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/demo.png}
+	\caption{RTK positioning.}
+	\label{fig:rtk_workings}
+\end{figure}
 
-RTK techniques are complicated. The basic concept is to reduce and remove errors common to a base station and rover pair, as illustrated in Figure 42.
-At a very basic conceptual level, the range is calculated by determining the number of carrier cycles between the satellite and the rover station, then multiplying this number by the carrier wavelength.
+Looking at Figure~\ref{fig:rtk_workings}, the base station-rover pair can be seen again, so it is possible to draw an analogy to Figure~\ref{fig:dgnss_corrections}. The basic operation behind this precise positioning method consists, essentialy, in the process characterized by the detection and correction of positioning errors through the determination of ranges to GNSS satellites -- again based on the equation (\ref{eq:2_1}). Conceptually, the calculation of these ranges is performed as explained in section~\ref{sec:II_gnssAug}, with regard to the carrier-based methodology: by calculating the number of cycles of the carrier wave between the satellite and the receiver installed on the rover ($n$) and multiplying it by its own wavelength ($\lambda$), where
+
+\begin{equation}\label{eq:2_4}
+    \lambda = \frac{v}{f}\medskip
+\end{equation}
+In this case, $v$ and $f$ are the propagation velocity and frequency of the carrier wave, respectively.
+
+% next to translate:
 The calculated ranges still include errors from such sources as satellite clock and ephemerides, and ionospheric and tropospheric delays. To eliminate these errors and to take advantage of the precision of carrier-based measurements, RTK performance requires measurements to be transmitted from the base station to the rover station.
 A complicated process called "ambiguity resolution" is needed to determine the number of whole cycles. Despite being a complex process, high precision GNSS receivers can resolve the ambiguities almost instantaneously. For a brief description of ambiguities, see the GNSS Measurements-Code and Carrier Phase Precision section earlier in this chapter. For further information about ambiguity resolution, see the references at the back of this book.
 Rovers determine their position using algorithms that incorporate ambiguity resolution and differential correction. Like DGNSS, the position accuracy achievable by the rover depends on, among other things, its distance from the base station (referred to as the "baseline") and the accuracy of the differential corrections.
 Corrections are as accurate as the known location of the base station and the quality of the base station's satellite observations. Site selection is important for minimizing environmental effects such as interference and multipath, as is the quality of the base station and rover receivers and antennas.
 
+% falta meter isto na tradutor ainda:
 \textbf{Network RTK}:
 Network RTK is based on the use of several widely spaced permanent stations. 
 Depending on the implementation, positioning data from the permanent stations is regularly communicated to a central processing station.
