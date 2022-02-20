@@ -16,20 +16,20 @@
 Like any project development, it is always a wise approach studying all the theoretical concepts and current state of the art beforehand. That's the objective of this Chapter;
 starting with the clarification of the intricate arrangement of the satellites that constitute a GNSS in section~\ref{sec:II_gnss}, the different positioning techniques inevitably become easier to dissect, through sections~\ref{sec:II_ppp},~\ref{sec:II_rtk},~\ref{sec:II_ppk} and~\ref{sec:II_ntrip}.
 Section~\ref{sec:II_battery} then details the battery system of the device, as well as possible solutions to reduce the overall power consumption of this unit (and therefore of the entire equipment).
-Finally, the current most relevant solutions (base stations) are addressed and compared, as these will provide helpful guidelines to the development of future beRTK.
+Finally, the current most relevant solutions (base stations) are addressed and compared, as these will provide helpful guidelines to the development of future beRTK\textsuperscript{\textregistered}.
 
 % enter a NUTSHELL setting of RTK,
 a base station is intended that is capable of fine-tuning the position of the rover (drone);
 
 ---------------------
 
-beRTK can be used for:
+beRTK\textsuperscript{\textregistered} can be used for:
 Enhanced Landing
 Surveying fields precisely
 Accurate Mapping
 Review Work Processes
 
-HEIFU, beRTK and beXStream can be used for:
+HEIFU, beRTK\textsuperscript{\textregistered} and beXStream can be used for:
 \begin{itemize}
     \item \textbf{Cartografy and 3D Mapping}
     \item \textbf{Detection and Removal of Asian Wasp hives}
@@ -430,6 +430,12 @@ This can explain the reason why these signals should be transmitted in high freq
 
 %meter imagem das frequencias de todas aonstelações no mesmo referencial: figura 36 novatel_gnss
 % meter imagem svg do planeta com todas as GNSS?
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/demo.png}
+	\caption{GNSS satellite signal multipath propagation.}
+	\label{fig:multipath}
+\end{figure}
 
 %falar de cada frequência: ...
 L5:
@@ -468,7 +474,7 @@ These techniques range from least to most effective, and can rely on:
 \end{itemize}
 DGNSS solutions represent the highest efficiency attainable. % citation needed
 
-%For the purpose of this dissertation, the focus of error correction through GNSS augmentation will be set on differential corrections (more precisely, Differential GNSS, or DGNSS), as this is method relates directly with the beRTK base station.
+%For the purpose of this dissertation, the focus of error correction through GNSS augmentation will be set on differential corrections (more precisely, Differential GNSS, or DGNSS), as this is method relates directly with the beRTK\textsuperscript{\textregistered} base station.
 
 % Breaking augmentation systems in a twofold way, accuracy and integrity ssuring further development of accuracy from GNSS augmentation 
 
@@ -490,7 +496,7 @@ DGNSS solutions represent the highest efficiency attainable. % citation needed
 % --------------- PARTE A VERDE: DONE
 The conventional code-based method presented in section~\ref{sec:II_gnss_comm} is not capable of providing low-order levels of precision, so another method known as ``carrier-based'' was developed.
 This type of method means that the measurement of the carrier wave phase corresponds to a measurement of the distance (also known as range) between the satellite and the receiver, expressed in number of cycles of the carrier frequency~\cite{inside_GNSS} (Figure~\ref{fig:dgnss_corrections}), which results in more accurate output results, ideal for UAV missions.
-Among the best-known techniques that adopt this method capable of calculating highly accurate solutions (i.e. orders of magnitude more accurate than those obtained through code-based GNSS) is Real-Time Kinematic (RTK) positioning\footnote{Addressed in more detail in section~\ref{sec:II_gnssAug_rtk}.}, which is the main focus of the beRTK base station.
+Among the best-known techniques that adopt this method capable of calculating highly accurate solutions (i.e. orders of magnitude more accurate than those obtained through code-based GNSS) is Real-Time Kinematic (RTK) positioning\footnote{Addressed in more detail in section~\ref{sec:II_gnssAug_rtk}.}, which is the main focus of the beRTK\textsuperscript{\textregistered} base station.
 %meter imagem figura 40 base station a fazer correçoes:
 \begin{figure}[ht]
 	\centering
@@ -578,6 +584,10 @@ It should also be noted that the services provided by all these systems are comp
 
 \subsection{Real-Time Kinematic (RTK)}\label{sec:II_gnssAug_rtk}
 
+%           PODE SER USADO NA CONCLUSAO: about RTK
+% "Real Time Kinematic technique requires 2 receivers. One of them is stationary and is called "base station", the other one is "rover". The base station measures errors, and knowing that it is stationary transmits corrections to the rover (refer to How RTK works for more information about RTK). Sometimes CORS and NTRIP networks take the place of traditional base stations. They provide accurate absolute position and send corrections over the Internet. Typically the distance between the reference station and local rover shouldn't exceed 10-15 km due to the ionospheric effect. So if the reference station is located too far or simply is absent in the area you will need a local base station. Other advantages of your own base are independence from the Internet connection and lack of NTRIP subscription fees."
+% - If the accurate absolute position of the base has been determined only after the job has been done, the offset of the map can be determined and corrected.
+
 %parte AMARELA: --------------------
 As mentioned in section~\ref{sec:II_gnssAug}, carrier-based methods are the go-to when dealing with navigation in a real-time scenario, which perfectly describes Real-Time Kinematic positioning, a method that is precisely one of the main topics of this Dissertation.
 
@@ -603,6 +613,10 @@ However, the calculations performed will inevitably continue to have range error
 As explained in~\ref{sec:II_gnssAug}, the use of a technique based on carrier waves often leads to ambiguity problems, so their resolution must be prioritized, so that it is possible to determine the number of complete cycles ($n$), properly taking advantage of the calculated corrections -- this can be done with the help of PRN codes, which, in high-precision GNSS receivers, happens almost instantly.
 
 Thus, it is known that the ability to determine the exact position in RTK positioning depends on the correction of errors derived from the sources already mentioned, which confirms the use of the term ``differential'', as used in the DGNSS technique, since the determination of the rover's position in both methods depends on a base station. However, the crucial difference between these methods lies in the fact that the latter makes use of a code-based methodology, which, as is known, leads to results with lower precision than those obtained using a carrier-based methodology. Note also from Figure~\ref{fig:rtk_workings} that there is yet another factor to consider for the accuracy of measurements, which is the distance from the base station itself to the rover, known as ``baseline''. The variation of this distance does, as can be intuitively deduced, also vary the accuracy of the determined location. When compared to RTK positioning, the DGNSS positioning technique allows baselines, which is due to the use of the code-based methodology. However, the trade-off occurs, as we know, at lower precision values.
+% Baseline in RTK mode and Baseline in PPK mode -- for different projects, a different distance from the rover to the base might be needed. Working near a city is more likely to have base station stations nearby. However, when working in rural areas, base stations are likely to be further away.
+% Multi-band receivers can work at a longer baseline due to the use of multiple satellite constellations -- as these help in the correction of the readings taken by the base, as mentioned before (earlier?). beRTK\textsuperscript{\textregistered} can operate with the baseline up to 2.5 km.
+% fazer uma imagem parecida a esta:
+% meter imagem da baseline Emlid
 
 There is still another factor to consider for accuracy, which, in turn, is not represented in Figure~\ref{fig:rtk_workings}: the positioning of the base station. This parameter should not, in any way, be neglected, since, when connections are established through radiofrequency with a rover, the propagation of correction information will be done, as the term implies, through radio waves; due to their nature, these waves may suffer the same problems already observed in the propagation of waves from GNSS satellites -- such as interference and multipath --, so the location selection is important to minimize all negative effects. Another way to do this could also be to improve the quality of the rover's antennas.
 % ------------------ fim da PARTE AMARELA.
@@ -612,7 +626,7 @@ So, the difference between RTK and DGPS is that DGPS is the traditional differen
 RTK is a specific type of DGPS.
 but it uses a newer technology than the traditional DGPS.
 RTK stands for real-time kinematic and commonly uses the RTCM protocol.
-The traditional DGPS uses an older antiquated protocol while RTK uses a newer algorithm, and the protocol is based on RTCM3. 
+The traditional DGPS uses an older antiquated protocol while RTK uses a newer algorithm, and the protocol is based on RTCM3. data flow rate is much higher in RTK.
 %____________
 
 - Used to improve the accuracy of standalone GNSS receivers. Traditional GNSS receivers can only determine the position with na accuracy of about 2-4 meters (?). RTK provides centimeter accuracy.
@@ -621,25 +635,26 @@ The traditional DGPS uses an older antiquated protocol while RTK uses a newer al
 - Real Time Kinematic (RTK) is a GPS correction technology technique that provides real-time corrections to location data as the drone is surveying and capturing images from a site.    
 
 
-\subsubsection{Networked RTK}\label{sec:II_ntrip}
+\subsection{Networked RTK}\label{sec:II_networkedRTK}
 
 Obtaining position corrections with RTK can also be done in a way that does not require the aid of a base station set up by the end-user -- through a process known as Network RTK.
-Network RTK is a technique that relies on the use of stations permanently fixed at known and spaced positions -- which are, essentially, base stations -- to obtain positioning corrections over the internet. Thus, this process can be seen for what it literally is: a way to obtain positioning corrections through a network of virtual base stations, which immediately leads to the conclusion that long baselines cease to be a problem.
+It is a technique that relies on the use of stations permanently fixed at known and spaced positions -- which are, essentially, base stations -- to obtain positioning corrections over the internet. Thus, this process can be seen for what it literally is: a way to obtain positioning corrections through a network of virtual base stations, which immediately leads to a general reduction in the quantity of RTK base stations necessary, as well as to the conclusion that long baselines cease to be a problem.
 
 As stated in section~\ref{sec:II_gnss_comm}, if a receiver relies solely on satellite signals for positioning, the rate at which information will be received will be rather low. Relying on internet connection to get position corrections is a great way to bypass such problem. The use of a CORS (Continuously Operating Reference Station) network is an example of networked RTK. Its operation is based on the use of stations that are permanently installed in previously known and properly inter-spaced locations, making regular observations of the GNSS satellites correcting any errors based on such.
 Most countries have systems of this kind, which are openly accessible to the public. In addition to helping with positioning corrections, CORS stations can also transmit (through knowledge of their position) information about changes in the Earth's surface, thus helping to detect any tectonic movements -- which, in consequence, assists in measuring earthquakes and volcanic eruptions. An example of such is the portuguese CORS network (ReNEP\footnote{Accessible through \url{https://renep.dgterritorio.gov.pt}.}); consisting of 47 permanent GNSS stations throughout the country, this system provides not only navigation information byt also information about the tectonic plate on which a particular station is located~\cite{ReNEP_ppt_2018}.
 
+\subsubsection{NTRIP}\label{sec:II_networkedRTK_ntrip}
+
 %daniel:
-The next step when dealing with the virtual base stations is for the rover to effectively fetch their positioning data from the internet so that the corrections can be made. For that, another type of network can be used, which can be seen in Figure~\ref{fig:ntrip_network}: an NTRIP network (Network Transport of RTCM via Internet Protocol). NTRIP networks are used to effectively make the use of a second GNSS receiver obsolete. This is possible due to the fact that this type of network is capable of establishing a virtual link between the rover and the base stations through the internet. The former then detects and corrects the errors, subsequently forwarding the treated data to the rover. The connection can be made through an already familiar radiofrequency link -- this time, to the internet itself -- or another chosen method.
+The next step when dealing with the virtual base stations is for the rover to effectively fetch their positioning data from the internet so that the corrections can be made. For that, another type of network can be used, which can be seen in Figure~\ref{fig:ntrip_network}: an NTRIP network (Network Transport of RTCM via Internet Protocol). These are used to effectively make the use of a second GNSS receiver obsolete, possible due to the fact that this type of network is capable of establishing a virtual link between the rover and base stations through the internet. The former then detects and corrects the errors, subsequently forwarding the treated data to the rover. The connection can be made through an already familiar radiofrequency link -- this time, to the internet itself -- or another chosen wireless medium.
 
 Figure~\ref{fig:ntrip_network} also represents the three main sectors that constitute an NTRIP-based environment:
 
 \begin{itemize}
     \item Base: Usually a CORS reference/base station -- assured to be in continuous operation; used to detect errors and calculate precise solutions;
     \item NTRIP caster: An HTTP internet service that forwards the connection data through the internet;
-    \item Rover: The client's receiver that expects real-time precise positioning solutions.
+    \item Rover: The client's rover receiver used in real-time precise positioning solutions.
 \end{itemize}
-RTCM is a communications protocol~\cite{rtcm_2003}
 
 %meter imagem NTRIP da Emlid:
 \begin{figure}[ht]
@@ -649,99 +664,129 @@ RTCM is a communications protocol~\cite{rtcm_2003}
 	\label{fig:ntrip_network}
 \end{figure}
 
-ntrip client, caster, ?
-%emlid:
-The Networked Transport of RTCM via Internet Protocol or NTRIP network was developed by the German Federal Agency for Cartography and Geodesy in 2004. NTRIP allows your rover to accept corrections over the Internet with no need for the second local receiver acting as a base.
+The standards used in RTK systems are able to follow more than one specific format (which are the same used in DGNSS systems); the most widely used are the CMR (Compact Measurement Record) and RTCM (or RTCM SC-104; from the Radio Technical Commission For Maritime Services) standards. These two branch out into the following formats acceptable by NTRIP networks: CMR, CMR+, RTCM 2.x and RTCM 3.x. Only available for GPS services, the first three formats became less used after the introduction of the third version of the RTCM standard in 2003, which restructured the previous formats to the parameters presented in Table~\ref{tab:rtcm_messages}.
+%table:
+\begingroup
+\begin{table}[h]
+	\captionsetup{justification=centering}
+    \caption{RTCM version 3 structural frame (adapted from~\cite{rtcm_china}).}
+	\label{tab:rtcm_messages}
+	\centering%@{}l@{}@{}c@{}@{}c@{}@{}c@{}@{}c@{}
+    % \setlength{\tabcolsep}{10pt} % Default value: 6pt
+    % \renewcommand{\arraystretch}{1.5} % Default value: 1
+	\begin{tabular}{ccccc}
+        \toprule
+        \multirow{2}*{\textbf{Preamble}} & \multirow{2}*{\textbf{Reserved}} & \textbf{Message} & \textbf{Variable Length}     & \multirow{2}*{\textbf{CRC}} \\
+                                         &                                  & \textbf{Length}  & \textbf{Data Message}        &                             \\
 
-NTRIP includes three main components of the system: base, caster, and client's rover. Usually, in this case, there's a stationary continuously operating reference station or CORS. The data is then sent to the NTRIP caster, where it is retransmitted through the Internet port to the client rover connected via a particular port and authorized. 
+        \midrule
+        \multirow{2}*{8 bits} & \multirow{2}*{6 bits} & \multirow{2}*{10 bits} & Variable length,         & \multirow{2}*{24 bits} \\
+                              &                       &                        & integer number of bytes &                        \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\endgroup
+
+\begingroup
+\begin{table}[h]
+	\captionsetup{justification=centering}
+    \caption{Most common RTCM version 3 message codes used in RTK applications (adapted from~\cite{rtcm_cheat_sheet}).}
+	\label{tab:rtcm_codes}
+	\centering%@{}l@{}@{}c@{}@{}c@{}@{}c@{}@{}c@{}
+    % \setlength{\tabcolsep}{10pt} % Default value: 6pt
+    % \renewcommand{\arraystretch}{1.5} % Default value: 1
+	\begin{tabular}{ll}
+        \toprule
+        \textbf{Code} & \textbf{Message} \\
+        \midrule     
+        \multirow{2}*{1004} & Extended L1 and L2 GPS RTK observables for GPS RTK use; the \\
+                            & main message \\
+        \midrule     
+        1005 & Stationary RTK Reference Station ARP \\
+        \midrule     
+        1006 & Stationary RTK Reference Station ARP plus the antenna height \\
+        \midrule     
+        1007 & Antenna Descriptor \\
+        \midrule     
+        \multirow{2}*{1012} & Extended L1 and L2 GLONASS RTK observables; the other main \\
+                            & message \\
+        \midrule     
+        1013 & System Parameters, time offsets, lists of messages sent \\
+        \midrule     
+        1017 & GPS Combined Geometric and Ionospheric Correction Differences \\
+        \midrule     
+        1019 & GPS Broadcast Ephemeris (orbits) \\
+        \midrule     
+        1020 & GLONASS Broadcast Ephemeris (orbits) \\
+        \midrule     
+        1029 & Unicode Text String (used for human readable text) \\
+        \midrule     
+        1033 & Receiver and Antenna Descriptors \\
+        \midrule     
+        1045 & Galileo Broadcast Ephemeris \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\endgroup
+
+In order for the messages to be understood by receivers in a more efficient way, a code specific to each message is defined. Table~\ref{tab:rtcm_codes} shows an adaptation of the most common codes used in RTK positioning~\cite{ntrip_agleader,rtcm_tuga,rtcm_china}.
+
+With all this in mind, it is also possible to understand that, due to the connection of a GNSS receiver to an NTRIP network, it will be able to start by collecting a more precise location faster. This is commonly known as having ``faster convergence'', which is a very important variable when describing a certain device capable of precise positioning.
 
 % https://www.youtube.com/watch?v=uytd48Vb-fs&ab_channel=RamiTamimi
-"NTRIP (Network Transport of RTCM via Internet Protocol) and CORS (Continuously Operating Reference Station) are forms of RTK differential correction that are done using a cellular modem and base station network."
-"how to obtain high accuracy positioning utilising just one GNSS recevier?
-As described in section (\textbf{ref}) , it is possible obtain high accuracy positioning by setting up two GNSS receivers, which will act as a base station and a rover. Therefore, this method requires double the cost of the method presented in this section. There is a way to use only one GNSS receiver and have RTK-enabled positioning, through the use of a CORS (Continuously Operating Reference System) network.% corte aqui
-These stations are permanentely set up on a single known location, and continue to observe satellites and perform corrections based on any errors that they observe. Most municipalities, states and countries own these systems and allow public access to anyone that sets up na account.
+% "NTRIP (Network Transport of RTCM via Internet Protocol) and CORS (Continuously Operating Reference Station) are forms of RTK differential correction that are done using a cellular modem and base station network."
+% "how to obtain high accuracy positioning utilising just one GNSS recevier?
+% As described in section (\textbf{ref}) , it is possible obtain high accuracy positioning by setting up two GNSS receivers, which will act as a base station and a rover. Therefore, this method requires double the cost of the method presented in this section. There is a way to use only one GNSS receiver and have RTK-enabled positioning, through the use of a CORS (Continuously Operating Reference System) network.% corte aqui
+% These stations are permanentely set up on a single known location, and continue to observe satellites and perform corrections based on any errors that they observe. Most municipalities, states and countries own these systems and allow public access to anyone that sets up an account.
 
 % next:
-Depending on the implementation, positioning data from the permanent stations is regularly communicated to a central processing station.
-On demand from RTK user terminals, which transmit their approximate location to the central station, the central station calculates and transmits correction information or corrected position to the RTK user terminal.
-The benefit of this approach is an overall reduction in the number of RTK base stations required. Depending on the implementation, data may be transmitted over cellular radio links or other wireless medium.
+% Depending on the implementation, positioning data from the permanent stations is regularly communicated to a central processing station.
+% On demand from RTK user terminals, which transmit their approximate location to the central station, the central station calculates and transmits correction information or corrected position to the RTK user terminal.
+% The benefit of this approach is an overall reduction in the number of RTK base stations required. Depending on the implementation, data may be transmitted over cellular radio links or other wireless medium.
 
 
+% If there are no NTRIP stations within a radius of (?) from the intended mission site, a base station will be needed in order to obtain the precise positioning through RTK, as described in~\ref{sec:II_gnssAug_rtk}.
+% "it is very fast to obtain a fix. Rather than utilising our own base station for the corrections, the public NTRIP network is used, and the receiver (rover) will be connected to a base station in that network."
+% Fazer uma imagem parecida a esta: % ver Word
 
-% falar de todos os topicos que estejam no doc Word NTRIP
-The fact that beRTK is connected to the NTRIP network allows you to start with a more precise idea of its location and therefore faster convergence.
-"Real Time Kinematic technique requires 2 receivers. One of them is stationary and is called "base station", the other one is "rover". The base station measures errors, and knowing that it is stationary transmits corrections to the rover (refer to How RTK works for more information about RTK). Sometimes CORS and NTRIP networks take the place of traditional base stations. They provide accurate absolute position and send corrections over the Internet. Typically the distance between the reference station and local rover shouldn't exceed 10-15 km due to the ionospheric effect. So if the reference station is located too far or simply is absent in the area you will need a local base station. Other advantages of your own base are independence from the Internet connection and lack of NTRIP subscription fees."
-
-- If the accurate absolute position of the base has been determined only after the job has been done, the offset of the map can be determined and corrected.
-
-
-If there are no NTRIP stations within a radius of (?) from the intended mission site, a base station will be needed in order to obtain the precise positioning through RTK, as described in~\ref{sec:II_gnssAug_rtk}.
-"it is very fast to obtain a fix. Rather than utilising our own base station for the corrections, the public NTRIP network is used, and the receiver (rover) will be connected to a base station in that network."
-Fazer uma imagem parecida a esta: % ver Word
-
-An internet based application that makes the RTCM Correction data from the CORS stations available to anyone with an internet connection and the appropriate log on credentials to the NTRIP server. Typically uses a mobile link to get to the internet and the NTRIP server. % https://www.teejet.com/CMSImages/TEEJET/documents/technical-updates/98-01410%20r0%20en%20tech%20update%20ntrip%20rx610.pdf
-
-% book kaplan_2017:
-As mobile packet-switched cellular networks proliferated around the world,
-delivery of DGNSS and PPP data through the Internet Protocol (IP) has become increasingly popular. Section 12.5.3 describes one last widely used RTCM standard,
-which is for the Networked Transport of RTCM via IP (NTRIP).
+% An internet based application that makes the RTCM Correction data from the CORS stations available to anyone with an internet connection and the appropriate log on credentials to the NTRIP server. Typically uses a mobile link to get to the internet and the NTRIP server. % https://www.teejet.com/CMSImages/TEEJET/documents/technical-updates/98-01410%20r0%20en%20tech%20update%20ntrip%20rx610.pdf
 
 %se calhar nao sao precisas estas subsubsections! tirar!:
 
 %references: \cite{,ntrip_agleader}
 
-\subsubsection{Frequency Bands}\label{sec:II_gnssAug_rtk_freqbands}
-- L1, L2, ... bands
+% \subsubsection{LoRa -- meter na footnote}\label{sec:II_gnssAug_rtk_LoRa}
+% ``There are number of communication technologies available for interaction between IoT devices today, and the most popular ones are Wi-Fi and Bluetooth. But the problem with Wi-Fi and Bluetooth technology is high power consumption. They also have other limitations like limited range, limited access points etc. ESP8266 module is the most popular Wi-Fi module used in IoT devices, using which we have previously built lot of IoT projects.
 
-\subsubsection{Initialisation Time}\label{sec:II_gnssAug_rtk_inittime}
-- RTK Initialisation Time
+% Cellular networks also have the same problems of high power consumption and both LAN and Cellular network are quite expensive to cover a wide area. The IoT industries introduced lots of technologies, but none of them was ideal for IoT devices, as they needed to transmit information to long distance without using much power, until the LoRa technology was introduced. LoRa Technology can perform very-long range transmission with low power consumption.
 
-\subsubsection{Single-band vs Multi-band}\label{sec:II_gnssAug_rtk_smband}
-- Single-band vs Multi-band receiver
-
-\subsubsection{Baseline}\label{sec:II_gnssAug_rtk_baseline}
-Baseline in RTK mode and Baseline in PPK mode -- for different projects, a different distance from the rover to the base might be needed. Working near a city is more likely to have base station stations nearby. However, when working in rural areas, base stations are likely to be further away.
-Multi-band receivers can work at a longer baseline due to the use of multiple satellite constellations -- as these help in the correction of the readings taken by the base, as mentioned before (earlier?). beRTK can operate with the baseline up to 2.5 km.
-fazer uma imagem parecida a esta:
-% meter imagem da baseline Emlid
-
-\subsubsection{Accuracy}\label{sec:II_gnssAug_rtk_accuracy}
-H: 7 mm + 1 ppm
-V: 14 mm + 1 ppm	MEANING OF THIS???
-% http://www.apegm.mb.ca/pdf/PD_Papers/GNSSPositioning.pdf
-Both single-band and multi-band receivers are capable of centimeter-level absolute accuracy. The main difference is that more factors can influence the stable fix solution in the single-band receiver. Thus, when using a single-band receiver, you can obtain the same absolute accuracy, but only if you have reasonable working conditions.
-
-\subsubsection{PPM}\label{sec:II_gnssAug_rtk_ppm}
-PPM expresses a standardized measurement of error -- in millimeters per 1,000 meters -- in relation to orthometric heights. For instance, an orthometric height that has a 2 PPM error rate would indicate an error in measurement equal to 2 millimeters per 1,000 meters traveled. So, if a mountain resort located 1,000 meters inland had a PPM of 2 millimeters, the orthometric height, or elevation, indicated would be accurate to within 2 millimeters.
-% https://sciencing.com/difference-between-agl-msl-8524698.html
-% https://unstats.un.org/unsd/geoinfo/ungegn/docs/_data_icacourses/_HtmlModules/_Selfstudy/S06/S06_03a.html
-
-\subsubsection{LoRa -- meter na footnote}\label{sec:II_gnssAug_rtk_LoRa}
-``There are number of communication technologies available for interaction between IoT devices today, and the most popular ones are Wi-Fi and Bluetooth. But the problem with Wi-Fi and Bluetooth technology is high power consumption. They also have other limitations like limited range, limited access points etc. ESP8266 module is the most popular Wi-Fi module used in IoT devices, using which we have previously built lot of IoT projects.
-
-Cellular networks also have the same problems of high power consumption and both LAN and Cellular network are quite expensive to cover a wide area. The IoT industries introduced lots of technologies, but none of them was ideal for IoT devices, as they needed to transmit information to long distance without using much power, until the LoRa technology was introduced. LoRa Technology can perform very-long range transmission with low power consumption.
-
-LoRa (Long Range) is a wireless technology that offers long-range, low power, and secure data transmission for M2M (Machine to Machine) and IoT applications. LoRa is a spread spectrum modulation technology that is derived from chirp spread spectrum (CSS) technology. LoRa can be used to connect sensors, gateways, machines, devices, etc. wirelessly. In Europe region, it operates in the 868 MHz band.'' % https://iotdesignpro.com/projects/lora-communication-between-two-arduino-using-LoRa-Module-SX1278
+% LoRa (Long Range) is a wireless technology that offers long-range, low power, and secure data transmission for M2M (Machine to Machine) and IoT applications. LoRa is a spread spectrum modulation technology that is derived from chirp spread spectrum (CSS) technology. LoRa can be used to connect sensors, gateways, machines, devices, etc. wirelessly. In Europe region, it operates in the 868 MHz band.'' % https://iotdesignpro.com/projects/lora-communication-between-two-arduino-using-LoRa-Module-SX1278
 
 \subsection{Post-Processed Kinematics (PPK)}\label{sec:II_gnssAug_ppk}
-PPK is na alternative technique to RTK. With PPK workflow, accurate positioning does not happen in real time, since all algorithms are applied afterwards. Both base station on the ground and rover (usually an UAV) record raw GNSS logs, which are then processed to receive na accurate positioning track.
-%meter/fazer imagem do Word:
 
-- PPK is mainly used for UAV mapping.
-- Offers a more flexible workflow, allowing to run the processing multiple times using different settings the processing is applied on the logs returned by the both the base station and the rover used on (the?) field.
-- PPK allows the inspection of much wider areas, which is why the baseline is greater than the baseline available while working in RTK mode.
-- Post Processed Kinematic (PPK) is a GPS correction technology technique that corrects location data after it is collected and uploaded. The data can be uploaded to the cloud for processing or processed using specialise software on your desktop after the flight has been concluded.
+As mentioned in section~\ref{sec:II_gnssAug_dgnss}, a technique that does not require real-time processing is Post-Processed Kinematic positioning. In this technique all known algorithms used are applied after completion of any given mission. That is, both the base station and the rover only need to collect and record positioning data on a storage device, so that, at a later stage, they are processed in the desired way, as often as needed. Thus, as the urgency factor imposed by a real-time application is removed from the equation, the results obtained through this technique will be more accurate than those obtained through RTK, allowing to work with larger baselines, which means the possibility of working in wider regions.
+Thus, PPK positioning is mostly used in mapping using UAVs.
 
-\subsection{Precise Point Positioning (PPP)}\label{sec:II_gnssAug_ppp}
-- A standalone receiver finds out its position relying on the data obtained from satellites only. Along with raw data from those satellites, the receiver gets navigation messages with satellite clock offset, ionospheric and tropospheric corrections (atmospheric-related disturbances), etc. Due to information about these offsets, the receiver may calculate its position with a few meters' accuracy. If there were (was) no navigation data, the accuracy would be much worse.
-- In RTK and PPK, these offsets might be eliminated since both (the) base station and the rover operate in quite similar conditions.
-- PPP allows the single receiver (rover) to achieve high-level accuracy without the use of corrections from the base station.
-- To calculate the coordinates, PPP uses the same data that is provided by the navigation message but much more accurate. Thereby, the single receiver (rover) might determine its position with a centimetre-level accuracy using only raw data and precise ephemerides and clock offsets provided by a PPP service.
-- The PPP technique is commonly used for determining the absolute base position for further RTK/PPK surveys.
+% \subsection{Precise Point Positioning (PPP)}\label{sec:II_gnssAug_ppp}
 
-%
+% %novatel:
+% PPP is a positioning technique that removes or models GNSS system errors to provide a high level of position accuracy from a single receiver. A PPP  solution depends on GNSS satellite clock and orbit corrections, generated from a network of global reference stations. Once the corrections are calculated, they are delivered to the end user via satellite or over the Internet.
+% These corrections are used by the receiver, resulting in decimetre-level or better positioning with no base station required. A typical PPP solution requires a period of time to converge to decimetre accuracy in order to resolve any local biases such as the atmospheric conditions, multipath environment and satellite geometry. The actual accuracy achieved and the convergence time required is dependent on the quality of the corrections and how they are applied in the receiver.
+% Up to 3 centimetre accuracy is possible. Similar in structure to an SBAS system, a PPP system provides corrections to a receiver to increase position accuracy. However, PPP systems typically provide a greater level of accuracy and charge a fee to access the corrections.
+% PPP systems also allow a single correction stream to be used worldwide, while SBAS systems are regional. A typical PPP system is shown in Figure 43.
+% The main error sources for PPP are mitigated in following ways:
+% - DUAL-FREQUENCY OPERATION: The firstorder ionospheric delay is proportional to the carrier wave frequency. Therefore, the first-order ionospheric delay can totally be eliminated by using the combinations of dual-frequency GNSS measurements.
+% - EXTERNAL ERROR CORRECTION DATA: This includes satellite orbit and clock corrections. In the case of TerraStar service, the corrections generated are broadcast for end-users by Inmarsat telecommunication satellites.
+% - MODELING: The tropospheric delay is corrected using the UNB model developed by the University of New Brunswick. However, the wet part of tropospheric delay is highly varying and it cannot be modeled with sufficient accuracy. Thus, residual tropospheric delay is estimated when estimating position and other unknowns. Modeling is also used in the PPP receiver to correct the solid earth tides effect.
+% - PPP FILTER ALGORITHMS: An Extended Kalman Filter (EKF) is used for the PPP estimation. Position, receiver clock error, tropospheric delay and carrier-phase ambiguities are estimated EKF states. EKF minimizes noise in the system and enables estimating position with centimetrelevel accuracy. The estimates for the EKF states are improved with successive GNSS measurements, until they converge to stable and accurate values. The typical convergence time of PPP to under 10 cm horizontal error is between 20 and 40 minutes, but it depends on the number of satellites available, satellite geometry, quality of the correction products, receiver multipath environment and atmospheric conditions.
+% There are several providers of PPP services, including, VERIPOS, TerraStar, OmniSTAR and StarFire. PPP service providers operate a network of ground reference stations to collect correction data for the different signals broadcast by each satellite. The corrections calculated from this data are broadcast from geostationary satellites to the receivers of subscribed users. More information about PPP is also available in the Advanced GNSS Positioning Solution article in the 2014 Velocity magazine.
 
-
+% %daniel, mas nao foi o daniel:
+% - A standalone receiver finds out its position relying on the data obtained from satellites only. Along with raw data from those satellites, the receiver gets navigation messages with satellite clock offset, ionospheric and tropospheric corrections (atmospheric-related disturbances), etc. Due to information about these offsets, the receiver may calculate its position with a few meters' accuracy. If there were (was) no navigation data, the accuracy would be much worse.
+% - In RTK and PPK, these offsets might be eliminated since both (the) base station and the rover operate in quite similar conditions.
+% - PPP allows the single receiver (rover) to achieve high-level accuracy without the use of corrections from the base station.
+% - To calculate the coordinates, PPP uses the same data that is provided by the navigation message but much more accurate. Thereby, the single receiver (rover) might determine its position with a centimetre-level accuracy using only raw data and precise ephemerides and clock offsets provided by a PPP service.
+% - The PPP technique is commonly used for determining the absolute base position for further RTK/PPK surveys.
 
 % \section{Battery System}\label{sec:II_battery}
 % % falar de todos os topicos que estejam no doc Word Battery
@@ -762,10 +807,79 @@ PPK is na alternative technique to RTK. With PPK workflow, accurate positioning 
 % % PD is a protocol
 
 \section{Current Solutions}\label{sec:II_curr_solutions}
-It is necessary to adapt all the solutions abordadas to the current software component; this means that all the solutions have to be implemented.
+
+This section aims to clarify the explanations presented earlier about the device that represents the center of the project covered by this Dissertation: an RTK base station. For that, an approach on the current available solutions is presented in Tables~\ref{tab:curr_sol_POSITIONING},~\ref{tab:curr_sol_CONNECTIONS},~\ref{tab:curr_sol_ELECTRICAL} and~\ref{tab:curr_sol_MECH}, which represent 
+..., respectively.
+ It is necessary to adapt all the solutions abordadas to the current software component; this means that all the solutions have to be implemented.
 
 16. explicar o que cada célula do excel significa, tanto as que considerei mais importantes como as outras
 
 as stated in section~\ref{sec:II_gnssAug_ppk}, Post-processing generally results in a more accurate, comprehensive solution than is possible in real-time, as it is possible to observe through Table \textbf{TABLE?}.
 % gravar como pdf/imagem; meter no corpo do texto
 % na versao final a tabela sera feita completamente em latex
+
+\begingroup
+\begin{table}[h]
+    \centering
+	\captionsetup{justification=centering}
+    \caption{Some current base station solutions: positioning properties.}
+    \includegraphics[width=1.0\textwidth]{Chapters/Figures/curr_solutions/POSITIONING_v2.pdf}
+	\label{tab:curr_sol_POSITIONING}
+\end{table}
+\endgroup
+
+\begingroup
+\begin{table}[h]
+    \centering
+	\captionsetup{justification=centering}
+    \caption{Some current base station solutions: connectivity properties.}
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/curr_solutions/CONNECTIONS_v2.pdf}
+	\label{tab:curr_sol_CONNECTIONS}
+\end{table}
+\endgroup
+
+\begingroup
+\begin{table}[h]
+    \centering
+	\captionsetup{justification=centering}
+	\caption{Some current base station solutions: electrical properties.}
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/curr_solutions/ELECTRICAL_v2.pdf}
+	\label{tab:curr_sol_ELECTRICAL}
+\end{table}
+\endgroup
+
+\begingroup
+\begin{table}[h]
+    \centering
+	\captionsetup{justification=centering}
+	\caption{Some current base station solutions: physical/mechanical properties.}
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/curr_solutions/MECH_v2.pdf}
+	\label{tab:curr_sol_MECH}
+\end{table}
+\endgroup
+
+\subsection{Typical Architecture}\label{sec:II_architecture}
+% qual é a arquitetura tipica deste tipo de equipamento?
+% meter aqui o diagrama de blocos
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/architecture_original.pdf}
+	\caption{beRTK\textsuperscript{\textregistered} Base Station's block diagram.}
+	\label{fig:architecture_original}
+\end{figure}
+
+% ao nivel da tecnologia, qual é o aspeto dos varios componentes do sistema?
+    % base station, rover, links à net
+    % ok, ja se sabem os integrantes de um sistema destes; vamos explicar como é constiutida uma base station por dentro - genericamente: chip, bateria, ...
+
+\subsection{Accuracy}\label{sec:II_gnssAug_rtk_accuracy}
+H: 7 mm + 1 ppm
+V: 14 mm + 1 ppm	MEANING OF THIS???
+% http://www.apegm.mb.ca/pdf/PD_Papers/GNSSPositioning.pdf
+Both single-band and multi-band receivers are capable of centimeter-level absolute accuracy. The main difference is that more factors can influence the stable fix solution in the single-band receiver. Thus, when using a single-band receiver, you can obtain the same absolute accuracy, but only if you have reasonable working conditions.
+
+\subsection{PPM}\label{sec:II_gnssAug_rtk_ppm}
+PPM expresses a standardized measurement of error -- in millimeters per 1,000 meters -- in relation to orthometric heights. For instance, an orthometric height that has a 2 PPM error rate would indicate an error in measurement equal to 2 millimeters per 1,000 meters traveled. So, if a mountain resort located 1,000 meters inland had a PPM of 2 millimeters, the orthometric height, or elevation, indicated would be accurate to within 2 millimeters.
+% https://sciencing.com/difference-between-agl-msl-8524698.html
+% https://unstats.un.org/unsd/geoinfo/ungegn/docs/_data_icacourses/_HtmlModules/_Selfstudy/S06/S06_03a.html
+
