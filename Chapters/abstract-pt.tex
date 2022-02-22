@@ -8,27 +8,29 @@
 
 \typeout{NT FILE abstrac-pt.tex}
 
-Independentemente da língua em que a dissertação esteja redigida, é necessário um resumo na mesma língua do texto principal e outro resumo noutra língua. Pressupõe-se que as duas línguas em questão sejam o português e o inglês.
+\lipsum[1]
 
-Os resumos devem aparecer primeiro na língua do texto principal e depois na outra língua. Por exemplo, se a dissertação for redigida em português, o resumo em português aparecerá primeiro, seguido do resumo em inglês (\emph{abstract}), seguido do texto principal em português. Se a dissertação for redigida em inglês, o resumo em inglês (\emph{abstract} aparecerá primeiro, seguido do resumo em português, seguido do texto principal em inglês.
+% Independentemente da língua em que a dissertação esteja redigida, é necessário um resumo na mesma língua do texto principal e outro resumo noutra língua. Pressupõe-se que as duas línguas em questão sejam o português e o inglês.
 
-Na versão \LaTeX\, o template NOVAthesis irá ordenar automaticamente os dois resumos tendo em consideração a língua do texto principal. É possível alterar este comportamento adicionando
-\begin{verbatim}
-    \abstractorder(<MAIN_LANG>):={<LANG_1>,...,<LANG_N>}
-\end{verbatim}
-\noindent à zona de customização no preâmbulo do documento, e.g.,
-\begin{verbatim}
-    \abstractorder(de):={de,en,it}
-\end{verbatim}
+% Os resumos devem aparecer primeiro na língua do texto principal e depois na outra língua. Por exemplo, se a dissertação for redigida em português, o resumo em português aparecerá primeiro, seguido do resumo em inglês (\emph{abstract}), seguido do texto principal em português. Se a dissertação for redigida em inglês, o resumo em inglês (\emph{abstract} aparecerá primeiro, seguido do resumo em português, seguido do texto principal em inglês.
 
-Os resumos não devem ultrapassar uma página e, de forma genérica, devem responder às seguintes questões (é essencial adaptá-los às práticas habituais da sua área científica):
+% Na versão \LaTeX\, o template NOVAthesis irá ordenar automaticamente os dois resumos tendo em consideração a língua do texto principal. É possível alterar este comportamento adicionando
+% \begin{verbatim}
+%     \abstractorder(<MAIN_LANG>):={<LANG_1>,...,<LANG_N>}
+% \end{verbatim}
+% \noindent à zona de customização no preâmbulo do documento, e.g.,
+% \begin{verbatim}
+%     \abstractorder(de):={de,en,it}
+% \end{verbatim}
 
-\begin{enumerate}
-  \item Qual é o problema?
-  \item Porque é que é um problema interessante/desafiante?
-  \item Qual é a proposta de abordagem/solução?
-  \item Quais são as consequências/resultados da solução proposta?
-\end{enumerate}
+% Os resumos não devem ultrapassar uma página e, de forma genérica, devem responder às seguintes questões (é essencial adaptá-los às práticas habituais da sua área científica):
+
+% \begin{enumerate}
+%   \item Qual é o problema?
+%   \item Porque é que é um problema interessante/desafiante?
+%   \item Qual é a proposta de abordagem/solução?
+%   \item Quais são as consequências/resultados da solução proposta?
+% \end{enumerate}
 
 % E agora vamos fazer um teste com uma quebra de linha no hífen a ver se a \LaTeX\ duplica o hífen na linha seguinte se usarmos \verb+"-+… em vez de \verb+-+.
 %

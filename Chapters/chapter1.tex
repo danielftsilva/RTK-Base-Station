@@ -34,7 +34,7 @@ It is also quite obvious that work of this nature is not exclusive to the agricu
 Taking the example of developing projects % ir ao site da aeriya ver o que o drone faz; meter aqui
 workplace accidents or, in a more drastic approach, Siberia's sadly expected annual wildfires (which, in 2021, reported the most devastating one of the 21$^{st}$ century~\cite{dixon_2021,roth_2021}), the mitigation of situations that could, possibly, negatively impact human life is undoubtedly imperative.%%%%%%%%%%%%%%%%%
 
-With rapid technological advancement, a factor foreseen to be virtually removed was, precisely, the human contribution. Thus, when developing a device capable of performing tasks that, normally, a human would be responsible for, the main focus should be envisioning how each of those could be performed (approached?) by it.
+With rapid technological advancement, a factor foreseen to be virtually removed was, precisely, the human contribution. Thus, when developing a device capable of performing tasks that, normally, a human would be responsible for, the main focus should be envisioning how each of those could be performed by it.
 
 Sight is more than often the most important sense to consider, therefore, bearing all of this in mind, a device capable of ``seeing'', acknowledging and mapping an area of work would be an excellent starting point for the previously mentioned sectors. Nowadays, tasks like these can be performed by devices known as ``Unmanned Aerial Vehicles'' (or UAVs), designed for a vast array of functions.
 
@@ -81,12 +81,11 @@ As soon as that is established, the corrections made by it will be extremely tru
 % DÚVIDA: só há estas 2 maneiras?
 
 % The Problem to Solve
-This dissertation aims at the redesign of the RTK base station produced by the company in collaboration with\footnote{Beyond Vision.}. This product is known as beRTK\textsuperscript{\textregistered}~\cite{beRTK_2022} and, currently, has two major \textbf{(main?)} functions: the first is to use a high precision GNSS module named \textbf{ZED-F9P}, in order to obtain its position in a highly precise manner and then broadcasting RTK corrections via \textbf{ZigBee technology} to a UAV; % falar do HEIFU?
-the second is to connect itself to an NTRIP network in order to obtain its precise location much faster (as, through pure GPS positioning, obtaining a precision value below 10 centimeters takes a long time -- up to hours; relying on NTRIP reduces that same waiting time to just minutes or even seconds).
-The proposed idea \textbf{(in this dissertation?)} is to work on finding a solution that consumes \textbf{(uses?)} less power than the one currently developed.
-%low-power solution than the one that Beyond Vision currently owns.
+This dissertation aims at the redesign of the RTK base station produced by the company in collaboration with\footnote{Beyond Vision (\url{https://beyond-vision.pt/index}).}. This product is known as beRTK\textsuperscript{\textregistered}~\cite{beRTK_2022}, and currently has two main functions: the first is to use a high precision GNSS module known as ZED-F9P, in order to obtain its position in a highly precise manner and then broadcasting RTK corrections via radiofrequency to a UAV\footnote{Beyond Vision's HEIFU\textsuperscript{\textregistered} (\url{https://beyond-vision.pt/heifu}).} -- this radiofrequency link can be established either through another module, known as ZigBee, or through a LoRa protocol\footnote{Addressed in Chapter~\ref{cha:II_SotA}.};
+the second is to connect itself to an NTRIP network in order to obtain its precise location much faster (as, through pure GNSS positioning (in this case, GPS), obtaining a precision value below 10 centimeters takes a long time -- up to hours; relying on NTRIP reduces that same waiting time to just minutes or even seconds).
+The proposed idea for this Dissertation is to work on lowering the power consumption of the solution -- currently developed by Beyond Vision -- the best way possible. For that, the device will have to be redesigned.
 
-The current solution manages WiFi connections through a \textbf{Raspberry Pi 4 Model B}, a \textbf{single-board computer (SBC)} with two WiFi modules:
+The current solution manages WiFi connections through a Raspberry Pi 4 Model B, a single-board computer (SBC) with two WiFi modules:
 one able to connect the base station to a WiFi network and fetch positioning data from the NTRIP network, and another that enables the remote configuration of the base from a web-based application, through the creation of a local network.
-It is, therefore, intended to replace the \textbf{SBC} used with microcontrollers able to perform these same operations, while keeping both \textbf{ZED-F9P} and \textbf{ZigBee} modules.
-Also on the list of changes, yet with lower priority, is a more robust battery system -- one \textbf{(an option?)} that allows charging and using the base at the same time (preferably via \textbf{USB-C}). The power consumption of this sector is intended to be cut in approximately half.
+It is, therefore, intended to replace the used SBC with microcontrollers able to perform these same operations, while keeping both the high precision GNSS module and the module used for the radiofrequency broadcasting of RTK corrections.
+Also on the list of changes, yet with lower priority, is a more robust battery system -- that allows charging and using the base at the same time (preferably via USB Type-C). The power consumption of this sector is intended to be cut in approximately half.

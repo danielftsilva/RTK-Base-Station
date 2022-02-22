@@ -14,48 +14,39 @@
 % escrever aqui qlq coisa de introduçao:
 
 Like any project development, it is always a wise approach studying all the theoretical concepts and current state of the art beforehand. That's the objective of this chapter;
-starting with the clarification of the intricate arrangement of the satellites that constitute a GNSS in Section~\ref{sec:II_gnss}, the different positioning techniques inevitably become easier to dissect, through Sections~\ref{sec:II_ppp},~\ref{sec:II_rtk},~\ref{sec:II_ppk} and~\ref{sec:II_ntrip}.
-Section~\ref{sec:II_battery} then details the battery system of the device, as well as possible solutions to reduce the overall power consumption of this unit (and therefore of the entire equipment).
-Finally, the current most relevant solutions (base stations) are addressed and compared, as these will provide helpful guidelines to the development of future beRTK\textsuperscript{\textregistered}.
+starting with the clarification of the intricate arrangement of the different yet similar GNSSs in Section~\ref{sec:II_gnss}, other different positioning techniques inevitably become easier to dissect through Section~\ref{sec:II_gnssAug}, which clears crucial details about the real-time factor in navigation.
+Finally, the current most relevant solutions (i.e. base stations) are addressed and compared in Section~\ref{sec:II_curr_solutions}, as these will provide helpful guidelines to the development of future beRTK\textsuperscript{\textregistered}.
 
 % enter a NUTSHELL setting of RTK,
-a base station is intended that is capable of fine-tuning the position of the rover (drone);
+Not only intended just for photography, UAVs (e.g. a drone) nowadays are capable of aiding in the most diverse ways, such as in:
 
----------------------
-
-beRTK\textsuperscript{\textregistered} can be used for:
-Enhanced Landing
-Surveying fields precisely
-Accurate Mapping
-Review Work Processes
-
-HEIFU, beRTK\textsuperscript{\textregistered} and beXStream can be used for:
 \begin{itemize}
-    \item \textbf{Cartografy and 3D Mapping}
-    \item \textbf{Detection and Removal of Asian Wasp hives}
-    \item \textbf{Precision Farming}
-        a. Survey every inch of your field
-            Allows detailed survey of every field
-        b. Improves productivity and efficiency 
-            Reduce time spent on field-walking
-        c. Higher resolution of the field areas of interest 
-            It is beneficial for immediate identification and GPS tagging
-        d. Earlier identification of potential crop issues
-            Use of multispectral sensing technology
-    \item \textbf{Search and Rescue}
-    \item \textbf{Forest Firing Detection and Monitoring}
-    \item \textbf{Border Patrol Monitoring}
-    \item \textbf{Demining}
-    \item \textbf{Medical Delivery}
-    \item \textbf{Infrastructure}
-    \item \textbf{High Rise Window Cleaning}
-    \item \textbf{Ad hoc Communication Relay}
-    \item \textbf{Equipment Monituring in factories}
-    \item \textbf{Remote Car Inspection - Insurance}
-    \item \textbf{Virtual Traveling}
+    \item Cartografy and 3D mapping;
+    \item Detection and removal of Asian Wasp hives;
+    \item Precision farming;
+    \item Search and rescue;
+    \item Border patrol monitoring;
+    \item Demining;
+    \item Medical delivery;
+    \item Infrastructure;
+    \item High-rise window cleaning;
+    \item Ad hoc communication relay;
+    \item Equipment monitoring in factories;
+    \item Remote car inspection -- insurance;
+    \item Virtual traveling.
 \end{itemize}
-\begin{itemize}
-    \item But there is still a great ally for such efficiency, which sometimes goes unnoticed or is even forgotten: Image Processing.
+For these missions, the use of a base station capable of fine-tuning the UAV's position in real time is a big advantage. Therefore, this device has to be designed with the ability of helping the UAV succeed in these missions in mind, which means its list of capacities should pass through enhanced landing, precise field surveying, accurate mapping and also work processes review.
+
+% \textbf{Precision Farming}
+% a. Survey every inch of your field
+%     Allows detailed survey of every field
+% b. Improves productivity and efficiency
+%     Reduce time spent on field-walking
+% c. Higher resolution of the field areas of interest
+%     It is beneficial for immediate identification and GPS tagging
+% d. Earlier identification of potential crop issues
+%     Use of multispectral sensing technology
+
 
     % Começar com:
     % I. o que é uma base station? fazer analogia
@@ -65,22 +56,20 @@ HEIFU, beRTK\textsuperscript{\textregistered} and beXStream can be used for:
     % V. explicar cada tecnologia relativamente a base
 
     % artigos que li:
-    \item a. Experimental Testbed and Methodology for the Assessment of RTK GNSS Receivers Used in Precision Agriculture;
+% a. Experimental Testbed and Methodology for the Assessment of RTK GNSS Receivers Used in Precision Agriculture;
 
-    \item b. DETERMINATION OF THE POSITION USING RECEIVERS INSTALLED IN UAV
+% b. DETERMINATION OF THE POSITION USING RECEIVERS INSTALLED IN UAV
 
-    \item c. High-Precision/Throughput Growth Measurement of Crops by Drone with Stereo Matching Based on RTK-GNSS and Single Camera
+% c. High-Precision/Throughput Growth Measurement of Crops by Drone with Stereo Matching Based on RTK-GNSS and Single Camera
 
-    \item d. Estimation of the Base Station Position Error in a RTK Receiver Using State Augmentation in a Kalman Filter
+% d. Estimation of the Base Station Position Error in a RTK Receiver Using State Augmentation in a Kalman Filter
+% e. Resilient Deployment of Drone Base Stations
 
-    \item e. Resilient Deployment of Drone Base Stations
+% f. Based on a single-base station RTK control survey and precision analysis
 
-    \item f. Based on a single-base station RTK control survey and precision analysis 
+% g. Design of an Autonomous drone for IoT deployment analysis
 
-    \item g. Design of an Autonomous drone for IoT deployment analysis 
-
-    \item h. RTK+ System for Precise Navigation in Shadowed Areas 
-\end{itemize}
+% h. RTK+ System for Precise Navigation in Shadowed Areas
 
 \section{Global Navigation Satellite System}\label{sec:II_gnss}
 
@@ -90,7 +79,7 @@ Therefore, it is possible to conclude that, in order to help tracking their loca
 According to~\cite{novatel_gnss}, the best way to address GNSS receivers as a whole is to start by acknowledging its working basis: satellites. While orbiting the Earth, these machines send out signals that are then acknowledged by receivers (hence the name), assisting them on the calculation of their own location on Earth by comparing the received information from other satellites.
 
 % minha parte: METER ISTO NA INTRODUÇÃO DESTA SECÇÃO - GNSS (GERAL)
-Through~\cite{fed_rad_plan_2008}, it is possible to understand that, in order to enjoy the perks of assisted navigation, the quality behaviour of a GNSS must be ensured. 
+Through~\cite{fed_rad_plan_2008}, it is possible to understand that, in order to enjoy the perks of assisted navigation, the quality behaviour of a GNSS must be ensured.
 A smart approach for that is to analyse the following four performance criteria:
 
 \begin{itemize}
@@ -160,7 +149,7 @@ Upon its the introduction to civilian use, the desire to cover an even larger po
         \multicolumn{2}{c}{\multirow{2}*{\textbf{Constellation}}} & \multirow{2}*{\textbf{Satellites}} & \textbf{Orbital} & \textbf{Orbital}     & \textbf{Orbit} \\
         \multicolumn{2}{c}{}                                      &                                    & \textbf{Planes}  & \textbf{Inclination} & \textbf{Radius} \\
         \midrule
-     
+
         \multirow{3}*{\includegraphics[height=1cm]{Chapters/Figures/flags/usa.png}}&\multirow{3}*{GPS} &  &  &  & \\
         \multirow{3}*{}   &{}             & 27 + 4 (spares) & 6 & 55 degrees & $20,200$ km \\
         \multirow{3}*{}   &{}          & & & & \\
@@ -195,7 +184,7 @@ On an additional manner, there are also two extra systems that were developed to
     \item NavIC (India): Planned to be made up of seven satellites, this Regional Navigation Satellite System was developed by India to grant regional coverage (hence the (outdated) name IRNSS) to India and its neighbouring area.
     As a result of the launch of the constellation's last satellite in 2016, the IRNSS title was changed to Navigation Indian Constellation (NavIC), by India's Prime Minister Narendra Modi~\cite{navic_news_2016};
     \item QZSS (Japan): Working as another regional navigation satellite system, the development of the Quasi-Zenith Satellite System was accredited by the Japanese government in order to ensure service to Japan, as well as the Asia-Oceania region and consists of four satellites.
-    However, this constellation limits accuracy in its standalone (also known as single-point positioning) mode, which means it functions as GPS augmentation service\footnote{Augmentation services will be covered in more detail in Section~\ref{sec:II_gnss_sbas}.} by synchronisation of clocks use of same frequencies, allowing the use of this system's machinery as extra GPS satellites.
+    However, this constellation limits accuracy in its standalone (also known as single-point positioning) mode, which means it functions as GPS augmentation service\footnote{GNSS augmentation will be covered in more detail in Section~\ref{sec:II_gnssAug}.} by synchronisation of clocks use of same frequencies, allowing the use of this system's machinery as extra GPS satellites.
 \end{itemize}
 
 Every constellation follows the same purpose of providing services of:
@@ -215,7 +204,7 @@ Therefore, the space segment essentialy focuses on accurately covering every poi
 Each satellite's status -- more specifically, its ``health'', position (current and expected), velocity and timing -- is recorded by an internal orbital pattern known as \gls{ephemeris}. Such data is, in turn, included within the transmitted signals. The control segment is found on Earth, at a stationary location, and its control element is used to correct any errors coming from the satellites, being that the more satellites that can be observed in the control segment, the greater the probability of an error to be detected and corrected, thus increasing accuracy in the user segment.
 
 A good example for the control segment is, precisely, a base station: by installing a GNSS receiver at a fixed location, it will continuously collect data from the satellites, as well as any changes or discrepancies in the readings, which can then be corrected later and transferred to the user segment. Nowadays, there are long-term reference stations that are mounted and freely accessible, which eliminates the need for two receivers; having the base and rover together can be too much equipment in some situations and therefore result in larger financial costs.
-So, in order to solve this, the rover receiver just needs to be connected to some kind of frame of reference, which will be the control segment used to complete the solution (this could be, for example, an NTRIP network\footnote{NTRIP will be covered in more detail in Section~\ref{sec:II_ntrip}.}).
+So, in order to solve this, the rover receiver just needs to be connected to some kind of frame of reference, which will be the control segment used to complete the solution (this could be, for example, an NTRIP network\footnote{NTRIP will be covered in more detail in Section~\ref{sec:II_networkedRTK_ntrip}.}).
 This type of references are generally found in heavily populated areas; anywhere that is more rural or not really connected to society, they may not be available, so the need to have two receivers (base station and rover) in order to complete the three segments will inevitably be felt.
 
 One of the tasks of this segment that is worth mentioning is the constant monitoring of the satellites, i.e. the regular adjustment of trajectory and time information, in order to keep all the transmitted information highly accurate.
@@ -242,7 +231,7 @@ These machines are designed to continuously orbit along their respective traject
 	\begin{tabular}{lc}
         \toprule
         \textbf{Source} & \textbf{Error range} \\
-        \midrule     
+        \midrule
         Satellite clocks & $\pm 2.0$ m \\
         \midrule
         Orbit errors & $\pm 2.5$ m \\
@@ -263,7 +252,7 @@ The communication process can be characterized through an intricate set of terms
 
 % dar o exemplo de GPS: tem CDMA -> falar de CDMA:
 The way GPS satellites communicate through the same frequency bands is through CDMA. This form of spread spectrum enables the modulation of signals via a code defined as being pseudorandom, meaning that receivers can, beforehand, associate the code intrinsic to each satellite, which allows synchronisation (correlation) between themselves and that same CDMA code. That way, theoretically, information should be able to flow smoothly, however, due to the aforementioned dilution of precision (DOP), signals may be affected while travelling through the atmosphere;
-the propagation signal can be affected when it passes through the ionosphere (a layer located roughly 50-1,000 km above Earth's surface) or the troposphere (located about 8-14.5 km above the surface), which correspond to the upper and lower zones of the atmosphere, respectively. These effects depend significantly on frequency, so it is worth noting that signals can be compromised by negative effects such as reflection and even absorption, scintillation, Faraday rotation and \textbf{bandwidth decoherence}~\cite{au_gov_satell}. Considering these problems, GPS was designed to operate in frequencies within the interval of 1 to 2 GHz, which corresponds to a section of the radio spectrum known as the L-band, as represented by Figure~\ref{fig:gps_bands} (which shows the frequncy bands used in GPS communication, known as the L1, L2 and L5 frequencies).
+the propagation signal can be affected when it passes through the ionosphere (a layer located roughly 50-1,000 km above Earth's surface) or the troposphere (located about 8-14.5 km above the surface), which correspond to the upper and lower zones of the atmosphere, respectively. These effects depend significantly on frequency, so it is worth noting that signals can be compromised by negative effects such as reflection and even absorption, scintillation, Faraday rotation and bandwidth decoherence\footnote{For a clearer definition of these negative effects, refer to~\cite{ieee_terms_1997}}~\cite{au_gov_satell}. Considering these problems, GPS was designed to operate in frequencies within the interval of 1 to 2 GHz, which corresponds to a section of the radio spectrum known as the L-band, as represented by Figure~\ref{fig:gps_bands} (which shows the frequncy bands used in GPS communication, known as the L1, L2 and L5 frequencies).
 % meter/fazer figura das frequencias do GPS:
 \begin{figure}[ht]
 	\centering
@@ -272,34 +261,33 @@ the propagation signal can be affected when it passes through the ionosphere (a 
 	\label{fig:gps_bands}
 \end{figure}
 
-This band solves a great part of the stated problems due to its high frequencies, as it 
+This band solves a great part of the stated problems due to its high frequencies, as it simplifies antenna design and lowers the impact of ionospheric delay.
 
 % razões 1: MUDAR
-Simplification of antenna design. If the frequency had been much higher, user antennas may have had to be a bit more complex.
-- Ionospheric delay is more significant at lower frequencies.
-- Except through a vacuum, the speed of light is lower at lower frequencies
-- The coding scheme requires a high bandwidth, which was not available in every frequency band.
-- The frequency band was chosen to minimize the effect that weather has on GPS signal propagation.
+% Simplification of antenna design. If the frequency had been much higher, user antennas may have had to be a bit more complex.
+% - Ionospheric delay is more significant at lower frequencies.
+% - Except through a vacuum, the speed of light is lower at lower frequencies
+% - The coding scheme requires a high bandwidth, which was not available in every frequency band.
+% - The frequency band was chosen to minimize the effect that weather has on GPS signal propagation.
 
 % razões 2: MUDAR
-L1 transmits a navigation message, the coarse acquisition C/A code (freely available to the public) and an encrypted precision (P) code, called the P(Y) code (restricted access). The navigation message is a low bit rate message that includes the following information:
-- GPS date and time.
-- Satellite status and health. If the satellite is having problems or its orbit is being adjusted, it will not be usable. When this happens, the satellite will transmit the out-of-service message.
-- Satellite ephemeris data, which allows the receiver to calculate the satellite's position. This information is accurate to many, many decimal places. Receivers can determine exactly where the satellite was when it transmitted its time.
-- Almanac, which contains information and status for all GPS satellites, so receivers know which satellites are available for tracking. On start up, a receiver will recover this "almanac".
-The almanac consists of coarse orbit and status information for each satellite in the constellation.
+% L1 transmits a navigation message, the coarse acquisition C/A code (freely available to the public) and an encrypted precision (P) code, called the P(Y) code (restricted access). The navigation message is a low bit rate message that includes the following information:
+% - GPS date and time.
+% - Satellite status and health. If the satellite is having problems or its orbit is being adjusted, it will not be usable. When this happens, the satellite will transmit the out-of-service message.
+% - Satellite ephemeris data, which allows the receiver to calculate the satellite's position. This information is accurate to many, many decimal places. Receivers can determine exactly where the satellite was when it transmitted its time.
+% - Almanac, which contains information and status for all GPS satellites, so receivers know which satellites are available for tracking. On start up, a receiver will recover this "almanac".
+% The almanac consists of coarse orbit and status information for each satellite in the constellation.
 
-The P(Y) code is for military use.
+% The P(Y) code is for military use.
 
-GPS. The L2 frequency transmits the P(Y) code and, on newer GPS satellites, it also transmits the C/A code (referred to as L2C), providing a second publicly available code to civilian users.
+% GPS. The L2 frequency transmits the P(Y) code and, on newer GPS satellites, it also transmits the C/A code (referred to as L2C), providing a second publicly available code to civilian users.
 
 \subsubsection{Signal Propagation}\label{sec:II_gnss_comm_propag}
 
-The layer of the atmosphere that most influences the transmission of GPS (and other GNSS) signals is the ionosphere. These electrons influence electromagnetic wave propagation, including GPS satellite signal broadcasts. Ionospheric delays are frequency dependent so by calculating the range using both L1 and L2, the effect of the ionosphere can be virtually eliminated by the receiver.
+As mentioned earlier, the atmosphere has a considerable impact on the transmission of signals from GNSS satellites, the layer that most influences transmissions being the ionosphere, taking into account that this layer is responsible, as its name implies, for the inization of the parts upper atmosphere of Earth. The interaction of the resulting free electrons with the propagating electromagnetic waves gives rise to transmission delays, these delays depending on the frequency at which the signal propagates. In this way, by calculating the range through the L1 and L2 frequencies, these negative effects can be virtually eliminated upon reception.
+However, when dealing with tropospheric delays, this technique cannot rule out problems, since the effects of the troposphere on the signals are due to the variation of local temperature, pressure and relative humidity. There is, then, another way of detecting and correcting the errors that may arise, which falls on the modeling and prediction of the behavior of this atmospheric segment.
 
-The other layer of the atmosphere that influences the transmission of GPS signals is the troposphere. Tropospheric delay is a function of local temperature, pressure and relative humidity. L1 and L2 are equally delayed, so the effect of tropospheric delay cannot be eliminated the way ionospheric delay can be.
-
-Some of the signal energy transmitted by the satellite is reflected on the way to the receiver. This phenomenon is referred to as "multipath propagation" and is represented in Figure~\ref{fig:multipath}. These reflected signals are delayed from the direct signal and, if they are strong enough, can interfere with the desired signal. Techniques have been developed whereby the receiver only considers the earliest-arriving signals and ignores multipath signals.
+One of the most common problems also mentioned above concerns the reflection of part of the energy of the transmitted signal (on any possible surface), in the propagation path between the satellite and the receiver, which is called ``multipath propagation'' (represented in Figure~\ref{fig:multipath}). This phenomenon has the potential to cause reception problems if the intensity of the reflected signal is too high, to the point of interfering with the desired signal. However, this is a problem with a relatively intuitive solution, since the receiver can only consider the first received signal, ignoring replicas of it (taking into account the intrinsic code of each GNSS satellite, also mentioned in the previous section)~\cite{novatel_gnss,kaplan_2017}.
 
 %meter imagem de sinais de satelite a serem deflected e refleced em predios e tal:
 \begin{figure}[ht]
@@ -309,56 +297,52 @@ Some of the signal energy transmitted by the satellite is reflected on the way t
 	\label{fig:multipath}
 \end{figure}
 
-% example of multipath propagation:--------------------------------------
-As an example of the effects of mulipath propagation:
-If either the transmitter or the receiver, or both, are inside man-made structures, then additional propagation losses typically occur. These losses should be added (in decibels) to the propagation losses computed using the models described previously.
-Building penetration losses vary considerably with building construction, materials, structure, and the location of the receiver or transmitter within the building. The presence or absence of windows, and even the difference between metal window frames and wooden window frames, can make a significant difference in the propagation loss into a room. Besides propagation loss, signals received within a building often experience significant multipath. 
-Building penetration losses are discussed extensively [41]. The following discussion is based on [40]. The excess loss in decibels due to building penetration is typically modeled, for signals arriving from above the building, as
+% % example of multipath propagation:--------------------------------------
+% As an example of the effects of mulipath propagation:
+% If either the transmitter or the receiver, or both, are inside man-made structures, then additional propagation losses typically occur. These losses should be added (in decibels) to the propagation losses computed using the models described previously.
+% Building penetration losses vary considerably with building construction, materials, structure, and the location of the receiver or transmitter within the building. The presence or absence of windows, and even the difference between metal window frames and wooden window frames, can make a significant difference in the propagation loss into a room. Besides propagation loss, signals received within a building often experience significant multipath.
+% Building penetration losses are discussed extensively [41]. The following discussion is based on [40]. The excess loss in decibels due to building penetration is typically modeled, for signals arriving from above the building, as
 
-\begin{equation}
-    L=L_{roof}+n_{floor}\,L_{floor}\,,\medskip
-\end{equation}
-where
-- Lroof is the roof penetration loss, which can range from 1 dB to 30 dB at L-band;
-- nfloor is the number of floors penetrated;
-- Lfloor is the loss per floor, which can range from 1 dB to 10 dB at L-band. For building penetration through walls, the excess loss in decibels is similarly typically modeled as
+% \begin{equation}
+%     L=L_{roof}+n_{floor}\,L_{floor}\,,\medskip
+% \end{equation}
+% where
+% - Lroof is the roof penetration loss, which can range from 1 dB to 30 dB at L-band;
+% - nfloor is the number of floors penetrated;
+% - Lfloor is the loss per floor, which can range from 1 dB to 10 dB at L-band. For building penetration through walls, the excess loss in decibels is similarly typically modeled as
 
-\begin{equation}
-    L=L_{ext}+n_{int}\,L_{int}\,,\medskip
-\end{equation}
-where
-- Lext is the exterior wall penetration loss, which can range from 1 dB to 30 dB at L-band;
-- nint is the number of interior walls penetrated;
-- Lint is the loss per interior wall, which can range from 1 dB to 10 dB at L-band.
+% \begin{equation}
+%     L=L_{ext}+n_{int}\,L_{int}\,,\medskip
+% \end{equation}
+% where
+% - Lext is the exterior wall penetration loss, which can range from 1 dB to 30 dB at L-band;
+% - nint is the number of interior walls penetrated;
+% - Lint is the loss per interior wall, which can range from 1 dB to 10 dB at L-band.
 
-Table 9.13 lists representative losses for different building materials, drawing from an extensive set of measurements reported in [42].
+% Table 9.13 lists representative losses for different building materials, drawing from an extensive set of measurements reported in [42].
 
-%meter tabela 9.13
+% %meter tabela 9.13
 
-%----------------------------------------------------------------------
+% %----------------------------------------------------------------------
 
-Upon reception of the signals:
-The use of more satellites, if they are available, will improve the position solution;
+Regarding the reception of signals, it is intuitive that the more satellites that participate in the solution, the more accurate it will be, hence why the positioning is not restricted to just four satellites (as mentioned in Section~\ref{sec:II_gnss}) -- however, a direct line of sight is always required between any GNSS receiver that wants an accurate position and the (at least four) satellites. Being able to decode the satellites' signals due to their pseudo-random nature (i.e. due to PRN codes), the receivers are able to determine propagation times, and thus are also able to apply the methodology based on equation (\ref{eq:2_1}) to calculate ranges to the respective satellites.
 
-To determine a fix (position) and time, GNSS receivers need to be able to track at least four satellites. This means there needs to be a line of sight between the receiver's antenna and the four satellites.
+% Receivers vary in terms of which constellation or constellations they track, and how many satellites they track simultaneously. For each satellite being tracked, the receiver determines the propagation time. It can do this because of the pseudorandom nature of the signals.
 
-Receivers vary in terms of which constellation or constellations they track, and how many satellites they track simultaneously. For each satellite being tracked, the receiver determines the propagation time. It can do this because of the pseudorandom nature of the signals.
-
-Since the receiver knows the pseudorandom code for each satellite, it can determine the time it received the code from a particular satellite. In this way, it can determine the time of propagation.
+% Since the receiver knows the pseudorandom code for each satellite, it can determine the time it received the code from a particular satellite. In this way, it can determine the time of propagation.
 
 % fim da parte de propagação.
 
-Important requirement: the requirement of CDMA to operate in a high bandwidth, therefore truly benefiting from this L-band.
+% Important requirement: the requirement of CDMA to operate in a high bandwidth, therefore truly benefiting from this L-band.
 
-It was also specially selected to work on due to the fact that it 
+% It was also specially selected to work on due to the fact that it
 
-C/A P-code~\cite{ca_p_code_1991}
+% C/A P-code~\cite{ca_p_code_1991}
 
-It is worth stating that the navigation message transmitted is has a low bit rate.
+It is also worth stating that the navigation message transmitted has a low bit rate, being that one of the reasons why these signals should be transmitted in high frequencies. Table~\ref{tab:GNSS_freqs} and Figure~\ref{fig:global_frequencies} show the frequencies that yield the best transmission results by each GNSS constellation signals~\cite{novatel_gnss,kaplan_2017,groves_2008}.
 
-This can explain the reason why these signals should be transmitted in high frequencies, which paves the ground for the next question: Which frequency bands yield the best transmission results for each GNSS?
-
-\subsubsection{Frequency Bands}\label{sec:II_gnss_comm_freq_bands}
+% NOTA FINAL SOBRE GNSS:
+As more GNSS constellations are designed and more satellites are added, we will be able to calculate position more accurately and in even more places, expanding the already wide coverage of the planet.
 
 % no final meter tabela: ATENÇÃO À POSIÇÃO DA TABELA!!
 \begingroup
@@ -374,7 +358,7 @@ This can explain the reason why these signals should be transmitted in high freq
         \textbf{System} & \textbf{Signal} & \textbf{Frequency (MHz)} \\
 
         \midrule
-     
+
         \multirow{5}*{GPS}      & L1 C/A    & 1575.42 \\
         \multirow{5}*{}         & L1C       & 1575.42 \\
         \multirow{5}*{}         & L2C       & 1227.60 \\
@@ -387,7 +371,7 @@ This can explain the reason why these signals should be transmitted in high freq
         \multirow{4}*{}         & L2C       & 1242.9375-1251.6875 \\
         \multirow{4}*{}         & L2P       & 1242.9375-1251.6875 \\
         \multirow{4}*{}         & L3 OC     & 1202.025            \\
-        
+
         \midrule
 
         \multirow{5}*{Galileo}  & E1        & 1575.42  \\
@@ -428,40 +412,33 @@ This can explain the reason why these signals should be transmitted in high freq
 \end{table}
 \endgroup
 
-%meter imagem das frequencias de todas aonstelações no mesmo referencial: figura 36 novatel_gnss
+%meter imagem das frequencias de todas constelações no mesmo referencial: figura 36 novatel_gnss
 % meter imagem svg do planeta com todas as GNSS?
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=1.0\textwidth]{Chapters/Figures/demo.png}
-	\caption{GNSS satellite signal multipath propagation.}
-	\label{fig:multipath}
+	\caption{Main frequencies used by all GNSS services.}
+	\label{fig:global_frequencies}
 \end{figure}
 
-%falar de cada frequência: ...
-L5:
-The United States has implemented a third civil
-GPS frequency (L5) at 1176.45 MHz. The modernized
-GPS satellites (Block II-F and later) are
-transmitting L5.
-the modernied benefits of the L5 signal include meeting
-the requirements for critical safety-of-life applications
-such as that needed for civil aviation
-and providing:
-- Improved ionospheric correction.
-- Signal redundancy.
-- Improved signal accuracy.
-- Improved interference rejection.
-
-% NOTA FINAL SOBRE GNSS:
-As GNSS constellations and satellites are added, we will be able to calculate position more accurately and in more and more places.
-
-
+% %falar de cada frequência: ...
+% L5:
+% The United States has implemented a third civil
+% GPS frequency (L5) at 1176.45 MHz. The modernized
+% GPS satellites (Block II-F and later) are
+% transmitting L5.
+% the modernied benefits of the L5 signal include meeting
+% the requirements for critical safety-of-life applications
+% such as that needed for civil aviation
+% and providing:
+% - Improved ionospheric correction.
+% - Signal redundancy.
+% - Improved signal accuracy.
+% - Improved interference rejection.
 
 \section{GNSS Augmentation}\label{sec:II_gnssAug}
 
-Regarding precise navigation, the precision obtained solely by relying on GNSS is not good enough (as it only offers meter-level accuracy~\cite{novatel_gnss}) -- possible to conclude by looking at Table~\ref{tab:GNSS_sys_errors}. Taking the example of an autonomous drone used in all the processes mentioned in Section~ \textbf{??}
-%~\ref{sec:} // falta ainda mencionar os processos dos drones!
-, the need for a higher precision degree is definetely clear. To make such navigation possible, the top priority is to bring GNSS system errors down to a minimum.
+Regarding precise navigation, the precision obtained solely by relying on GNSS is not good enough (as it only offers meter-level accuracy~\cite{novatel_gnss}) -- possible to conclude by looking at Table~\ref{tab:GNSS_sys_errors}. Taking the example of an autonomous drone used in all the processes mentioned in the beggining of this chapter, the need for a higher degree of precision is definetely clear. To make such navigation possible, the top priority is to bring GNSS system errors down to a minimum.
 
 At this point it is clear that the focal point behind GNSS positioning is related to equation (\ref{eq:2_1}), which means that any error connected to distance, velocity or time will affect the transmitted signal's quality, and thus, mitigation of these problems will yield better results.
 The way to do so is through techniques relying on the augmentation of GNSS positioning capabilities~\cite{novatel_gnss,kaplan_2017}, which portrays an ingenious way of improving the four performance parameters described in Section~\ref{sec:II_gnss} (accuracy, availability, continuity and integrity).
@@ -476,7 +453,7 @@ DGNSS solutions represent the highest efficiency attainable. % citation needed
 
 %For the purpose of this dissertation, the focus of error correction through GNSS augmentation will be set on differential corrections (more precisely, Differential GNSS, or DGNSS), as this is method relates directly with the beRTK\textsuperscript{\textregistered} base station.
 
-% Breaking augmentation systems in a twofold way, accuracy and integrity ssuring further development of accuracy from GNSS augmentation 
+% Breaking augmentation systems in a twofold way, accuracy and integrity ssuring further development of accuracy from GNSS augmentation
 
 % % wiki:
 % Based on its main feature, GNSS augmentation systems can be classified as those providing integrity information to the primary GNSS satellites constellation(s) and those improving the accuracy of the user solution with respect to the only use of the primary GNSS constellation(s).
@@ -490,8 +467,6 @@ DGNSS solutions represent the highest efficiency attainable. % citation needed
 	\caption{Accuracy Performances for GNSS and GNSS Augmentation Techniques.}
 	\label{fig:accuracy_perfromances}
 \end{figure}
-
-
 
 % --------------- PARTE A VERDE: DONE
 The conventional code-based method presented in Section~\ref{sec:II_gnss_comm} is not capable of providing low-order levels of precision, so another method known as ``carrier-based'' was developed.
@@ -512,11 +487,11 @@ Taking into account the possible signal ambiguities that may arise when using a 
 
 % --------------- PARTE VERMELHA: DONE
 Looking again at Figure~\ref{fig:dgnss_corrections}, one of the most important devices for augmented GNSS services can clearly be seen: the base station. This element is crucial to the workings of the technique able to describe the operation of RTK, known as Differential GNSS, or DGNSS. This carrier-based method consists on the use of a fixed GNSS receiver that sits in a static and known position (obtained in a highly accurate way through conventional surveying techniques) -- base station; due to the existence of an internal GNSS receiver in it, the ranges to each GNSS satellite in line of sight are effectively determined using a code-based technique (such as the conventional GNSS technique), and the location of each of these satellites is also calculated taking into account precisely known orbit ephemerides as well as the time of each satellite.
-When comparing the measured position with the calculated one (from the ranges to each satellite -- also calculated), it can be clearly assumed that the differences between both positions will be ephemeris-related, as well as due to the differences between clocks 
+When comparing the measured position with the calculated one (from the ranges to each satellite -- also calculated), it can be clearly assumed that the differences between both positions will be ephemeris-related, as well as due to the differences between clocks
 %relative clock offsets (?)
 -- bearing in mind that, unlike a GNSS satellite, a base station does not have an atomic clock. However, delays related to the passage of the signal through the atmosphere are the most recurring and common errors.
 Subsequently, in order for the corrections to be incorporated in the calculated solutions, the base station performs the task of sending the detected range errors to other receivers that also obtain their position through GNSS positioning (rovers; e.g. a UAV). This correlation allows such errors to be calibrated out.
-For this, it is necessary to establish a link for the supply of data between the base station and the rover, keeping in mind the fast transmission and reception of corrections happening in real-time. Connections like these can be made through radio frequency\footnote{The LoRa protocol is good example for this; it is addressed in more detail in Section~\ref{sec:II_gnssAug_rtk_LoRa}.} -- by using a frequency interval with values ranging from under 300 kHz (low frequencies, or LF) to around 1-2 GHz (corresponding to the L-band (first mentioned in Section~\ref{sec:II_gnss_comm})) and above -- or the internet.
+For this, it is necessary to establish a link for the supply of data between the base station and the rover, keeping in mind the fast transmission and reception of corrections happening in real-time. Connections like these can be made through radio frequency\footnote{The LoRa protocol is good example for this.} -- by using a frequency interval with values ranging from under 300 kHz (low frequencies, or LF) to around 1-2 GHz (corresponding to the L-band (first mentioned in Section~\ref{sec:II_gnss_comm})) and above -- or the internet.
 
 In case the need arises for a quick calculation of corrections, i.e. in real-time, both devices will need to have in their line of sight at least four GNSS satellites -- three for the determination of the position according to $x$, $y$ and $z$ (as explained in~\ref{sec:II_gnss_trilateration}) and an extra one to correct for clock time differences between satellites and receivers, commonly called time offset. Thus, it is concluded that, in order to obtain a high-precision position for the rover, a high-precision position must be determined at the base station, considering the dependence between the two. If it is assumed that, for the missions performed, the rover does not move too far from the base station, the real-time accuracy of the measurements will be high, taking into account that the signals received by each of the devices will pass through, sensibly, the same atmosphere conditions. In this way, the greater the distance possible to maintain between devices, the better.
 
@@ -534,7 +509,7 @@ Making use of geosynchronous satellites, i.e., satellites that orbit the Earth w
 \begin{itemize}
     \item Accuracy: Possible to be improved by propagating wide area corrections for all detected GNSS range errors;
     \item Availability: In a straightforward way, signal availability is possible to improve through the transmission of range signals from each SBAS satellites;
-    \item Integrity: Ensured by the SBAS network via rapid detection of satellite signal errors and subsequent sending of non-tracking alerts to the receivers. 
+    \item Integrity: Ensured by the SBAS network via rapid detection of satellite signal errors and subsequent sending of non-tracking alerts to the receivers.
 \end{itemize}
 
 %meter imagem dos SBAS systems: DONE
@@ -621,18 +596,18 @@ Thus, it is known that the ability to determine the exact position in RTK positi
 There is still another factor to consider for accuracy, which, in turn, is not represented in Figure~\ref{fig:rtk_workings}: the positioning of the base station. This parameter should not, in any way, be neglected, since, when connections are established through radiofrequency with a rover, the propagation of correction information will be done, as the term implies, through radio waves; due to their nature, these waves may suffer the same problems already observed in the propagation of waves from GNSS satellites -- such as interference and multipath --, so the location selection is important to minimize all negative effects. Another way to do this could also be to improve the quality of the rover's antennas.
 % ------------------ fim da PARTE AMARELA.
 
-%MUDAR, ESTÁ COPIADO!
-So, the difference between RTK and DGPS is that DGPS is the traditional differential GPS.
-RTK is a specific type of DGPS.
-but it uses a newer technology than the traditional DGPS.
-RTK stands for real-time kinematic and commonly uses the RTCM protocol.
-The traditional DGPS uses an older antiquated protocol while RTK uses a newer algorithm, and the protocol is based on RTCM3. data flow rate is much higher in RTK.
-%____________
+% %MUDAR, ESTÁ COPIADO!
+% So, the difference between RTK and DGPS is that DGPS is the traditional differential GPS.
+% RTK is a specific type of DGPS.
+% but it uses a newer technology than the traditional DGPS.
+% RTK stands for real-time kinematic and commonly uses the RTCM protocol.
+% The traditional DGPS uses an older antiquated protocol while RTK uses a newer algorithm, and the protocol is based on RTCM3. data flow rate is much higher in RTK.
+% %____________
 
-- Used to improve the accuracy of standalone GNSS receivers. Traditional GNSS receivers can only determine the position with na accuracy of about 2-4 meters (?). RTK provides centimeter accuracy.
-- GNSS receiver measure how long it takes for a signal to travel from a satellite to the receiver. Due to the presence of atmosphere between the satellite and the receiver, the transmitted signals are slowed down and are introduced to perturbations. With this in mind, one can immediately assume that transmission times will differ according to the weather at the time of the event. That is the reason why a standalone receiver has a hard time determining its position accurately. RTK is a Technology that solves this issue.
-- 2 receivers are used in RTK. One of them is stationary, the other is a moving rover.
-- Real Time Kinematic (RTK) is a GPS correction technology technique that provides real-time corrections to location data as the drone is surveying and capturing images from a site.    
+% - Used to improve the accuracy of standalone GNSS receivers. Traditional GNSS receivers can only determine the position with na accuracy of about 2-4 meters (?). RTK provides centimeter accuracy.
+% - GNSS receiver measure how long it takes for a signal to travel from a satellite to the receiver. Due to the presence of atmosphere between the satellite and the receiver, the transmitted signals are slowed down and are introduced to perturbations. With this in mind, one can immediately assume that transmission times will differ according to the weather at the time of the event. That is the reason why a standalone receiver has a hard time determining its position accurately. RTK is a Technology that solves this issue.
+% - 2 receivers are used in RTK. One of them is stationary, the other is a moving rover.
+% - Real Time Kinematic (RTK) is a GPS correction technology technique that provides real-time corrections to location data as the drone is surveying and capturing images from a site.
 
 
 \subsection{Networked RTK}\label{sec:II_networkedRTK}
@@ -698,31 +673,31 @@ The standards used in RTK systems are able to follow more than one specific form
 	\begin{tabular}{ll}
         \toprule
         \textbf{Code} & \textbf{Message} \\
-        \midrule     
+        \midrule
         \multirow{2}*{1004} & Extended L1 and L2 GPS RTK observables for GPS RTK use; the \\
                             & main message \\
-        \midrule     
+        \midrule
         1005 & Stationary RTK Reference Station ARP \\
-        \midrule     
+        \midrule
         1006 & Stationary RTK Reference Station ARP plus the antenna height \\
-        \midrule     
+        \midrule
         1007 & Antenna Descriptor \\
-        \midrule     
+        \midrule
         \multirow{2}*{1012} & Extended L1 and L2 GLONASS RTK observables; the other main \\
                             & message \\
-        \midrule     
+        \midrule
         1013 & System Parameters, time offsets, lists of messages sent \\
-        \midrule     
+        \midrule
         1017 & GPS Combined Geometric and Ionospheric Correction Differences \\
-        \midrule     
+        \midrule
         1019 & GPS Broadcast Ephemeris (orbits) \\
-        \midrule     
+        \midrule
         1020 & GLONASS Broadcast Ephemeris (orbits) \\
-        \midrule     
+        \midrule
         1029 & Unicode Text String (used for human readable text) \\
-        \midrule     
+        \midrule
         1033 & Receiver and Antenna Descriptors \\
-        \midrule     
+        \midrule
         1045 & Galileo Broadcast Ephemeris \\
         \bottomrule
     \end{tabular}
@@ -808,7 +783,7 @@ Thus, PPK positioning is mostly used in mapping using UAVs.
 
 \section{Current Solutions}\label{sec:II_curr_solutions}
 
-This section aims to clarify the exposed concepts about the device representing the center of the project covered by this Dissertation: the RTK base station. For that, important parameters of some of the most relevant solutions currently available in the market are presented in Tables~\ref{tab:curr_sol_POSITIONING},~\ref{tab:curr_sol_CONNECTIONS},~\ref{tab:curr_sol_ELECTRICAL} and~\ref{tab:curr_sol_MECH}, which represent positioning, connectivity, electrical, and physical/mechanical characteristics, respectively.
+This section aims to clarify the exposed concepts about the device representing the center of the project covered by this Dissertation: the RTK base station. For that, important parameters of some of the most relevant solutions currently available in the market are presented in Figures~\ref{fig:curr_sol_POSITIONING},~\ref{fig:curr_sol_CONNECTIONS},~\ref{fig:curr_sol_ELECTRICAL} and~\ref{fig:curr_sol_MECH}, which represent positioning, connectivity, electrical, and physical/mechanical characteristics, respectively.
 
 % \begingroup
 % \begin{table}[h]
@@ -925,20 +900,20 @@ By observing the architecture it is possible to notice its division into four im
     \item Communications: Used for connection to devices/networks, this group is in charge of establishing the links needed to complete the intended purpose of the device.
 \end{itemize}
 
-%% beyonddddddddddddddddddddddddddddddddddddddd:
-The main components of this diagram can be described as follows:
--	RTK Local Web Platform: the RTK Base Station's Control Center. From this platform, the user can have full control over the Base Station. It is used in this context to retrieve the status of the RTK base Station and enable manual adjustments to its parameters;
--	HEIFU™ Drone: The HEIFU™ drone is the mobile unit in the system. It uses the communication with this base station to improve its positioning accuracy;
-This document focuses on the RTK Base Station and as such, from this point on, only the blocks inside the RTK Base Station box will be considered. The blocks are described as follows:
--	Battery1 and 2: Removable batteries to power the system in stand-alone mode;
--	Power Selection Module: Logic module that selects from the different available power sources, the one that supplies the system at a given moment, being external power the main power source (highest priority). If external power is not available, the PSM first uses Battery1 and, when this battery is over, it uses Battery2 (lowest priority). Note that the power source will always switch to the highest priority power source that is considered valid based on its voltage.
--	Power switch: A solid-state switch that ensures the capability of manually switching on and off the battery supply and so turning the RTK Base Station on and off respectively;
--	CPU Board: The system's “brains”;
--	RTK Positioning: Positioning module to accurately determine its position and transmit the correction signals;
--	RTK Radio Link: Wireless link to the HEIFU™ drone to transmit the positioning information;
--	WiFi Transceiver: Wi-Fi link to connect to a user's personal computer.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %% beyonddddddddddddddddddddddddddddddddddddddd:
+% The main components of this diagram can be described as follows:
+% -	RTK Local Web Platform: the RTK Base Station's Control Center. From this platform, the user can have full control over the Base Station. It is used in this context to retrieve the status of the RTK base Station and enable manual adjustments to its parameters;
+% -	HEIFU™ Drone: The HEIFU™ drone is the mobile unit in the system. It uses the communication with this base station to improve its positioning accuracy;
+% This document focuses on the RTK Base Station and as such, from this point on, only the blocks inside the RTK Base Station box will be considered. The blocks are described as follows:
+% -	Battery1 and 2: Removable batteries to power the system in stand-alone mode;
+% -	Power Selection Module: Logic module that selects from the different available power sources, the one that supplies the system at a given moment, being external power the main power source (highest priority). If external power is not available, the PSM first uses Battery1 and, when this battery is over, it uses Battery2 (lowest priority). Note that the power source will always switch to the highest priority power source that is considered valid based on its voltage.
+% -	Power switch: A solid-state switch that ensures the capability of manually switching on and off the battery supply and so turning the RTK Base Station on and off respectively;
+% -	CPU Board: The system's “brains”;
+% -	RTK Positioning: Positioning module to accurately determine its position and transmit the correction signals;
+% -	RTK Radio Link: Wireless link to the HEIFU™ drone to transmit the positioning information;
+% -	WiFi Transceiver: Wi-Fi link to connect to a user's personal computer.
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The synergy from the association of each subgroup depends on the connections between them, which, on the other hand, will vary depending on the type of data transmission intended; different communication protocols that may fit better between each block are the reason behind that. Examples of this are the connections between the communication blocks (RTK Radio Link; WiFi Transceiver) to UAVs manufactured by Beyond Vision -- HEIFU\textsuperscript{\textregistered} -- or to the RTK Web Local platform -- which subsequently connects to the network NTRIP --, which are performed using radiofrequency (a method already mentioned in this chapter). 
+The synergy from the association of each subgroup depends on the connections between them, which, on the other hand, will vary depending on the type of data transmission intended; different communication protocols that may fit better between each block are the reason behind that. Examples of this are the connections between the communication blocks (RTK Radio Link; WiFi Transceiver) to UAVs manufactured by Beyond Vision -- HEIFU\textsuperscript{\textregistered} -- or to the RTK Web Local platform -- which subsequently connects to the network NTRIP --, which are performed using radiofrequency (a method already mentioned in this chapter).
 
 Every solution might be different, but a simple yet effective way of designing a device capable of performing the operations that characterize a base station is undoubtedly assembling its architecture in the form of a block diagram. It provides considerable advantages, as every unit of the system can be represented in groups, as well as the interactions between each of them. In the long run, this tremendously helps in every stage of the project.
