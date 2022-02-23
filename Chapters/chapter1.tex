@@ -65,7 +65,7 @@ Sight is more than often the most important sense to consider, therefore, bearin
 
 When using UAVs, constantly having to manually control them in tedious and lengthy tasks (e.g. agricultural field surveying) might be impractical.
 A solution for this type of problem would be to automate the processes assigned to the devices. For that, one can't only rely on GPS for extremely precise positioning, specially in a real-time scenario, since this service only provides a few meters of accuracy and not the level needed for precise navigation, which must be in the order of centimeters. Real-time kinematics (RTK) solves this issue~\cite{gps_USGov,8714161},
-since it is a technology designed to improve the accuracy of GNSS receivers in real time. This means it perfecty fits the high percision need of autonomous vehicles, imperative to carry out certain missions with virtually to no human assistance. Therefore, high accuracy is absolutely necessary in real-time UAV positioning.
+since it is a technology designed to improve the accuracy of GNSS receivers in real time. This means it perfectly fits the high precision need of autonomous vehicles, imperative to carry out certain missions with virtually to no human assistance. Therefore, high accuracy is absolutely necessary in real-time UAV positioning.
 % AND LANDING OF THE DRONE ?????????????
 However, as this type of equipment is in constant motion, the problem of obtaining highly precise position readings in real time arises, which in turn calls for a solution that is capable of providing such readings -- a base station.
 
@@ -85,7 +85,7 @@ This dissertation aims at the redesign of the RTK base station produced by the c
 the second is to connect itself to an NTRIP network in order to obtain its precise location much faster (as, through pure GNSS positioning (in this case, GPS), obtaining a precision value below 10 centimeters takes a long time -- up to hours; relying on NTRIP reduces that same waiting time to just minutes or even seconds).
 The proposed idea for this Dissertation is to work on lowering the power consumption of the solution -- currently developed by Beyond Vision -- the best way possible. For that, the device will have to be redesigned.
 
-The current solution manages WiFi connections through a Raspberry Pi 4 Model B, a single-board computer (SBC) with two WiFi modules:
-one able to connect the base station to a WiFi network and fetch positioning data from the NTRIP network, and another that enables the remote configuration of the base from a web-based application, through the creation of a local network.
+The current solution manages Wi-Fi connections through a Raspberry Pi 4 Model B, a single-board computer (SBC) with two Wi-Fi modules:
+one able to connect the base station to a Wi-Fi network and fetch positioning data from the NTRIP network, and another that enables the remote configuration of the base from a web-based application, through the creation of a local network.
 It is, therefore, intended to replace the used SBC with microcontrollers able to perform these same operations, while keeping both the high precision GNSS module and the module used for the radiofrequency broadcasting of RTK corrections.
 Also on the list of changes, yet with lower priority, is a more robust battery system -- that allows charging and using the base at the same time (preferably via USB Type-C). The power consumption of this sector is intended to be cut in approximately half.

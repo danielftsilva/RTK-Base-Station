@@ -16,15 +16,15 @@ With the state of the art of precise navigation addressed, the purpose of this c
 
 Addressed in this document are the first two phases, represented in Chapter~\ref{cha:II_SotA} and Section~\ref{sec:III_requirements}, respectively. These parts make up the theoretical component of the project, which naturally opens the way for the practical component, guided by phases 3 to 6.
 
-Statring with the design of the device's hardware, phase 3 aims to effectively lower the entire system's power consumption, which will be started by first rearranging the blocks of the its architecture -- represented earlier by Figure~\ref{fig:architecture_original} --, followed by the design of the electrical circuit and respective Printed Circuit Board (PCB) after selecting the functionality-defining components.
+Starting with the design of the device's hardware, phase 3 aims to effectively lower the entire system's power consumption, which will be started by first rearranging the blocks of its architecture -- represented earlier by Figure~\ref{fig:architecture_original} --, followed by the design of the electrical circuit and respective Printed Circuit Board (PCB) after selecting the functionality-defining components.
 
-To conclude the electrical aspect of the project, a protyping phase (phase 4) is expected. This phase will provide a foundation for the firmware design phase (phase 5), which, based on the system's interconnections between units and modules will grant a stable operation of the device.
+To conclude the electrical aspect of the project, a prototyping phase (phase 4) is expected. This phase will provide a foundation for the firmware design phase (phase 5), which, based on the system's interconnections between units and modules will grant a stable operation of the device.
 
 Finally, phase 6 will help solidify all the work developed in the previous phases through the evaluation of the device's performance with respect to the desired functionalities (i.e. the requirements).
 
 \section{System Requirements}\label{sec:III_requirements}
 
-Aiming to implement a low-power solution for a new, improved version of the beRTK\textsuperscript{\textregistered} Base Station, the next step to take after gathering all the necessary knowledge on the subjects is to effectively define the system requirements -- which corresponds to phase 2 in the expected workflow (Table~\ref{tab:workflow}).
+Aiming to implement a low-power solution for a new, improved version of the beRTK\textsuperscript{\textregistered} Base Station, the next step to take after gathering all the necessary knowledge on the subjects is to effectively define the system requirements -- which corresponds to phase 2 in the expected workflow\footnote{Phases 1 and 2 are backed by the writing of a Dissertation Preparation report, which corresponds to this very document; The full Dissertation report will contain all the expected project workflow phases.} (Table~\ref{tab:workflow}).
 
 For the development of a project, Beyond Vision's way of establishing its specifications is through a grammar table defined by codes in the following manner:
 
@@ -52,7 +52,7 @@ Therefore, the main requirements gathered for the project to develop are present
 	\begin{tabular}{ll}
         \toprule
         \textbf{Phase} & \textbf{Observations} \\
-        \midrule     
+        \midrule
         \multirow{2}*{\textbf{1. Previous Studies}} & Includes state of the art analysis, selection of typologies, \\
                             						& technologies, etc. \\
 		\midrule
@@ -88,6 +88,54 @@ Therefore, the main requirements gathered for the project to develop are present
     \end{tabular}
 \end{table}
 \endgroup
+
+\begingroup
+\begin{table}[h!]
+	\captionsetup{justification=centering}
+    \caption{Expected project workflow.}
+	\label{tab:workflow_timeline}
+	\centering
+	\begin{tabular}{c|p{0.04cm}|p{0.04cm}|p{0.04cm}|p{0.04cm}|p{0.04cm}|p{0.04cm}|p{0.04cm}|p{0.04cm}|p{0.04cm}|p{0.04cm}|p{0.04cm}|p{0.04cm}|p{0.04cm}|p{0.04cm}|p{0.04cm}|p{0.04cm}|p{0.04cm}|p{0.04cm}|p{0.04cm}|p{0.04cm}|p{0.04cm}|p{0.04cm}|p{0.04cm}|p{0.04cm}}
+    	\multicolumn{1}{c}{} & \multicolumn{2}{c}{Oct} & \multicolumn{2}{c}{Nov} & \multicolumn{2}{c}{Dec} & \multicolumn{2}{c}{Jan} & \multicolumn{2}{c}{Feb} & \multicolumn{2}{c}{Mar} & \multicolumn{2}{c}{Apr} & \multicolumn{2}{c}{May} & \multicolumn{2}{c}{Jun} & \multicolumn{2}{c}{Jul} & \multicolumn{2}{c}{Aug} & \multicolumn{2}{c}{Sep} \\ \hline
+		\multirow{2}*{Phase 1} 			& \cellcolor{blue!25} & & & & & & & & & & & & & & & & & & & & & & & \\ 
+										& \cellcolor{blue!25} & & & & & & & & & & & & & & & & & & & & & & & \\ \hline
+		\multirow{2}*{Phase 2} 			& & & & & & & & & & & & & & & & & & & & & & & & \\ 
+										& & & & & & & & & & & & & & & & & & & & & & & & \\ \hline
+		\multirow{2}*{Phase 3} 			& & & & & & & & & & & & & & & & & & & & & & & & \\ 
+										& & & & & & & & & & & & & & & & & & & & & & & & \\ \hline
+		\multirow{2}*{Phase 4} 			& & & & & & & & & & & & & & & & & & & & & & & & \\ 
+										& & & & & & & & & & & & & & & & & & & & & & & & \\ \hline
+		\multirow{2}*{Phase 5} 			& & & & & & & & & & & & & & & & & & & & & & & & \\ 
+										& & & & & & & & & & & & & & & & & & & & & & & & \\ \hline
+		\multirow{2}*{Phase 6} 			& & & & & & & & & & & & & & & & & & & & & & & & \\ 
+										& & & & & & & & & & & & & & & & & & & & & & & & \\ \hline
+		\multirow{2}*{}Dissertation		& & & & & & & & & & & & & & & & & & & & & & & & \\
+					   Prep. Report 	& & & & & & & & & & & & & & & & & & & & & & & & \\ \hline
+		\multirow{2}*{}Dissertation 	& & & & & & & & & & & & & & & & & & & & & & & & \\ 
+							 Report  	& & & & & & & & & & & & & & & & & & & & & & & & \\ \hline				 
+    \end{tabular}		
+\end{table}
+\endgroup
+
+\begingroup
+\newcolumntype{C}{>{\centering\arraybackslash}p{2em}}
+\begin{table}[h!]
+	\captionsetup{justification=centering}
+    \caption{Expected project workflow.}
+	\label{tab:workflow_timeline2}
+	\centering
+	\begin{tabular}{|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|}
+		\hline
+		\multicolumn{9}{|c|}{gaz}&\multicolumn{9}{|c|}{GAZ} \\
+		\hline
+		\multicolumn{3}{c}{First Long Text} &\multicolumn{3}{c}{Second Long Text} & \multicolumn{3}{c}{Third Long Text}& \multicolumn{3}{c}{Fourth Long Text} & \multicolumn{3}{c}{Fifth Long Text} & \multicolumn{3}{c}{Sixth Long Text} \\
+		\hline
+		1&2&3&4&5&6&7&8&9&1&2&3&4&5&6&7&8&9 \\
+		\hline
+	\end{tabular}
+\end{table}
+\endgroup
+
 
 \subsection{Certification Requirements}\label{III:CRT_requirements}
 
@@ -130,7 +178,7 @@ This section describes the main certification requirements of the device.
 		\midrule
 		\multirow{4}*{\textbf{Remarks:}} 	& \emph{The list of RED related standards to be respected is} \\
 							  				& \emph{at least (but not restricted to) the following:} \\
-											& \emph{EN300 328:2015 (WiFi); EN300 440 (WiFi, ZigBee,} \\
+											& \emph{EN300 328:2015 (Wi-Fi); EN300 440 (Wi-Fi, ZigBee,} \\
 											& \emph{Bluetooth); EN303 413 (GPS, RTK).}\\
 		\bottomrule
 	\end{tabular}
@@ -283,8 +331,8 @@ This section describes the main mechanical requirements of the device.
         \toprule
 	    \textbf{RTKBS.MAIN.MEC.010} 		& \textbf{Enclosure} \\
 	    \multirow{5}*{}						& The RTK Base Station shall count on a plastic enclosure \\
-											& as a shelter from the environment. This enclosure sould \\
-											& be designed so that is does not interfere with the \\
+											& as a shelter from the environment. This enclosure should \\
+											& be designed in a way that is does not interfere with the \\
 											& radio signals needed for its operation (namely \\
 											& positioning and wireless communications).\\
 		\midrule
@@ -307,7 +355,7 @@ This section describes the main mechanical requirements of the device.
 		\multirow{3}*{}						& The RTK Base Station shall be designed so to minimize\\
 											& the number of connectors to the outside world. This \\
 											& includes antennae. \\
-		\multirow{3}*{\textbf{Remarks:}}    & \emph{The idea is to ease and accelerate the deploy on the}\\
+		\multirow{3}*{\textbf{Remarks:}}    & \emph{The idea is to ease and accelerate the deployment on the}\\
 											& \emph{field, as well as minimize the vulnerability to}\\
 											& \emph{external parameters.} \\
 		\bottomrule
@@ -403,7 +451,7 @@ This section describes the main communication requirements of the device.
 		\textbf{RTKBS.MAIN.COM.010} 			& \textbf{Communication with NTRIP Platform} \\
 		\multirow{3}*{}							& The RTK Base Station shall be capable of establishing \\
 												& communications with an NTRIP platform by using a \\
-												& WiFi radio link. \\
+												& Wi-Fi radio link. \\
 		\midrule
 		\multirow{1}*{\textbf{Remarks:}}   & \\
 		\bottomrule
@@ -424,7 +472,7 @@ This section describes the main communication requirements of the device.
 		\textbf{RTKBS.MAIN.COM.030} 		& \textbf{Communication with the User's Computer} \\
 		\multirow{3}*{}						& The RTK Base Station shall be capable of establishing \\
 											& communications with an external computer by using a \\
-											& WiFi radio link. \\
+											& Wi-Fi radio link. \\
 		\midrule
 		\multirow{1}*{\textbf{Remarks:}} 	& \\
 		\bottomrule
