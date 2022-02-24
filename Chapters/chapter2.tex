@@ -114,7 +114,7 @@ Having another satellite orbiting around Earth, the signal emitted by it will re
 % meter imagem word: propagação
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=1.0\textwidth]{Chapters/Figures/demo.png}
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/omnidirectional.png}
 	\caption{Propagation of satellite signals.}
 	\label{fig:omnidirectional}
 \end{figure}
@@ -125,8 +125,8 @@ Logically, it is immediately (and rightfully) assumed that the more satellites t
 % meter imagem de predios e sinais afetados
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=1.0\textwidth]{Chapters/Figures/demo.png}
-	\caption{GNSS segments.}
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/s_c_u_segment.png}
+	\caption{GNSS segments (adapted from~\cite{novatel_gnss}).}
 	\label{fig:s_c_u_segment}
 \end{figure}
 
@@ -252,7 +252,7 @@ The communication process can be characterized through an intricate set of terms
 
 % dar o exemplo de GPS: tem CDMA -> falar de CDMA:
 The way GPS satellites communicate through the same frequency bands is through CDMA. This form of spread spectrum enables the modulation of signals via a code defined as being pseudorandom, meaning that receivers can, beforehand, associate the code intrinsic to each satellite, which allows synchronisation (correlation) between themselves and that same CDMA code. That way, theoretically, information should be able to flow smoothly, however, due to the aforementioned dilution of precision (DOP), signals may be affected while travelling through the atmosphere;
-the propagation signal can be affected when it passes through the ionosphere (a layer located roughly 50-1,000 km above Earth's surface) or the troposphere (located about 8-14.5 km above the surface), which correspond to the upper and lower zones of the atmosphere, respectively. These effects depend significantly on frequency, so it is worth noting that signals can be compromised by negative effects such as reflection and even absorption, scintillation, Faraday rotation and bandwidth decoherence\footnote{For a clearer definition of these negative effects, refer to~\cite{ieee_terms_1997}}~\cite{au_gov_satell}. Considering these problems, GPS was designed to operate in frequencies within the interval of 1 to 2 GHz, which corresponds to a section of the radio spectrum known as the L-band, as represented by Figure~\ref{fig:gps_bands} (which shows the frequency bands used in GPS communication, known as the L1, L2 and L5 frequencies).
+the propagation signal can be affected when it passes through the ionosphere (a layer located roughly 50-1,000 km above Earth's surface) or the troposphere (located about 8-14.5 km above the surface), which correspond to the upper and lower zones of the atmosphere, respectively. These effects depend significantly on frequency, so it is worth noting that signals can be compromised by negative effects such as reflection and even absorption, scintillation, Faraday rotation and bandwidth decoherence\footnote{For a clearer definition of these negative effects, refer to~\cite{ieee_terms_1997}.}~\cite{au_gov_satell}. Considering these problems, GPS was designed to operate in frequencies within the interval of 1 to 2 GHz, which corresponds to a section of the radio spectrum known as the L-band, as represented by Figure~\ref{fig:gps_bands} (which shows the frequency bands used in GPS communication, known as the L1, L2 and L5 frequencies).
 % meter/fazer figura das frequencias do GPS:
 \begin{figure}[ht]
 	\centering
@@ -593,7 +593,7 @@ Thus, it is known that the ability to determine the exact position in RTK positi
 % fazer uma imagem parecida a esta:
 % meter imagem da baseline Emlid
 
-There is still another factor to consider for accuracy, which, in turn, is not represented in Figure~\ref{fig:rtk_workings}: the positioning of the base station. This parameter should not, in any way, be neglected, since, when connections are established through radiofrequency with a rover, the propagation of correction information will be done, as the term implies, through radio waves; due to their nature, these waves may suffer the same problems already observed in the propagation of waves from GNSS satellites -- such as interference and multipath --, so the location selection is important to minimize all negative effects. Another way to do this could also be to improve the quality of the rover's antennas.
+There is still another factor to consider for accuracy, which, in turn, is not represented in Figure~\ref{fig:rtk_workings}: the positioning of the base station. This parameter should not, in any way, be neglected, since, when connections are established through radiofrequency with a rover, the propagation of correction information will be done, as the term implies, through radio waves; due to their nature, these waves may suffer the same problems already observed in the propagation of waves from GNSS satellites -- such as interference and multipath --, so the location selection is important to minimize all negative effects. Another way to do this could also be to improve the quality of the rover's antennas~\cite{novatel_gnss,ayers_geosystems_2011,8093778,9292033}.
 % ------------------ fim da PARTE AMARELA.
 
 % %MUDAR, ESTÁ COPIADO!
@@ -615,7 +615,7 @@ There is still another factor to consider for accuracy, which, in turn, is not r
 Obtaining position corrections with RTK can also be done in a way that does not require the aid of a base station set up by the end-user -- through a process known as Network RTK.
 It is a technique that relies on the use of stations permanently fixed at known and spaced positions -- which are, essentially, base stations -- to obtain positioning corrections over the internet. Thus, this process can be seen for what it literally is: a way to obtain positioning corrections through a network of virtual base stations, which immediately leads to a general reduction in the quantity of RTK base stations necessary, as well as to the conclusion that long baselines cease to be a problem.
 
-As stated in Section~\ref{sec:II_gnss_comm}, if a receiver relies solely on satellite signals for positioning, the rate at which information will be received will be rather low. Relying on internet connection to get position corrections is a great way to bypass such problem. The use of a CORS (Continuously Operating Reference Station) network is an example of networked RTK. Its operation is based on the use of stations that are permanently installed in previously known and properly interspaced locations, making regular observations of the GNSS satellites correcting any errors based on such.
+As stated in Section~\ref{sec:II_gnss_comm}, if a receiver relies solely on satellite signals for positioning, the rate at which information will be received will be rather low. Relying on internet connection to get position corrections is a great way to bypass such problem. The use of a CORS (Continuously Operating Reference Station) network is an example of networked RTK. Its operation is based on the use of stations that are permanently installed in previously known and properly interspaced locations, making regular observations of the GNSS satellites correcting any errors based on such~\cite{novatel_gnss}.
 Most countries have systems of this kind, which are openly accessible to the public. In addition to helping with positioning corrections, CORS stations can also transmit (through knowledge of their position) information about changes in the Earth's surface, thus helping to detect any tectonic movements -- which, in consequence, assists in measuring earthquakes and volcanic eruptions. An example of such is the Portuguese CORS network (ReNEP\footnote{Accessible through \url{https://renep.dgterritorio.gov.pt}.}); consisting of 47 permanent GNSS stations throughout the country, this system provides not only navigation information but also information about the tectonic plate on which a particular station is located~\cite{ReNEP_ppt_2018}.
 
 \subsubsection{NTRIP}\label{sec:II_networkedRTK_ntrip}
@@ -740,7 +740,7 @@ With all this in mind, it is also possible to understand that, due to the connec
 \subsection{Post-Processed Kinematics (PPK)}\label{sec:II_gnssAug_ppk}
 
 As mentioned in Section~\ref{sec:II_gnssAug_dgnss}, a technique that does not require real-time processing is Post-Processed Kinematic positioning. In this technique all known algorithms used are applied after completion of any given mission. That is, both the base station and the rover only need to collect and record positioning data on a storage device, so that, at a later stage, they are processed in the desired way, as often as needed. Thus, as the urgency factor imposed by a real-time application is removed from the equation, the results obtained through this technique will be more accurate than those obtained through RTK, allowing to work with larger baselines, which means the possibility of working in wider regions.
-Thus, PPK positioning is mostly used in mapping using UAVs.
+Thus, PPK positioning is mostly used in mapping using UAVs~\cite{novatel_gnss}.
 
 % \subsection{Precise Point Positioning (PPP)}\label{sec:II_gnssAug_ppp}
 
