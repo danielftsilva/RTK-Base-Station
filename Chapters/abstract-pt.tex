@@ -8,8 +8,6 @@
 
 \typeout{NT FILE abstrac-pt.tex}
 
-\lipsum[1]
-
 % Independentemente da língua em que a dissertação esteja redigida, é necessário um resumo na mesma língua do texto principal e outro resumo noutra língua. Pressupõe-se que as duas línguas em questão sejam o português e o inglês.
 
 % Os resumos devem aparecer primeiro na língua do texto principal e depois na outra língua. Por exemplo, se a dissertação for redigida em português, o resumo em português aparecerá primeiro, seguido do resumo em inglês (\emph{abstract}), seguido do texto principal em português. Se a dissertação for redigida em inglês, o resumo em inglês (\emph{abstract} aparecerá primeiro, seguido do resumo em português, seguido do texto principal em inglês.
@@ -38,8 +36,15 @@
 %
 % Sim!  Funciona! :)
 
+O interesse incessante no desenvolvimento de dispositivos capazes de realizar as mais diversas tarefas trouxe vantagens inquestionáveis para um mundo cada vez mais automatizado. Os UAVs representam muito bem esse tipo de dispositivo, de forma mais proeminente na agricultura. No entanto, a necessidade de controlar constantemente esses dispositivos continua a ser morosa, apenas removendo o fator de trabalho físico da tarefa, uma vez que os métodos de posicionamento GNSS normalmente conhecidos não são confiáveis para aplicações em tempo real. A solução para isso está em projetar outro dispositivo capaz de realizar correções de posição nessas condições, conhecido como estação base.
+
+Ao longo dos anos, o desenvolvimento de técnicas de posicionamento preciso foi aperfeiçoado, com exemplos como Cinemática Pós-Processada (PPK) ou Cinemática em Tempo Real (RTK) sendo alguns dos mais populares; o último -- como o nome indica -- é a escolha definitiva para aplicações que exigem feedback de latência zero para dinâmicas de navegação.
+
+Este documento fornece uma exploração do estado da arte dos métodos de navegação atuais e as expectativas de trabalho para uma futura Dissertação com o objetivo de projetar e implementar a nova versão da estação base RTK desenvolvida pela empresa Beyond Vision -- conhecida como beRTK\textsuperscript{\textregistered}. O projeto será focado na redução do consumo geral de energia do sistema, através da melhoria da sua arquitetura geral.
+% se perguntarem porque e que meti aqui "RTK base station" e la em cima so meti "base station": porque a base station da BV nao faz PPK positioning, enquanto que ha outras base stations que fazem, por isso, "base station" é termo geral. Isto é backed-up pelo facto de que, no site da BV, a base station é designada por "RTK base station".
+
 % Palavras-chave do resumo em Português
 \begin{keywords}
-Palavra-chave 1, Palavra-chave 2, Palavra-chave 3,  \ldots
+    GNSS, UAV, estação base, navegação precisa, posicionamento cinemático em tempo real (RTK), RTK em rede
 \end{keywords}
 % to add an extra black line
