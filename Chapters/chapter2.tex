@@ -256,8 +256,8 @@ the propagation signal can be affected when it passes through the ionosphere (a 
 % meter/fazer figura das frequencias do GPS:
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=1.0\textwidth]{Chapters/Figures/demo.png}
-	\caption{GPS frequency bands.}
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/gps_bands.png}
+	\caption{GPS frequency bands (adapted from~\cite{novatel_gnss}).}
 	\label{fig:gps_bands}
 \end{figure}
 
@@ -292,7 +292,7 @@ One of the most common problems also mentioned above concerns the reflection of 
 %meter imagem de sinais de satelite a serem deflected e refleced em predios e tal:
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=1.0\textwidth]{Chapters/Figures/demo.png}
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/multipath.png}
 	\caption{GNSS satellite signal multipath propagation.}
 	\label{fig:multipath}
 \end{figure}
@@ -416,8 +416,8 @@ As more GNSS constellations are designed and more satellites are added, we will 
 % meter imagem svg do planeta com todas as GNSS?
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=1.0\textwidth]{Chapters/Figures/demo.png}
-	\caption{Main frequencies used by all GNSS services.}
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/global_frequencies.png}
+	\caption{Main frequencies used by all GNSS services (adapted from~\cite{novatel_gnss}).}
 	\label{fig:global_frequencies}
 \end{figure}
 
@@ -461,12 +461,12 @@ DGNSS solutions represent the highest efficiency attainable. % citation needed
 % A further classification may be done according to an additional relevant feature, which for the former relates on whether the augmentation information comes from satellites (satellite-based augmentation system) or from ground (ground-based augmentation system) and for the latter on whether the accuracy improvements use a dense network of reference stations (Differential GNSS, Real Time Kinematics - RTK - or Wide Area RTK (WARTK)) or just a few stations (Precise Point Positioning - PPP) for the computation of the augmentation information.
 
 % meter imagem: wiki Accuracy Performances for GNSS and GNSS Augmentation Techniques - METER (adapted from) !!!!!!!!!!!!!
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width=1.0\textwidth]{Chapters/Figures/demo.png}
-	\caption{Accuracy Performances for GNSS and GNSS Augmentation Techniques.}
-	\label{fig:accuracy_perfromances}
-\end{figure}
+% \begin{figure}[ht]
+% 	\centering
+% 	\includegraphics[width=1.0\textwidth]{Chapters/Figures/demo.png}
+% 	\caption{Accuracy Performances for GNSS and GNSS Augmentation Techniques.}
+% 	\label{fig:accuracy_perfromances}
+% \end{figure}
 
 % --------------- PARTE A VERDE: DONE
 The conventional code-based method presented in Section~\ref{sec:II_gnss_comm} is not capable of providing low-order levels of precision, so another method known as ``carrier-based'' was developed.
@@ -475,8 +475,8 @@ Among the best-known techniques that adopt this method capable of calculating hi
 %meter imagem figura 40 base station a fazer correçoes:
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=1.0\textwidth]{Chapters/Figures/demo.png}
-	\caption{Differential GNSS workings.}
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/dgnss_corrections.png}
+	\caption{Differential GNSS workings (adapted from~\cite{novatel_gnss}).}
 	\label{fig:dgnss_corrections}
 \end{figure}
 
@@ -571,8 +571,8 @@ RTK fits, as indicated, in situations where high precision is indispensable for 
 %meter imagem da Figura 42 - base station + rover RTK
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=1.0\textwidth]{Chapters/Figures/demo.png}
-	\caption{RTK positioning.}
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/rtk_workings.png}
+	\caption{RTK positioning (adapted from~\cite{novatel_gnss}).}
 	\label{fig:rtk_workings}
 \end{figure}
 
@@ -630,11 +630,11 @@ Figure~\ref{fig:ntrip_network} also represents the three main sectors that const
     \item NTRIP caster: An HTTP internet service that forwards the connection data through the internet;
     \item Rover: The client's rover receiver used in real-time precise positioning solutions.
 \end{itemize}
-
+% \includegraphics[width=1.0\textwidth]{Chapters/Figure
 %meter imagem NTRIP da Emlid:
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=1.0\textwidth]{Chapters/Figures/demo.png}
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/ntrip_network.pdf}
 	\caption{Network RTK positioning using NTRIP.}
 	\label{fig:ntrip_network}
 \end{figure}
