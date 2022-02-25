@@ -18,7 +18,7 @@ starting with the clarification of the intricate arrangement of the different ye
 Finally, the current most relevant solutions (i.e. base stations) are addressed and compared in Section~\ref{sec:II_curr_solutions}, as these will provide helpful guidelines to the development of future beRTK\textsuperscript{\textregistered}.
 
 % enter a NUTSHELL setting of RTK,
-Not only intended just for photography, UAVs (e.g. a drone) nowadays are capable of aiding in the most diverse ways, such as in:
+Not only intended just for photography, UAVs (e.g. a drone) nowadays are capable of aiding in the most diverse ways, such as in the following examples, which correspond to some of the possibilities offered by Beyond Vision's HEIFU\textsuperscript{\texttrademark}\footnote{Hexa Exterior Intelligent Flying Unit (\url{https://beyond-vision.pt/heifu}).} UAV:
 
 \begin{itemize}
     \item Cartography and 3D mapping;
@@ -35,7 +35,7 @@ Not only intended just for photography, UAVs (e.g. a drone) nowadays are capable
     \item Remote car inspection -- insurance;
     \item Virtual traveling.
 \end{itemize}
-For these missions, the use of a base station capable of fine-tuning the UAV's position in real time is a big advantage. Therefore, this device has to be designed with the ability of helping the UAV succeed in these missions in mind, which means its list of capacities should pass through enhanced landing, precise field surveying, accurate mapping and also work processes review.
+For these missions, the use of a base station capable of fine-tuning the UAV's position in real time is a big advantage. Therefore, it has to be designed with the ability of helping the UAV succeed in such missions in mind, which means its list of capacities should comprise enhanced landing, precise field surveying, accurate mapping and also work processes review.
 
 % \textbf{Precision Farming}
 % a. Survey every inch of your field
@@ -76,7 +76,7 @@ For these missions, the use of a base station capable of fine-tuning the UAV's p
 Whenever someone wishes to know their current location on Earth, just a few, effortless taps on a smartphone will be the quickest way to do it; this is often associated with the radionavigational system of GPS, which has been around for many years. In a more general manner, this technology can be described as a Global Navigation Satellite System, or GNSS, which refers to any satellite constellation that can be used in order to help navigation throughout the world (as the name suggests).
 Therefore, it is possible to conclude that, in order to help tracking their location through the use of satellites, typical smartphones or GPS navigation systems in cars have GNSS receivers, just like a specially designed surveying device.
 
-According to~\cite{novatel_gnss}, the best way to address GNSS receivers as a whole is to start by acknowledging its working basis: satellites. While orbiting the Earth, these machines send out signals that are then acknowledged by receivers (hence the name), assisting them on the calculation of their own location on Earth by comparing the received information from other satellites.
+According to~\cite{novatel_gnss,kaplan_2017}, the best way to address GNSS receivers as a whole is to start by acknowledging its working basis: satellites. While orbiting the Earth, these machines send out signals that are then acknowledged by receivers (hence the name), assisting them on the calculation of their own location on Earth by comparing the received information from other satellites.
 
 % minha parte: METER ISTO NA INTRODUÇÃO DESTA SECÇÃO - GNSS (GERAL)
 Through~\cite{fed_rad_plan_2008}, it is possible to understand that, in order to enjoy the perks of assisted navigation, the quality behaviour of a GNSS must be ensured.
@@ -85,11 +85,11 @@ A smart approach for that is to analyse the following four performance criteria:
 \begin{itemize}
     \item Accuracy: Should not be confused with precision; this parameter acts as a measure of coherence between the estimated (predicted) and actual position of a vehicle, aircraft, or vessel, at any given time;
     \item Availability: In a percentile manner, this gives the navigator the ability to know the amount of time available to benefit from the services provided by the system, within a certain specified coverage area.
-    \item Continuity: Refers, in probabilistic terms, to the ability of the entire system of maintaining all required functions, whilst keeping any interruptions out of question. This ensures the smooth operation of the system within a given time interval. All of this assuming that the system was fully available at the start of this operational phase;
+    \item Continuity: Refers, in probabilistic terms, to the ability of the entire system of maintaining all required functions, whilst keeping any interruptions out of question. This ensures smooth operation within a given time interval, assuming the system was fully available at the start of this operational phase;
     \item Integrity: Measuring the trustworthiness of the information supplied by a navigation system, integrity is also able to consistently issue warnings when navigation through the use of the system is not recommended.
 \end{itemize}
 All of these parameters are defined as a way to rate the performance of a satellite constellation, which helps tracking down any discrepancies or even problems that might make accurate navigation unacceptable.
-Their foundation is known as the Required Navigation Performance (RNP) specification, which characterizes the imperative performance indicators within a defined airspace. By ensuring the proper conduct of a constellation, the perks of a GNSS for navigation purposes are clear.
+Their foundation is known as the Required Navigation Performance (RNP) specification, which characterises the imperative performance indicators within a defined airspace. By ensuring the proper conduct of a constellation, the perks of a GNSS for navigation purposes are clear.
 
 Therefore, it is possible to understand that a GNSS comprises a network of satellites that, while continuously orbiting the planet, constantly emit radiofrequency signals carrying information about their current status, position in space and precise time.
 This information is achieved through atomic clocks, installed within the satellite itself. Thus, the process unfolds as follows:
@@ -119,7 +119,7 @@ Having another satellite orbiting around Earth, the signal emitted by it will re
 	\label{fig:omnidirectional}
 \end{figure}
 However, just three satellites are not enough for an accurate reading, although in theory this process should be enough. The practical use of trilateration must account with a minimum of four satellites in direct line of sight of any point on the surface of the Earth, in order to synchronise the receiver's clock with the satellites', as well as to better the precision of the solution.
-There is, nonetheless, one particular phenomenon able to damage the received signal, resulting in less accurate calculations; it is called Dilution of Precision (DOP). This numerical quantity can be measured statistically, while accounting for satellite geometry and location (relative to the receiver) and may, for instance, be impacted by atmospheric or even urban factors.
+There is, nonetheless, one particular phenomenon able to damage the received signal, resulting in less accurate calculations; it is called \gls{DOP}. This numerical quantity can be measured statistically, while accounting for satellite geometry and location (relative to the receiver) and may, for instance, be impacted by atmospheric or even urban factors.
 Logically, it is immediately (and rightfully) assumed that the more satellites there are, the higher the positional accuracy will be for the receiver. For that, to achieve a successful observation, three major segments are necessary, known as the space, control and user segments~\cite{gps_USGov,novatel_gnss,ayers_geosystems_2011}, as depicted by Figure~\ref{fig:s_c_u_segment}.
 
 % meter imagem de predios e sinais afetados
@@ -134,7 +134,15 @@ Logically, it is immediately (and rightfully) assumed that the more satellites t
 
 The space segment corresponds to the GNSS satellites. All of these follow a certain orbital path thousands of kilometers above the Earth's surface, aiming to assist in the precise location of GNSS-enabled devices on the ground.
 Different nations around the world have various satellite networks, with GPS being the most widely known GNSS of all. Developed and established by the United States Department of Defense near the end of the 1970s, GPS relies on a constellation made up of a total of 31 satellites, on which the U.S. government works to maintain constant operability of a minimum of 24, 95\% of the time, to guarantee global coverage~\cite{gps_USGov}.
-Upon its the introduction to civilian use, the desire to cover an even larger portion of the globe only grew, which led to the development of other GNSSs that, together with the already existing GPS, could improve navigational accuracy. Thus, there are currently four global satellite arrangements that make world navigation and precise positioning possible:
+Upon its the introduction to civilian use, the desire to cover an even larger portion of the globe only grew, which led to the development of other GNSSs that, together with the already existing GPS, could improve navigational accuracy. Thus, there are currently four global satellite arrangements that make world navigation and precise positioning possible, described in Table~\ref{tab:5_GNSSs}.
+Additionally, there are also two extra systems that were developed to provide regional coverage:
+
+\begin{itemize}
+    \item NavIC (India): Planned to be made up of seven satellites, this Regional Navigation Satellite System was developed by India to grant regional coverage (hence the (outdated) name IRNSS) to India and its neighbouring area.
+    As a result of the launch of the constellation's last satellite in 2016, the IRNSS title was changed to Navigation Indian Constellation (NavIC), by India's Prime Minister Narendra Modi~\cite{navic_news_2016};
+    \item QZSS (Japan): Working as another regional navigation satellite system, the development of the Quasi-Zenith Satellite System was accredited by the Japanese government in order to ensure service to Japan, as well as the Asia-Oceania region and consists of four satellites.
+    However, this constellation limits accuracy in its standalone (also known as single-point positioning) mode, which means it functions as GPS augmentation service\footnote{GNSS augmentation will be covered in more detail in Section~\ref{sec:II_gnssAug}.} by synchronisation of clocks use of same frequencies, allowing the use of this system's machinery as extra GPS satellites.
+\end{itemize}
 
 % table:-----------------------------
 \begingroup
@@ -175,18 +183,6 @@ Upon its the introduction to civilian use, the desire to cover an even larger po
 \end{table}
 \endgroup
 
-%meter/FAZER!!! polygons - imagens das coverages:    !!!!!
-% !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-On an additional manner, there are also two extra systems that were developed to provide regional coverage:
-
-\begin{itemize}
-    \item NavIC (India): Planned to be made up of seven satellites, this Regional Navigation Satellite System was developed by India to grant regional coverage (hence the (outdated) name IRNSS) to India and its neighbouring area.
-    As a result of the launch of the constellation's last satellite in 2016, the IRNSS title was changed to Navigation Indian Constellation (NavIC), by India's Prime Minister Narendra Modi~\cite{navic_news_2016};
-    \item QZSS (Japan): Working as another regional navigation satellite system, the development of the Quasi-Zenith Satellite System was accredited by the Japanese government in order to ensure service to Japan, as well as the Asia-Oceania region and consists of four satellites.
-    However, this constellation limits accuracy in its standalone (also known as single-point positioning) mode, which means it functions as GPS augmentation service\footnote{GNSS augmentation will be covered in more detail in Section~\ref{sec:II_gnssAug}.} by synchronisation of clocks use of same frequencies, allowing the use of this system's machinery as extra GPS satellites.
-\end{itemize}
-
 Every constellation follows the same purpose of providing services of:
 
 \begin{itemize}
@@ -194,7 +190,7 @@ Every constellation follows the same purpose of providing services of:
     \item Navigation: Enables the determination of the current position, as well as the application of course, orientation and velocity corrections in order to achieve a desired position (relative or absolute) at any location in the world, from subsurface to surface and from surface to space;
     \item Timing: Also encompassing time transfer, timing refers to the ability of acquiring the exact and precise time from a certain standard (in this case Coordinated Universal Time, or UTC), as well as maintain it, anywhere in the world and within timeliness parameters defined by the user.
 \end{itemize}
-These are known as PNT services~\cite{pnt_2017}.
+These are known as \gls{PNT} services~\cite{pnt_2017}.
 A good example of the use of this type of data is the GPS system, which is a result of the use of PNT data together with information from maps, as well as from other sources (e.g. meteorological data, traffic, etc.).
 
 Therefore, the space segment essentially focuses on accurately covering every point on Earth's surface, something which engineers work on to improve every day, whether it being with precision tweaks to the satellites' atomic clocks or even launching new ones to further complement the existing GNSSs~\cite{euspa_news_2022}. This means that all constellations complement each other, and by being used globally, the location accuracy at any given time is increased.
@@ -248,7 +244,7 @@ These machines are designed to continuously orbit along their respective traject
 \end{table}
 \endgroup
 
-The communication process can be characterized through an intricate set of terms such as \gls{pseudorandom}, \gls{correlation} and code division multiple access (CDMA). According to~\cite{novatel_gnss}, this categorizes the GNSS positioning technique as ``code-based'', meaning the receiver operates through pseudorandom noise codes (or PRN codes) transmitted by four or more satellites, correlating with these in order to determine time and position. GPS is an excellent example capable of clarifying these concepts.
+The communication process can be characterised through an intricate set of terms such as \gls{pseudorandom}, \gls{correlation} and code division multiple access (CDMA). According to~\cite{novatel_gnss}, this categorizes the GNSS positioning technique as ``code-based'', meaning the receiver operates through pseudorandom noise codes (or PRN codes) transmitted by four or more satellites, correlating with these in order to determine time and position. GPS is an excellent example capable of clarifying these concepts.
 
 % dar o exemplo de GPS: tem CDMA -> falar de CDMA:
 The way GPS satellites communicate through the same frequency bands is through CDMA. This form of spread spectrum enables the modulation of signals via a code defined as being pseudorandom, meaning that receivers can, beforehand, associate the code intrinsic to each satellite, which allows synchronisation (correlation) between themselves and that same CDMA code. That way, theoretically, information should be able to flow smoothly, however, due to the aforementioned dilution of precision (DOP), signals may be affected while travelling through the atmosphere;
@@ -344,10 +340,29 @@ It is also worth stating that the navigation message transmitted has a low bit r
 % NOTA FINAL SOBRE GNSS:
 As more GNSS constellations are designed and more satellites are added, we will be able to calculate position more accurately and in even more places, expanding the already wide coverage of the planet.
 
+% %falar de cada frequência: ...
+% L5:
+% The United States has implemented a third civil
+% GPS frequency (L5) at 1176.45 MHz. The modernized
+% GPS satellites (Block II-F and later) are
+% transmitting L5.
+% the modernied benefits of the L5 signal include meeting
+% the requirements for critical safety-of-life applications
+% such as that needed for civil aviation
+% and providing:
+% - Improved ionospheric correction.
+% - Signal redundancy.
+% - Improved signal accuracy.
+% - Improved interference rejection.
+
+\section{GNSS Augmentation}\label{sec:II_gnssAug}
+
+Regarding precise navigation, the precision obtained solely by relying on GNSS is not good enough (as it only offers meter-level accuracy~\cite{novatel_gnss}) -- possible to conclude by looking at Table~\ref{tab:GNSS_sys_errors}. Taking the example of an autonomous drone used in all the processes mentioned in the beginning of this chapter, the need for a higher degree of precision is definitely clear. To make such navigation possible, the top priority is to bring GNSS system errors down to a minimum.
+
 % no final meter tabela: ATENÇÃO À POSIÇÃO DA TABELA!!
 \begingroup
 \begin{table}[h]
-	\caption{GNSS signals and frequencies (adapted from~\cite{novatel_gnss}).}
+	\caption{GNSS signals and frequencies.}
 	\label{tab:GNSS_freqs}
 	\centering%@{}l@{}@{}c@{}@{}c@{}@{}c@{}@{}c@{}
     % \setlength{\tabcolsep}{10pt} % Default value: 6pt
@@ -412,34 +427,6 @@ As more GNSS constellations are designed and more satellites are added, we will 
 \end{table}
 \endgroup
 
-%meter imagem das frequencias de todas constelações no mesmo referencial: figura 36 novatel_gnss
-% meter imagem svg do planeta com todas as GNSS?
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width=1.0\textwidth]{Chapters/Figures/global_frequencies.png}
-	\caption{Main frequencies used by all GNSS services (adapted from~\cite{novatel_gnss}).}
-	\label{fig:global_frequencies}
-\end{figure}
-
-% %falar de cada frequência: ...
-% L5:
-% The United States has implemented a third civil
-% GPS frequency (L5) at 1176.45 MHz. The modernized
-% GPS satellites (Block II-F and later) are
-% transmitting L5.
-% the modernied benefits of the L5 signal include meeting
-% the requirements for critical safety-of-life applications
-% such as that needed for civil aviation
-% and providing:
-% - Improved ionospheric correction.
-% - Signal redundancy.
-% - Improved signal accuracy.
-% - Improved interference rejection.
-
-\section{GNSS Augmentation}\label{sec:II_gnssAug}
-
-Regarding precise navigation, the precision obtained solely by relying on GNSS is not good enough (as it only offers meter-level accuracy~\cite{novatel_gnss}) -- possible to conclude by looking at Table~\ref{tab:GNSS_sys_errors}. Taking the example of an autonomous drone used in all the processes mentioned in the beginning of this chapter, the need for a higher degree of precision is definitely clear. To make such navigation possible, the top priority is to bring GNSS system errors down to a minimum.
-
 At this point it is clear that the focal point behind GNSS positioning is related to equation (\ref{eq:2_1}), which means that any error connected to distance, velocity or time will affect the transmitted signal's quality, and thus, mitigation of these problems will yield better results.
 The way to do so is through techniques relying on the augmentation of GNSS positioning capabilities~\cite{novatel_gnss,kaplan_2017}, which portrays an ingenious way of improving the four performance parameters described in Section~\ref{sec:II_gnss} (accuracy, availability, continuity and integrity).
 These techniques range from least to most effective, and can rely on:
@@ -450,6 +437,15 @@ These techniques range from least to most effective, and can rely on:
     \item Differential Corrections (DGNSS).
 \end{itemize}
 DGNSS solutions represent the highest efficiency attainable. % citation needed
+
+%meter imagem das frequencias de todas constelações no mesmo referencial: figura 36 novatel_gnss
+% meter imagem svg do planeta com todas as GNSS?
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/global_frequencies.png}
+	\caption{Main frequencies used by all GNSS services (adapted from~\cite{novatel_gnss}).}
+	\label{fig:global_frequencies}
+\end{figure}
 
 %For the purpose of this dissertation, the focus of error correction through GNSS augmentation will be set on differential corrections (more precisely, Differential GNSS, or DGNSS), as this is method relates directly with the beRTK\textsuperscript{\textregistered} base station.
 
@@ -471,9 +467,9 @@ DGNSS solutions represent the highest efficiency attainable. % citation needed
 % --------------- PARTE A VERDE: DONE
 The conventional code-based method presented in Section~\ref{sec:II_gnss_comm} is not capable of providing low-order levels of precision, so another method known as ``carrier-based'' was developed.
 This type of method means that the measurement of the carrier wave phase corresponds to a measurement of the distance (also known as range) between the satellite and the receiver, expressed in number of cycles of the carrier frequency~\cite{inside_GNSS} (Figure~\ref{fig:dgnss_corrections}), which results in more accurate output results, ideal for UAV missions.
-Among the best-known techniques that adopt this method capable of calculating highly accurate solutions (i.e. orders of magnitude more accurate than those obtained through code-based GNSS) is Real-Time Kinematic (RTK) positioning\footnote{Addressed in more detail in Section~\ref{sec:II_gnssAug_rtk}.}, which is the main focus of the beRTK\textsuperscript{\textregistered} base station.
+Among the best-known techniques that adopt this method capable of calculating highly accurate solutions (i.e. orders of magnitude more accurate than those obtained through code-based GNSS) is Real-Time Kinematic (RTK) positioning\footnote{Real-Time Kinematic (RTK) positioning will be covered in more detail in Section~\ref{sec:II_gnssAug_rtk}.}, which is the main focus of the beRTK\textsuperscript{\textregistered} base station.
 %meter imagem figura 40 base station a fazer correçoes:
-\begin{figure}[ht]
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{Chapters/Figures/dgnss_corrections.png}
 	\caption{Differential GNSS workings (adapted from~\cite{novatel_gnss}).}
@@ -495,15 +491,15 @@ For this, it is necessary to establish a link for the supply of data between the
 
 In case the need arises for a quick calculation of corrections, i.e. in real-time, both devices will need to have in their line of sight at least four GNSS satellites -- three for the determination of the position according to $x$, $y$ and $z$ (as explained in~\ref{sec:II_gnss_trilateration}) and an extra one to correct for clock time differences between satellites and receivers, commonly called time offset. Thus, it is concluded that, in order to obtain a high-precision position for the rover, a high-precision position must be determined at the base station, considering the dependence between the two. If it is assumed that, for the missions performed, the rover does not move too far from the base station, the real-time accuracy of the measurements will be high, taking into account that the signals received by each of the devices will pass through, sensibly, the same atmosphere conditions. In this way, the greater the distance possible to maintain between devices, the better.
 
-If one wishes to put aside the real-time factor of the job, there are other techniques capable of providing precise positioning -- in some cases, the precision values may even be higher than those obtained from RTK -- through the simple use of two GNSS receivers, which are trusted with the task of logging positioning data to a storage device. Later, the gathered data can be processed however it's intended to. Section~\ref{sec:II_gnssAug_ppk} describes an example of such method, known as Post-Processed Kinematic positioning (PPK)~\cite{novatel_gnss,kaplan_2017,groves_2008}.
+If one wishes to put aside the real-time factor of the job, there are other techniques capable of providing precise positioning -- in some cases, the precision values may even be higher than those obtained from RTK -- through the simple use of two GNSS receivers, which are trusted with the task of logging positioning data to a storage device. Later, the gathered data can be processed however it's intended to. Section~\ref{sec:II_gnssAug_ppk} describes an example of such method, known as \gls{PPK}~\cite{novatel_gnss,kaplan_2017,groves_2008}.
 % ------------------ fim da PARTE VERMELHA.
 
 \subsection{Satellite-based Augmentation System (SBAS)}\label{sec:II_gnssAug_sbas}
 
 % --------------- PARTE A LARANJA:
-Table~\ref{tab:GNSS_freqs} introduced various frequency values for different GNSS constellations, with all of them having already been addressed, except one: indicated as ``SBAS''.
+Table~\ref{tab:GNSS_freqs} introduced various frequency values for different GNSS constellations, with all of them having already been addressed, except one: indicated as \gls{SBAS}.
 
-SBAS stands for Satellite Based Augmentation System and its design purpose has in mind situations where the usage and financial value of the DGNSS can be circumvented, mainly due to the possibility of spreading the base stations over a very wide area of work. It should be noted that the focus of this system has a lot to do with large-scale work areas, which are where SBAS proliferates.
+SBAS's design purpose has in mind situations where the usage and financial value of the DGNSS can be circumvented, mainly due to the possibility of spreading the base stations over a very wide area of work. It should be noted that the focus of this system has a lot to do with large-scale work areas, which are where SBAS proliferates.
 
 Making use of geosynchronous satellites, i.e. satellites that orbit the Earth with a period equivalent to its rotation, these systems work as auxiliaries of the currently existing GNSS networks, as they are also able to improve signal parameters such as:
 \begin{itemize}
@@ -576,7 +572,7 @@ RTK fits, as indicated, in situations where high precision is indispensable for 
 	\label{fig:rtk_workings}
 \end{figure}
 
-Looking at Figure~\ref{fig:rtk_workings}, the base station-rover pair can be seen again, so it is possible to draw an analogy to Figure~\ref{fig:dgnss_corrections}. The basic operation behind this precise positioning method consists, essentially, in the process characterized by the detection and correction of positioning errors through the determination of ranges to GNSS satellites -- again based on equation (\ref{eq:2_1}). Conceptually, the calculation of these ranges is performed as explained in Section~\ref{sec:II_gnssAug}, with regard to the carrier-based methodology: by calculating the number of cycles of the carrier wave between the satellite and the receiver installed on the rover ($n$) and multiplying it by its own wavelength ($\lambda$), where
+Looking at Figure~\ref{fig:rtk_workings}, the base station-rover pair can be seen again, so it is possible to draw an analogy to Figure~\ref{fig:dgnss_corrections}. The basic operation behind this precise positioning method consists, essentially, in the process characterised by the detection and correction of positioning errors through the determination of ranges to GNSS satellites -- again based on equation (\ref{eq:2_1}). Conceptually, the calculation of these ranges is performed as explained in Section~\ref{sec:II_gnssAug}, with regard to the carrier-based methodology: by calculating the number of cycles of the carrier wave between the satellite and the receiver installed on the rover ($n$) and multiplying it by its own wavelength ($\lambda$), where
 
 \begin{equation}\label{eq:2_4}
     \lambda = \frac{v}{f}\medskip
@@ -615,7 +611,7 @@ There is still another factor to consider for accuracy, which, in turn, is not r
 Obtaining position corrections with RTK can also be done in a way that does not require the aid of a base station set up by the end-user -- through a process known as Network RTK.
 It is a technique that relies on the use of stations permanently fixed at known and spaced positions -- which are, essentially, base stations -- to obtain positioning corrections over the internet. Thus, this process can be seen for what it literally is: a way to obtain positioning corrections through a network of virtual base stations, which immediately leads to a general reduction in the quantity of RTK base stations necessary, as well as to the conclusion that long baselines cease to be a problem.
 
-As stated in Section~\ref{sec:II_gnss_comm}, if a receiver relies solely on satellite signals for positioning, the rate at which information will be received will be rather low. Relying on internet connection to get position corrections is a great way to bypass such problem. The use of a CORS (Continuously Operating Reference Station) network is an example of networked RTK. Its operation is based on the use of stations that are permanently installed in previously known and properly interspaced locations, making regular observations of the GNSS satellites correcting any errors based on such~\cite{novatel_gnss}.
+As stated in Section~\ref{sec:II_gnss_comm}, if a receiver relies solely on satellite signals for positioning, the rate at which information will be received will be rather low. Relying on internet connection to get position corrections is a great way to bypass such problem. The use of a \gls{CORS} network is an example of networked RTK. Its operation is based on the use of stations that are permanently installed in previously known and properly interspaced locations, making regular observations of the GNSS satellites correcting any errors based on such~\cite{novatel_gnss}.
 Most countries have systems of this kind, which are openly accessible to the public. In addition to helping with positioning corrections, CORS stations can also transmit (through knowledge of their position) information about changes in the Earth's surface, thus helping to detect any tectonic movements -- which, in consequence, assists in measuring earthquakes and volcanic eruptions. An example of such is the Portuguese CORS network (ReNEP\footnote{Accessible through \url{https://renep.dgterritorio.gov.pt}.}); consisting of 47 permanent GNSS stations throughout the country, this system provides not only navigation information but also information about the tectonic plate on which a particular station is located~\cite{ReNEP_ppt_2018}.
 
 \subsubsection{NTRIP}\label{sec:II_networkedRTK_ntrip}
@@ -639,7 +635,7 @@ Figure~\ref{fig:ntrip_network} also represents the three main sectors that const
 	\label{fig:ntrip_network}
 \end{figure}
 
-The standards used in RTK systems are able to follow more than one specific format (which are the same used in DGNSS systems); the most widely used are the CMR (Compact Measurement Record) and RTCM (or RTCM SC-104; from the Radio Technical Commission For Maritime Services) standards. These two branch out into the following formats acceptable by NTRIP networks: CMR, CMR+, RTCM 2.x and RTCM 3.x. Only available for GPS services, the first three formats became less used after the introduction of the third version of the RTCM standard in 2003, which restructured the previous formats to the parameters presented in Table~\ref{tab:rtcm_messages}.
+The standards used in RTK systems are able to follow more than one specific format (which are the same used in DGNSS systems); the most widely used are the \gls{CMR} and \gls{RTCM} (or RTCM SC-104) standards. These two branch out into the following formats acceptable by NTRIP networks: CMR, CMR+, RTCM 2.x and RTCM 3.x. Only available for GPS services, the first three formats became less used after the introduction of the third version of the RTCM standard in 2003, which restructured the previous formats to the parameters presented in Table~\ref{tab:rtcm_messages}.
 %table:
 \begingroup
 \begin{table}[h]
@@ -737,10 +733,10 @@ With all this in mind, it is also possible to understand that, due to the connec
 
 % LoRa (Long Range) is a wireless technology that offers long-range, low power, and secure data transmission for M2M (Machine to Machine) and IoT applications. LoRa is a spread spectrum modulation technology that is derived from chirp spread spectrum (CSS) technology. LoRa can be used to connect sensors, gateways, machines, devices, etc. wirelessly. In Europe region, it operates in the 868 MHz band.'' % https://iotdesignpro.com/projects/lora-communication-between-two-arduino-using-LoRa-Module-SX1278
 
-\subsection{Post-Processed Kinematics (PPK)}\label{sec:II_gnssAug_ppk}
+\subsection{Post-Processed Kinematic (PPK)}\label{sec:II_gnssAug_ppk}
 
 As mentioned in Section~\ref{sec:II_gnssAug_dgnss}, a technique that does not require real-time processing is Post-Processed Kinematic positioning. In this technique all known algorithms used are applied after completion of any given mission. That is, both the base station and the rover only need to collect and record positioning data on a storage device, so that, at a later stage, they are processed in the desired way, as often as needed. Thus, as the urgency factor imposed by a real-time application is removed from the equation, the results obtained through this technique will be more accurate than those obtained through RTK, allowing to work with larger baselines, which means the possibility of working in wider regions.
-Thus, PPK positioning is mostly used in mapping using UAVs~\cite{novatel_gnss}.
+Thus, PPK positioning is mostly used in UAV mapping applications~\cite{novatel_gnss}.
 
 % \subsection{Precise Point Positioning (PPP)}\label{sec:II_gnssAug_ppp}
 
@@ -783,75 +779,25 @@ Thus, PPK positioning is mostly used in mapping using UAVs~\cite{novatel_gnss}.
 
 \section{Current Solutions}\label{sec:II_curr_solutions}
 
-This section aims to clarify the exposed concepts about the device representing the center of the project covered by this Dissertation: the RTK base station. For that, important parameters of some of the most relevant solutions currently available in the market are presented in Figures~\ref{fig:curr_sol_POSITIONING},~\ref{fig:curr_sol_CONNECTIONS},~\ref{fig:curr_sol_ELECTRICAL} and~\ref{fig:curr_sol_MECH}, which represent positioning, connectivity, electrical, and physical/mechanical characteristics, respectively.
+This section aims to clarify the exposed concepts about the device representing the center of the project covered by this Dissertation: the RTK base station. For that, important parameters of some of the most relevant solutions currently available in the market are presented in Tables~\ref{tab:curr_sol_POSITIONING},~\ref{tab:curr_sol_ELECTRICAL},~\ref{tab:curr_sol_CONNECTIONS} and~\ref{tab:curr_sol_MECH}, which represent positioning, connectivity, electrical, and physical/mechanical characteristics, respectively.
 
-% \begingroup
-% \begin{table}[h]
-%     \centering
-% 	\captionsetup{justification=centering}
-%     \caption{Some current base station solutions: positioning properties.}
-%     \includegraphics[width=1.0\textwidth]{Chapters/Figures/curr_solutions/POSITIONING_v2.pdf}
-% 	\label{tab:curr_sol_POSITIONING}
-% \end{table}
-% \endgroup
-\begin{figure}[h]
-	\centering
-    \includegraphics[width=1.0\textwidth]{Chapters/Figures/curr_solutions/POSITIONING_v2.pdf}
+\begingroup
+\begin{table}[h]
+    \centering
+	\captionsetup{justification=centering}
     \caption{Some current base station solutions: positioning properties.}
-	\label{fig:curr_sol_POSITIONING}
-\end{figure}
+    \includegraphics[width=1.0\textwidth]{Chapters/Figures/curr_solutions/POSITIONING_v2.pdf}
+	\label{tab:curr_sol_POSITIONING}
+\end{table}
+\endgroup
+% \begin{figure}[h]
+% 	\centering
+%     \includegraphics[width=1.0\textwidth]{Chapters/Figures/curr_solutions/POSITIONING_v2.pdf}
+%     \caption{Some current base station solutions: positioning properties.}
+% 	\label{fig:curr_sol_POSITIONING}
+% \end{figure}
 
-% \begingroup
-% \begin{table}[h]
-%     \centering
-% 	\captionsetup{justification=centering}
-%     \caption{Some current base station solutions: connectivity properties.}
-% 	\includegraphics[width=0.8\textwidth]{Chapters/Figures/curr_solutions/CONNECTIONS_v2.pdf}
-% 	\label{tab:curr_sol_CONNECTIONS}
-% \end{table}
-% \endgroup
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=0.8\textwidth]{Chapters/Figures/curr_solutions/CONNECTIONS_v2.pdf}
-    \caption{Some current base station solutions: connectivity properties.}
-	\label{fig:curr_sol_CONNECTIONS}
-\end{figure}
-
-% \begingroup
-% \begin{table}[h]
-%     \centering
-% 	\captionsetup{justification=centering}
-% 	\caption{Some current base station solutions: electrical properties.}
-% 	\includegraphics[width=1.0\textwidth]{Chapters/Figures/curr_solutions/ELECTRICAL_v2.pdf}
-% 	\label{tab:curr_sol_ELECTRICAL}
-% \end{table}
-% \endgroup
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=1.0\textwidth]{Chapters/Figures/curr_solutions/ELECTRICAL_v2.pdf}
-	\caption{Some current base station solutions: electrical properties.}
-	\label{fig:curr_sol_ELECTRICAL}
-\end{figure}
-
-% \begingroup
-% \begin{table}[h]
-%     \centering
-% 	\captionsetup{justification=centering}
-% 	\caption{Some current base station solutions: physical/mechanical properties.}
-% 	\includegraphics[width=1.0\textwidth]{Chapters/Figures/curr_solutions/MECH_v2.pdf}
-% 	\label{tab:curr_sol_MECH}
-% \end{table}
-% \endgroup
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=1.0\textwidth]{Chapters/Figures/curr_solutions/MECH_v2.pdf}
-	\caption{Some current base station solutions: physical/mechanical properties.}
-	\label{fig:curr_sol_MECH}
-\end{figure}
-
-%                       FORÇAR O TEXTO A FICAR DEPOIS DAS FIGURAS
-%------------- analise das tabelas --------------
-Looking at Figure~\ref{fig:curr_sol_POSITIONING}, it is possible to see parameters referring to:
+Looking at Table~\ref{tab:curr_sol_POSITIONING}, it is possible to see parameters referring to:
 \begin{itemize}
     \item Correction Technology: Stating the positioning technologies supported by the device;
     \item Supported Constellations: Indicating the frequencies the device is able to work on, for each GNSS constellation;
@@ -866,15 +812,62 @@ Looking at Figure~\ref{fig:curr_sol_POSITIONING}, it is possible to see paramete
     \label{fig:orthometric_height}
 \end{figure}
 
-Figure~\ref{fig:curr_sol_CONNECTIONS} exposes the communication protocols offered by each solution, as well as the types of data supported.
+\begingroup
+\begin{table}[h]
+    \centering
+	\captionsetup{justification=centering}
+	\caption{Some current base station solutions: electrical properties.}
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/curr_solutions/ELECTRICAL_v2.pdf}
+	\label{tab:curr_sol_ELECTRICAL}
+\end{table}
+\endgroup
+% \begin{figure}[h]
+% 	\centering
+% 	\includegraphics[width=1.0\textwidth]{Chapters/Figures/curr_solutions/ELECTRICAL_v2.pdf}
+% 	\caption{Some current base station solutions: electrical properties.}
+% 	\label{fig:curr_sol_ELECTRICAL}
+% \end{figure}
 
-Hardware-wise, Figure~\ref{fig:curr_sol_ELECTRICAL} provides information about the devices' power and respective autonomy.
+Hardware-wise, Table~\ref{tab:curr_sol_ELECTRICAL} provides information about the devices' power and respective autonomy, which provides them with the ability to effectively make use of every communication protocol, as well as the types of data supported -- represented by Table~\ref{tab:curr_sol_CONNECTIONS}.
 
-Finally, shifting the focus to physical properties, Figure~\ref{fig:curr_sol_MECH} informs about the devices' morphology and working conditions.
-% ----------------------------------------------------------
+\begingroup
+\begin{table}[h]
+    \centering
+	\captionsetup{justification=centering}
+    \caption{Some current base station solutions: connectivity properties.}
+	\includegraphics[width=0.8\textwidth]{Chapters/Figures/curr_solutions/CONNECTIONS_v2.pdf}
+	\label{tab:curr_sol_CONNECTIONS}
+\end{table}
+\endgroup
+% \begin{figure}[h]
+% 	\centering
+% 	\includegraphics[width=0.8\textwidth]{Chapters/Figures/curr_solutions/CONNECTIONS_v2.pdf}
+%     \caption{Some current base station solutions: connectivity properties.}
+% 	\label{fig:curr_sol_CONNECTIONS}
+% \end{figure}
+
+Finally, shifting the focus to physical properties, Table~\ref{tab:curr_sol_MECH} informs about the devices' morphology and working conditions.
+
+\begingroup
+\begin{table}[h]
+    \centering
+	\captionsetup{justification=centering}
+	\caption{Some current base station solutions: physical/mechanical properties.}
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/curr_solutions/MECH_v2.pdf}
+	\label{tab:curr_sol_MECH}
+\end{table}
+\endgroup
+% \begin{figure}[h]
+% 	\centering
+% 	\includegraphics[width=1.0\textwidth]{Chapters/Figures/curr_solutions/MECH_v2.pdf}
+% 	\caption{Some current base station solutions: physical/mechanical properties.}
+% 	\label{fig:curr_sol_MECH}
+% \end{figure}
+
+
 % gravar como pdfs/imagem; meter no corpo do texto
 % na versao final a tabela sera feita completamente em latex
-
+\newpage
 \subsection{Typical Architecture}\label{sec:II_architecture}
 
 % qual é a arquitetura tipica deste tipo de equipamento?
@@ -914,6 +907,6 @@ By observing the architecture it is possible to notice its division into four im
 % -	Wi-Fi Transceiver: Wi-Fi link to connect to a user's personal computer.
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The synergy from the association of each subgroup depends on the connections between them, which, on the other hand, will vary depending on the type of data transmission intended; different communication protocols that may fit better between each block are the reason behind that. Examples of this are the connections between the communication blocks (RTK Radio Link; Wi-Fi Transceiver) to UAVs manufactured by Beyond Vision -- HEIFU\textsuperscript{\textregistered} -- or to the RTK Web Local platform -- which subsequently connects to the network NTRIP --, which are performed using radiofrequency (a method already mentioned in this chapter).
+The synergy from the association of each subgroup depends on the connections between them, which, on the other hand, will vary depending on the type of data transmission intended; different communication protocols that may fit better between each block are the reason behind that. Examples of this are the connections between the communication blocks (RTK Radio Link; Wi-Fi Transceiver) to UAVs manufactured by Beyond Vision -- HEIFU\textsuperscript{\texttrademark} -- or to the RTK Web Local platform -- which subsequently connects to the network NTRIP --, which are performed using radiofrequency (a method already mentioned in this chapter).
 
-Every solution might be different, but a simple yet effective way of designing a device capable of performing the operations that characterize a base station is undoubtedly assembling its architecture in the form of a block diagram. It provides considerable advantages, as every unit of the system can be represented in groups, as well as the interactions between each of them. In the long run, this tremendously helps in every stage of the project.
+Every solution might be different, but a simple yet effective way of designing a device capable of performing the operations that characterise a base station is undoubtedly assembling its architecture in the form of a block diagram. It provides considerable advantages, as every unit of the system can be represented in groups, as well as the interactions between each of them. In the long run, this tremendously helps in every stage of the project.
