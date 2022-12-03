@@ -1,0 +1,89 @@
+%!TEX root = ../template.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% chapter1_Introduction.tex
+%% NOVA thesis document file
+%%
+%% Chapter with introduction
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \prependtographicspath{{Chapters/Figures/Covers/phd/}{Chapters/Figures/Covers/msc/}}
+
+% epigraph configuration
+% \epigraphfontsize{\small\itshape}
+% \setlength\epigraphwidth{12.5cm}
+% \setlength\epigraphrule{0pt}
+
+% \epigraph{
+%   This work is licensed under the \href{LaTeX project public license}{\LaTeX\ Project Public License v1.3c}.
+%   To view a copy of this license, visit \url{LaTeX project public license}.
+% }
+
+\typeout{NT FILE chapter1_Introduction.tex}
+
+\chapter{Introduction}\label{cha:chapter1_Introduction}
+
+%mudar o começo desta frase -> tirar os parenteses
+Around twelve thousand years ago, the way of life of the average human being -- which, until then, simply followed primitive and sometimes unproductive ways of hunting -- changed completely. The domestication of plants and breeding of animals started in the Neolithic period, which paved the way for the revolution and subsequent development of agriculture~\cite{Zeder2011TheOO}.
+%juntar este paragrafos com o do "Over the years,"
+
+The invention of the cotton gin in 1792 introduced the first ever mechanisation of an agricultural process, resulting immediately in enormous volumes of production, quickly enriching societies around the globe~\cite{Roe1926}.
+This resulted in a new age in agriculture that continues to this day, where machines are created and improved in order to efficiently complement and facilitate human work in almost every process possible.
+However, some tasks remain relatively tedious (such as pesticide sprayers mounted on tractors) or are just too inefficient, despite the use of machines. Robotics-oriented devices are able to patch the holes in both cases, notably in the latter.
+%falar de infraestruturas e segurança agora
+It is also known that work of this nature is not exclusive to the agricultural sector; there are thousands of people responsible for jobs regarding an important and sometimes overlooked need of society: surveillance.
+Taking the example of ensuring security on any premises or even workplace accidents -- e.g. Siberia's sadly expected annual wildfires (which, in 2021, reported the most devastating one of the 21$^{st}$ century~\cite{dixon_2021}) --, the mitigation of situations that could, possibly, negatively impact human life is undoubtedly imperative.
+
+With rapid technological advancement, a factor foreseen to be virtually removed was, precisely, the human contribution. Thus, when developing a device capable of performing tasks that, normally, a human would be responsible for, the main focus should be envisioning how each of those could be performed by it.
+
+Sight is more than often the most important sense to consider, therefore, bearing all of this in mind, a device capable of ``seeing'', acknowledging and mapping an area of work would be an excellent starting point for the previously mentioned sectors. Nowadays, tasks like these can be performed by a device known as an \gls{UAV}, which can be designed for a vast array of functions.
+
+% OU meter este paragrafo la em baixo, no fim da introduçao.
+% SERÁ QUE ESTE PARAGRAFO ESTA A MAIS?
+% Over the years, the discovery of countless phenomena as well as the development of numerous techniques have been made possible by exploring this laborous sector, and the doors that lead to the exploration seem far from being closed.
+
+\section{Description of the Problem}\label{sec:I_description}
+% falar dos objetivos da beyond
+% Agriculture:
+%              Multispectral Data Collection
+%              Creation of Aerial Maps
+%              Data Evaluation
+% Infrastructure:
+%              Data Collection
+%              Production of Aerial Maps
+%              Project Management
+% Safety:
+%              Autonomous Patrol
+%              Danger Zone Patrol
+%              Occurrence Control Management
+%%%% 1. qual o problema a solucionar?
+%%%% 1.1. abordar aplicações para drones ou outros problemas a resolver (eg aquela cena do trator com a base station por cima, ou um veiculo autonomo... a base pode servir para mais coisas sem ser so para drones)
+
+%%%% 1.2. ilustrar o prblema - eg fotos de terrenos grandes e necessidade de precisao (nesse caso agricultura de precisao), ou fotos de carros autonomos e necessidade de precisao (nesse caso segurança)
+
+%%%% 2. analise da concorrencia no final da abordagem do problema - vao se selecionar 6 colunas (specs) da tabela do excel que eu fiz (o pedro vai selecionar) e eu tenho de escolher 4 soluções (base stations) (5 no máximo) que possa usar como guidelines para a realização do meu trabalho
+
+When using UAVs, constantly having to manually control them in tedious and lengthy tasks (e.g. agricultural field surveying) might be impractical.
+A solution for this type of problem would be to automate the processes assigned to the devices. For that, one can't only rely on GPS for extremely precise positioning, specially in a real-time scenario, since this service only provides a few meters of accuracy and not the level needed for precise navigation, which must be in the order of centimeters. \gls{RTK} positioning solves this issue~\cite{gps_USGov,8714161},
+since it is a technology designed to improve the accuracy of \gls{GNSS} receivers in real time. This means it perfectly fits the high precision need of autonomous vehicles, imperative to carry out certain missions with virtually to no human assistance. Therefore, high accuracy is absolutely necessary in real-time UAV positioning.
+% AND LANDING OF THE DRONE ?????????????
+However, as this type of equipment is in constant motion, the problem of obtaining highly precise position readings in real time arises, which in turn calls for a solution that is capable of providing such readings -- a base station.
+
+% What is a Base Station?         meter isto:?
+% In the context of external land surveying, a base station is a GPS receiver at an accurately-known fixed location which is used to derive correction information for nearby portable GPS receivers. This correction data allows propagation and other effects to be corrected out of the position data obtained by the mobile stations, which gives greatly increased location precision and accuracy over the results obtained by uncorrected GPS receivers.
+A UAV used in external land surveying (for precision agriculture or surveillance, for example) usually includes a GNSS receiver integrated in its board which, just like a regular smartphone, helps tracking down its current position.
+However, as mentioned earlier, the offered precision is not the best for real-time applications.
+To solve this issue, an equipment known as ``base station'' can be used as a position adjustment auxiliary.
+Also containing a GNSS receiver itself, a base station is stationary and, through a link to the vast array of satellites arranged in outer space (also known as constellations), is able to send position corrections to another GNSS receiver linked to it (usually a rover, e.g. a UAV), in a real-time manner.
+In order for this to be possible, the base station must be fixed and have information regarding its exact position, which can be determined directly from a GNSS constellation or through the internet.
+As soon as that is established, the corrections made by it will be extremely trustworthy and precise.
+%(explained in more detail in Chapter~\ref{cha:chapter2_SotA})
+% DÚVIDA: só há estas 2 maneiras?
+
+% The Problem to Solve
+This Dissertation will aim at the redesign of the RTK base station produced by the company in collaboration with\footnote{Beyond Vision (\url{https://beyond-vision.pt/index}).}. The proposed idea is to work on lowering the power consumption of the solution the best way possible. For that, the device will have to be redesigned. This product is known as beRTK\textsuperscript{\textregistered}~\cite{beRTK_2022}, and currently performs two main operations: the first is to use a high precision GNSS module known as ZED-F9P, in order to obtain its position in a highly precise manner and then broadcasting RTK corrections via radiofrequency to a UAV -- this radiofrequency link can be established either through Zigbee specification, or through the LoRa protocol\footnote{Deriving from ``Long Range'', it is a spread-spectrum modulation technique used to establish radio links.};
+the second is through a specified streaming protocol known as \gls{NTRIP}, in order to connect itself to a network, aiming to obtain its precise location much faster (as, through pure GNSS positioning, obtaining a precision value below 10 centimeters takes a long time -- up to hours; relying on NTRIP reduces that same waiting time to just minutes or even seconds).
+
+The current beRTK\textsuperscript{\textregistered} solution manages Wi-Fi connections through a Raspberry Pi 4 Model B, a single-board computer (SBC) with two Wi-Fi modules:
+one able to connect the base station to a Wi-Fi network and fetch positioning data from the NTRIP network, and another that enables the remote configuration of the base from a web-based application, through the creation of a local network.
+It is, therefore, intended to replace the used SBC with microcontrollers able to perform these same operations, while keeping both the high precision GNSS module and the module used for the radiofrequency broadcasting of RTK corrections.
+Also on the list of changes, yet with lower priority, is a more robust battery system -- that allows charging and using the base at the same time (preferably via USB Type-C). The power consumption of this sector is intended to be cut in approximately half.
