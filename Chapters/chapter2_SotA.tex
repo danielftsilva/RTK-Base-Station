@@ -908,3 +908,474 @@ Finally, the Communications subgroup is responsible for establishing radio links
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The synergy from the association of each subgroup depends on the connections between them, which, on the other hand, will vary depending on the type of data transmission intended; different communication protocols that may fit better between each block are the reason behind that. Examples of this are the connections between the communication blocks (RTK Radio Link; Wi-Fi Transceiver) to UAVs manufactured by Beyond Vision -- HEIFU\textsuperscript{\textregistered} -- or to the RTK Local Web platform -- which subsequently connects to the network NTRIP --, which are performed using radiofrequency (a method already mentioned in this chapter).
+
+\section{System Specifications and Requirements}\label{sec:II_Specs}
+
+Aiming to implement a low-power solution for a new, improved version of the beRTK\textsuperscript{\textregistered} Base Station, the next step to take after gathering all the necessary knowledge on the subjects is to effectively define the system requirements.
+
+For the development of a project, Beyond Vision's way of establishing its specifications is through a grammar table defined by codes in the following manner:
+
+\begin{center}
+	\textbf{<PROJ>.<SUBPROJ>.<SUBJECT>.<SERIAL>}
+\end{center}
+Where:
+\begin{itemize}
+	\item \textbf{<PROJ>}: Identifies the project. In this case it will be referred to as RTKBS;
+	\item \textbf{<SUBPROJ>}: Identifies the subproject related to the specification;
+	\item \textbf{<SUBJECT>}: Subgroups the specifications by area;
+	\item \textbf{<SERIAL>}: Completes the individual specification with a unique ID number.
+\end{itemize}
+
+Therefore, the main requirements gathered for the project to develop are presented in Tables~\ref{tab:CRT_requirements}-\ref{tab:SW_requirements}, in the following sections.
+
+\clearpage
+\subsection{Certification Requirements}\label{II:CRT_requirements}
+
+This section describes the main certification requirements of the device.
+
+\begingroup
+\begin{table}[H]
+	\captionsetup{justification=centering}
+    \caption{beRTK\textsuperscript{\textregistered} Base Station certification requirements.}
+	\label{tab:CRT_requirements}
+	\centering
+
+	% mini tabela: 1, 2, 3
+	\begin{tabular}{rl}
+        \toprule
+		\textbf{RTKBS.MAIN.CRT.010} 			& \textbf{European Regulatory Framework} \\
+		\multirow{2}*{}							& The RTK Base Station shall respect the current European \\
+												& regulatory framework. \\
+		\midrule
+		\multirow{1}*{\textbf{Remarks:}}   & \\
+		\bottomrule
+		&\\
+		&\\
+		\toprule
+		\textbf{RTKBS.MAIN.CRT.020} 		& \textbf{Electromagnetic Compatibility Certification} \\
+		\multirow{2}*{}						& The RTK Base Station shall respect the current European \\
+											& EMC (Electromagnetic Compatibility) standards. \\
+		\midrule
+		\multirow{2}*{\textbf{Remarks:}} 	& \emph{It must follow the European norms ETSI EN301 489-1,} \\
+							  				& \emph{EN301 489-3 and EN301489-17.}\\
+		\bottomrule
+		&\\
+		&\\
+        \toprule
+		\textbf{RTKBS.MAIN.CRT.030} 		& \textbf{Radio Equipment Certification} \\
+		\multirow{4}*{}						& The RTK Base Station shall respect the current European \\
+											& Radio Equipment Directive (RED), either by running \\
+											& tests or by ensuring that all the radio equipment \\
+											& on-board is already certified by its manufacturer. \\
+		\midrule
+		\multirow{4}*{\textbf{Remarks:}} 	& \emph{The list of RED related standards to be respected is} \\
+							  				& \emph{at least (but not restricted to) the following:} \\
+											& \emph{EN300 328:2015 (Wi-Fi); EN300 440 (Wi-Fi, ZigBee,} \\
+											& \emph{Bluetooth); EN303 413 (GPS, RTK).}\\
+		\bottomrule
+	\end{tabular}
+\end{table}
+\endgroup
+\clearpage
+\subsection{Environmental Requirements}\label{II:ENV_requirements}
+
+This section describes the main environmental requirements of the device.
+
+\begingroup
+\begin{table}[H]
+	\captionsetup{justification=centering}
+    \caption{beRTK\textsuperscript{\textregistered} Base Station environmental requirements.}
+	\label{tab:ENV_requirements}
+	\centering
+
+	% mini tabela: 4, 5
+	\begin{tabular}{rl}
+        \toprule
+		\textbf{RTKBS.MAIN.ENV.010} 			& \textbf{Waste Management Certification} \\
+		\multirow{3}*{}							& The RTK Base Station shall respect the current European \\
+												& relating to WEEE (Waste of Electric and Electronic \\
+												& Equipment). \\
+		\midrule
+		\multirow{3}*{\textbf{Remarks:}}   		& \emph{It must follow the following directives: 2012/19/EU} \\
+												& \emph{(WEEE); 2006/66/EC (Battery recycling); 2011/65/EC} \\
+												& \emph{(RoHS).} \\
+		\bottomrule
+		&\\
+		&\\
+        \toprule
+		\textbf{RTKBS.MAIN.ENV.020} 		& \textbf{IP Protection} \\
+		\multirow{2}*{}						& The RTK Base Station shall have an IP environmental \\
+											& protection degree of IP65. \\
+		\midrule
+		\multirow{1}*{\textbf{Remarks:}} 	& \emph{Following European standard EN60529.} \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+\endgroup
+
+\subsection{Installation Requirements}\label{II:INST_requirements}
+
+This section describes the main installation requirements of the device.
+
+\begingroup
+\begin{table}[H]
+	\captionsetup{justification=centering}
+    \caption{beRTK\textsuperscript{\textregistered} Base Station installation requirements.}
+	\label{tab:INST_requirements}
+	\centering
+
+	% mini tabela: 6
+	\begin{tabular}{rl}
+        \toprule
+		\textbf{RTKBS.MAIN.INST.010} 			& \textbf{Easiness of Field Deploy} \\
+		\multirow{4}*{}							& It shall be easy and fast to deploy the RTK base \\
+												& Station on the field. Namely, it should only be needed \\
+												& to choose a place, place the module, and turn the \\
+												& module on.\\
+												
+		\midrule
+		\multirow{1}*{\textbf{Remarks:}}   		& \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+\endgroup
+\clearpage
+\subsection{Functional Requirements}\label{II:FCT_requirements}
+
+This section describes the main functional requirements of the device.
+
+\begingroup
+\begin{table}[H]
+	\captionsetup{justification=centering}
+    \caption{beRTK\textsuperscript{\textregistered} Base Station functional requirements.}
+	\label{tab:FCT_requirements}
+	\centering
+
+	% mini tabela: 7, 8, 9, 10, 11
+	\begin{tabular}{rl}
+        \toprule
+		\textbf{RTKBS.MAIN.FCT.010} 			& \textbf{RTK Base} \\
+		\multirow{5}*{}							& As an RTK Base Station, the main purpose of this device \\
+												& is to accurately calculate its position. It shall also \\
+												& transmit the position wirelessly to the devices around \\
+												& that are capable of receiving and processing this \\
+												& information. \\
+		\midrule
+		\multirow{1}*{\textbf{Remarks:}}   & \\
+		\bottomrule
+		&\\
+		&\\
+		\toprule
+		\textbf{RTKBS.MAIN.FCT.020} 		& \textbf{Positioning Error} \\
+		\multirow{2}*{}						& The RTK Base Station shall achieve a positioning error \\
+											& of less than 2 cm. \\
+		\midrule
+		\multirow{2}*{\textbf{Remarks:}} 	& \emph{The u-Blox module ZED-F9P should be the basis for} \\
+							  				& \emph{this RTK system.}\\
+		\bottomrule
+		&\\
+		&\\
+        \toprule
+		\textbf{RTKBS.MAIN.FCT.030} 		& \textbf{On-board Intelligence} \\
+		\multirow{4}*{}						& The RTK Base Station shall have an MCU, able to carry \\
+											& out a pre-determined set of instructions, accept \\
+											& instructions in real-time, receive NTRIP information \\
+											& and send correction signals to the HEIFU\textsuperscript{\texttrademark} UAV. \\
+		\midrule
+		\multirow{2}*{\textbf{Remarks:}} 	& \emph{A microcontroller integrated circuit from the STM32} \\
+							  				& \emph{family should be the base for the MCU.} \\
+		\bottomrule
+		&\\
+		&\\
+        \toprule
+		\textbf{RTKBS.MAIN.FCT.040} 		& \textbf{Wireless Link} \\
+		\multirow{4}*{}						& The RTK Base Station shall be able to wirelessly \\
+											& transmit the differential correction information to the \\
+											& devices around. \\
+		\midrule
+		\multirow{1}*{\textbf{Remarks:}} 	& \\
+		\bottomrule
+		&\\
+		&\\
+        \toprule
+		\textbf{RTKBS.MAIN.FCT.050} 		& \textbf{Wireless Link Range} \\
+		\multirow{1}*{}						& The wireless link shall reach at least 1 km VLOS. \\
+		\midrule
+		\multirow{1}*{\textbf{Remarks:}} 	& \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+\endgroup
+\clearpage
+\subsection{Mechanical Requirements}\label{II:MEC_requirements}
+
+This section describes the main mechanical requirements of the device.
+
+\begingroup
+\begin{table}[H]
+	\captionsetup{justification=centering}
+    \caption{beRTK\textsuperscript{\textregistered} Base Station mechanical requirements.}
+	\label{tab:MEC_requirements}
+	\centering
+
+	% mini tabela: 12, 13, 14
+	\begin{tabular}{rl}
+        \toprule
+	    \textbf{RTKBS.MAIN.MEC.010} 		& \textbf{Enclosure} \\
+	    \multirow{5}*{}						& The RTK Base Station shall count on a plastic enclosure \\
+											& as a shelter from the environment. This enclosure should \\
+											& be designed in a way that is does not interfere with the \\
+											& radio signals needed for its operation (namely \\
+											& positioning and wireless communications).\\
+		\midrule
+		\multirow{1}*{\textbf{Remarks:}}   & \\
+		\bottomrule
+		&\\
+		&\\
+		\toprule
+		\textbf{RTKBS.MAIN.MEC.020} 		& \textbf{Tripod Attachment} \\
+		\multirow{3}*{}						& The RTK Base Station's enclosure shall be designed in \\
+											& order to be possible to attach it to the top of a tripod \\
+											& with a 5/8'' screw. \\
+		\midrule
+		\multirow{1}*{\textbf{Remarks:}} 	& \\
+		\bottomrule
+		&\\
+		&\\
+        \toprule
+		\textbf{RTKBS.MAIN.MEC.030} 		& \textbf{Minimize Connectors} \\
+		\multirow{3}*{}						& The RTK Base Station shall be designed so to minimize\\
+											& the number of connectors to the outside world. This \\
+											& includes antennae. \\
+		\multirow{3}*{\textbf{Remarks:}}    & \emph{The idea is to ease and accelerate the deployment on the}\\
+											& \emph{field, as well as minimize the vulnerability to}\\
+											& \emph{external parameters.} \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+\endgroup
+\clearpage
+\subsection{Electrical Requirements}\label{II:PWS_requirements}
+
+This section describes the main electrical requirements of the device.
+
+\begingroup
+\begin{table}[H]
+	\captionsetup{justification=centering}
+    \caption{beRTK\textsuperscript{\textregistered} Base Station electrical requirements.}
+	\label{tab:PWS_requirements}
+	\centering
+
+	% mini tabela: 15, 16, 17, 18, 19
+	\begin{tabular}{rl}
+        \toprule
+		\textbf{RTKBS.MAIN.PWS.010} 			& \textbf{Main Power Supply} \\
+		\multirow{6}*{}							& The RTK Base Station shall run on electricity, being \\
+												& the main power source a connection to an external power \\
+												& supply. It shall accept voltages between +7 VDC and \\
+												& +22 VDC, enabling the connection to a standard solar \\
+												& panel, a car battery or a mains power supply capable of \\
+												& delivering a voltage within that range. \\
+		\midrule
+		\multirow{1}*{\textbf{Remarks:}}   & \\
+		\bottomrule
+		&\\
+		&\\
+		\toprule
+		\textbf{RTKBS.MAIN.PWS.020} 		& \textbf{Battery} \\
+		\multirow{4}*{}						& The RTK Base Station shall count on a single battery, \\
+											& enabling it to be used on the field where a mains power \\
+											& connection is not available. This battery shall be \\
+											& embedded on the devices electronic system. \\
+		\midrule
+		\multirow{1}*{\textbf{Remarks:}} 	& \\
+		\bottomrule
+		&\\
+		&\\
+        \toprule
+		\textbf{RTKBS.MAIN.PWS.030} 		& \textbf{Power Supply Switching} \\
+		\multirow{5}*{}						& Having two separate power sources, the RTK Base Station \\
+											& shall prioritize external power input, switching to the \\
+											& internal battery when that connection cannot be \\
+											& established. This transition must be smooth in order to \\
+											& ensure continuous operation. \\
+		\midrule
+		\multirow{1}*{\textbf{Remarks:}} 	& \\
+		\bottomrule
+		&\\
+		&\\
+        \toprule
+		\textbf{RTKBS.MAIN.PWS.040} 		& \textbf{Power Consumption} \\
+		\multirow{3}*{}						& The RTK Base Station shall not exceed an average of \\
+											& 400 mA of current consumption at 5 VDC voltage level. \\
+											& That is, it shall not exceed a power consumption of 2 W.\\
+		\midrule
+		\multirow{1}*{\textbf{Remarks:}} 	& \\
+		\bottomrule
+		&\\
+		&\\
+        \toprule
+		\textbf{RTKBS.MAIN.PWS.050} 		& \textbf{Power Switch} \\
+		\multirow{3}*{}						& It shall be possible to turn the RTK Base Station on and\\
+											& off by means of a pushbutton switch in toggle mode. This \\
+											& button shall be externally available to the user. \\
+		\midrule
+		\multirow{1}*{\textbf{Remarks:}} 	& \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+\endgroup
+\clearpage
+\subsection{Communication Requirements}\label{II:COM_requirements}
+
+This section describes the main communication requirements of the device.
+
+\begingroup
+\begin{table}[H]
+	\captionsetup{justification=centering}
+    \caption{beRTK\textsuperscript{\textregistered} Base Station communication requirements.}
+	\label{tab:COM_requirements}
+	\centering
+
+	% mini tabela: 20, 21, 22
+	\begin{tabular}{rl}
+        \toprule
+		\textbf{RTKBS.MAIN.COM.010} 			& \textbf{Communication with NTRIP Platform} \\
+		\multirow{3}*{}							& The RTK Base Station shall be capable of establishing \\
+												& communications with an NTRIP platform by using a \\
+												& Wi-Fi radio link. \\
+		\midrule
+		\multirow{1}*{\textbf{Remarks:}}   & \\
+		\bottomrule
+		&\\
+		&\\
+		\toprule
+		\textbf{RTKBS.MAIN.COM.020} 		& \textbf{Communication with the UAVs} \\
+		\multirow{3}*{}						& The RTK Base Station shall be capable of establishing \\
+											& wireless communications with the UAVs by using a \\
+											& well-established local communication radio protocol. \\
+		\midrule
+		\multirow{2}*{\textbf{Remarks:}} 	& \emph{Communication can be established either using the} \\
+											& \emph{IEEE 802.15.4 or LoRa protocols.}\\
+		\bottomrule
+		&\\
+		&\\
+        \toprule
+		\textbf{RTKBS.MAIN.COM.030} 		& \textbf{Communication with the User's Computer} \\
+		\multirow{3}*{}						& The RTK Base Station shall be capable of establishing \\
+											& communications with an external computer by using a \\
+											& Wi-Fi radio link. \\
+		\midrule
+		\multirow{1}*{\textbf{Remarks:}} 	& \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+\endgroup
+\clearpage
+\subsection{User Interface Requirements}\label{II:HMI_requirements}
+
+This section describes the main user interface requirements of the device.
+
+\begingroup
+\begin{table}[H]
+	\captionsetup{justification=centering}
+    \caption{beRTK\textsuperscript{\textregistered} Base Station user interface requirements.}
+	\label{tab:HMI_requirements}
+	\centering
+
+	% mini tabela: 23, 24, 25, 26
+	\begin{tabular}{rl}
+        \toprule
+		\textbf{RTKBS.MAIN.HMI.010} 			& \textbf{Power Button} \\
+		\multirow{2}*{}							& The RTK Base Station shall exhibit, on its front panel, \\
+												& the power button. \\
+		\midrule
+		\multirow{1}*{\textbf{Remarks:}}   & \\
+		\bottomrule
+		&\\
+		&\\
+		\toprule
+		\textbf{RTKBS.MAIN.HMI.020} 		& \textbf{Battery Status} \\
+		\multirow{3}*{}						& The RTK Base Station shall exhibit, on its front panel, \\
+											& the status of the power source currently being used, by \\
+											& means of four blue LEDs. \\
+		\midrule
+		\multirow{1}*{\textbf{Remarks:}} 	& \\
+		\bottomrule
+		&\\
+		&\\
+        \toprule
+		\textbf{RTKBS.MAIN.HMI.030} 		& \textbf{Power Source Indication} \\
+		\multirow{3}*{}						& The RTK Base Station shall exhibit, on its front panel, \\
+											& an indication of which power sources are available, by \\
+											& means of three blue LEDs. \\
+		\midrule
+		\multirow{1}*{\textbf{Remarks:}} 	& \\
+		\bottomrule
+		&\\
+		&\\
+        \toprule
+		\textbf{RTKBS.MAIN.HMI.040} 		& \textbf{Power Connector} \\
+		\multirow{3}*{}						& The RTK Base Station shall exhibit, on its back panel, \\
+											& one connector enabling the connection to an external \\
+											& power source. \\
+		\midrule
+		\multirow{1}*{\textbf{Remarks:}} 	& \emph{On this stage, the connector should be USB Type-C.} \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+\endgroup
+\clearpage
+\subsection{Software Requirements}\label{II:SW_requirements}
+
+This section describes the main software requirements of the device.
+
+\begingroup
+\begin{table}[H]
+	\captionsetup{justification=centering}
+    \caption{beRTK\textsuperscript{\textregistered} Base Station software requirements.}
+	\label{tab:SW_requirements}
+	\centering
+
+	% mini tabela: 27, 28, 29, 30
+	\begin{tabular}{rl}
+        \toprule
+		\textbf{RTKBS.MAIN.SW.010} 				& \textbf{Operating system} \\
+		\multirow{2}*{}							& The RTK Base Station MCU shall be able to run an \\
+												& embedded operating system. \\
+		\midrule
+		\multirow{1}*{\textbf{Remarks:}}   & \\
+		\bottomrule
+		&\\
+		&\\
+		\toprule
+		\textbf{RTKBS.MAIN.SW.020} 			& \textbf{RTK Local Web Platform} \\
+		\multirow{2}*{}						& The RTK Base Station MCU shall have a Local Web \\
+											& Platform that controls the RTK function. \\
+		\midrule
+		\multirow{1}*{\textbf{Remarks:}} 	& \\
+		\bottomrule
+		&\\
+		&\\
+        \toprule
+		\textbf{RTKBS.MAIN.SW.030} 			& \textbf{Configuration} \\
+		\multirow{4}*{}						& The RTK base Station shall include a configuration \\
+											& interface, enabling a user to configure the base \\
+											& parameters. This interface shall be available via the \\
+											& RTK Local Web Platform. \\
+		\midrule
+		\multirow{1}*{\textbf{Remarks:}} 	& \\
+		\bottomrule
+		&\\
+		&\\
+        \toprule
+		\textbf{RTKBS.MAIN.SW.040} 			& \textbf{Logs} \\
+		\multirow{3}*{}						& The RTK base Station shall record the main activities \\
+											& in a log file, so it can be possible to back trace its \\
+											& behaviour. \\
+		\midrule
+		\multirow{1}*{\textbf{Remarks:}} 	& \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+\endgroup
