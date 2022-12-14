@@ -857,7 +857,7 @@ Finally, shifting the focus to physical properties, Table~\ref{tab:curr_sol_MECH
     % ok, ja se sabem os integrantes de um sistema destes; vamos explicar como é constiutida uma base station por dentro - genericamente: chip, bateria, ...
 All the properties presented in the previous section's tables should be treated as guidelines to the development of a new solution, which in turn needs to have a structured architecture.
 
-% meter aqui o diagrama de blocos
+% meter aqui o atual diagrama de blocos -- REDESENHAR E MUDAR TEXTO NOS BLOCOS
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{Chapters/Figures/architecture_original_v2.pdf}
@@ -865,8 +865,8 @@ All the properties presented in the previous section's tables should be treated 
 	\label{fig:architecture_original}
 \end{figure}
 
-Figure~\ref{fig:architecture_original} shows a block diagram of the main systems that make up Beyond Vision's current base station solution~\cite{beRTK_2022}.
-By observing the architecture it is possible to notice its division into four important subgroups:
+Figure~\ref{fig:architecture_original} presents a block diagram of the subsystems that make up Beyond Vision's current base station solution~\cite{beRTK_2022}.
+The architecture introduces the system's division into four main subgroups:
 \begin{itemize}
     \item Power Supply: Manages the device's power dynamics (i.e. power guidance, switch and conversion);
     \item Control: Commands the operation of the entire device; usually composed of microcontrollers;
@@ -929,7 +929,7 @@ Where:
 Therefore, the main requirements gathered for the project to develop are presented in Tables~\ref{tab:CRT_requirements}-\ref{tab:SW_requirements}, in the following sections.
 
 \clearpage
-\subsection{Certification Requirements}\label{II:CRT_requirements}
+\subsection{Certification Requirements}\label{sec:II_CRT_requirements}
 
 This section describes the main certification requirements of the device.
 
@@ -977,7 +977,7 @@ This section describes the main certification requirements of the device.
 \end{table}
 \endgroup
 \clearpage
-\subsection{Environmental Requirements}\label{II:ENV_requirements}
+\subsection{Environmental Requirements}\label{sec:II_ENV_requirements}
 
 This section describes the main environmental requirements of the device.
 
@@ -1013,7 +1013,7 @@ This section describes the main environmental requirements of the device.
 \end{table}
 \endgroup
 
-\subsection{Installation Requirements}\label{II:INST_requirements}
+\subsection{Installation Requirements}\label{sec:II_INST_requirements}
 
 This section describes the main installation requirements of the device.
 
@@ -1040,7 +1040,7 @@ This section describes the main installation requirements of the device.
 \end{table}
 \endgroup
 \clearpage
-\subsection{Functional Requirements}\label{II:FCT_requirements}
+\subsection{Functional Requirements}\label{sec:II_FCT_requirements}
 
 This section describes the main functional requirements of the device.
 
@@ -1077,13 +1077,12 @@ This section describes the main functional requirements of the device.
 		&\\
         \toprule
 		\textbf{RTKBS.MAIN.FCT.030} 		& \textbf{On-board Intelligence} \\
-		\multirow{4}*{}						& The RTK Base Station shall have an MCU, able to carry \\
+		\multirow{4}*{}						& The RTK Base Station shall have a SBC, able to carry \\
 											& out a pre-determined set of instructions, accept \\
 											& instructions in real-time, receive NTRIP information \\
 											& and send correction signals to the HEIFU\textsuperscript{\texttrademark} UAV. \\
 		\midrule
-		\multirow{2}*{\textbf{Remarks:}} 	& \emph{A microcontroller integrated circuit from the STM32} \\
-							  				& \emph{family should be the base for the MCU.} \\
+		\multirow{1}*{\textbf{Remarks:}} 	& \\
 		\bottomrule
 		&\\
 		&\\
@@ -1107,7 +1106,7 @@ This section describes the main functional requirements of the device.
 \end{table}
 \endgroup
 \clearpage
-\subsection{Mechanical Requirements}\label{II:MEC_requirements}
+\subsection{Mechanical Requirements}\label{sec:II_MEC_requirements}
 
 This section describes the main mechanical requirements of the device.
 
@@ -1155,7 +1154,7 @@ This section describes the main mechanical requirements of the device.
 \end{table}
 \endgroup
 \clearpage
-\subsection{Electrical Requirements}\label{II:PWS_requirements}
+\subsection{Electrical Requirements}\label{sec:II_PWS_requirements}
 
 This section describes the main electrical requirements of the device.
 
@@ -1226,7 +1225,7 @@ This section describes the main electrical requirements of the device.
 \end{table}
 \endgroup
 \clearpage
-\subsection{Communication Requirements}\label{II:COM_requirements}
+\subsection{Communication Requirements}\label{sec:II_COM_requirements}
 
 This section describes the main communication requirements of the device.
 
@@ -1272,7 +1271,7 @@ This section describes the main communication requirements of the device.
 \end{table}
 \endgroup
 \clearpage
-\subsection{User Interface Requirements}\label{II:HMI_requirements}
+\subsection{User Interface Requirements}\label{sec:II_HMI_requirements}
 
 This section describes the main user interface requirements of the device.
 
@@ -1326,7 +1325,7 @@ This section describes the main user interface requirements of the device.
 \end{table}
 \endgroup
 \clearpage
-\subsection{Software Requirements}\label{II:SW_requirements}
+\subsection{Software Requirements}\label{sec:II_SW_requirements}
 
 This section describes the main software requirements of the device.
 

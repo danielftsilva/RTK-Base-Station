@@ -21,3 +21,6 @@ Having done this, the next step is related to the establishment of requirements 
 %           PODE SER USADO NA CONCLUSAO: about RTK
 % "Real Time Kinematic technique requires 2 receivers. One of them is stationary and is called "base station", the other one is "rover". The base station measures errors, and knowing that it is stationary transmits corrections to the rover (refer to How RTK works for more information about RTK). Sometimes CORS and NTRIP networks take the place of traditional base stations. They provide accurate absolute position and send corrections over the Internet. Typically the distance between the reference station and local rover shouldn't exceed 10-15 km due to the ionospheric effect. So if the reference station is located too far or simply is absent in the area you will need a local base station. Other advantages of your own base are independence from the Internet connection and lack of NTRIP subscription fees."
 % - If the accurate absolute position of the base has been determined only after the job has been done, the offset of the map can be determined and corrected.
+
+	
+Meter condensadores de desacoplamento --> como o modulo 3.3V funciona por pulsos (btw tudo no esquematico é digital), vai existir ruido consideravel quando a tensao for puxada/convertida --> os condensadores de desacoplamento servem para atenuar esse ruido.
