@@ -870,7 +870,7 @@ The architecture introduces the system's division into four main subgroups:
 \begin{itemize}
     \item Power Supply: Manages the device's power dynamics (i.e. power guidance, switch and conversion);
     \item Control: Commands the operation of the entire device; usually composed of microcontrollers;
-    \item Peripherals: External units associated to device, in order to improve its operability. The Human-Machine Interface (HMI) seen is used to establish a connection between the user and the device itself. The GNSS Receiver performs the functions already described throughout this chapter;
+    \item Peripherals: External units associated to device, in order to improve its operability. The \gls{HMI} seen is used to establish a connection between the user and the device itself. The GNSS Receiver performs the functions already described throughout this chapter;
     \item Communications: Used for connection to devices/networks, this group is in charge of establishing the links needed to complete the intended purpose of the device.
 \end{itemize}
 
@@ -886,7 +886,7 @@ Skipping to the Control subgroup, i.e. the ``brains'' of the device, beRTK\texts
 
 \subsubsection{Peripherals}\label{sec:II_architecture_Peripherals}
 
-Counting with a \gls{HMI}, the Peripherals subgroup's GNSS receiver establishes a connection with all the other subgroups, and it is vital for the base station's purpose. beRTK\textsuperscript{\textregistered} uses a high precision multi-band GNSS module known as ZED-F9P, which enables centimeter level accuracy in just a few seconds. This professional receiver integrates RTK and GNSS technology, and its capability of supporting the four major GNSS constellations provides beRTK\textsuperscript{\textregistered} with the accuracy and range levels portrayed in Table~\ref{tab:curr_sol_POSITIONING}~\cite{ZED_F9P}.
+Counting with a HMI, the Peripherals subgroup's GNSS receiver establishes a connection with all the other subgroups, and it is vital for the base station's purpose. beRTK\textsuperscript{\textregistered} uses a high precision multi-band GNSS module known as ZED-F9P, which enables centimeter level accuracy in just a few seconds. This professional receiver integrates RTK and GNSS technology, and its capability of supporting the four major GNSS constellations provides beRTK\textsuperscript{\textregistered} with the accuracy and range levels portrayed in Table~\ref{tab:curr_sol_POSITIONING}~\cite{ZED_F9P}.
 %meter foto do esquematico
 
 \subsubsection{Communications}\label{sec:II_architecture_Communications}
@@ -1077,10 +1077,10 @@ This section describes the main functional requirements of the device.
 		&\\
         \toprule
 		\textbf{RTKBS.MAIN.FCT.030} 		& \textbf{On-board Intelligence} \\
-		\multirow{4}*{}						& The RTK Base Station shall have a SBC, able to carry \\
-											& out a pre-determined set of instructions, accept \\
+		\multirow{4}*{}						& The RTK Base Station shall have a control unit, able to \\
+											& carry out a pre-determined set of instructions, accept \\
 											& instructions in real-time, receive NTRIP information \\
-											& and send correction signals to the HEIFU\textsuperscript{\texttrademark} UAV. \\
+											& and send correction signals to the HEIFU\textsuperscript{\textregistered} UAV. \\
 		\midrule
 		\multirow{1}*{\textbf{Remarks:}} 	& \\
 		\bottomrule
@@ -1319,7 +1319,7 @@ This section describes the main user interface requirements of the device.
 											& one connector enabling the connection to an external \\
 											& power source. \\
 		\midrule
-		\multirow{1}*{\textbf{Remarks:}} 	& \emph{On this stage, the connector should be USB Type-C.} \\
+		\multirow{1}*{\textbf{Remarks:}} 	& \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -1340,8 +1340,8 @@ This section describes the main software requirements of the device.
 	\begin{tabular}{rl}
         \toprule
 		\textbf{RTKBS.MAIN.SW.010} 				& \textbf{Operating system} \\
-		\multirow{2}*{}							& The RTK Base Station MCU shall be able to run an \\
-												& embedded operating system. \\
+		\multirow{2}*{}							& The RTK Base Station's control unit shall be able to \\
+												& run an embedded operating system. \\
 		\midrule
 		\multirow{1}*{\textbf{Remarks:}}   & \\
 		\bottomrule
@@ -1349,8 +1349,8 @@ This section describes the main software requirements of the device.
 		&\\
 		\toprule
 		\textbf{RTKBS.MAIN.SW.020} 			& \textbf{RTK Local Web Platform} \\
-		\multirow{2}*{}						& The RTK Base Station MCU shall have a Local Web \\
-											& Platform that controls the RTK function. \\
+		\multirow{2}*{}						& The RTK Base Station's control unit shall have a \\
+											& Local Web Platform that controls the RTK function. \\
 		\midrule
 		\multirow{1}*{\textbf{Remarks:}} 	& \\
 		\bottomrule
