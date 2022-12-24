@@ -12,17 +12,23 @@
 
 Meter aqui um pequena introdução do que e mostrado neste capitulo e descrição de seccoes
 
-\section{Architecture and Component Selection}\label{31_Architecture}
+%SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+\section{Architecture and Component Selection}\label{sec:31_Architecture}
 
 The system's desired specifications and requirements exposed throughout Section~\ref{sec:II_Specs} allow a redesign of its current architecture (Figure~\ref{fig:architecture_original}), which is presented in Figure~\ref{fig:architecture_new}.
 
 % meter aqui o NOVO diagrama de blocos -- INACABADO;
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=1.0\textwidth]{Chapters/Figures/new_architecture.pdf}
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/new_architecture_2.pdf}
 	\caption{beRTK\textsuperscript{\textregistered} Base Station's redesigned block diagram.}
 	\label{fig:architecture_new}
 \end{figure}
+
+%VER SE ESTA ORDEM DE SUBCAPITULOS É BOA O SUFICIENTE, ou se tenho de a alterar
+
+%sSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsS
+\subsection{Control}\label{sec:311_Control}
 
 Starting from the control subgroup, the only component to be selected was a single-board computer able to replace the previously used Raspberry Pi 4 Model B; this means the chosen device would have to be able to carry out a pre-determined set of instructions crucial for the operation of the base station. Such requirement is presented in Section~\ref{sec:II_FCT_requirements} -- requirement \textbf{RTKBS.MAIN.FCT.030}, which proposes the use of a single-board computer (SBC).
 The set of instructions performed by the original beRTK\textsuperscript{\textregistered} base station is carried out by a Raspberry Pi 4 Model B computer (described in Section~\ref{sec:II_architecture_Control}), therefore, an element with a comparable computational power as this computer would be ideal. The Raspberry Pi Foundation offers a variety of solutions for many project ideas\footnote[7]{The Raspberry Pi Foundation's hardware offers are available at \url{https://www.raspberrypi.com/products/}.}, and since the operations intended for the beRTK\textsuperscript{\textregistered} base station are so well performed by the Raspberry Pi 4 Model B, it would be worth looking through the array of Raspberry Pi products in order to find a good solution. Research leads to the Raspberry Pi Compute Module 4.
@@ -36,7 +42,12 @@ This compact module not only has a small form factor when compared with the Rasp
 	\label{fig:CM4}
 \end{figure}
 
-One can choose from thirty-two CM4 variants which differ from each other on RAM and eMMC flash, as well as with or without wireless capabilities. Since this module is intended to be an embedded solution without any of the external ports present in the Raspberry Pi 4 Model B, the relevant ones must be included in the proposed solution, which in this case are USB and HDMI. The CM4 provides all the necessary pins for the implementation of two HDMI connectors on its carrier board (in this case the base station); however, when it comes to using its USB interface, the user must add a USB hub, since only two USB data pins are provided, along with a USB On-The-Go (OTG) pin. The latter is used in order to define the CM4 as either a host or a slave~\cite{CM4}.
+One can choose from thirty-two CM4 variants which differ from each other on RAM and eMMC flash, as well as with or without wireless capabilities.
+
+%sSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsS
+\subsection{Peripherals and Communications}\label{sec:312_Peripherals_Communications}
+
+Since this module is intended to be an embedded solution without any of the external ports present in the Raspberry Pi 4 Model B, the relevant ones must be included in the proposed solution, which in this case are USB and HDMI. The CM4 provides all the necessary pins for the implementation of two HDMI connectors on its carrier board (in this case the base station); however, when it comes to using its USB interface, the user must add a USB hub, since only two USB data pins are provided, along with a USB On-The-Go (OTG) pin. The latter is used in order to define the CM4 as either a host or a slave~\cite{CM4}.
 
 %meter imagem do HUB usb: LAN9514
 
@@ -44,20 +55,164 @@ In order to enable such data transfers, the base station would need a component 
 
 The datasheet for LAN9514 details the chip as a 10/100 ethernet controller, as well as a USB 2.0 hub with four downstream ports and one upstream port, and targets it for desktop computers and embedded systems, among other uses~\cite{LAN9514}. The LAN9514 also fits the Peripherals subgroup, along with the ZED-F9P GNSS receiver and the HMI, the latter of which bridges the user-device gap via a simple on/off button, LED indicators for both battery status and power source indication and a single connector intended for an external power source, satisfying requirement \textbf{RTKBS.MAIN.PWS.050}, as well as all the requirements defined in Section~\ref{sec:II_HMI_requirements}.
 
-The secondary power arrangement in the original beRTK\textsuperscript{\textregistered} design featured two external batteries that would feed the entire system once the mains power supply was disconnected. This form of supply poses considerable disadvantages when it comes to a continuous operation, due to the impractical need of removing the batteries in order to charge them. In the system's power supply subgroup, this was the main improvement to be made following the requirements defined in Section~\ref{sec:II_PWS_requirements}. For that, the base station's enclosure sould count on an internal battery (requirement \textbf{RTKBS.MAIN.PWS.020}) that must not be removed (such battery could be comprised of either a single or multi-cell arrangement) on which the system could rely once the external power supply was disconnected. This idea would help meet requirement \textbf{RTKBS.MAIN.MEC.030}, proposing however a new issue, namely, the charging of the internal battery arrangement.
-%meter LINK PARA CADA REQUIREMENT
+It is also worth mentioning that, referring to requirements \textbf{RTKBS.MAIN.FCT.020} and \textbf{RTKBS.MAIN.FCT.040}, which correspond to the GNSS receiver (ZED-F9P) and the Wi-Fi transceiver (Digi XBee\textsuperscript{\textregistered} 3), respectively, there were no changes in such elements for the new beRTK\textsuperscript{\textregistered}'s proposed solution.
 
-Referring to requirements \textbf{RTKBS.MAIN.FCT.020} and \textbf{RTKBS.MAIN.FCT.040}, which correspond to the GNSS receiver (ZED-F9P) and the Wi-Fi transceiver (Digi XBee\textsuperscript{\textregistered} 3), respectively, there are no changes in such elements for the new beRTK\textsuperscript{\textregistered}'s proposed solution.
+%sSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsS
+\subsection{Power Supply}\label{sec:313_PowerSupply}
 
-Keeping all this information in mind, 
-The original beRTK\textsuperscript{\textregistered}'s design featured a prioritized PowerPath\textsuperscript{\texttrademark} controller, as mentioned in Section~\ref{sec:II_architecture_PowerSupply}. As per Analog Devices, a PowerPath\textsuperscript{\texttrademark} controller is a device able to control the flow of power through a system, while also selecting its power source.
+The secondary power arrangement in the original beRTK\textsuperscript{\textregistered} design features two external batteries that would feed the entire system once the mains power supply was disconnected. This form of supply poses considerable disadvantages when it comes to a continuous operation, due to the impractical need of removing the batteries in order to charge them. In the system's power supply subgroup, this was the main improvement to be made following the requirements defined in Section~\ref{sec:II_PWS_requirements}. For that, the base station's enclosure sould count on an internal battery (requirement \textbf{RTKBS.MAIN.PWS.020}) that must not be removed (such battery could be comprised of either a single or multi-cell arrangement) on which the system could rely once the external power supply was disconnected. This idea would help meet requirement \textbf{RTKBS.MAIN.MEC.030}, proposing however a new issue, namely, the charging of the internal battery arrangement.
+%meter hyperLINK PARA CADA REQUIREMENT
+
+The original beRTK\textsuperscript{\textregistered}'s design also features a prioritized PowerPath\textsuperscript{\texttrademark} controller, as mentioned in Section~\ref{sec:II_architecture_PowerSupply}.
+As per Analog Devices, a PowerPath\textsuperscript{\texttrademark} controller is a device able to control the flow of power through a system, while also selecting its power source.
+With this in mind, a wise starting point for the research of a power selector able to provide a smooth transistion between an external and internal supply would be from Analog Devices' power management ICs; specifically, from the battery charger IC catalogue. The most well-suited IC found was LTC4012, which is a high efficiency, multi-chemistry battery charger with PowerPath\textsuperscript{\texttrademark} control. This battery charger offers an adjustable output voltage, as well as the option to program a charging current for the circuit's internal battery~\cite{LTC4012}.
+
+Taking into account requirement \textbf{RTKBS.MAIN.PWS.010} -- which regards the system's input \gls{DC} voltage (from +7 VDC to +22 VDC) -- and the battery charger's input voltage range (from +6 VDC to +28 VDC), the intermediary value of +15 VDC was chosen as the main DC input voltage for the system. This value was taken as reference for the calculations made througout the circuit design phase.
+%falar de como a PWM permite um switching smooth entre external power para as baterias
+
+%depois falar do sistema operativo
+
+%depois falar da local web platform
+	% da configuraçao dos parametros da base atraves dessa plataforma
+	% dos log que podem ser obtidos atraves da operaçao da base
 
 
-An ideal approach would be to find an IC able to 
+%SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+\section{Circuit Design}\label{sec:32_Circuit}
 
-With all this in mind, a wise starting point for the research of a power selector able to provide a smooth transistion between an external and internal supply would be from Analog Devices' power management ICs; specifically, from the battery charger ICs. The most well-suited IC found was LTC4012, which is a high efficiency, multi-chemistry battery charger with PowerPath\textsuperscript{\texttrademark} control~\cite{LTC4012}. This battery charger is able to
+%meter uma pequena introduçao a dizer que usei o kicad e que segui uma metodologia qualquer
 
-\section{Circuit Design}\label{32_Circuit}
+%sSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsS
+\subsection{Power Supply}\label{sec:321_POWERSUPPLY}
+	%mini introdução
 
-\section{PCB Layout Design}\label{33_PCBlayout}
+%s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
+\subsubsection{Power Selector}\label{sec:3211_LTC4012}
+
+When it comes to powering the system through different sources, it is crucial for it to maintain its continuous operation when switching between said sources. The LTC4012 battery charger is able to accomplish just that. This buck converter relies on a synchronous quasi-constant frequency \gls{PWM} control architecture and is able to provide a connected battery pack with a charge current programmed through external resistors. As the LTC4012 does not have a built-in termination, it is capable of charging a broad range of batteries at a maximized rate and effieciency -- for a given established power level --, due to its feature of \gls{AC} adapter current limiting, which is programmed through an external sense resistor. 
+
+% meter aqui circuito do LTC4012:
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/Power_Supply_and_Selection.pdf}
+	\caption{beRTK\textsuperscript{\textregistered} Base Station's Power Supply and Selection schematic diagram.}
+	\label{fig:LTC4012_circuit}
+\end{figure}
+
+The LTC4012 datasheet provides a useful typical application circuit, which was used as a guideline for the development of the power selection circuit of the system, presented by the schematic diagram in Figure~\ref{fig:LTC4012_circuit}.
+
+%s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
+\subsubsection{Battery Balancer}\label{sec:3212_BQ29209}
+
+% meter aqui circuito do BQ29209
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/Battery_Balancer.pdf}
+	\caption{beRTK\textsuperscript{\textregistered} Base Station's Battery Balancer schematic diagram.}
+	\label{fig:BQ29209_circuit}
+\end{figure}
+
+%s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
+\subsubsection{Voltage Converter}\label{sec:3213_AP64501}
+
+% meter aqui circuito do AP64501
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/Voltage_Converter.pdf}
+	\caption{beRTK\textsuperscript{\textregistered} Base Station's Voltage Converter schematic diagram.}
+	\label{fig:AP64501_circuit}
+\end{figure}
+
+%s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
+\subsubsection{Power Switch}\label{sec:3214_SWITCH}
+
+% meter aqui circuito do Power SWITCH
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/Power_Switch.pdf}
+	\caption{beRTK\textsuperscript{\textregistered} Base Station's Power Switch schematic diagram.}
+	\label{fig:SWITCH_circuit}
+\end{figure}
+
+%sSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsS
+\subsection{Control}\label{sec:322_CONTROL}
+	%mini introdução
+
+%s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
+\subsubsection{CPU Board -- GPIO}\label{sec:3221_CM4_GPIO}
+
+% meter aqui circuito do CM4_GPIO
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/CM4_GPIO.pdf}
+	\caption{beRTK\textsuperscript{\textregistered} Base Station's CM4's GPIO schematic diagram.}
+	\label{fig:CM4_GPIO_circuit}
+\end{figure}
+
+%s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
+\subsubsection{CPU Board -- High-Speed}\label{sec:3222_CM4_HSpeed}
+
+% meter aqui circuito do CM4_HighSpeed
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/CM4_HighSpeed.pdf}
+	\caption{beRTK\textsuperscript{\textregistered} Base Station's CM4's High Speed schematic diagram.}
+	\label{fig:CM4_HighSpeed_circuit}
+\end{figure}
+
+%sSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsS
+\subsection{Peripherals and Communications}\label{sec:323_PERIPHERALS_COMMS}
+	%mini introdução
+
+%s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
+\subsubsection{Human-Machine Interface (HMI)}\label{sec:3231_BACKPANEL}
+
+% meter aqui circuito do BACKPANEL
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/Back_Panel.pdf}
+	\caption{beRTK\textsuperscript{\textregistered} Base Station's HMI schematic diagram.}
+	\label{fig:HMI_circuit}
+\end{figure}
+
+%s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
+\subsubsection{GNSS Receiver, RTK Radio Link and Wi-Fi Transceiver}\label{sec:3232_ZEDF9P_XBEE3}
+
+% meter aqui circuito do ZEDF9P_XBEE3
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/Modules_ZEDF9P_XBEE3.pdf}
+	\caption{beRTK\textsuperscript{\textregistered} Base Station's GNSS and Wi-Fi modules schematic diagram.}
+	\label{fig:ZEDF9P_XBEE3_circuit}
+\end{figure}
+
+%s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
+\subsubsection{USB Hub}\label{sec:3233_LAN9514}
+
+% meter aqui circuito do USB_Hub_1
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/USB_Hub_1.pdf}
+	\caption{beRTK\textsuperscript{\textregistered} Base Station's USB Hub schematic diagram.}
+	\label{fig:USB_Hub_1_circuit}
+\end{figure}
+
+% meter aqui circuito do USB_Hub_1
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/USB_Hub_PwrSplyFiltering.pdf}
+	\caption{beRTK\textsuperscript{\textregistered} Base Station's USB Hub's Power Supply Filtering schematic diagram.}
+	\label{fig:USB_Hub_PwrSplyFiltering_circuit}
+\end{figure}
+
+% meter aqui circuito do USB_Hub_1
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/USB_Hub_Downstream.pdf}
+	\caption{beRTK\textsuperscript{\textregistered} Base Station's USB Hub's Downstream schematic diagram.}
+	\label{fig:USB_Hub_Downstream_circuit}
+\end{figure}
+
+%SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+\section{PCB Layout Design}\label{sec:33_PCBlayout}
 
