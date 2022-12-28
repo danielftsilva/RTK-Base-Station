@@ -89,7 +89,8 @@ Taking into account requirement \textbf{RTKBS.MAIN.PWS.010} -- which regards the
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
 \subsubsection{Power Selector}\label{sec:3211_LTC4012}
 
-When it comes to powering the system through different sources, maintaining its continuous operation when switching between said sources is crucial. The LTC4012 battery charger is able to accomplish just that: this buck converter relies on a synchronous quasi-constant frequency \gls{PWM} control architecture and is able to provide a connected battery pack with a charge current programmed through external resistors. Since it does not have a built-in termination, it is capable of charging a broad range of batteries at a maximized rate and effieciency -- for a given established power level --, due to an existing \gls{AC} adapter current limiting feature, possible to program and monitor via an external sense resistor. For this project, an arrangement of two rechargeable Lithium-ion (Li-ion) cells in series (also known as a ``2S Li-ion battery'') was chosen as the backup battery pack for the system. Figure~\ref{fig:battery2S} and Table~\ref{tab:battery2S} show a close-up representation and typical characteristics of a single cell, respectively.
+\paragraph{Programming the Charge Current}	When it comes to powering the system through different sources, maintaining its continuous operation when switching between said sources is crucial. The LTC4012 battery charger is able to accomplish just that: this buck converter relies on a synchronous quasi-constant frequency \gls{PWM} control architecture and is able to provide a connected battery pack with a charge current programmed through external resistors. Since it does not have a built-in termination, it is capable of charging a broad range of batteries at a maximized rate and effieciency -- for a given established power level --, due to an existing \gls{AC} adapter current limiting feature, possible to program and monitor via an external sense resistor. For this project, an arrangement of two rechargeable Lithium-ion (Li-ion) cells in series (also known as a ``2S Li-ion battery'') was chosen as the backup battery pack for the system. Initially the expected type of Li-ion cell to work with would be capable of being charged with a charging current of $4,000$mA, however, since the circuit ultimately did not end up with a power consumption greater than 250mA and was never powered by the backup pack for a long time, the cells never needed the full programmed bulk charge current (concept explained further ahead in this section). Therefore, due to practicality concerns, a set of two cells capable of being charged with a recommended standard charge of $1,700$mA was used~\cite{INR18650-35E}.
+Figure~\ref{fig:battery2S} and Table~\ref{tab:battery2S} show a close-up representation and typical characteristics of a single cell, respectively.
 
 %imagem e Table da bateria aqui:
 
@@ -102,7 +103,7 @@ When it comes to powering the system through different sources, maintaining its 
 
 \begingroup
 \begin{table}[h]
-	\caption{Typical characteristics of the type of battery cell used.}
+	\caption{Typical characteristics of the type of battery cell used~\cite{INR18650-35E}.}
 	\label{tab:battery2S}
 	\centering%@{}l@{}@{}c@{}@{}c@{}@{}c@{}@{}c@{}
     % \setlength{\tabcolsep}{10pt} % Default value: 6pt
@@ -111,33 +112,45 @@ When it comes to powering the system through different sources, maintaining its 
         \toprule
         \textbf{Specification} & \textbf{Value} \\
         \midrule
-        Brand & Samsung \\
+        Manufacturer & Samsung SDI \\
         \midrule
-        Model &  INR18650-35E \\
+        Model & INR18650-35E \\
         \midrule
-        Size & 18650 \\
-        \midrule
-        Battery chemistry & Li-ion \\
-        \midrule
-        Rated Voltage & 3.6V -- 3.7V \\
-        \midrule
-		Charging cycle termination voltage & 4.2V $\pm \, 0.05$V \\ 
+		Size & 18650 \\
 		\midrule
-        Capacity & 3450mAh \\
+		Chemistry & Li-ion \\
+		\midrule
+		Capacity & 3,350mAh \\
+        \midrule
+		Charging Cycle Termination Voltage & 4.20V \\
+		\midrule
+		Nominal Voltage & 3.60V \\
+        \midrule
+		Charging Current (standard charge) & 1,700mA\\
+		\midrule
+		Charging Current (for life cycle) & 1,020mA\\
+		\midrule
+		Maximum Charge Current (not for life cycle) & 2,000mA \\
+		\midrule
+		Maximum Discharge Current (continuous discharge) & 8,000mA \\
+		\midrule
+		Maximum Discharge Current (not for continuous discharge) & 13,000mA \\
+		\midrule
+		Discharge Cut-off Voltage & 2.65V \\
         \bottomrule
     \end{tabular}
 \end{table}
 \endgroup
 
-Table~\ref{tab:battery2S} specifies that each battery provides a charging cycle termination voltage of approximately 4.2V, which bespeaks that the 2S arrangement of the cells adds up to a total of (approximately) 8.4V of backup energy.
+Table~\ref{tab:battery2S} specifies that each battery provides a charging cycle termination voltage of approximately 4.20V, which bespeaks that the 2S arrangement of the cells adds up to a total of (approximately) 8.40V of backup energy. It is also specified that 
 
-Since an arrangement of two cells in series does not alter the total capacity, this same characteristic will remain the same for the backup battery, 3450mAh. It is possible to calculate an estimate of the system's battery life using expression~(\ref{eq:battery_life}):
+Since an arrangement of two cells in series does not alter the total capacity, this same characteristic will remain the same for the backup battery, $3,450$mAh. It is possible to calculate an estimate of the system's battery life using expression~(\ref{eq:battery_life}):
 
 \begin{equation}\label{eq:battery_life}
     \textrm{Battery Life} = \frac{\textrm{Battery Capacity (mAh)}}{\textrm{Load Current (mAh)}} = \frac{3450}{1000} = 3.45 \textrm{ hours}\,\medskip
 \end{equation}
 
-\noindent Assuming a total system load current of approximately 1A results in an expected total battery life of roughly 3.45 hours. That estimate corresponds to, roughly, three-and-a-half hours of work time. Of course one must account for the unideal characteristics of the real world acting upon the system, but nevertheless, this expression serves as a guideline/reminder for an expected power consumption of the base station's circuit. 
+\noindent Assuming a total system load current of approximately $1,000$mA results in an expected total battery life of roughly 3.45 hours. That estimate corresponds to, roughly, three-and-a-half hours of work time. Of course one must account for the unideal characteristics of the real world acting upon the system, but nevertheless, this expression serves as a guideline/reminder for an expected power consumption of the base station's circuit. 
 
 The LTC4012 datasheet provides a helpful typical application circuit, as well as the device's application information. These two key sections of the document allowed an adapted development of the power selection circuit of the new beRTK\textsuperscript{\textregistered} system, presented by the schematic diagram in Figure~\ref{fig:LTC4012_circuit}. Following the application information of the product started by programming the charge current which would be used to replenish the energy back to the battery pack. For that, formula~\ref{eq:i_chrg} is provided:
 
@@ -150,7 +163,7 @@ The LTC4012 datasheet provides a helpful typical application circuit, as well as
 \begin{equation}\label{eq:r_sense}
     R_{SENSE}=\frac{100 \textrm{mV}}{I_{MAX}}\,,\medskip
 \end{equation}
-where $I_{MAX}$ corresponds to the maximum $I_{CHRG}$ charge current desired for the charging process. It should be noted that the target sense voltage of 100mV can differ in order to accomodate standard $R_{SENSE}$ values available on the market, however lower values are likely to cause inaccuracies when it comes to current regulation. Choosing a maximum charge current of 4A results in an $R_{SENSE}$ value of 0.025$\Omega$ (25m$\Omega$), according to~(\ref{eq:r_sense}) (represented in the schematic of Figure~\ref{fig:LTC4012_circuit} by R12).
+where $I_{MAX}$ corresponds to the maximum $I_{CHRG}$ charge current desired for the charging process. It should be noted that the target sense voltage of 100mV can differ in order to accomodate standard $R_{SENSE}$ values available on the market, however lower values are likely to cause inaccuracies when it comes to current regulation. As mentioned earlier, the initial expected battery pack would allow a charging current of $4,000$mA, thus, choosing a maximum charge current of $4,000$mA results in an $R_{SENSE}$ value of 0.025$\Omega$ (25m$\Omega$), according to~(\ref{eq:r_sense}) (represented in the schematic of Figure~\ref{fig:LTC4012_circuit} by R12).
 
 % meter aqui circuito do LTC4012:
 \begin{figure}[H]
@@ -185,12 +198,23 @@ Since the equivalent circuit represented by Figure~\ref{fig:voltage_divider_1} c
     I_{R_{10}}=I_{R_{15}}=\frac{V_{R_{10}}}{R_{10}}=\frac{14}{75000} \approx 186.67 \mu \textrm{A}\,\medskip
 \end{equation}
 
-This results in a value of R15 of approximately 5.36k$\Omega$, however, at the time of soldering, the closest standard resistor value available was 6.2k$\Omega$, which, when applying the same previous law to a variation of the equivalent circuit of Figure~\ref{fig:voltage_divider_1} results in a voltage between R10 and R15 of approximately 1.15V -- sufficient to drive Q3.
+This results in a value of approximately 5.36k$\Omega$ for R15.
 
-%PAREI AQUI...........................
+With the values for resistors $R_{IN}$, $R_{SENSE}$ and $R_{PROG}$ it is then possible to obtain a value of $I_{CHRG} = 4$A for the programmed charge current, through expression~(\ref{eq:i_chrg}).
 
-Analysing expression~(\ref{eq:i_chrg}),
+\paragraph{Programming the LTC4012 Output Voltage}	A new external voltage divider circuit can be assembled in order to set an output voltage for the charger. This circuit is composed by resistors R7 and R9 from Figure~\ref{fig:LTC4012_circuit}, whose approximate values are suggested in the LTC4012 datasheet. For a $V_{BAT}$ voltage of 8.40V, these values are 169k$\Omega$ and 28.4k$\Omega$, respectively, and can be confirmed through equations (\ref{eq:v_bat}) and (\ref{eq:r7_r9}):
 
+\begin{equation}\label{eq:v_bat}
+    V_{BAT}=\frac{1.2085\textrm{V} \cdot \left(R7 + R9\right)}{R9}\,\medskip
+\end{equation}
+
+\begin{equation}\label{eq:r7_r9}
+    R7=R9 \cdot \left(\frac{V_{BAT}}{1.2085\textrm{V}} - 1\right)\,\medskip
+\end{equation}
+
+If the selected value of R9 is less than 50k$\Omega$ and the joint value of R7 and R9 surpasses (or at least equals) 200k$\Omega$, then the lowest possible error at the $V_{FB}$ sense input is acheived\footnote[9]{The use of resistors with a tolerance level of 0.25\% is advised to achieve the desired level of accuracy}. It should be noted that the influence of this battery voltage feedback input is present in equations (\ref{eq:v_bat}) and (\ref{eq:r7_r9}), as well as in equations (\ref{eq:i_chrg}) and (\ref{eq:r_prog}), in the form of the nominal 1.2085 pin voltage.
+
+\paragraph{Programming the Input Current Limit}	The input current limit is defined from the rating of the wall adapter used. In this case, a rating of 6A was selected
 
 % REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
