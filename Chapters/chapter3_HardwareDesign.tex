@@ -89,18 +89,110 @@ Taking into account requirement \textbf{RTKBS.MAIN.PWS.010} -- which regards the
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
 \subsubsection{Power Selector}\label{sec:3211_LTC4012}
 
-When it comes to powering the system through different sources, it is crucial for it to maintain its continuous operation when switching between said sources. The LTC4012 battery charger is able to accomplish just that. This buck converter relies on a synchronous quasi-constant frequency \gls{PWM} control architecture and is able to provide a connected battery pack with a charge current programmed through external resistors. As the LTC4012 does not have a built-in termination, it is capable of charging a broad range of batteries at a maximized rate and effieciency -- for a given established power level --, due to its feature of \gls{AC} adapter current limiting, which is programmed through an external sense resistor. 
+When it comes to powering the system through different sources, maintaining its continuous operation when switching between said sources is crucial. The LTC4012 battery charger is able to accomplish just that: this buck converter relies on a synchronous quasi-constant frequency \gls{PWM} control architecture and is able to provide a connected battery pack with a charge current programmed through external resistors. Since it does not have a built-in termination, it is capable of charging a broad range of batteries at a maximized rate and effieciency -- for a given established power level --, due to an existing \gls{AC} adapter current limiting feature, possible to program and monitor via an external sense resistor. For this project, an arrangement of two rechargeable Lithium-ion (Li-ion) cells in series (also known as a ``2S Li-ion battery'') was chosen as the backup battery pack for the system. Figure~\ref{fig:battery2S} and Table~\ref{tab:battery2S} show a close-up representation and typical characteristics of a single cell, respectively.
+
+%imagem e Table da bateria aqui:
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.4\textwidth]{Chapters/Figures/chapter3/bateria-li-ion-mr-18650-3-6v-3500mah-samsung-inr18650-35e.jpg}
+	\caption{Visual representation of the type of battery cell used.}
+	\label{fig:battery2S}
+\end{figure}
+
+\begingroup
+\begin{table}[h]
+	\caption{Typical characteristics of the type of battery cell used.}
+	\label{tab:battery2S}
+	\centering%@{}l@{}@{}c@{}@{}c@{}@{}c@{}@{}c@{}
+    % \setlength{\tabcolsep}{10pt} % Default value: 6pt
+    % \renewcommand{\arraystretch}{1.5} % Default value: 1
+	\begin{tabular}{lc}
+        \toprule
+        \textbf{Specification} & \textbf{Value} \\
+        \midrule
+        Brand & Samsung \\
+        \midrule
+        Model &  INR18650-35E \\
+        \midrule
+        Size & 18650 \\
+        \midrule
+        Battery chemistry & Li-ion \\
+        \midrule
+        Rated Voltage & 3.6V -- 3.7V \\
+        \midrule
+		Charging cycle termination voltage & 4.2V $\pm \, 0.05$V \\ 
+		\midrule
+        Capacity & 3450mAh \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\endgroup
+
+Table~\ref{tab:battery2S} specifies that each battery provides a charging cycle termination voltage of approximately 4.2V, which bespeaks that the 2S arrangement of the cells adds up to a total of (approximately) 8.4V of backup energy.
+
+Since an arrangement of two cells in series does not alter the total capacity, this same characteristic will remain the same for the backup battery, 3450mAh. It is possible to calculate an estimate of the system's battery life using expression~(\ref{eq:battery_life}):
+
+\begin{equation}\label{eq:battery_life}
+    \textrm{Battery Life} = \frac{\textrm{Battery Capacity (mAh)}}{\textrm{Load Current (mAh)}} = \frac{3450}{1000} = 3.45 \textrm{ hours}\,\medskip
+\end{equation}
+
+\noindent Assuming a total system load current of approximately 1A results in an expected total battery life of roughly 3.45 hours. That estimate corresponds to, roughly, three-and-a-half hours of work time. Of course one must account for the unideal characteristics of the real world acting upon the system, but nevertheless, this expression serves as a guideline/reminder for an expected power consumption of the base station's circuit. 
+
+The LTC4012 datasheet provides a helpful typical application circuit, as well as the device's application information. These two key sections of the document allowed an adapted development of the power selection circuit of the new beRTK\textsuperscript{\textregistered} system, presented by the schematic diagram in Figure~\ref{fig:LTC4012_circuit}. Following the application information of the product started by programming the charge current which would be used to replenish the energy back to the battery pack. For that, formula~\ref{eq:i_chrg} is provided:
+
+\begin{equation}\label{eq:i_chrg}
+    I_{CHRG}=\frac{R_{IN}}{R_{SENSE}} \cdot \left(\frac{1.2085\textrm{V}}{R_{PROG}}-11.67\mu\textrm{A}\right)\,\medskip
+\end{equation}
+
+\noindent The $I_{CHRG}$ charge current is programmed by selecting the $R_{IN}$, $R_{SENSE}$ and $R_{PROG}$ resistors. $R_{SENSE}$ (sense resistor) can be selected through expression~(\ref{eq:r_sense}),
+
+\begin{equation}\label{eq:r_sense}
+    R_{SENSE}=\frac{100 \textrm{mV}}{I_{MAX}}\,,\medskip
+\end{equation}
+where $I_{MAX}$ corresponds to the maximum $I_{CHRG}$ charge current desired for the charging process. It should be noted that the target sense voltage of 100mV can differ in order to accomodate standard $R_{SENSE}$ values available on the market, however lower values are likely to cause inaccuracies when it comes to current regulation. Choosing a maximum charge current of 4A results in an $R_{SENSE}$ value of 0.025$\Omega$ (25m$\Omega$), according to~(\ref{eq:r_sense}) (represented in the schematic of Figure~\ref{fig:LTC4012_circuit} by R12).
 
 % meter aqui circuito do LTC4012:
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/Power_Supply_and_Selection.pdf}
 	\caption{beRTK\textsuperscript{\textregistered} Base Station's Power Supply and Selection schematic diagram.}
 	\label{fig:LTC4012_circuit}
 \end{figure}
 
-The LTC4012 datasheet provides a useful typical application circuit, which was used as a guideline for the development of the power selection circuit of the system, presented by the schematic diagram in Figure~\ref{fig:LTC4012_circuit}.
+It is established by the documentation that the LTC4012 provides the best performance with two equal 3.01k$\Omega$ $R_{IN}$ input resistors\footnote[8]{Other input resistor values can also be used in order to adjust to different standard sense resistor value that could be chosen~\cite{LTC4012}.} (represented in Figure~\ref{fig:LTC4012_circuit} by R11 and R14). This input resistor value is used for the calculation of the minimum resistance required between the PROG pin and \gls{GND}, given by (\ref{eq:r_prog}).
 
+\begin{equation}\label{eq:r_prog}
+    R_{PROG (MIN)}=\frac{1.2085 \textrm{V} \cdot R_{IN}}{0.1 \textrm{V} + 11.67 \mu \textrm{A} \cdot R_{IN}} \approx 26.9 \textrm{k}\Omega \,\medskip
+\end{equation}
+
+\noindent Expression (\ref{eq:r_prog}) results in a minimum $R_{PROG}$ value of approximately 26.9k$\Omega$, and connecting a resistor of this value between the PROG pin and GND would be sufficient if the only charge current to be controlled was $I_{MAX}$.
+However, when batteries discharge to a voltage level below their minimum specified recommendation (in the case of the cells used, 2.5V), they suffer internal damage, which results -- in the long run -- in a loss of battery life.
+Therefore, when the aforesaid situation occurs, the charging process should be done with a low initial charge current. Such practice also ensures an overall safe charging of the baterries, regardless of whether or not a heavy discharge has taken palce.
+The LTC4012 charger allows a specific charging control process for the battery pack by altering the resistance between the PROG pin and GND. This ``two-level'' charging process is achieved via the switching of a control transistor (Q3 in Figure~\ref{fig:LTC4012_circuit}) which, when turned off, cuts down the charge current to $\frac{I_{MAX}}{10}$, allowing the full $I_{MAX}$ current for a bulk charge when turned on. In the schematic of Figure~\ref{fig:LTC4012_circuit}, the two-level approach is implemented through transistor Q3, resistors R8 and R13 and capacitor C7. Also part of this charging technique is the voltage divider represented by resistors R10 and R15, possible to observe in the aforementioned schematic near the PROG pin of the LTC4012. These resistors serve the purpose of allowing transistor Q3 to enter its active zone, in order to subsequently grant the second level of charge current available with the implemented method. The recommended transistor to use (from the LTC4012 datasheet) is the 2N7002 N-channel enhancement mode \gls{FET}~\cite{2N7002}. This FET holds a gate threshold voltage between 1.0V and 2.5V. Arbitrarily selecing 75k$\Omega$ as the R10 resistor value, R15 should be calculated in order to provide at least 1.0V to the gate of Q3. Connecting the supply rail from the external +15 VDC adapter to resistor R10 results in a simple circuit theory problem which can be translated by Figure~\ref{fig:voltage_divider_1}:
+
+%meter figura do voltage_divider_1 aqui:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\textwidth]{Chapters/Figures/chapter3/voltage_divider_1.pdf}
+	\caption{Equivalent circuit of the voltage divider connected to the supply rail.}
+	\label{fig:voltage_divider_1}
+\end{figure}
+
+Since the equivalent circuit represented by Figure~\ref{fig:voltage_divider_1} consists of a single loop of two resistors and a voltage source, and knowing that the voltage said resistors should be at least 1.0V, the current across both R10 and R15 is the same and can be calculated using Ohm's law:
+
+\begin{equation}\label{eq:current_R15}
+    I_{R_{10}}=I_{R_{15}}=\frac{V_{R_{10}}}{R_{10}}=\frac{14}{75000} \approx 186.67 \mu \textrm{A}\,\medskip
+\end{equation}
+
+This results in a value of R15 of approximately 5.36k$\Omega$, however, at the time of soldering, the closest standard resistor value available was 6.2k$\Omega$, which, when applying the same previous law to a variation of the equivalent circuit of Figure~\ref{fig:voltage_divider_1} results in a voltage between R10 and R15 of approximately 1.15V -- sufficient to drive Q3.
+
+%PAREI AQUI...........................
+
+Analysing expression~(\ref{eq:i_chrg}),
+
+
+% REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
 \subsubsection{Battery Balancer}\label{sec:3212_BQ29209}
 
@@ -112,6 +204,7 @@ The LTC4012 datasheet provides a useful typical application circuit, which was u
 	\label{fig:BQ29209_circuit}
 \end{figure}
 
+% REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
 \subsubsection{Voltage Converter}\label{sec:3213_AP64501}
 
@@ -123,6 +216,7 @@ The LTC4012 datasheet provides a useful typical application circuit, which was u
 	\label{fig:AP64501_circuit}
 \end{figure}
 
+% REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
 \subsubsection{Power Switch}\label{sec:3214_SWITCH}
 
@@ -134,6 +228,7 @@ The LTC4012 datasheet provides a useful typical application circuit, which was u
 	\label{fig:SWITCH_circuit}
 \end{figure}
 
+% REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
 %sSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsS
 \subsection{Control}\label{sec:322_CONTROL}
 	%mini introdução
@@ -149,6 +244,7 @@ The LTC4012 datasheet provides a useful typical application circuit, which was u
 	\label{fig:CM4_GPIO_circuit}
 \end{figure}
 
+% REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
 \subsubsection{CPU Board -- High-Speed}\label{sec:3222_CM4_HSpeed}
 
@@ -160,6 +256,7 @@ The LTC4012 datasheet provides a useful typical application circuit, which was u
 	\label{fig:CM4_HighSpeed_circuit}
 \end{figure}
 
+% REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
 %sSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsS
 \subsection{Peripherals and Communications}\label{sec:323_PERIPHERALS_COMMS}
 	%mini introdução
@@ -175,6 +272,8 @@ The LTC4012 datasheet provides a useful typical application circuit, which was u
 	\label{fig:HMI_circuit}
 \end{figure}
 
+% REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
+
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
 \subsubsection{GNSS Receiver, RTK Radio Link and Wi-Fi Transceiver}\label{sec:3232_ZEDF9P_XBEE3}
 
@@ -186,6 +285,7 @@ The LTC4012 datasheet provides a useful typical application circuit, which was u
 	\label{fig:ZEDF9P_XBEE3_circuit}
 \end{figure}
 
+% REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
 \subsubsection{USB Hub}\label{sec:3233_LAN9514}
 
@@ -213,6 +313,7 @@ The LTC4012 datasheet provides a useful typical application circuit, which was u
 	\label{fig:USB_Hub_Downstream_circuit}
 \end{figure}
 
+% REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
 %SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
 \section{PCB Layout Design}\label{sec:33_PCBlayout}
 
