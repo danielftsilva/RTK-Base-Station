@@ -25,6 +25,8 @@ Having done this, the next step is related to the establishment of requirements 
 1. Calcular para uma charge current de 1020mA e nao de 4000mA -- fazer as contas no excel.
 1.1 Initially the expected type of Li-ion cell to work with would be capable of being charged with a charging current of $4,000$mA, however, since the circuit ultimately did not end up with a power consumption greater than 250mA and was never powered by the backup pack for a long time, the cells never needed the full programmed bulk charge current (concept explained further ahead in this section). Therefore, due to practicality concerns,
 
+2. para ter 2-level charging: instalar comparador LM311 e seguir o que diz aqui: https://www.electro-tech-online.com/threads/simple-circuit-to-invert-dc-from-positive-to-negative.141411/
+
 2. This results in a value of R15 of approximately 5.36k$\Omega$, however, at the time of soldering, the closest standard resistor value available was 6.2k$\Omega$, which, when applying the same previous law to a variation of the equivalent circuit of Figure~\ref{fig:voltage_divider_1} results in a voltage between R10 and R15 of approximately 1.15V -- sufficient to drive Q3.
 
 3. Meter condensadores de desacoplamento --> como o modulo 3.3V funciona por pulsos (btw tudo no esquematico é digital), vai existir ruido consideravel quando a tensao for puxada/convertida --> os condensadores de desacoplamento servem para atenuar esse ruido.

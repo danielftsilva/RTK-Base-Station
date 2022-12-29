@@ -124,7 +124,7 @@ Figure~\ref{fig:battery2S} and Table~\ref{tab:battery2S} show a close-up represe
 		\midrule
 		Capacity & 3,350mAh \\
         \midrule
-		Charging Cycle Termination Voltage & 4.20V \\
+		Charging Cycle Termination Voltage & 4.20V $\pm$ 0.05V \\
 		\midrule
 		Nominal Voltage & 3.60V \\
         \midrule
@@ -165,46 +165,34 @@ The LTC4012 datasheet provides a helpful typical application circuit, as well as
 \begin{equation}\label{eq:r_sense}
     R_{SENSE}=\frac{100 \textrm{mV}}{I_{MAX}}\,,\medskip
 \end{equation}
-where $I_{MAX}$ corresponds to the maximum $I_{CHRG}$ charge current desired for the charging process. As per Table~\ref{tab:battery2S}, the battery pack allows a maximum charge current of $2,000$mA, but this value does not account for a maintenance of the batteries' health. A standard charge current of $1,700$mA is mentioned in the datasheet, however, it is also pointed out that, in order to maintain the batteries' health as pristine as possible (thus prolonging their life cycle), a charge current of $1,020$mA would have to be employed. Choosing a maximum charge current of $1,020$mA results in an $R_{SENSE}$ value of 0.098$\Omega$ (98m$\Omega$), according to~(\ref{eq:r_sense}) (represented in the schematic of Figure~\ref{fig:LTC4012_circuit} by R12). It should also be noted that the target sense voltage of 100mV can differ in order to accomodate standard $R_{SENSE}$ values available on the market, however lower values are likely to cause inaccuracies when it comes to current regulation.
+where $I_{MAX}$ corresponds to the maximum $I_{CHRG}$ charge current desired for the charging process. As per Table~\ref{tab:battery2S}, the battery pack allows a maximum charge current of $2,000$mA, but this value does not account for the maintenance of each cell's health. For that, a standard charging current of $1,700$mA is mentioned in the datasheet; in C-rate units, this charging current rate corresponds to 0.5C, since the explicit 1C rate for this type of cell is equal to $3,400$mA\footnote[8]{In the C-rate standard, 1C corresponds to a charging from 0 to 100\% in the span of one hour. The higher the C-rate coefficient, the faster the charge, and vice-versa. For example, a rate of 2C corresponds to thirty minutes of charge time and 0.5C to two hours.}~\cite{C-rate}.
+However, it is also pointed out that, in order to maintain the batteries' health as pristine as possible (thus prolonging their life cycle), a charge current of $1,020$mA -- i.e. maintaining the cell's C-rate of 0.3C -- would have to be employed. Choosing a maximum charge current of $I_{MAX}=1,020$mA results in an $R_{SENSE}$ value of 0.098$\Omega$ (98m$\Omega$), according to~(\ref{eq:r_sense}) (represented in the schematic of Figure~\ref{fig:LTC4012_circuit} by R12). Therefore, the value of $I_{MAX}=1,020$mA is hereby defined as the 1C rate of the new beRTK\textsuperscript{\textregistered}'s battery pack. It should also be noted that the target sense voltage of 100mV can differ in order to accomodate standard $R_{SENSE}$ values available on the market, however lower values are likely to cause inaccuracies when it comes to current regulation.
 
 % meter aqui circuito do LTC4012:
-\begin{figure}[H]
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/Power_Supply_and_Selection.pdf}
 	\caption{beRTK\textsuperscript{\textregistered} Base Station's Power Supply and Selection schematic diagram.}
 	\label{fig:LTC4012_circuit}
 \end{figure}
 
-It is established in the documentation that the LTC4012 provides the best performance with two equal 3.01k$\Omega$ $R_{IN}$ input resistors\footnote[8]{Other input resistor values can also be used in order to adjust to different standard sense resistor value that could be chosen~\cite{LTC4012}.} (represented in Figure~\ref{fig:LTC4012_circuit} by R11 and R14). This input resistor value is used for the calculation of the minimum resistance required between the PROG pin and \gls{GND}, given by (\ref{eq:r_prog}).
+It is established in the documentation that the LTC4012 provides the best performance with two equal 3.01k$\Omega$ $R_{IN}$ input resistors\footnote[9]{Other input resistor values can also be used in order to adjust to different standard sense resistor value that could be chosen~\cite{LTC4012}.} (represented in Figure~\ref{fig:LTC4012_circuit} by R11 and R14). This input resistor value is used for the calculation of the minimum resistance required between the PROG pin and \gls{GND}, given by (\ref{eq:r_prog}).
 
 \begin{equation}\label{eq:r_prog}
     R_{PROG (MIN)}=\frac{1.2085 \textrm{V} \cdot R_{IN}}{0.1 \textrm{V} + 11.67 \mu \textrm{A} \cdot R_{IN}} \approx 26.9 \textrm{k}\Omega \,\medskip
 \end{equation}
 
-\noindent Expression (\ref{eq:r_prog}) results in a minimum $R_{PROG}$ value of approximately 26.9k$\Omega$, and connecting a resistor of this value between the PROG pin and GND would be sufficient if the only charge current to be controlled was $I_{MAX}$.
-However, when batteries discharge to a voltage level below their minimum specified recommendation (in the case of the cells used, 2.65V), they suffer internal damage, which results -- in the long run -- in a loss of battery life.
-Therefore, when the aforesaid situation occurs, the charging process should be done with a low initial charge current. Such practice also ensures an overall safe charging of the baterries, regardless of whether or not a heavy discharge has taken palce.
-The LTC4012 charger allows a specific charging control process for the battery pack by altering the resistance between the PROG pin and GND. This ``two-level'' charging process is achieved via the switching of a control transistor (Q3 in Figure~\ref{fig:LTC4012_circuit}) which, when turned off, cuts down the charge current to $\frac{I_{MAX}}{10}$, and only allowing the full $I_{MAX}$ current for a bulk charge when turned on. In the schematic of Figure~\ref{fig:LTC4012_circuit}, the two-level approach is implemented through transistor Q3, resistors R8 and R13 and capacitor C7. Also part of this charging technique is the voltage divider represented by resistors R10 and R15, possible to observe in the aforementioned schematic near the PROG pin of the LTC4012. These resistors serve the purpose of allowing transistor Q3 to enter its active zone, in order to subsequently grant the second level of charge current available with the implemented method. The recommended transistor to use (from the LTC4012 datasheet) is the 2N7002 N-channel \gls{FET}~\cite{2N7002}. This FET holds a gate threshold voltage between 1.0V and 2.5V. Arbitrarily selecing 75k$\Omega$ as the R10 resistor value, R15 should be calculated in order to provide at least 1.0V to the gate of Q3. Connecting the supply rail from the external +15 VDC adapter to resistor R10 results in a simple circuit theory problem which can be translated by Figure~\ref{fig:voltage_divider_1}:
+\noindent Expression (\ref{eq:r_prog}) results in a minimum $R_{PROG}$ value of approximately 26.9k$\Omega$, and connecting a resistor of this value between the PROG pin and GND is enough to control the maximum charge current of $I_{MAX}$ (i.e. 1C).
 
-%meter figura do voltage_divider_1 aqui:
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.4\textwidth]{Chapters/Figures/chapter3/voltage_divider_1.pdf}
-	\caption{Equivalent circuit of the voltage divider connected to the supply rail.}
-	\label{fig:voltage_divider_1}
-\end{figure}
-
-Since the equivalent circuit represented by Figure~\ref{fig:voltage_divider_1} consists of a single loop of two resistors and a voltage source, and knowing that the voltage between said resistors should at least be 1.0V, the current across both R10 and R15 is the same and can be calculated using Ohm's law:
-
-\begin{equation}\label{eq:current_R15}
-    I_{R_{10}}=I_{R_{15}}=\frac{V_{R_{10}}}{R_{10}}=\frac{14}{75000} \approx 186.67 \mu \textrm{A}\,\medskip
-\end{equation}
-
-\noindent This results in a value of approximately 5.36k$\Omega$ for R15.
+% \noindent Expression (\ref{eq:r_prog}) results in a minimum $R_{PROG}$ value of approximately 26.9k$\Omega$, and connecting a resistor of this value between the PROG pin and GND would be sufficient if the only charge current rate defined was $I_{MAX}$ (i.e. 1C).
+% However, when batteries discharge to a voltage level below their minimum specified recommendation (in the case of the cells used, 2.5V), they suffer internal damage, which results -- in the long run -- in a loss of battery life.
+% Therefore, when the aforesaid situation occurs, the charging process should be done with a low initial charge current. Such practice also ensures an overall safe charging of the baterries, regardless of whether or not a heavy discharge has taken palce.
+% The LTC4012 charger allows a specific charging control process for the battery pack by altering the resistance between the PROG pin and GND, designated as a ``two-level'' charge. This charging process is achieved via the switching of a control transistor (Q3 in Figure~\ref{fig:LTC4012_circuit}) which, when turned off, cuts down the charge current to $\frac{I_{MAX}}{10}$ (i.e. C/10), only allowing the full $I_{MAX}$ current for a ``bulk charge'' when turned on. In the schematic of Figure~\ref{fig:LTC4012_circuit}, the two-level approach is implemented through transistor Q3, resistors R8 and R13 and capacitor C7. Connecting the gate of Q3 to the battery supply rail ($\mathrm{V_{BAT}}$ net in Figure~\ref{fig:LTC4012_circuit}) serves the purpose of allowing transistor Q3 to exit or enter its active zone, in order to subsequently grant both levels of charge current available with the implemented method. When the battery pack's voltage dips to a value equal to or below 2.5V -- i.e. when it reaches a heavy discharge status --, Q3 is switched on, increasing (MENTIRA! ELE DIMINUI A RESISTENCIA...) the resistance between PROG and GND. For that, the recommended transistor to use (from the LTC4012 datasheet) is the 2N7002 N-channel \gls{FET}~\cite{2N7002}. This FET holds a gate threshold voltage between 1.0V and 2.5V.
+%DESCARTEI O 2-LEVEL CHARGE.
 
 With the calculated values for resistors $R_{IN}$, $R_{SENSE}$ and $R_{PROG}$ it is then possible to obtain a value of $I_{CHRG} = 1,020$mA for the programmed charge current, through expression~(\ref{eq:i_chrg}).
 
-\paragraph{Programming the LTC4012 Output Voltage}	A new external voltage divider circuit can be assembled in order to set an output voltage for the charger. This circuit is composed by resistors R7 and R9 from Figure~\ref{fig:LTC4012_circuit}, whose approximate values are suggested in the LTC4012 datasheet. For a $V_{BAT}$ voltage of 8.40V, these values are 169k$\Omega$ and 28.4k$\Omega$, respectively, and can be confirmed through equations (\ref{eq:v_bat}) and (\ref{eq:r7_r9}):
+\paragraph{Programming the LTC4012 Output Voltage}	An external resistor divider circuit can be assembled in order to set an output voltage for the charger. This circuit is composed by resistors R7 and R9 from Figure~\ref{fig:LTC4012_circuit}, whose approximate values are suggested in the LTC4012 datasheet. For a $V_{BAT}$ voltage of 8.40V, these values are 169k$\Omega$ and 28.4k$\Omega$, respectively, and can be confirmed through equations (\ref{eq:v_bat}) and (\ref{eq:r7_r9}):
 
 \begin{equation}\label{eq:v_bat}
     V_{BAT}=\frac{1.2085\textrm{V} \cdot \left(R7 + R9\right)}{R9}\,\medskip
@@ -214,10 +202,10 @@ With the calculated values for resistors $R_{IN}$, $R_{SENSE}$ and $R_{PROG}$ it
     R7=R9 \cdot \left(\frac{V_{BAT}}{1.2085\textrm{V}} - 1\right)\,\medskip
 \end{equation}
 
-If the selected value of R9 is less than 50k$\Omega$ and the joint value of R7 and R9 surpasses (or at least equals) 200k$\Omega$, then the lowest possible error at the $V_{FB}$ sense input is acheived\footnote[9]{The use of resistors with a tolerance level of 0.25\% is advised to achieve the desired level of accuracy~\cite{LTC4012}.}. It should be noted that the influence of this battery voltage feedback input is present in equations (\ref{eq:v_bat}) and (\ref{eq:r7_r9}), as well as in equations (\ref{eq:i_chrg}) and (\ref{eq:r_prog}), in the form of the nominal 1.2085 pin voltage.
+If the selected value of R9 is less than 50k$\Omega$ and the joint value of R7 and R9 surpasses (or at least equals) 200k$\Omega$, then the lowest possible error at the $V_{FB}$ sense input is acheived\footnote[10]{The use of resistors with a tolerance level of 0.25\% is advised to achieve the desired level of accuracy~\cite{LTC4012}.}. It should be noted that the influence of this battery voltage feedback input is present in equations (\ref{eq:v_bat}) and (\ref{eq:r7_r9}), as well as in equations (\ref{eq:i_chrg}) and (\ref{eq:r_prog}), in the form of the nominal 1.2085 pin voltage.
 
 \paragraph{Programming the Input Current Limit}	The previous version of the beRTK\textsuperscript{\textregistered} base station presented a power consumption of approximately 3 to 3.5Wh, and one of the requirements of this project is to cut the power consumption down to a maximum of 400mA at +5VDC -- as stated in requirement \textbf{RTKBS.MAIN.PWS.040}. Therefore, a 1.00A external adapter current rating can safely be considered, however, it is best to consider the double of that value, to safely consider high peak currents and discharge problems that may arise.
-The LTC4012 datasheet provides a table with common values for a sense resistor dedicated to the programming of the input current limiting -- R3 in Figure~\ref{fig:LTC4012_circuit}. For this case, considering an adapter rating of 2.00A, R3's estimated value would be equal to 0.050$\Omega$ (50m$\Omega$), with a power dissipation and rating of 0.200W and 0.250W, respectively. The value of this sense resistor can also be determined through expression (\ref{eq:r_cl}),
+The LTC4012 datasheet provides a table with common values for a sense resistor dedicated to the programming of the input current limiting -- R3 in Figure~\ref{fig:LTC4012_circuit}. For this case, considering an adapter rating of 2.00A, R3's estimated value would be equal to 0.050$\Omega$ (50m$\Omega$). The value of this sense resistor can also be determined through expression (\ref{eq:r_cl}),
 
 \begin{equation}\label{eq:r_cl}
     R3=\frac{100\textrm{mV}}{I_{LIM}}\,,\medskip
@@ -226,7 +214,9 @@ where $I_{LIM}$ corresponds to the desired maximum current able to be drawn from
 
 The switching noise generated by the PWM control architecture and different system components can be canceled out by a low-pass filter consisting of resistor R5 (5.1k$\Omega$) and capacitor C2 (0.1$\mu$F) -- also present in Figure~\ref{fig:LTC4012_circuit} --, between the charger's CLP and CLN pins.
 
-%parei aqui
+% \paragraph{The $\mathbf{\frac{C}{10}}$ $\mathbf{\overline{CHRG}}$ Indicator}	As stated before, when the N-channel FET Q3 (2N7002) is turned off, the maximum charge current allowed is $\frac{I_{MAX}}{10}$, which helps preserve the battery's health. This FET allows the setting of two different values for the total external resistance between the PROG pin and GND of the LTC4012 -- composed by resistors R8 and R13 of Figure~\ref{fig:LTC4012_circuit} --, which enables the programming of the battery pack's charge current. Along with this resistance, the R12 current sense resistor and PWM input resistors (R7 and R9) also play an important role on setting said charge current, since information about the current battery level is necessary so that the device can detect if a heavy discharge has taken place (i.e. the discharge cut-off voltage of 2.65V has been reached), in order to only allow the $\frac{I_{MAX}}{10}$ charge current. The LTC4012 provides a dedicated pin 
+
+%parei aqui -- tirei a cena do 2-level charge
 
 % REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
