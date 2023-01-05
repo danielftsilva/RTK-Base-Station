@@ -228,46 +228,71 @@ The capacitor C8 from Figure~\ref{fig:LTC4012_circuit} -- placed across the batt
 
 An additional input capacitor of $20 \mu$F must also be placed, this time between the drain of the top FET (Q2 in Figure~\ref{fig:LTC4012_circuit}) and GND, concerning again the absorbtion of all the input PWM current that may come through. In Figure~\ref{fig:LTC4012_circuit}, C3 represents such component.
 
-\paragraph{Inductor Selection}	Pulse width modulation is often translated into high switching frequencies, therefore, the use of FETs with this power control method leads to losses due to charges acting upon these components' gates. However, it also allows the use of smaller values for capacitors, as well as inductors. The latter plays an important role on making circuits benefit from the use of PWM, as they act as a means to maintain a stable voltage output during the off periods of the switching transistor, thanks to the energy stored during the on periods~\cite{pwm_site}. In this case, the switching transistors referred to are the top and bottom FETs Q2 and Q9, respectively, along with inductor L1, all present in Figure~\ref{fig:LTC4012_circuit}. This inductor must be carefully chosen due to the amount of ripple current $\Delta I_L$ it creates. 
-The ripple current is calulated through expression (\ref{eq:delta_iL}) and is a measure that decreases upon the rise of the PWM operating frequency ($f_{PWM}$) and/or the inductor's own inductance.
+% falar do CLP e INFET:
+\paragraph{The Input PowerPath Control}	The LTC4012 provides an input PFET controller that is able to monitor the DCIN power input, comparing the voltage on that pin to the voltage on pin CLP -- the LTC4012 raw system supply rail --, only enabling the charger's operation as soon as the first surpasses the latter by at least 60mV. At such time, the $\overline{\mbox{ACP}}$ pin (pin 5 in Figure~\ref{fig:LTC4012_circuit}) transitions to a low state of impedance, signaling an external power adapter connect event. This input also has the ability to drive the gate of an external P-channel FET (Q1 in Figure~\ref{fig:LTC4012_circuit}; connected to pin 3, labeled ``INFET'') which should be specifically selected to maintain a forward voltage drop of around 25mV between DCIN and CLP, upon the mentioned power adapter connect event. In the case where the input voltage drops to a value lower than this, the transistor is slowly turned off, only being quickly turned off in the event of a differential drop of less than $-25$mV, so that damage due to reverse current may not occur -- it is at this point that the $\overline{\mbox{ACP}}$ pin switches to a state of high impedance. The LTC4012 datasheet suggests using the SI7423DN-T1-E3 P-channel FET.
+
+\paragraph{Inductor Selection}	Pulse width modulation is often translated into high switching frequencies, therefore, the use of FETs with this power control method leads to losses due to charges acting upon these components' gates. However, it also allows the use of smaller values for capacitors, as well as inductors. The latter plays an important role on making circuits benefit from the use of PWM, as they act as a means to maintain a stable voltage output during the off periods of the switching transistor, thanks to the energy stored during the on periods~\cite{pwm_site}. In this case, the switching transistors referred to are the top and bottom FETs Q2 and Q9, respectively, along with inductor L1, all present in Figure~\ref{fig:LTC4012_circuit}.
+
+The LTC4012 datasheet provides a table with the minimum typical inductor values to be use as a guideline, which is represented by Table~\ref{tab:typ_inductor_values}. The construction of this table took into account maintaining a maximum $\Delta I_L$ value of $0.6 \cdot I_{MAX}=612$mA with $f_{PWM}=550$kHz and $V_{BAT}=0.5 \cdot V_{CLP}=16.8$V (which corresponds to the point of maximum $\Delta I_L$), for C-grade parts (corresponding to Grade 4 -- ``Commercial grade'' --, according to the Renesas AEC-Q100 Standard~\cite{AEC-Q100}), the expected grade for this project. Therefore, considering $V_{CLP}$ to be 16.8V and that the $I_{MAX}$ value found on Table~\ref{tab:typ_inductor_values} that is closest to the $I_{MAX}$ current for the new beRTK\textsuperscript{\textregistered} base station ($1,020$mA) is 1A, the recommended minimum typical inductor value should be chosen so that it is $\geq 20 \mu$H. It should be noted that the values for $R_{SENSE}$, $R_{IN}$ and $R_{PROG}$ are very similar to the determined/selected ones (98m$\Omega$, 3.01k$\Omega$ and 26.9k$\Omega$, respectively).
+
+%temperaturas:
+% The part operating temperature grades are defined below:
+% Grade 0: -40°C to +150°C ambient operating temperature range
+% Grade 1: -40°C to +125°C ambient operating temperature range
+% Grade 2: -40°C to +105°C ambient operating temperature range
+% Grade 3: -40°C to +85°C ambient operating temperature range
+% Grade 4: 0°C to +70°C ambient operating temperature range
+
+% meter a table 6 aqui:
+\begingroup
+\begin{table}[h]
+	\caption{Minimum typical inductor values~\cite{LTC4012}.}
+	\label{tab:typ_inductor_values}
+	\centering%@{}l@{}@{}c@{}@{}c@{}@{}c@{}@{}c@{}
+    % \setlength{\tabcolsep}{10pt} % Default value: 6pt
+    % \renewcommand{\arraystretch}{1.5} % Default value: 1
+	\begin{tabular}{cccccc}
+        \toprule
+        $\mathbf{V_{CLP}}$ & $\mathbf{L1}$ (\textbf{typ.}) & $\mathbf{I_{MAX}}$ & $\mathbf{R_{SENSE}}$ & $\mathbf{R_{IN}}$ & $\mathbf{R_{PROG}}$\\
+		\midrule
+		$<10$V & $\geq 10 \mu$H & 1A & 100m$\Omega$ & 3.01k$\Omega$ & 26.7k$\Omega$ \\
+        \midrule
+		10V to 20V & $\geq 20 \mu$H & 1A & 100m$\Omega$ & 3.01k$\Omega$ & 26.7k$\Omega$ \\
+        \midrule
+		$>20$V & $\geq 28 \mu$H & 1A & 100m$\Omega$ & 3.01k$\Omega$ & 26.7k$\Omega$ \\
+        \midrule
+		$<10$V & $\geq 5.1 \mu$H & 2A & 50m$\Omega$ & 3.01k$\Omega$ & 26.7k$\Omega$ \\
+        \midrule
+		10V to 20V & $\geq 10 \mu$H & 2A & 50m$\Omega$ & 3.01k$\Omega$ & 26.7k$\Omega$ \\
+        \midrule
+		$>20$V & $\geq 14 \mu$H & 2A & 50m$\Omega$ & 3.01k$\Omega$ & 26.7k$\Omega$ \\
+        \midrule
+		$<10$V & $\geq 3.4 \mu$H & 3A & 33m$\Omega$ & 3.01k$\Omega$ & 26.7k$\Omega$ \\
+        \midrule
+		10V to 20V & $\geq 6.8 \mu$H & 3A & 33m$\Omega$ & 3.01k$\Omega$ & 26.7k$\Omega$ \\
+        \midrule
+		$>20$V & $\geq 9.5 \mu$H & 3A & 33m$\Omega$ & 3.01k$\Omega$ & 26.7k$\Omega$ \\
+        \midrule
+		$<10$V & $\geq 2.5 \mu$H & 4A & 25m$\Omega$ & 3.01k$\Omega$ & 26.7k$\Omega$ \\
+        \midrule
+		10V to 20V & $\geq 5.1 \mu$H & 4A & 25m$\Omega$ & 3.01k$\Omega$ & 26.7k$\Omega$ \\
+        \midrule
+		$>20$V & $\geq 7.1 \mu$H & 4A & 25m$\Omega$ & 3.01k$\Omega$ & 26.7k$\Omega$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\endgroup
+
+The L1 inductor must be carefully chosen due to the amount of ripple current $\Delta I_L$ it creates. 
+The ripple current is a measure that decreases upon the rise of the PWM operating frequency ($f_{PWM}$) and/or the inductor's own inductance, being calulated through expression (\ref{eq:delta_iL}):
 
 \begin{equation}\label{eq:delta_iL}
     \Delta I_L = \frac{V_{BAT} \cdot \left(1-\frac{V_{BAT}}{V_{CLP}}\right)}{L1 \cdot f_{PWM}}\,\medskip
 \end{equation}
 
-Analysing (\ref{eq:delta_iL}), it is possible to conclude that the use of lower indcutance values causes an increase in the indcutor's ripple current. This directly translates into an even more considerable output voltage ripple -- the unwanted problem. 
+Considering L1 as $20 \mu$H, $V_{BAT}$ as 8.4V, the nominal PWM operating frequency as $f_{PWM}=550$kHz and $V_{CLP}$ as 16.8V (as instructed by the LTC4012 datasheet's inductor selection section), 0.382mA result as the $\Delta I_L$ ripple current value.% parei aqui
 
-The input PFET controller is very important for the charger's input PowerPath\textsuperscript{\texttrademark} control, as it monitors the DCIN power input, only enabling the charger's operation as soon as the DC input voltage rises over the raw system supply -- pin CLP. It also performs gate control of a P-channel FET (Q1 in Figure~\ref{fig:LTC4012_circuit}; connected to pin 3, labeled ``INFET'') 
-%mudar este paragrafo, ta bue igual ao que ta no datasheet!
-% o que eu tenho de escrever a seguir, por palavras minhas é:
-Next, it controls the gate of an external input
-power PFET to maintain a low forward voltage drop when
-charging, creating improved efficiency. It also prevents
-reverse current flow through this same PFET, providing
-a suitable input blocking function. Finally, it helps avoid
-synchronous boost operation during invalid operating
-conditions by detecting elevated CLP voltage and forcing
-the charger off.
-If DCIN voltage is less than CLP, then DCIN must rise
-60mV higher than CLP to enable the charger and activate
-the ideal diode control. At this point, the ACPb status
-output also transitions to low impedance to indicate
-to the host system that an external adapter is present.
-The gate of the input PFET is driven to a voltage sufficient
-to regulate a forward drop between DCIN and CLP of about
-25mV. If the input voltage differential drops below this
-point, the FET is turned off slowly. If the voltage between
-DCIN and CLP drops to less than -25mV, the input FET is
-turned off in less than 6μs to prevent significant reverse
-current from flowing back through the PFET. In this case,
-ACPb also switches back to high impedance and the
-charger is disabled.
-
-EXPLICAR (aqui pelo meio) O QUE SIGNIFICAM OS PINS:
-CLP
-CLN
-INFET
-% acaba aqui este parágrafo do INFET-------------------------------
+through (\ref{eq:delta_iL}), it is also possible to conclude that selecting lower values for indcutance will cause an increase in the indcutor's ripple current. This will inevitably lead to higher output voltage ripple -- the unwanted noise. 
 
 %agora já posso apresentar o valor que me deu para I_RMS:
 Considering the low voltage rise needed on DCIN to activate the charger's functions, rounding the DCIN voltage down to meet the system's CLP supply voltage so that $V_{CLP}=V_{V_{DCIN}=15V}$ allows the calculation of the C8 output capacitor's current is determinated through expression (\ref{eq:i_rms}), for a PWM operating frequency of $f_{PWM}=550$kHz, an L1 inductor of $20 \mu$H and a battery pack voltage of $V_{BAT}=8.40$V. The resulting value is $I_{RMS}=0.0974$A (97.4mA).
@@ -280,47 +305,6 @@ Considering the low voltage rise needed on DCIN to activate the charger's functi
 % so choose L1>...
 
 %continuar normalmente.
-
-
-%quando chegar à TABLE 6: meter a table 6 aqui:
-\begingroup
-\begin{table}[h]
-	\caption{Minimum typical inductor values~\cite{LTC4012}.}
-	\label{tab:typ_inductor_values}
-	\centering%@{}l@{}@{}c@{}@{}c@{}@{}c@{}@{}c@{}
-    % \setlength{\tabcolsep}{10pt} % Default value: 6pt
-    % \renewcommand{\arraystretch}{1.5} % Default value: 1
-	\begin{tabular}{cccccc}
-        \toprule
-        % $\mathbf{V_{CLP}}$ & $\mathbf{L1}$ (\textbf{typ.}) & $\mathbf{I_{MAX}}$ & $\mathbf{R_{SENSE}}$ & $\mathbf{R_{IN}}$ & $\mathbf{R_{PROG}}$\\
-        \midrule
-		<10V & $\geq 10 \mu$H & 1A& & & \\
-        \midrule
-		& & & & & \\
-        \midrule
-		& & & & & \\
-        \midrule
-		& & & & & \\
-        \midrule
-		& & & & & \\
-        \midrule
-		& & & & & \\
-        \midrule
-		& & & & & \\
-        \midrule
-		& & & & & \\
-        \midrule
-		& & & & & \\
-        \midrule
-		& & & & & \\
-        \midrule
-		& & & & & \\
-        \midrule
-		& & & & & \\
-        \bottomrule
-    \end{tabular}
-\end{table}
-\endgroup
 
 
 % e dizer que valores é que se adequam a mim:
