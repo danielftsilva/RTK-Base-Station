@@ -144,7 +144,7 @@ Figure~\ref{fig:battery2S} and Table~\ref{tab:battery2S} show a close-up represe
 \end{table}
 \endgroup
 
-Table~\ref{tab:battery2S} specifies that each battery provides a charging cycle termination voltage of approximately 4.20V, which bespeaks that the 2S arrangement adds up to a total of (approximately) 8.40V of backup energy.
+Table~\ref{tab:battery2S} specifies that each battery provides a charging cycle termination voltage of approximately 4.20V, which bespeaks that the 2S arrangement adds up to a total of (approximately) 8.4V of backup energy.
 
 It is possible to calculate an estimate of the system's battery life using expression~(\ref{eq:battery_life}):
 
@@ -190,9 +190,9 @@ It is established in the documentation that the LTC4012 provides the best perfor
 % The LTC4012 charger allows a specific charging control process for the battery pack by altering the resistance between the PROG pin and GND, designated as a ``two-level'' charge. This charging process is achieved via the switching of a control transistor (Q3 in Figure~\ref{fig:LTC4012_circuit}) which, when turned off, cuts down the charge current to $\frac{I_{MAX}}{10}$ (i.e. C/10), only allowing the full $I_{MAX}$ current for a ``bulk charge'' when turned on. In the schematic of Figure~\ref{fig:LTC4012_circuit}, the two-level approach is implemented through transistor Q3, resistors R8 and R13 and capacitor C7. Connecting the gate of Q3 to the battery supply rail ($\mathrm{V_{BAT}}$ net in Figure~\ref{fig:LTC4012_circuit}) serves the purpose of allowing transistor Q3 to exit or enter its active zone, in order to subsequently grant both levels of charge current available with the implemented method. When the battery pack's voltage dips to a value equal to or below 2.5V -- i.e. when it reaches a heavy discharge status --, Q3 is switched on, increasing (MENTIRA! ELE DIMINUI A RESISTENCIA...) the resistance between PROG and GND. For that, the recommended transistor to use (from the LTC4012 datasheet) is the 2N7002 N-channel \gls{FET}~\cite{2N7002}. This FET holds a gate threshold voltage between 1.0V and 2.5V.
 %DESCARTEI O 2-LEVEL CHARGE.
 
-With the calculated values for resistors $R_{IN}$, $R_{SENSE}$ and $R_{PROG}$ it is then possible to obtain a value of $I_{CHRG} = 1,020$mA for the programmed charge current, through expression~(\ref{eq:i_chrg}).
+With the calculated values for resistors $R_{IN}$, $R_{SENSE}$ and $R_{PROG}$ it is then possible to obtain a value of $I_{CHRG} = 1,020$mA for the programmed charge current, through expression~(\ref{eq:i_chrg})~\cite{LTC4012}.
 
-\paragraph{Programming the LTC4012 Output Voltage}	An external resistor divider circuit can be assembled in order to set an output voltage for the charger. This circuit is composed by resistors R7 and R9 from Figure~\ref{fig:LTC4012_circuit}, whose approximate values are suggested in the LTC4012 datasheet. For a $V_{BAT}$ voltage of 8.40V, these values are 169k$\Omega$ and 28.4k$\Omega$, respectively, and can be confirmed through equations (\ref{eq:v_bat}) and (\ref{eq:r7_r9}):
+\paragraph{Programming the LTC4012 Output Voltage}	An external resistor divider circuit can be assembled in order to set an output voltage for the charger. This circuit is composed by resistors R7 and R9 from Figure~\ref{fig:LTC4012_circuit}, whose approximate values are suggested in the LTC4012 datasheet. For a $V_{BAT}$ voltage of 8.4V, these values are 169k$\Omega$ and 28.4k$\Omega$, respectively, and can be confirmed through equations (\ref{eq:v_bat}) and (\ref{eq:r7_r9}):
 
 \begin{equation}\label{eq:v_bat}
     V_{BAT}=\frac{1.2085\textrm{V} \cdot \left(R7 + R9\right)}{R9}\,\medskip
@@ -202,7 +202,7 @@ With the calculated values for resistors $R_{IN}$, $R_{SENSE}$ and $R_{PROG}$ it
     R7=R9 \cdot \left(\frac{V_{BAT}}{1.2085\textrm{V}} - 1\right)\,\medskip
 \end{equation}
 
-If the selected value of R9 is less than 50k$\Omega$ and the joint value of R7 and R9 surpasses (or at least equals) 200k$\Omega$, then the lowest possible error at the $V_{FB}$ sense input is acheived\footnote[10]{The use of resistors with a tolerance level of 0.25\% is advised to achieve the desired level of accuracy~\cite{LTC4012}.}. It should be noted that the influence of this battery voltage feedback input is present in equations (\ref{eq:v_bat}) and (\ref{eq:r7_r9}), as well as in equations (\ref{eq:i_chrg}) and (\ref{eq:r_prog}), in the form of the nominal 1.2085 pin voltage.
+If the selected value of R9 is less than 50k$\Omega$ and the joint value of R7 and R9 surpasses (or at least equals) 200k$\Omega$, then the lowest possible error at the $V_{FB}$ sense input is acheived\footnote[10]{The use of resistors with a tolerance level of 0.25\% is advised to achieve the desired level of accuracy~\cite{LTC4012}.}. It should be noted that the influence of this battery voltage feedback input is present in equations (\ref{eq:v_bat}) and (\ref{eq:r7_r9}), as well as in equations (\ref{eq:i_chrg}) and (\ref{eq:r_prog}), in the form of the nominal 1.2085 pin voltage~\cite{LTC4012}.
 
 \paragraph{Programming the Input Current Limit}	The previous version of the beRTK\textsuperscript{\textregistered} base station presented a power consumption of approximately 3 to 3.5Wh, and one of the requirements of this project is to cut the power consumption down to a maximum of 400mA at +5VDC -- as stated in requirement \textbf{RTKBS.MAIN.PWS.040}. Therefore, a 1.00A external adapter current rating can safely be considered, however, it is best to consider the double of that value, to safely consider high peak currents and discharge problems that may arise.
 The LTC4012 datasheet provides a table with common values for a sense resistor dedicated to the programming of the input current limiting -- R3 in Figure~\ref{fig:LTC4012_circuit}. For this case, considering an adapter rating of 2.00A, R3's estimated value would be equal to 0.050$\Omega$ (50m$\Omega$). The value of this sense resistor can also be determined through expression (\ref{eq:r_cl}),
@@ -212,9 +212,9 @@ The LTC4012 datasheet provides a table with common values for a sense resistor d
 \end{equation}
 where $I_{LIM}$ corresponds to the desired maximum current able to be drawn from the external adapter input -- in this case, that value was chosen to be 2.00A. The LTC4012 also provides a pin named $\overline{\mbox{ICL}}$, an active-low indicator output that immediately pulls to GND upon the detection of a reduction of the charge current (due to the aforementioned AC adapter input current limiting).
 
-The switching noise generated by the PWM control architecture and different system components can be canceled out by a low-pass filter consisting of resistor R5 (5.1k$\Omega$) and capacitor C2 (0.1$\mu$F) -- also present in Figure~\ref{fig:LTC4012_circuit} --, between the charger's CLP and CLN pins.
+The switching noise generated by the PWM control architecture and different system components can be canceled out by a low-pass filter consisting of resistor R5 (5.1k$\Omega$) and capacitor C2 (0.1$\mu$F) -- also present in Figure~\ref{fig:LTC4012_circuit} --, between the charger's CLP and CLN pins~\cite{LTC4012}.
 
-% \paragraph{The $\mathbf{\frac{C}{10}}$ $\mathbf{\overline{CHRG}}$ Indicator}	As stated before, when the N-channel FET Q3 (2N7002) is turned off, the maximum charge current allowed is $\frac{I_{MAX}}{10}$, which helps preserve the battery's health. This FET allows the setting of two different values for the total external resistance between the PROG pin and GND of the LTC4012 -- composed by resistors R8 and R13 of Figure~\ref{fig:LTC4012_circuit} --, which enables the programming of the battery pack's charge current. Along with this resistance, the R12 current sense resistor and PWM input resistors (R7 and R9) also play an important role on setting said charge current, since information about the current battery level is necessary so that the device can detect if a heavy discharge has taken place (i.e. the discharge cut-off voltage of 2.65V has been reached), in order to only allow the $\frac{I_{MAX}}{10}$ charge current. The LTC4012 provides a dedicated pin 
+% \paragraph{The $\mathbf{\frac{C}{10}}$ $\mathbf{\overline{CHRG}}$ Indicator}	As stated before, when the N-channel FET Q3 (2N7002) is turned off, the maximum charge current allowed is $\frac{I_{MAX}}{10}$, which helps preserve the battery's health. This FET allows the setting of two different values for the total external resistance between the PROG pin and GND of the LTC4012 -- composed by resistors R8 and R13 of Figure~\ref{fig:LTC4012_circuit} --, which enables the programming of the battery pack's charge current. Along with this resistance, the R12 current sense resistor and PWM input resistors (R7 and R9) also play an important role on setting said charge current, since information about the current battery level is necessary so that the device can detect if a heavy discharge has taken place (i.e. the discharge cut-off voltage of 2.65V has been reached), in order to only allow the $\frac{I_{MAX}}{10}$ charge current. The LTC4012 provides a dedicated pin ~\cite{LTC4012}
 
 \paragraph{Input and Output Capacitors}	Within a single system, different circuits can share the same nets, the most common of which are usually power and ground. Power supply signals often carry residual noise known as ripple voltage, which, when present, can be harmful towards components such as integrated circuits. A way to attenuate such noise is through the use of capacitors known as decoupling (or bypass) capacitors. These components help guarantee the continuous power supply to the differnet sub-circuits when changes in the system load occur -- which result in voltage drops caused by shifting currents -- while also doing their best to cancel out surges of high-frequency noise that may spread to other parts of the system, reducing the generated \gls{EMI}. 
 
@@ -226,23 +226,14 @@ The capacitor C8 from Figure~\ref{fig:LTC4012_circuit} -- placed across the batt
     I_{RMS}=\frac{0.29 \cdot V_{BAT} \cdot \left(1- \frac{V_{BAT}}{V_{CLP}}\right)}{L1 \cdot f_{PWM}}\,\medskip
 \end{equation}
 
-An additional input capacitor of $20 \mu$F must also be placed, this time between the drain of the top FET (Q2 in Figure~\ref{fig:LTC4012_circuit}) and GND, concerning again the absorbtion of all the input PWM current that may come through. In Figure~\ref{fig:LTC4012_circuit}, C3 represents such component.
+An additional input capacitor of $20 \mu$F must also be placed, this time between the drain of the top FET (Q2 in Figure~\ref{fig:LTC4012_circuit}) and GND, concerning again the absorbtion of all the input PWM current that may come through. In Figure~\ref{fig:LTC4012_circuit}, C3 represents such component~\cite{LTC4012}.
 
 % falar do CLP e INFET:
-\paragraph{The Input PowerPath Control}	The LTC4012 provides an input PFET controller that is able to monitor the DCIN power input, comparing the voltage on that pin to the voltage on pin CLP -- the LTC4012 raw system supply rail --, only enabling the charger's operation as soon as the first surpasses the latter by at least 60mV. At such time, the $\overline{\mbox{ACP}}$ pin (pin 5 in Figure~\ref{fig:LTC4012_circuit}) transitions to a low state of impedance, signaling an external power adapter connect event. This input also has the ability to drive the gate of an external P-channel FET (Q1 in Figure~\ref{fig:LTC4012_circuit}; connected to pin 3, labeled ``INFET'') which should be specifically selected to maintain a forward voltage drop of around 25mV between DCIN and CLP, upon the mentioned power adapter connect event. In the case where the input voltage drops to a value lower than this, the transistor is slowly turned off, only being quickly turned off in the event of a differential drop of less than $-25$mV, so that damage due to reverse current may not occur -- it is at this point that the $\overline{\mbox{ACP}}$ pin switches to a state of high impedance. The LTC4012 datasheet suggests using the SI7423DN-T1-E3 P-channel FET.
+\paragraph{The Input PowerPath Control}	The LTC4012 provides an input PFET controller that is able to monitor the DCIN power input, comparing the voltage on that pin to the voltage on pin CLP -- the LTC4012 raw system supply rail --, only enabling the charger's operation as soon as the first surpasses the latter by at least 60mV. At such time, the $\overline{\mbox{ACP}}$ pin (pin 5 in Figure~\ref{fig:LTC4012_circuit}) transitions to a low state of impedance, signaling an external power adapter connect event. This input also has the ability to drive the gate of an external P-channel FET (Q1 in Figure~\ref{fig:LTC4012_circuit}; connected to pin 3, labeled ``INFET'') which should be specifically selected to maintain a forward voltage drop of around 25mV between DCIN and CLP, upon the mentioned power adapter connect event. In the case where the input voltage drops to a value lower than this, the transistor is slowly turned off, only being quickly turned off in the event of a differential drop of less than $-25$mV, so that damage due to reverse current may not occur -- it is at this point that the $\overline{\mbox{ACP}}$ pin switches to a state of high impedance. The LTC4012 datasheet suggests using the Si7423DN-T1-E3 P-channel FET~\cite{LTC4012}.
 
-\paragraph{Inductor Selection}	Pulse width modulation is often translated into high switching frequencies, therefore, the use of FETs with this power control method leads to losses due to charges acting upon these components' gates. However, it also allows the use of smaller values for capacitors, as well as inductors. The latter plays an important role on making circuits benefit from the use of PWM, as they act as a means to maintain a stable voltage output during the off periods of the switching transistor, thanks to the energy stored during the on periods~\cite{pwm_site}. In this case, the switching transistors referred to are the top and bottom FETs Q2 and Q9, respectively, along with inductor L1, all present in Figure~\ref{fig:LTC4012_circuit}.
+\paragraph{Inductor Selection}	Pulse width modulation is often translated into high switching frequencies, therefore, the use of FETs with this power control method leads to losses due to charges acting upon these components' gates. However, it also allows the use of smaller values for capacitors, as well as inductors. The latter plays an important role on making circuits benefit from the use of PWM, as they act as a means to maintain a stable voltage output during the off periods of the switching transistor, thanks to the energy stored during the on periods~\cite{pwm_site}. In this case, the switching transistors referred to are the ``top'' and ``bottom'' FETs Q2 and Q9, respectively, along with inductor L1, all present in Figure~\ref{fig:LTC4012_circuit}.
 
-The LTC4012 datasheet provides a table with the minimum typical inductor values to be use as a guideline, which is represented by Table~\ref{tab:typ_inductor_values}. The construction of this table took into account maintaining a maximum $\Delta I_L$ value of $0.6 \cdot I_{MAX}=612$mA with $f_{PWM}=550$kHz and $V_{BAT}=0.5 \cdot V_{CLP}=16.8$V (which corresponds to the point of maximum $\Delta I_L$), for C-grade parts (corresponding to Grade 4 -- ``Commercial grade'' --, according to the Renesas AEC-Q100 Standard~\cite{AEC-Q100}), the expected grade for this project. Therefore, considering $V_{CLP}$ to be 16.8V and that the $I_{MAX}$ value found on Table~\ref{tab:typ_inductor_values} that is closest to the $I_{MAX}$ current for the new beRTK\textsuperscript{\textregistered} base station ($1,020$mA) is 1A, the recommended minimum typical inductor value should be chosen so that it is $\geq 20 \mu$H. It should be noted that the values for $R_{SENSE}$, $R_{IN}$ and $R_{PROG}$ are very similar to the determined/selected ones (98m$\Omega$, 3.01k$\Omega$ and 26.9k$\Omega$, respectively).
-
-%temperaturas:
-% The part operating temperature grades are defined below:
-% Grade 0: -40°C to +150°C ambient operating temperature range
-% Grade 1: -40°C to +125°C ambient operating temperature range
-% Grade 2: -40°C to +105°C ambient operating temperature range
-% Grade 3: -40°C to +85°C ambient operating temperature range
-% Grade 4: 0°C to +70°C ambient operating temperature range
-
+The LTC4012 datasheet provides a table with the minimum typical inductor values to be use as a guideline, which is represented by Table~\ref{tab:typ_inductor_values}.
 % meter a table 6 aqui:
 \begingroup
 \begin{table}[h]
@@ -253,7 +244,7 @@ The LTC4012 datasheet provides a table with the minimum typical inductor values 
     % \renewcommand{\arraystretch}{1.5} % Default value: 1
 	\begin{tabular}{cccccc}
         \toprule
-        $\mathbf{V_{CLP}}$ & $\mathbf{L1}$ (\textbf{typ.}) & $\mathbf{I_{MAX}}$ & $\mathbf{R_{SENSE}}$ & $\mathbf{R_{IN}}$ & $\mathbf{R_{PROG}}$\\
+        $\mathbf{V_{CLP}}$ & $\mathbf{L1}$ (\textbf{typ.}) & $\mathbf{I_{max}}$ & $\mathbf{R_{SENSE}}$ & $\mathbf{R_{IN}}$ & $\mathbf{R_{PROG}}$\\
 		\midrule
 		$<10$V & $\geq 10 \mu$H & 1A & 100m$\Omega$ & 3.01k$\Omega$ & 26.7k$\Omega$ \\
         \midrule
@@ -282,43 +273,137 @@ The LTC4012 datasheet provides a table with the minimum typical inductor values 
     \end{tabular}
 \end{table}
 \endgroup
+The construction of this table took into account maintaining the $\Delta I_L$ value up to a maximum of $0.6 \cdot I_{max}$ with $f_{PWM}=550$kHz and $V_{BAT}=0.5 \cdot V_{CLP}=16.8$V, for C-grade parts (corresponding to Grade 4 -- ``Commercial grade'' --, according to the Renesas AEC-Q100 Standard~\cite{AEC-Q100}), the expected grade for this project. Therefore, considering $V_{CLP}$ to be 16.8V and that the value of $I_{max}=1$A found on Table~\ref{tab:typ_inductor_values} is the closest to the $I_{MAX}$ current for the new beRTK\textsuperscript{\textregistered} base station ($1,020$mA), then the recommended minimum typical inductor value to be chosen should be $\geq 20 \mu$H.
+It should be noted that the values for $R_{SENSE}$, $R_{IN}$ and $R_{PROG}$ on that same table line are very similar to the ones determined/selected (98m$\Omega$, 3.01k$\Omega$ and 26.9k$\Omega$, respectively). The important factor is whether the $I_{CHRG}$ charge current will equal $1,020$mA (or at least be slightly inferior), which is the case. 
 
-The L1 inductor must be carefully chosen due to the amount of ripple current $\Delta I_L$ it creates. 
-The ripple current is a measure that decreases upon the rise of the PWM operating frequency ($f_{PWM}$) and/or the inductor's own inductance, being calulated through expression (\ref{eq:delta_iL}):
+%temperaturas:
+% The part operating temperature grades are defined below:
+% Grade 0: -40°C to +150°C ambient operating temperature range
+% Grade 1: -40°C to +125°C ambient operating temperature range
+% Grade 2: -40°C to +105°C ambient operating temperature range
+% Grade 3: -40°C to +85°C ambient operating temperature range
+% Grade 4: 0°C to +70°C ambient operating temperature range
+
+The L1 inductor must be carefully chosen due to the amount of ripple current $\Delta I_L$ it generates. 
+A high ripple current leads, due to Ohm's law, to a higher output voltage ripple -- the unwanted noise --, and corresponds to a measure that decreases upon the rise of the PWM operating frequency ($f_{PWM}$) and/or the inductor's own inductance, as it is possible to analyse through expression (\ref{eq:delta_iL}):
 
 \begin{equation}\label{eq:delta_iL}
     \Delta I_L = \frac{V_{BAT} \cdot \left(1-\frac{V_{BAT}}{V_{CLP}}\right)}{L1 \cdot f_{PWM}}\,\medskip
 \end{equation}
+Considering L1 as $20 \mu$H, $V_{BAT}$ as 8.4V, the nominal PWM operating frequency as $f_{PWM}=550$kHz and $V_{CLP}$ as 16.8V (as instructed by the LTC4012 datasheet's inductor selection section), approximately 382mA result as the $\Delta I_L$ ripple current value. Adapting the $I_{MAX}$ current to the relation presented before yields $0.6 \cdot I_{MAX}=612$mA, thus confirming $\Delta I_L=0.382\textrm{mA} < 612$mA.
 
-Considering L1 as $20 \mu$H, $V_{BAT}$ as 8.4V, the nominal PWM operating frequency as $f_{PWM}=550$kHz and $V_{CLP}$ as 16.8V (as instructed by the LTC4012 datasheet's inductor selection section), 0.382mA result as the $\Delta I_L$ ripple current value.% parei aqui
+It is also stated that, every PWM cycle, the charger is capable of limiting the maximum instantaneous value for the peak indcutor current. Therefore, in order to steer clear from unstable switch waveforms that may harm the signal, the $\Delta I_L$ ripple current value is required to satisfy the following condition:
 
-through (\ref{eq:delta_iL}), it is also possible to conclude that selecting lower values for indcutance will cause an increase in the indcutor's ripple current. This will inevitably lead to higher output voltage ripple -- the unwanted noise. 
+\begin{equation}\label{eq:delta_iL_2}
+    \Delta I_L < 2 \cdot \left(\frac{150 \textrm{mV}}{R_{SENSE}} - I_{MAX}\right) = 1.0212\textrm{A} \,,\medskip
+\end{equation}
+which requires a value for the L1 inductor that meets:
+
+\begin{equation}\label{eq:L1}
+    L1 > \frac{0.125 \cdot V_{CLP}}{f_{PWM} \cdot \left(\frac{150 \textrm{mV}}{R_{SENSE}} - I_{MAX}\right)} = 7.48 \mu\textrm{H} \,\medskip
+\end{equation}
+Inequation (\ref{eq:delta_iL_2}) satisfies the value calculated for $\Delta I_L$ by equation (\ref{eq:delta_iL}). It is also possible to confirm that the $20\mu$H value for L1 proposed by Table~\ref{tab:typ_inductor_values} is greater than the $7.48 \mu$H determined by inequation (\ref{eq:L1}).
 
 %agora já posso apresentar o valor que me deu para I_RMS:
-Considering the low voltage rise needed on DCIN to activate the charger's functions, rounding the DCIN voltage down to meet the system's CLP supply voltage so that $V_{CLP}=V_{V_{DCIN}=15V}$ allows the calculation of the C8 output capacitor's current is determinated through expression (\ref{eq:i_rms}), for a PWM operating frequency of $f_{PWM}=550$kHz, an L1 inductor of $20 \mu$H and a battery pack voltage of $V_{BAT}=8.40$V. The resulting value is $I_{RMS}=0.0974$A (97.4mA).
-
-%agora já posso apresentar o valor que me deu para delta_iL:
-%		meter parágrafo sobre isso aqui + valor de delta_iL
-
-%agora a parte do "To avoid unstable switch waveforms, the ripple current must satisfy:"
-
-% so choose L1>...
-
-%continuar normalmente.
-
-
-% e dizer que valores é que se adequam a mim:
+Considering the low voltage rise needed on DCIN to activate the charger's functions, rounding the DCIN voltage down to meet the system's CLP supply voltage so that $V_{CLP}=V_{V_{DCIN}=15V}$ allows the calculation of the C8 output capacitor's current through expression (\ref{eq:i_rms}), for a PWM operating frequency of $f_{PWM}=550$kHz, an L1 inductor of $20 \mu$H and a battery pack voltage of $V_{BAT}=8.4$V. The resulting value is $I_{RMS}=0.0974$A (97.4mA).
 
 %finalmente, dizer que esses valores sao consistentes com os valores calculados nas expressoes de:
 %	RSENSE=98mOhm
 %	valor escolhido de IMAX=1,020mA
 %	RPROGmin 26.9kOhm, aqui diz 26.7, mas nao faz mal, porque se RPROG=26.7k, ICHRG = X que é < IMAX, por isso estamos bem
 %	L1>...
-Since the battery pack's 1C rate is equal to $I_{MAX}=1,020$mA, according to (\ref{eq:r_sense}), $R_{SENSE}$ must be equal to 98m$\Omega$. These values are consistent with the suggested ones displayed in Table~\ref{tab:typ_inductor_values}.
+Since the battery pack's 1C rate is equal to $I_{MAX}=1,020$mA, according to (\ref{eq:r_sense}), $R_{SENSE}$ must be equal to 98m$\Omega$. These values are consistent with the suggested ones displayed in Table~\ref{tab:typ_inductor_values}~\cite{LTC4012}.
 
-%\paragraph{TGATE BOOST Supply}	
+\paragraph{FET Selection}	The top and bottom FETs are gate-driven by the TGATE and BGATE control outputs, respectively. Both are supposed to be N-channel type power MOSFETs, with the top FET being used as a power switch and the bottom FET as synchronous rectifier. The LTC4012 datasheet also enumerate several key specifications to pay attention to when selecting both transistors, namely: the $R_{DS(ON)}$ channel resistance, the $Q_G$ total gate charge, the $C_{RSS}$ reverse transfer capacitance, the $B_{V_{DSS}}$ maximum rated drain-source voltage and characteristics referring to the switching such as $t_{d(ON/OFF)}$. Besides this, it should be noted that the maximum gate-to-source FET drive levels are originally defined around 5V, which imperatively requires logic-level FETs to be selected.
+
+In the LTC4012 datasheet, the proposed transistors to use as the top and bottom FET are the models marketed as Si7212DN, SiA914DJ and Si4816BDY, all by manufacturer Vishay Intertechnology. However, at the PCB component purchase stage, none of these models were available to purchase via authorized distributors, and thus the previously mentioned key specifications of the MOSFET model Si7212DN were taken as guidelines to help find a substitute for this power switch. It is also specified in the documentation that the best LTC4012 operation takes place when using power FETs witch a $Q_G$ total gate charge of 15nC or less at 5V, and that the maximum rated drain-source voltage of the transistor selected should exceed the maximum $V_{CLP}$ that may occur -- in this case it should comfortably exceed 15V.
+
+%FALAR AGORA DAS CARACTERISTICAS INMPORTANTES DO CSD17308Q3:
+% key specifications to pay attention to when selecting both transistors, namely: 
+% $R_{DS(ON)}$ channel resistance
+% $Q_G$ total gate charge
+% $C_{RSS}$ reverse transfer capacitance
+% $B_{V_{DSS}}$ maximum rated drain-source voltage
+% characteristics referring to the switching such as $t_{d(ON/OFF)}$
+% $Q_G$ total gate charge of 15nC or less at 5V
+% $V_{CLP}$ that may occur -- in this case it should comfortably exceed 15V
+% transcondutacia gw
+
+At the time of component research, a well-suited power FET found in stock at authorized distributors was the CSD17308Q3 model by manufacturer Texas Instruments, whose key specifications were checked in relation to the Si7212DN model. The $R_{DS(ON)}$ channel resistance of the CSD17308Q3 model sits at around 9m$\Omega$ for a $V_{GS}$ gate-to-source voltage of 5V -- the originally-defined peak FET drive level --, according to Figure~\ref{fig:CSD17308Q3_rdson}.
+Once the LTC4012 starts its operation, the power dissipation on the top FET can be calculated by multiplying this same $R_{DS(ON)}$ on-state resistance by the square of its drain current ($I_D$).
+
+Figure~\ref{fig:CSD17308Q3_gate_charge} presents the evolution of the CSD17308Q3 FET's $V_{GS}$ gate-to-source voltage as a function of the $Q_G$ gate charge, and when analysed, a $Q_G$ of about 4.25nC is verifiable for a gate-to-source voltage of 5V. Therefore, besides this value being lower than 15nC, it is also a strong indication that the switching time window of this FET will be small and therefore able to keep up with the high PWM nominal frequency of 550kHz, which also implies a low switching loss.
+
+The reverse transfer capacitance ($C_{RSS}$) -- also known as Miller capacitance -- in the CSD17308Q3 model is XpF, about Y times lower than this same "grandeza" in the Si7212DN model (observable in the graph of Figure~\ref{fig:Si7212DN_crss}). This capacitance refers to Z, and therefore it is important that its value "seja" as low as possible, in order to reduce W.% parei aqui!
+
+%tentar juntar as duas figuras lado a lado!!!!!!!
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\textwidth]{Chapters/Figures/chapter3/CSD17308Q3_rdson.pdf}
+	\caption{$R_{DS(ON)}$ On-state resistance (m$\Omega$) as a function of the $V_{GS}$ gate-to-source voltage (V), for the CSD17308Q3 power MOSFET~\cite{CSD17308Q3}.}
+	\label{fig:CSD17308Q3_rdson}
+\end{figure}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\textwidth]{Chapters/Figures/chapter3/CSD17308Q3_gate_charge.pdf}
+	\caption{$V_{GS}$ gate-to-source voltage (V) as a function of the $Q_G$ gate charge (nC), for the CSD17308Q3 power MOSFET~\cite{CSD17308Q3}.}
+	\label{fig:CSD17308Q3_gate_charge}
+\end{figure}
 
 
+
+~\cite{LTC4012}~\cite{CSD17308Q3}
+
+
+%---------------------
+%%	EXPLICAR AQUI neste paragrafo a seguir! COMO FUNCIONA BOOTSTRAPPING
+%% NUM CONVERSOR DC/DC?
+%% SE SIM, VER OS SEGUINTES LINKS:
+%%
+%%        *****     I M P O R T A N T E     *****     
+%%                       BOOTSTRAP
+
+%% NESTE CASO, O datasheet DO LTC4012 NAO EXPLICA O FUNCIONAMENTO DO BOOTSTRAPPING, APENAS MENCIONA QUE EXISTE E OS DIODOS E CONDENSADORES A USAR. FOI ISSO QUE METI AQUI:
+\paragraph{The TGATE BOOST Supply}	The LTC4012 offers the possibility of assembling a bootstrapped supply through the BOOST input pin (pin 20), for the TGATE pin (pin 19). The latter is an output dedicated to the gate control of the external N-channel power switch (Q2 from Figure~\ref{fig:LTC4012_circuit}) used for the step-down DC/DC conversion. The bootstrapping is fully established with the connection of a capacitor and a diode to the BOOST pin, represented by components C4 and D3 in Figure~\ref{fig:LTC4012_circuit}, respectively. The C4 capacitor's value can be determined through expression (\ref{eq:c4_cap}),
+
+\begin{equation}\label{eq:c4_cap}
+	\,,\medskip
+\end{equation}
+depending on the rated gate charge of transistor Q2, with a gate-to-source voltage of $V_{GS}=4.5$V.
+
+
+-- the aforementioned 
+SW (Pin 18): PWM Switch Node. The LTC4012 uses the
+voltage on this pin as the source reference for its topside
+NFET (PWM switch) driver.
+
+TGATE (Pin 19): External NFET Switch Gate Control Output.
+This output provides gate drive to an external NMOS power
+transistor switch used in the DC/DC converter. Operating
+voltage range is GND to (CLN + 5V).
+
+BGATE (Pin 16): External Synchronous NFET Gate Control
+Output. This output provides gate drive to an external NMOS
+power transistor switch used for synchronous rectification
+to increase efficiency in the step-down DC/DC converter.
+Operating voltage is GND to INTVDD. BGATE should be
+left floating if not used.
+
+INTVDD (Pin 17): Internal 5V Regulator Output. This pin
+provides a means of bypassing the internal 5V regulator
+used to power the LTC4012 PWM FET drivers. This supply
+shuts down when the LTC4012 shuts down. Refer to the
+Application Information section for details if additional
+power is drawn from this pin by the application circuit.
+
+BOOST (Pin 20): TGATE Driver Supply Input. A bootstrap
+capacitor is returned to this pin from a charge network
+connected to SW and INTVDD. Refer to the Applications
+Information section for complete details on circuit topology
+and component values. Operating voltage ranges from
+(INTVDD - 1V) to (CLN + 5V).
+
+~\cite{LTC4012}
 % REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
 \subsubsection{Battery Balancer}\label{sec:3212_BQ29209}
