@@ -313,9 +313,9 @@ Considering the low voltage rise needed on DCIN to activate the charger's functi
 %	L1>...
 Since the battery pack's 1C rate is equal to $I_{MAX}=1,020$mA, according to (\ref{eq:r_sense}), $R_{SENSE}$ must be equal to 98m$\Omega$. These values are consistent with the suggested ones displayed in Table~\ref{tab:typ_inductor_values}~\cite{LTC4012}.
 
-\paragraph{FET Selection}	The top and bottom FETs are gate-driven by the TGATE and BGATE control outputs, respectively. Both are supposed to be N-channel type power MOSFETs, with the top FET being used as a power switch and the bottom FET as synchronous rectifier. The LTC4012 datasheet also enumerate several key specifications to pay attention to when selecting both transistors, namely: the $R_{DS(ON)}$ channel resistance, the $Q_G$ total gate charge, the $C_{RSS}$ reverse transfer capacitance, the $B_{V_{DSS}}$ maximum rated drain-source voltage and characteristics referring to the switching such as $t_{d(ON/OFF)}$. Besides this, it should be noted that the maximum gate-to-source FET drive levels are originally defined around 5V, which imperatively requires logic-level FETs to be selected.
+\paragraph{FET Selection}	The top and bottom FETs are gate-driven by the TGATE and BGATE control outputs, respectively. Both are critical for the operation of the IC and must be N-channel power MOSFETs, with the top FET being used as a power switch and the bottom FET as synchronous rectifier. The LTC4012 datasheet also enumerates several key specifications to pay attention to when selecting both transistors, namely: the $R_{DS(ON)}$ channel resistance, the $Q_G$ total gate charge, the $C_{RSS}$ reverse transfer capacitance, the $B_{V_{DSS}}$ maximum rated drain-source voltage and characteristics referring to the switching operation, such as $t_{d(ON/OFF)}$. Besides this, it should be noted that the maximum gate-to-source FET drive levels are originally defined around 5V, which imperatively requires logic-level FETs to be selected.
 
-In the LTC4012 datasheet, the proposed transistors to use as the top and bottom FET are the models marketed as Si7212DN, SiA914DJ and Si4816BDY, all by manufacturer Vishay Intertechnology. However, at the PCB component purchase stage, none of these models were available to purchase via authorized distributors, and thus the previously mentioned key specifications of the MOSFET model Si7212DN were taken as guidelines to help find a substitute for this power switch. It is also specified in the documentation that the best LTC4012 operation takes place when using power FETs witch a $Q_G$ total gate charge of 15nC or less at 5V, and that the $B_{V_{DSS}}$ maximum rated drain-source voltage of the transistor selected should exceed the maximum $V_{CLP}$ that may occur -- in this case it should comfortably exceed 15V. Table~\ref{tab:top_FET_comparison} presents a comparison of the key specifications between both these models.
+In the LTC4012 datasheet, the proposed transistors to use as the top and bottom FET are the models marketed as Si7212DN, SiA914DJ and Si4816BDY, all by manufacturer Vishay Intertechnology. However, at the PCB component purchase stage of the project, none of these models were available to purchase via authorized distributors, and thus the previously mentioned key specifications of the MOSFET model Si7212DN were taken as guidelines to help find a substitute for this power FET. It is also specified in the documentation that the best LTC4012 operation takes place when using power FETs with a $Q_G$ total gate charge of 15nC or less at 5V, and that the $B_{V_{DSS}}$ maximum rated drain-source voltage of the transistor selected should exceed the maximum $V_{CLP}$ that may occur -- in this case it should comfortably exceed 15V. Table~\ref{tab:top_FET_comparison} presents a comparison of the key specifications between both of these models.
 
 \begingroup
 \begin{table}[h]
@@ -365,7 +365,7 @@ In the LTC4012 datasheet, the proposed transistors to use as the top and bottom 
 At the time of component research, a well-suited power FET found in stock at authorized distributors was the CSD17308Q3 model by manufacturer Texas Instruments, whose key specifications were checked in relation to the Si7212DN model. The $R_{DS(ON)}$ channel resistance of the CSD17308Q3 model sits at around 9m$\Omega$ for a $V_{GS}$ gate-to-source voltage of 5V -- the originally-defined peak FET drive level --, according to Figure~\ref{fig:CSD17308Q3_rdson}, whereas the same specification for the Si7212DN model is typically around 32m$\Omega$ (more than three-and-a-half times larger).
 Once the LTC4012 starts its operation, the power dissipation on the top FET can be calculated by multiplying this same $R_{DS(ON)}$ on-state resistance by the square of its drain current ($I_D$).
 
-Figure~\ref{fig:CSD17308Q3_gate_charge} presents the evolution of the CSD17308Q3 FET's $V_{GS}$ gate-to-source voltage as a function of the $Q_G$ gate charge, and when analysed, a $Q_G$ of about 4.25nC is verifiable for a gate-to-source voltage of 5V, lower than the same measure for the Si7212DN counterpart (which is typically 7nC). Therefore, besides this value being lower than 15nC, it is also a strong indication that the switching time window of this FET will be small and therefore able to keep up with the high PWM nominal frequency of 550kHz, which also implies a low switching loss.
+Figure~\ref{fig:CSD17308Q3_gate_charge} presents the evolution of the CSD17308Q3 FET's $V_{GS}$ gate-to-source voltage as a function of the $Q_G$ gate charge, and when analysed, a $Q_G$ of about 4.25nC is verifiable for a gate-to-source voltage of 5V, lower than this same measure for the Si7212DN counterpart, which is typically 7nC. Therefore, besides this value being lower than 15nC, it is also a strong indication that the switching time window of this FET will be small and therefore able to keep up with the high PWM nominal frequency of 550kHz, which also implies low switching loss.
 
 %tentar juntar as duas figuras lado a lado!!!!!!!
 \begin{figure}[h]
@@ -381,7 +381,7 @@ Figure~\ref{fig:CSD17308Q3_gate_charge} presents the evolution of the CSD17308Q3
 	\label{fig:CSD17308Q3_gate_charge}
 \end{figure}
 
-According to Figure~\ref{fig:CSD17308Q3_crss} taken from~\cite{CSD17308Q3}, the reverse transfer capacitance ($C_{RSS}$, also known as Miller capacitance) for a $V_{DS}$ of 15V in the CSD17308Q3 model is, typically, 27pF, which is about half of this same measure for the Si7212DN model (readable as being around 50pF in the graph of Figure~\ref{fig:Si7212DN_crss}). $C_{RSS}$ corresponds to the gate-to-drain parasitic capacitance ($C_{gd}$), and therefore it is important for its value to be as low as possible, in order to reduce gain losses when working with high frequency values -- clearly the case for the PWM operating frequency.
+According to Figure~\ref{fig:CSD17308Q3_crss} taken from~\cite{CSD17308Q3}, the reverse transfer capacitance ($C_{RSS}$, also known as Miller capacitance) for a $V_{DS}$ of 15V in the CSD17308Q3 model is, typically, 27pF, which is about half of this same measure for the Si7212DN model (measured at around 50pF, visible on the graph of Figure~\ref{fig:Si7212DN_crss}). $C_{RSS}$ corresponds to the gate-to-drain parasitic capacitance ($C_{gd}$), and therefore it is important for its value to be as low as possible, in order to reduce gain losses when working with high frequency values -- clearly the case for the PWM operating frequency.
 
 %tentar juntar as duas figuras lado a lado!!!!!!!
 %meter imagem CSD17308Q3_crss:
@@ -401,10 +401,9 @@ According to Figure~\ref{fig:CSD17308Q3_crss} taken from~\cite{CSD17308Q3}, the 
 
 Regarding the $B_{V_{DSS}}$ maximum rated drain-source voltage -- also known as the reverse breakdown voltage --, there is not a particularly advatageous FET to be chosen, since this value is equal for both models, sitting at 30V. It also comfortably exceeds the projected $V_{CLP}$ maximum of 15V.
 
-Finally, when it comes to the devices' actual switching characteristics, namely time-related, the CSD17308Q3 model once again trumps the Si7212DN model, since both the turn-on and turn-off delay times ($t_{d(ON)}$ and $t_{d(OFF)}$, respectively), as well as the rise time ($t_r$), never typically surpass double digits for the former, whereas those same specifications are substantially higher for the latter.
+Finally, when it comes to the devices' actual switching characteristics, namely time-related, the CSD17308Q3 model once again trumps the Si7212DN model, since both the turn-on and turn-off delay times ($t_{d(ON)}$ and $t_{d(OFF)}$, respectively), as well as the rise time ($t_r$), never typically surpass double digits for the substituting model, whereas those same specifications are substantially higher for the suggested model.
 
-The selection of the CSD17308Q3 model can thus be looked forward to as the switch FET for the buck converter topology~\cite{LTC4012,CSD17308Q3,Si7212DN}.
-
+The selection of the CSD17308Q3 MOSFET can thus be looked forward to as the switch FET for the buck converter topology~\cite{LTC4012,CSD17308Q3,Si7212DN}.
 
 %---------------------
 %%	EXPLICAR AQUI neste paragrafo a seguir! COMO FUNCIONA BOOTSTRAPPING
@@ -413,55 +412,78 @@ The selection of the CSD17308Q3 model can thus be looked forward to as the switc
 %%        *****     I M P O R T A N T E     *****     
 %%                       BOOTSTRAP
 
-%% NESTE CASO, O datasheet DO LTC4012 NAO EXPLICA O FUNCIONAMENTO DO BOOTSTRAPPING, APENAS MENCIONA QUE EXISTE E OS DIODOS E CONDENSADORES A USAR. FOI ISSO QUE METI AQUI:
+%% NESTE CASO, O datasheet DO LTC4012 NAO EXPLICA O FUNCIONAMENTO DO BOOTSTRAPPING, APENAS MENCIONA QUE EXISTE E OS DIODOS E CONDENSADORES A USAR. FOI ISSO QUE METI AQUI neste parágrafo.
 
+%------------------------
+% usar isto que está aqui para explicar o BOOTSTRAP:
+% -- the aforementioned 
+% SW (Pin 18): PWM Switch Node. The LTC4012 uses the
+% voltage on this pin as the source reference for its topside
+% NFET (PWM switch) driver.
+
+% TGATE (Pin 19): External NFET Switch Gate Control Output.
+% This output provides gate drive to an external NMOS power
+% transistor switch used in the DC/DC converter. Operating
+% voltage range is GND to (CLN + 5V).
+
+% BGATE (Pin 16): External Synchronous NFET Gate Control
+% Output. This output provides gate drive to an external NMOS
+% power transistor switch used for synchronous rectification
+% to increase efficiency in the step-down DC/DC converter.
+% Operating voltage is GND to INTVDD. BGATE should be
+% left floating if not used.
+
+% INTVDD (Pin 17): Internal 5V Regulator Output. This pin
+% provides a means of bypassing the internal 5V regulator
+% used to power the LTC4012 PWM FET drivers. This supply
+% shuts down when the LTC4012 shuts down. Refer to the
+% Application Information section for details if additional
+% power is drawn from this pin by the application circuit.
+
+% BOOST (Pin 20): TGATE Driver Supply Input. A bootstrap
+% capacitor is returned to this pin from a charge network
+% connected to SW and INTVDD. Refer to the Applications
+% Information section for complete details on circuit topology
+% and component values. Operating voltage ranges from
+% (INTVDD - 1V) to (CLN + 5V).
+%------------------------
 
 %							PAREI AQUI!!!!!!!!!!!!!!!!!!
 
-
-\paragraph{The TGATE BOOST Supply}	The LTC4012 offers the possibility of assembling a bootstrapped supply through the BOOST input pin (pin 20), for the TGATE pin (pin 19). The latter is an output dedicated to the gate control of the external N-channel power switch (Q2 from Figure~\ref{fig:LTC4012_circuit}) used for the step-down DC/DC conversion. The bootstrapping is fully established with the connection of a capacitor and a diode to the BOOST pin, represented by components C4 and D3 in Figure~\ref{fig:LTC4012_circuit}, respectively. The C4 capacitor's value can be determined through expression (\ref{eq:c4_cap}),
+							% a cena do BOOTSTRAP tem de entrar depois do \paragraph. Depois posso começar a dizer o que ja está aqui. Exemplo: *BOOTSTRAP EXPLICAÇAO breve*. The LTC4012 offers the possibility...
+\paragraph{The TGATE BOOST Supply and Diode Selection}	The LTC4012 offers the possibility of assembling a bootstrapped supply on the BOOST input pin (pin 20), for the 19th pin of the IC, TGATE. The latter is an output dedicated to the gate control of the external N-channel power switch (Q2 from Figure~\ref{fig:LTC4012_circuit}) used for the step-down DC/DC conversion. The bootstrapping is fully established with the connection of a capacitor and a Schottky diode to the BOOST pin, represented by components C4 and D3 in Figure~\ref{fig:LTC4012_circuit}, respectively, as well as a second capacitor, C6, connected between the INTVDD pin and GND. The C4 capacitor's value can be determined through expression (\ref{eq:c4_cap}),
 
 \begin{equation}\label{eq:c4_cap}
-	\,,\medskip
+	C4=\frac{20 \cdot Q_G}{4.5\textrm{V}}\,,\medskip
 \end{equation}
-depending on the rated gate charge of transistor Q2, with a gate-to-source voltage of $V_{GS}=4.5$V.
+from which the C6's value is calculated:
 
+\begin{equation}\label{eq:c6_cap}
+	C6=20 \cdot C4\,\medskip
+\end{equation}
 
--- the aforementioned 
-SW (Pin 18): PWM Switch Node. The LTC4012 uses the
-voltage on this pin as the source reference for its topside
-NFET (PWM switch) driver.
+\noindent For expression (\ref{eq:c4_cap}), $Q_G$ refers to the rated gate charge for the CSD17308Q3 power FET, for $V_{GS}=4.5$V; after referring once again to Figure~\ref{fig:CSD17308Q3_gate_charge}, approximately 17nF result for C4. C6 will therefore be valued at approximately $0.35 \mu$F. Referring to the INTVDD pin, which corresponds to the internal 5V regulator output, the LTC4012 application information suggests a bypass of this regulator with a ceramic capcitor to GND; a value of $0.47 \mu$F or larger is suggested. The original application information's capacitor suggestions for the bootstrapped BOOST pin's components were therefore taken. Higher values than the ones calculated for both C4 and C6 capacitors were used, namely $\textrm{C4}=0.1 \mu$F and $\textrm{C6}=2 \mu$F. C6 also serves as the ceramic bypass capacitor of the INTVDD regulator output.
+%explicar pq é que nao faz mal meter C4=0.1uF e C6=2uF...
 
-TGATE (Pin 19): External NFET Switch Gate Control Output.
-This output provides gate drive to an external NMOS power
-transistor switch used in the DC/DC converter. Operating
-voltage range is GND to (CLN + 5V).
+The Schottky diode selected for D3 was the CMDSH-3 model suggested by the LTC4012 datasheet, and it is connected between pins BOOST and INTVDD.
+The use of such diode increases the $V_{GS}$ voltage applied to the top FET, since the forward voltage drop on these components tends to be lower when compared with silicon diodes.
+This specification allows the diode to consume less power, dissipating less heat, and therefore it is a more efficient way to block the reverse flow of current, also subsequently improving the converter's efficiency itself.
 
-BGATE (Pin 16): External Synchronous NFET Gate Control
-Output. This output provides gate drive to an external NMOS
-power transistor switch used for synchronous rectification
-to increase efficiency in the step-down DC/DC converter.
-Operating voltage is GND to INTVDD. BGATE should be
-left floating if not used.
+The use of another diode is necessary, this time in parallel with the bottom FET, being a Schottky model again advised. Besides the lower power consumption, this type of diode has a fast reverse recovery time, which present an advantage when used in fast switching applications. It is represented in the circuit of Figure~\ref{fig:LTC4012_circuit} by D4. The suggested model by the typical application circuit present in the LTC4012 datasheet is the MBR230LSFT1, but at the component selection phase, it was unavailable, and therefore the similar SS34FA model was selected. It should be noted that this Schottky diode presents an extra advantage, as it was designed to have an $I_R$ reverse current of $500 \mu$A, half of the same specification for the MBR230LSFT1 model.
 
-INTVDD (Pin 17): Internal 5V Regulator Output. This pin
-provides a means of bypassing the internal 5V regulator
-used to power the LTC4012 PWM FET drivers. This supply
-shuts down when the LTC4012 shuts down. Refer to the
-Application Information section for details if additional
-power is drawn from this pin by the application circuit.
+Lastly, the placement of a final Schottky diode is also advised between the system power node (i.e. the PWR\_LTC net) and the BAT pin of the LTC4012 (i.e. the VBAT net). This diode is intended as a means to prevent the flow of current from the external power adapater to the battery terminal, while also aiding in the powering of the load applied to the subsequent circuit when said adapter is unconnected~\cite{LTC4012,CSD17308Q3}.
 
-BOOST (Pin 20): TGATE Driver Supply Input. A bootstrap
-capacitor is returned to this pin from a charge network
-connected to SW and INTVDD. Refer to the Applications
-Information section for complete details on circuit topology
-and component values. Operating voltage ranges from
-(INTVDD - 1V) to (CLN + 5V).
+\paragraph{Loop Compensation and Soft-Start} %ler a partir de "Soft-Start" para entender os 3 loops de PWM -- pag. 12-15
 
-~\cite{LTC4012}
-% REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
+The three separate PWM control loops of the LTC4012 (current, voltage or adapter limit) can be compensated by a single set of components attached between the ITH pin and GND. As shown in the typical LTC4012 application, a 6.04k resistor in series with a capacitor of at least 0.1uF provides adequate loop compensation for the majority of applications.
+The LTC4012 can be soft-started with the compensation capacitor on the ITH pin. At start-up, ITH will quickly rise to about 0.25V, then ramp up at a rate set by the compensation capacitor and the 40uA ITH bias current.
+The full programmed charge current will be reached when ITH reaches approximately 2V. With a 0.1uF capacitor, the time to reach full charge current is usually greater than 1.5ms.
+This capacitor can be increased if longer start-up times are required, but loop bandwidth and dynamic response will be reduced~\cite{LTC4012}.
+
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
 \subsubsection{Battery Balancer}\label{sec:3212_BQ29209}
+
+Since the battery pack to be used for this project relies on two equal Li-ion cells (in a 2-Series cell configuration), in order to 
 
 % meter aqui circuito do BQ29209
 \begin{figure}[h]
@@ -472,6 +494,20 @@ and component values. Operating voltage ranges from
 \end{figure}
 
 % REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
+
+%s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
+\subsubsection{Power Switch}\label{sec:3214_SWITCH}
+
+% meter aqui circuito do Power SWITCH
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/Power_Switch.pdf}
+	\caption{beRTK\textsuperscript{\textregistered} Base Station's Power Switch schematic diagram.}
+	\label{fig:SWITCH_circuit}
+\end{figure}
+
+% REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
+
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
 \subsubsection{Voltage Converter}\label{sec:3213_AP64501}
 
@@ -486,18 +522,7 @@ and component values. Operating voltage ranges from
 PWM is also used in efficient voltage regulators. By switching voltage to the load with the appropriate duty cycle, the output will approximate a voltage at the desired level. The switching noise is usually filtered with an inductor and a capacitor. - % wikipedia!
 
 % REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
-%s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
-\subsubsection{Power Switch}\label{sec:3214_SWITCH}
 
-% meter aqui circuito do Power SWITCH
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/Power_Switch.pdf}
-	\caption{beRTK\textsuperscript{\textregistered} Base Station's Power Switch schematic diagram.}
-	\label{fig:SWITCH_circuit}
-\end{figure}
-
-% REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
 %sSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsS
 \subsection{Control}\label{sec:322_CONTROL}
 	%mini introdução
@@ -540,6 +565,9 @@ PWM is also used in efficient voltage regulators. By switching voltage to the lo
 	\caption{beRTK\textsuperscript{\textregistered} Base Station's HMI schematic diagram.}
 	\label{fig:HMI_circuit}
 \end{figure}
+
+%https://www.farnell.com/datasheets/2702810.pdf - Diodo Zener 15V - explicar porque e que escolhi 15V...
+%https://www.youtube.com/watch?v=GtH8lAzQf2A&ab_channel=GreatScott%21
 
 % REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
 
