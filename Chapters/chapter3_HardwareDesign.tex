@@ -133,6 +133,8 @@ Figure~\ref{fig:battery2S} and Table~\ref{tab:battery2S} show a close-up represe
 		\midrule
 		Maximum Charge Current (not for life cycle) & 2,000mA \\
 		\midrule
+		Minimum Charge Current & 68mA \\
+		\midrule
 		Maximum Discharge Current (continuous discharge) & 8,000mA \\
 		\midrule
 		Maximum Discharge Current (not for continuous discharge) & 13,000mA \\
@@ -484,13 +486,9 @@ This capacitor can be increased if longer start-up times are required, but loop 
 
 \subsubsection{Battery Balancer}\label{sec:3212_BQ29209}
 
-The battery pack used for this project relies on two equal Li-ion cells disposed in a 2-Series cell configuration, which imperatively requires cell balancing -- a specific technique used for preserving the batteries' health, i.e. their life cycle. Although the two cells used for the backup pack are the same model, there will certainly be discrepancies between them, since no two batteries are the same, which translates in different levels for the \gls{SoC} of both cells. Such problem requires a way not to allow the draining of any cell below its rated cut-off voltage (in the case of the INR18650-35E call, 2.65V, as presented in Table~\ref{tab:battery2S}) or overcharging past the 4.20V ($\pm0.05$V) termination voltage limit. Texas Instruments offers a low-power solution for this: the BQ29209 is an IC capable of providing automatic cell balance for 2-series cell Li-ion battery packs, along with overvoltage protection. The cell balancing is achieved through the comparison of each cell's voltage, enabling and disabling the feature when nominal differences of 30mV (or more) or 0mV, respectively, are detected.
+The battery pack used for this project relies on two equal Li-ion cells disposed in a 2-Series cell configuration, which imperatively requires cell balancing -- a specific technique used for preserving the batteries' health, i.e. their life cycle. Although the two cells used for the backup pack are the same model, there will certainly be discrepancies between them, since no two batteries are the same, which translates in different levels for the \gls{SoC} of both cells. Such problem requires a way not to allow the draining of any cell below its rated cut-off voltage (in the case of the INR18650-35E cell, 2.65V, as presented in Table~\ref{tab:battery2S}) or overcharging past the 4.20V ($\pm0.05$V) termination voltage limit. Texas Instruments offers a low-power solution for this: the BQ29209 is an IC capable of providing automatic cell balance for 2-series cell Li-ion battery packs, along with overvoltage protection. The cell balancing is achieved through the comparison of each cell's voltage, enabling and disabling the feature when nominal differences of 30mV (or more) or 0mV, respectively, are detected.
 
-The BQ29209's datasheet (\cite{bq29209}) provides a typical application circuit, as well as some application notes. %falar de como fiz o typical application circuit:
-
-
-%             caso seja possivel dizer a ALTERNATIVA, DIZ-SE, senao diz se da maneira que se fez originalmente.
-%However, the typical application circuit cannot be implemented for the new beRTK\textsuperscript{\textregistered} Base Station, since the internal system can only support cell balancing currents of up to 15mA, which would not cause any reaction within the cell, since its minimum charge current is 68mA. Therefore,~\cite{bq29209} provides an application circuit capable of supporting a cell balancing current higher than 15mA, which was adapted for this project. This implementation is presented in Figure~\ref{fig:BQ29209_circuit}. %caso meta esta parte, descomentar o minimum charge current de 68mA da Table 3.1!
+BQ29209's datasheet (\cite{bq29209}) provides a typical application circuit, as well as some application notes. However, the typical application circuit cannot be implemented for the new beRTK\textsuperscript{\textregistered}, since the internal system of this battery balancer can only support cell balancing currents of up to 15mA, which would not cause any kind of reaction within the INR18650-35E cells used, since their minimum charge current is 68mA. Therefore,~\cite{bq29209} provides an application circuit capable of supporting a cell balancing current higher than 15mA, which was adapted for this project. This implementation is presented in Figure~\ref{fig:BQ29209_circuit}. %caso meta esta parte, descomentar o minimum charge current de 68mA da Table 3.1!
 
 % meter aqui circuito do BQ29209
 \begin{figure}[H]
@@ -500,31 +498,25 @@ The BQ29209's datasheet (\cite{bq29209}) provides a typical application circuit,
     \label{fig:BQ29209_circuit}
 \end{figure}
 
-The circuit of Figure~\ref{fig:BQ29209_circuit} is valid for a $V_{DD}$ supply voltage that ranges from 4V to 10V. In this case, $V_{DD}$ is equal to the battery pack's maximum voltage of 8.40V, meeting the spec. 
+The circuit of Figure~\ref{fig:BQ29209_circuit} is valid for a $V_{DD}$ supply voltage that ranges from 4V to 10V. In this case, the BQ29209 IC is powered by the battery pack, and therefore $V_{DD}$ is approximately equal to the battery pack's voltage (due to the 100$\Omega$ R48 resistor), which will always be maintained within the intended voltage supply range. This same circuit also ensures that, due to FETs Q3 (NMOS) and Q10 (PMOS), a higher cell balancing current can safely be established, being it defined by either cell's voltage, along with resistor R4:
 
+\begin{equation}\label{eq:IBAL}
+	I_{BAL}=\frac{V_{Cell}}{R4}\,\medskip
+\end{equation}
 
-7.3 Recommended Operating Conditions
-%aqui ver os valores maximos para RIN CIN RCB e RVD e CVD e CCD
-7.6. Recommended Cell Balancing Configurations
-Typical values stated where. . .
-dizer aqui que meti RCB de 4.7k$\Omega$, so that the maximum cell balancing current that would run through the cells would not exceed 
-7.7 meter um grafico ? talvez o da Figure 2, para falar da corrente de descarga
+\noindent It should be noted that resistor R54's purpose lies on ensuring that both ``balancing'' FETs will remain off while cell balancing is not taking place and should be selected with a value above 2k$\Omega$.
 
-8.3.3 The recommended cell connection sequence begins from the bottom of the stack, as follows:
-1. GND
-2. VC1
-3. VC2
+\cite{bq29209} clarifies that the BQ29209 ensures cell balancing on the cell that presents the higher voltage of the pack.
+Taking into account that recommended cell arrangement sequence (from the bottom of the stack) of GND--Cell1--Cell2 (i.e. from pin 3 to pin 1 of connector F9 -- Figure~\ref{fig:BQ29209_circuit}) was followed, the balancing of Cell1 would start by pulling pin VC1\_CB of BQ29209 to GND, therefore setting PMOS Q10's gate-source voltage at around $-V_{Cell1}$. This would cause a balancing current of $I_{BAL1}=\frac{V_{Cell1}}{R4}$. Conversely, if Cell2 were in need of balancing, VC1\_CB would instead be pulled to $V_{DD}$, thus setting Q3's gate voltage at around $V_{Cell1}+V_{Cell2}$, which translates into a gate-source voltage of approximately $V_{Cell2}$, having the source voltage being set at around $V_{Cell1}$. With this, resorting again to equation (\ref{eq:IBAL}), a cell balancing current of $I_{BAL2}=\frac{V_{Cell2}}{R4}$ results. In order to set a balancing current for each cell that would always surpass the minimum charge current of 68mA, a value of 20$\Omega$ was sized for R4. 
 
-%ou posso mentir e dizer que fiz como esta no esquematico recomendado, omitindo sempre a corrente minima de carga da bateria;
-% ou posso colocar o circuito de 9.3.1 e dizer que meteria esse circuito.
+The remaining components' values were selected as to comply with the BQ29209 recommended operating conditions, except for the delay time capacitance, C55, which can be calculated based on a desired delay time ($t_d$) for the activation of the overvoltage protection feature -- expression (\ref{eq:CCD}) --, as well as on an overvoltage delay time scale factor, $X_{DELAY}$, expressed in $s/ \mu F$. It must be noted that the overvoltage protection feature is not indicated for the project's backup battery pack, since due to each cell's charging cycle termination voltage limit being 4.20V, this level will not meet the only two fixed overvoltage protection thresholds rated for the BQ20920x product family (4.30V or 4.35V, $\pm 0.25$mV) without causing damage overtime. Nevertheless, the delay time capacitance is still included in the circuit for a future version of the beRTK\textsuperscript{\textregistered} with different backup battery pack specifications.
 
-8.3.4 To avoid prematurely discharging the cells, it is recommended to turn off (pull high) the active-low Cell Balance
-Enable Control pin at lower State of Charge (SoC) levels.
+\begin{equation}\label{eq:CCD}
+	C55=\frac{t_d}{X_{DELAY}}\,\medskip
+\end{equation}
 
+\noindent As the nominal value for $X_{DELAY}$ is $9s/ \mu$F, a delay time capacitance of $0.33 \mu$F results.%parei aqui - agora explicar o OUT com o transistor que serve para a atualização adequada do SoC do battery pack, apos balanceamento.
 
-
-
-Final note: the overvoltage protection feature is not indicated for the project's backup battery pack, since due to each cell's charging cycle termination voltage limit being 4.20V, this level would not meet the only two fixed overvoltage protection thresholds rated for the BQ20920x product family (4.30V or 4.35V, $\pm 0.25$mV) without causing damage overtime.
 % REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
 
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
