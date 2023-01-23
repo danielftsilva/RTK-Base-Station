@@ -473,7 +473,7 @@ This specification allows the diode to consume less power, dissipating less heat
 
 The use of another diode is necessary, this time in parallel with the bottom FET, being a Schottky model again advised. Besides the lower power consumption, this type of diode has a fast reverse recovery time, which present an advantage when used in fast switching applications. It is represented in the circuit of Figure~\ref{fig:LTC4012_circuit} by D4. The suggested model by the typical application circuit present in the LTC4012 datasheet is the MBR230LSFT1, but at the component selection phase, it was unavailable, and therefore the similar SS34FA model was selected. It should be noted that this Schottky diode presents an extra advantage, as it was designed to have an $I_R$ reverse current of $500 \mu$A, half of the same specification for the MBR230LSFT1 model.
 
-Lastly, the placement of a final Schottky diode is also advised between the system power node (i.e. the PWR\_LTC net) and the BAT pin of the LTC4012 (i.e. the VBAT net). This diode is intended as a means to prevent the flow of current from the external power adapater to the battery terminal, while also aiding in the powering of the load applied to the subsequent circuit when said adapter is unconnected~\cite{LTC4012,CSD17308Q3}.
+Lastly, the placement of a final Schottky diode is also advised between the system power node (i.e. the PWR\_SUPPLY net) and the BAT pin of the LTC4012 (i.e. the VBAT net). This diode is intended as a means to prevent the flow of current from the external power adapater to the battery terminal, while also aiding in the powering of the load applied to the subsequent circuit when said adapter is unconnected~\cite{LTC4012,CSD17308Q3}.
 
 \paragraph{Loop Compensation and Soft-Start} %ler a partir de "Soft-Start" para entender os 3 loops de PWM -- pag. 12-15
 
@@ -519,19 +519,17 @@ The remaining components' values were selected as to comply with the BQ29209 rec
 
 It must be noted that the overvoltage protection feature is not indicated for the project's backup battery pack, since due to each cell's charging cycle termination voltage limit being 4.20V, this level will not meet the only two fixed overvoltage protection thresholds rated for the BQ2920x product family (4.30V or 4.35V, $\pm 0.25$mV) without causing damage overtime. Nevertheless, the delay time capacitance is still included in the circuit, for a future version of the beRTK\textsuperscript{\textregistered} with different backup battery pack specifications. Also concerning the overvoltage feature is the OUT output pin component setting, composed by a resistor and a MOSFET (R51 and Q7, respectively). The OUT output pin is initially set low, only switching to a high state when any cell reaches an overvoltage condition. This high state activates MOSFET Q7, shunting the battery power supply to ground in order to preserve health and life cycle of the cells.
 
-Regarding the indication of the state of the battery pack's voltage, MOSFETs Q6 and Q8 make up another switching system as the one presented in Section~\ref{sec:3213_SWITCH}, for the Power Switch circuit. Observing once more Figure~\ref{fig:BQ29209_circuit}, it can be seen that the VBAT net is constantly supplying the battery pack's voltage through resistor R50 to Q6's gate. Being Q6 a P-channel type MOSFET, it will act as an open switch when such voltage is fed to its gate. This will not allow the battery pack's voltage to be transferred to net VBAT\_STAT, a net intended to supply a comparator used to indicate the status of this same voltage (hereby defined as the ``status voltage'') -- explained in Section~\ref{sec:3231_BACKPANEL}. This status voltage is only fed to the voltage comparator of Figure~\ref{fig:HMI_circuit} (U6) upon the activation of MOSFET Q8 of the BQ29209 circuit (Figure~\ref{fig:BQ29209_circuit}). Assuming the battery pack is connected to the system, Q8 can be arbitrarily turned off or on, just by plugging in or out the external power adapter, respectively. In other words, when only the adapter is not connected, Q8 will be on, and therefore Q6 will be on as well. Conversely, upon plugging the external adapter in, the LTC4012's $\overline{\mbox{ACP}}$ open-drain output will be pulled to GND, turning both Q8 and Q6 FETs off, disabling the feeding of comparator U6 with the status voltage of the battery pack~\cite{bq29209}.
+Regarding the indication of the state of the battery pack's voltage, MOSFETs Q6 and Q8 make up another switching system as the one presented in Section~\ref{sec:3213_SWITCH}, for the Power Switch circuit. Observing once more Figure~\ref{fig:BQ29209_circuit}, it can be seen that the VBAT net is constantly supplying the battery pack's voltage through resistor R50 to Q6's gate. Being Q6 a P-channel type MOSFET, it will act as an open switch when such voltage is fed to its gate. This will not allow the battery pack's voltage to be transferred to net VBAT\_STAT, a net intended to supply a comparator used to indicate the status of this same voltage (hereby defined as the ``status voltage'') -- explained in Section~\ref{sec:3231_BACKPANEL}. This status voltage is only fed to the voltage comparator of Figure~\ref{fig:HMI_circuit} (U6) upon the activation of MOSFET Q8 of the BQ29209 circuit (Figure~\ref{fig:BQ29209_circuit}). Assuming the battery pack is connected to the system, Q8 can be arbitrarily turned off or on, just by plugging in or out the external power adapter, respectively. In other words, when only the adapter is not connected, Q8 will be on, and therefore Q6 will be on as well. Conversely, upon plugging the external adapter in, the LTC4012's $\overline{\mbox{ACP}}$ open-drain output will be pulled to GND, turning both Q8 and Q6 off, disabling the feeding of comparator U6 with the status voltage of the battery pack~\cite{bq29209}.
 
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
 
 \subsubsection{Power Switch}\label{sec:3213_SWITCH}
 
-The circuit in charge of switching the system's power on and off is represented in Figure~\ref{fig:SWITCH_circuit}.
-This circuit's function relies on an output signal by a D-type flip-flop -- named SN74LVC2G74DCTR, manufactured by Texas Instruments~\cite{SN74LVC2G74DCTR} --, which in turn allows or blocks the incoming power from either the external power adapter or the backup battery pack (i.e. from the PWR\_LTC net) to the voltage converter (Section~\ref{sec:3214_AP64501}), which powers the rest of the system.
-This flip-flop output signal is, in turn, controlled by a push-button located on the outside of the base station casing, and when pressed connects the GND net to the input pin of a single Schmitt-trigger inverter -- named 74AHC1G14, by Diodes Incorporated~\cite{74AHC1G14}.
-As this inverter has its supply voltage pin (pin 5 of 74AHC1G14) connected to the output of a low dropout regulator (LDO) -- MCP1790, by Microchip~\cite{MCP1790} --, its output voltage will be, when driven low, that same output voltage.
-With this, a positive voltage impulse is established on the CLK pin of the SN74LVC2G74DCTR, and since this flip-flop relies on a single positive-edge-triggered architecture, this action activates it, setting its Q output high
-%(as perTable~\ref{tab:SN74LVC2G74DCTR}),
-driving the gate of the Q5 NMOS, subsequently shunting Q4 PMOS's gate to GND, driving it as well. This allows power from the mentioned PWR\_LTC net to the 5V voltage regulator, i.e. to the PWR\_AP64501 net. When in this state, once the switch is pressed again, the flip-flop's Q output is set to low, successively shutting down both Q5 and Q4 MOSFETs, blocking the passage of power and thus shutting down the system.
+The circuit in charge of switching the system's power on and off is represented in Figure~\ref{fig:SWITCH_circuit}. Its function relies on an output signal set by a D-type flip-flop -- SN74LVC2G74DCTR, manufactured by Texas Instruments~\cite{SN74LVC2G74DCTR} --, which in turn allows or blocks the incoming power from either the external power adapter or the battery pack (i.e. from the PWR\_SUPPLY net) to the voltage converter (Section~\ref{sec:3214_AP64501}) that powers the rest of the system.
+This flip-flop output signal is, in turn, controlled by a push-button located on the outside of the base station casing, and when pressed connects the GND net to the input pin of a single Schmitt-trigger inverter -- 74AHC1G14, by Diodes Incorporated~\cite{74AHC1G14}.
+Since this inverter has its supply voltage pin (pin 5 of 74AHC1G14) connected to the output of a low dropout regulator (LDO) -- MCP1790, by Microchip~\cite{MCP1790} --, its output voltage will be, when driven low, that same output voltage.
+With this, a positive voltage impulse is established on the CLK pin of the SN74LVC2G74DCTR, and since it relies on a single positive-edge-triggered architecture, this action activates it, setting Q output to a high state, as per Table~\ref{tab:SN74LVC2G74DCTR}, driving the gate of the Q5 NMOS, subsequently shunting Q4 PMOS's gate to GND, driving it as well.
+This allows power from the mentioned PWR\_SUPPLY net to the 5V voltage regulator, i.e. to the PWR\_AP64501 net. When in this state, once the switch is pressed again, the flip-flop's Q output is set to low, successively shutting down both Q5 and Q4 MOSFETs, blocking the passage of power and thus shutting down the system.
 
 % meter aqui circuito do Power SWITCH:
 \begin{figure}[h]
@@ -542,49 +540,36 @@ driving the gate of the Q5 NMOS, subsequently shunting Q4 PMOS's gate to GND, dr
 \end{figure}
 
 % FAZER ESTA TABELA (seguir https://tex.stackexchange.com/questions/210232/center-text-over-multicolumn-in-table)
-% \begingroup
-% \begin{table}[h]
-%     \caption{SN74LVC2G74 functional modes~\cite{SN74LVC2G74DCTR}.}
-%     \label{tab:SN74LVC2G74DCTR}
-%     \centering%@{}l@{}@{}c@{}@{}c@{}@{}c@{}@{}c@{}
-%     % \setlength{\tabcolsep}{10pt} % Default value: 6pt
-%     % \renewcommand{\arraystretch}{1.5} % Default value: 1
-%     \begin{tabular}{cccc|cc}
-%         \toprule
-%         \textbf{Specification} & \textbf{Value} \\
-%         \midrule
-%         Manufacturer & Samsung SDI \\
-%         \midrule
-%         Model & INR18650-35E \\
-%         \midrule
-%         Size & 18650 \\
-%         \midrule
-%         Chemistry & Li-ion \\
-%         \midrule
-%         Capacity & 3,350mAh \\
-%         \midrule
-%         Charging Cycle Termination Voltage & 4.20V $\pm$ 0.05V \\
-%         \midrule
-%         Nominal Voltage & 3.60V \\
-%         \midrule
-%         Charging Current (standard charge) & 1,700mA \\
-%         \midrule
-%         Charging Current (for life cycle) & 1,020mA \\
-%         \midrule
-%         % Minimum Charge Current & 68mA \\
-%         % \midrule
-%         Maximum Charge Current (not for life cycle) & 2,000mA \\
-%         \midrule
-%         Maximum Discharge Current (continuous discharge) & 8,000mA \\
-%         \midrule
-%         Maximum Discharge Current (not for continuous discharge) & 13,000mA \\
-%         \midrule
-%         Discharge Cut-off Voltage & 2.65V \\
-%         \bottomrule
-%     \end{tabular}
-% \end{table}
-% \endgroup
-
+\begingroup
+\begin{table}[h]
+    \caption{SN74LVC2G74 functional modes~\cite{SN74LVC2G74DCTR}.}
+    \label{tab:SN74LVC2G74DCTR}
+    \centering%@{}l@{}@{}c@{}@{}c@{}@{}c@{}@{}c@{}
+    % \setlength{\tabcolsep}{10pt} % Default value: 6pt
+    % \renewcommand{\arraystretch}{1.5} % Default value: 1
+    \begin{tabular}{cccccccc}
+        \toprule
+		
+		\multicolumn{4}{c}{\textbf{Inputs}} &&& \multicolumn{2}{c}{\textbf{Outputs}} \\
+        \midrule
+        $\mathbf{\overline{\mbox{\textbf{PRE}}}}$ & $\mathbf{\overline{\mbox{\textbf{CLR}}}}$ & \textbf{CLK} & \textbf{D} &&& \textbf{Q} & $\mathbf{\overline{\mbox{\textbf{Q}}}}$ \\
+        \midrule
+		L & H & X & X &&& H & L \\
+		\midrule
+		H & L & X & X &&& L & H \\
+		\midrule
+		L & L & X & X &&& H & H \\
+		\midrule
+		H & H & $\uparrow$ & H &&& H & L \\
+		\midrule
+		H & H & $\uparrow$ & L &&& L & H \\
+		\midrule
+		H & H & L & X &&& Q$_0$ & $\overline{\mbox{Q$_0$}}$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\endgroup
+% parei aqui
 
 ~\cite{SN74LVC2G74DCTR}
 % REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!! ~SN74LVC2G74DCTR
