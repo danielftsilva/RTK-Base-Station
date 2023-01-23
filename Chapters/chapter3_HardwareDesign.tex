@@ -509,39 +509,24 @@ The circuit of Figure~\ref{fig:BQ29209_circuit} is valid for a $V_{DD}$ supply v
 \cite{bq29209} clarifies that the BQ29209 ensures cell balancing on the cell that presents the higher voltage of the pack.
 Taking into account that recommended cell arrangement sequence (from the bottom of the stack) of GND--Cell1--Cell2 (i.e. from pin 3 to pin 1 of connector F9 -- Figure~\ref{fig:BQ29209_circuit}) was followed, the balancing of Cell1 would start by pulling pin VC1\_CB of BQ29209 to GND, therefore setting PMOS Q10's gate-source voltage at around $-V_{Cell1}$. This would cause a balancing current of $I_{BAL1}=\frac{V_{Cell1}}{R4}$. Conversely, if Cell2 were in need of balancing, VC1\_CB would instead be pulled to $V_{DD}$, thus setting Q3's gate voltage at around $V_{Cell1}+V_{Cell2}$, which translates into a gate-source voltage of approximately $V_{Cell2}$, having the source voltage being set at around $V_{Cell1}$. With this, resorting again to equation (\ref{eq:IBAL}), a cell balancing current of $I_{BAL2}=\frac{V_{Cell2}}{R4}$ results. In order to set a balancing current for each cell that would always surpass the minimum charge current of 68mA, a value of 20$\Omega$ was sized for R4. 
 
-The remaining components' values were selected as to comply with the BQ29209 recommended operating conditions, except for the delay time capacitance, C55, which can be calculated based on a desired delay time ($t_d$) for the activation of the overvoltage protection feature -- expression (\ref{eq:CCD}) --, as well as on an overvoltage delay time scale factor, $X_{DELAY}$, expressed in $s/ \mu F$. It must be noted that the overvoltage protection feature is not indicated for the project's backup battery pack, since due to each cell's charging cycle termination voltage limit being 4.20V, this level will not meet the only two fixed overvoltage protection thresholds rated for the BQ20920x product family (4.30V or 4.35V, $\pm 0.25$mV) without causing damage overtime. Nevertheless, the delay time capacitance is still included in the circuit for a future version of the beRTK\textsuperscript{\textregistered} with different backup battery pack specifications.
+The remaining components' values were selected as to comply with the BQ29209 recommended operating conditions, except for the delay time capacitance, C55, which can be calculated based on a desired delay time ($t_d$) for the activation of the overvoltage protection feature -- expression (\ref{eq:CCD}) --, as well as on an overvoltage delay time scale factor, $X_{DELAY}$, expressed in $s/ \mu F$.
 
 \begin{equation}\label{eq:CCD}
 	C55=\frac{t_d}{X_{DELAY}}\,\medskip
 \end{equation}
 
-\noindent As the nominal value for $X_{DELAY}$ is $9s/ \mu$F, a delay time capacitance of $0.33 \mu$F results.%parei aqui - agora explicar o OUT com o transistor que serve para a atualização adequada do SoC do battery pack, apos balanceamento.
+\noindent As the nominal value for $X_{DELAY}$ is $9s/ \mu$F, a delay time capacitance of $0.33 \mu$F results.
 
-% REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
+It must be noted that the overvoltage protection feature is not indicated for the project's backup battery pack, since due to each cell's charging cycle termination voltage limit being 4.20V, this level will not meet the only two fixed overvoltage protection thresholds rated for the BQ2920x product family (4.30V or 4.35V, $\pm 0.25$mV) without causing damage overtime. Nevertheless, the delay time capacitance is still included in the circuit, for a future version of the beRTK\textsuperscript{\textregistered} with different backup battery pack specifications. Also concerning the overvoltage feature is the OUT output pin component setting, composed by a resistor and a MOSFET (R51 and Q7, respectively). The OUT output pin is initially set low, only switching to a high state when any cell reaches an overvoltage condition. This high state activates MOSFET Q7, shunting the battery power supply to ground in order to preserve health and life cycle of the cells.
 
-%s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
-
-\subsubsection{Human-Machine Interface (HMI)}\label{sec:3213_BACKPANEL}
-
-% meter aqui circuito do BACKPANEL
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/Back_Panel.pdf}
-	\caption{beRTK\textsuperscript{\textregistered} Base Station's HMI schematic diagram.}
-	\label{fig:HMI_circuit}
-\end{figure}
-
-%https://www.farnell.com/datasheets/2702810.pdf - Diodo Zener 15V - explicar porque e que escolhi 15V...
-%https://www.youtube.com/watch?v=GtH8lAzQf2A&ab_channel=GreatScott%21
-
-% REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
+Regarding the indication of the state of the battery pack's voltage, MOSFETs Q6 and Q8 make up another switching system as the one presented in Section~\ref{sec:3213_SWITCH}, for the Power Switch circuit. Observing once more Figure~\ref{fig:BQ29209_circuit}, it can be seen that the VBAT net is constantly supplying the battery pack's voltage through resistor R50 to Q6's gate. Being Q6 a P-channel type MOSFET, it will act as an open switch when such voltage is fed to its gate. This will not allow the battery pack's voltage to be transferred to net VBAT\_STAT, a net intended to supply a comparator used to indicate the status of this same voltage (hereby defined as the ``status voltage'') -- explained in Section~\ref{sec:3231_BACKPANEL}. This status voltage is only fed to the voltage comparator of Figure~\ref{fig:HMI_circuit} (U6) upon the activation of MOSFET Q8 of the BQ29209 circuit (Figure~\ref{fig:BQ29209_circuit}). Assuming the battery pack is connected to the system, Q8 can be arbitrarily turned off or on, just by plugging in or out the external power adapter, respectively. In other words, when only the adapter is not connected, Q8 will be on, and therefore Q6 will be on as well. Conversely, upon plugging the external adapter in, the LTC4012's $\overline{\mbox{ACP}}$ open-drain output will be pulled to GND, turning both Q8 and Q6 FETs off, disabling the feeding of comparator U6 with the status voltage of the battery pack~\cite{bq29209}.
 
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
 
-\subsubsection{Power Switch}\label{sec:3214_SWITCH}
+\subsubsection{Power Switch}\label{sec:3213_SWITCH}
 
 The circuit in charge of switching the system's power on and off is represented in Figure~\ref{fig:SWITCH_circuit}.
-This circuit's function relies on an output signal by a D-type flip-flop -- named SN74LVC2G74DCTR, manufactured by Texas Instruments~\cite{SN74LVC2G74DCTR} --, which in turn allows or blocks the incoming power from either the external power adapter or the backup battery pack (i.e. from the PWR\_LTC net) to the voltage converter (Section~\ref{sec:3215_AP64501}), which powers the rest of the system.
+This circuit's function relies on an output signal by a D-type flip-flop -- named SN74LVC2G74DCTR, manufactured by Texas Instruments~\cite{SN74LVC2G74DCTR} --, which in turn allows or blocks the incoming power from either the external power adapter or the backup battery pack (i.e. from the PWR\_LTC net) to the voltage converter (Section~\ref{sec:3214_AP64501}), which powers the rest of the system.
 This flip-flop output signal is, in turn, controlled by a push-button located on the outside of the base station casing, and when pressed connects the GND net to the input pin of a single Schmitt-trigger inverter -- named 74AHC1G14, by Diodes Incorporated~\cite{74AHC1G14}.
 As this inverter has its supply voltage pin (pin 5 of 74AHC1G14) connected to the output of a low dropout regulator (LDO) -- MCP1790, by Microchip~\cite{MCP1790} --, its output voltage will be, when driven low, that same output voltage.
 With this, a positive voltage impulse is established on the CLK pin of the SN74LVC2G74DCTR, and since this flip-flop relies on a single positive-edge-triggered architecture, this action activates it, setting its Q output high
@@ -606,7 +591,7 @@ driving the gate of the Q5 NMOS, subsequently shunting Q4 PMOS's gate to GND, dr
 
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
 
-\subsubsection{Voltage Converter}\label{sec:3215_AP64501}
+\subsubsection{Voltage Converter}\label{sec:3214_AP64501}
 
 Most of the main ICs of the base station run on a 5VDC. The best way to achieve that voltage level in this project is through the use of another DC-to-DC buck converter. The AP64501 (by Diodes Incorporated) synchronous buck converter was the selected part to establish the necessary 5V supply. This device's operation follows a PWM architecture at a typical switching frequency of 570kHz, being able to supply 5V, 12V or 24V, as well as up to 5A of continuous output current. It also generates a low quiescent current, which is very important since this IC is powered either from the external power adapter or the battery pack; a higher quiescent current could result in a non-negligible and unnecessary drain of the battery pack.
 
@@ -663,7 +648,24 @@ PWM is also used in efficient voltage regulators. By switching voltage to the lo
 
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
 
-\subsubsection{GNSS Receiver, RTK Radio Link and Wi-Fi Transceiver}\label{sec:3231_ZEDF9P_XBEE3}
+\subsubsection{Human-Machine Interface (HMI)}\label{sec:3231_BACKPANEL}
+
+% meter aqui circuito do BACKPANEL
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/Back_Panel.pdf}
+	\caption{beRTK\textsuperscript{\textregistered} Base Station's HMI schematic diagram.}
+	\label{fig:HMI_circuit}
+\end{figure}
+
+%https://www.farnell.com/datasheets/2702810.pdf - Diodo Zener 15V - explicar porque e que escolhi 15V...
+%https://www.youtube.com/watch?v=GtH8lAzQf2A&ab_channel=GreatScott%21
+
+% REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
+
+%s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
+
+\subsubsection{GNSS Receiver, RTK Radio Link and Wi-Fi Transceiver}\label{sec:3232_ZEDF9P_XBEE3}
 
 % meter aqui circuito do ZEDF9P_XBEE3
 \begin{figure}[h]
@@ -676,7 +678,7 @@ PWM is also used in efficient voltage regulators. By switching voltage to the lo
 % REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
 
-\subsubsection{USB Hub}\label{sec:3232_LAN9514}
+\subsubsection{USB Hub}\label{sec:3233_LAN9514}
 
 % meter aqui circuito do USB_Hub_1
 \begin{figure}[h]
