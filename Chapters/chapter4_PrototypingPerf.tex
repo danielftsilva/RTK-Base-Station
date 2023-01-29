@@ -23,6 +23,14 @@ It should be noted that, for the top and bottom FET selection stage, the Si7212D
 %como nao foi relevante, ate agora ainda nao disse que MOSFETs selecionei para o power switch: Q4 e Q5.
 %Q3, Q10, Q6, Q8 -- BQ29209
 
+% AP64501:
+Recalling Section~\ref{sec:3214_AP64501}, it is stated that the closest commercially available values of 11k$\Omega$ and 2.7k$\Omega$ were selected for R10 and R13, respectively, at the prototyping phase. Following expressions (\ref{eq:R10}) and (\ref{eq:R13}), these values allow the expected $V_{ON}$ and $V_{OFF}$ values.
+    % inductor L2:
+    Meter Eq. 9 do datasheet do AP64501;
+    
+    Peak current determines the required saturation current rating, which influences the size of the inductor. Saturating the inductor decreases the converter efficiency while increasing the temperatures of the inductor and the internal power MOSFETs. Therefore, choosing an inductor with the appropriate saturation current rating is important. 
+    It is recommended by \cite{AP64501} the selection of an inductor value between $1 \mu$H to $10 \mu$H, and therefore, taking into account the values presented in Table~\ref{tab:AP64501_recommended_values}, an inductor of $3.6 \mu$H was selected. It is also advised to select an indcutor with a DC current rating of at least 35\% higher than the maximum 5A load current of the AP64501, which corresponds to 6.75A.
+    For highest efficiency, the inductor's DC resistance should be less than 10mOhm. Use a larger inductance for improved efficiency under light load conditions.
 
 \section{Prototype Assembly}\label{sec:43_PrototypeAssembly}
 
