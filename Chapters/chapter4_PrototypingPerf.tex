@@ -32,6 +32,22 @@ Recalling Section~\ref{sec:3214_AP64501}, it is stated that the closest commerci
     It is recommended by \cite{AP64501} the selection of an inductor value between $1 \mu$H to $10 \mu$H, and therefore, taking into account the values presented in Table~\ref{tab:AP64501_recommended_values}, an inductor of $3.6 \mu$H was selected. It is also advised to select an indcutor with a DC current rating of at least 35\% higher than the maximum 5A load current of the AP64501, which corresponds to 6.75A.
     For highest efficiency, the inductor's DC resistance should be less than 10mOhm. Use a larger inductance for improved efficiency under light load conditions.
 
+
+% CM4:
+    At just 40mm $\times$ 55mm and 4.7mm deep, the form factor of the CM4 is one of its biggest advantages, since it allows designers to fit it in almost all designs.
+
+    %HDMI routing:
+    HDMI signals should be routed as 100Ohm differential pairs. Each signal within a pair should ideally be matched to better than 0.15mm. Pairs don't typically need any extra matching, as they only have to be matched to 25mm.
+
+    %USB routing:
+    The differential pair should be routed as a 90Ohm differential pair. The length of the P/N signals should ideally be matched to better than 0.15mm.
+
+    6. The port is capable of being used as a true USB On-The-Go (OTG) port. While there is no official documentation, some users have had success making this work. The USB\_OTG\_ID pin is used to select between USB host and device that is typically wired to the ID pin of a Micro USB connector. To use this functionality it must be enabled in the OS. If using either as a fixed slave or fixed master, please tie the USB\_OTG\_ID pin to ground. tentei isto e nao deu.
+
+
+% LAN9514:
+    However, USB has the advantage of allowing hot-swapping, making it useful for mobile peripherals, including drives of various kinds. -- mesmo que digam isto ja é possivel por natureza do USB, eu ainda tentei fazer o que dizia no datahseet do LAN9514 para dar enable ao hot-swapping, mas continuou sem funcionar.
+
 \section{Prototype Assembly}\label{sec:43_PrototypeAssembly}
 
 \section{Functional Testing and Results}\label{sec:44_FunctionalTesting}

@@ -51,11 +51,11 @@ Since this module is intended to be an embedded solution without any of the exte
 
 %meter imagem do HUB usb: LAN9514
 
-In order to enable such data transfers, the base station would need a component designed to allow the setup of both upstream and downstream USB ports. The Raspberry Pi 3 Model B uses a chip known as LAN9514, which is a four-port USB hub with Ethernet functionality. Since this chip has the needed characteristics for the setup of the CM4's USB interface, it was chosen as the main module concerning USB data transfer.
+In order to enable such data transfers, the base station would need a component designed to allow the setup of both upstream and downstream USB ports. The Raspberry Pi 3 Model B uses a chip known as LAN9514, which is a four-port USB 2.0 hub with Ethernet functionality. Since this chip has the needed characteristics for the setup of the CM4's USB interface, it was chosen as the main module concerning USB data transfer.
 
-The datasheet for LAN9514 details the chip as a 10/100 Ethernet controller, as well as a USB 2.0 hub with four downstream ports and one upstream port, and targets it for desktop computers and embedded systems, among other uses~\cite{LAN9514}. The LAN9514 also fits the Peripherals subgroup, along with the ZED-F9P GNSS receiver and the HMI, the latter of which bridges the user-device gap via a simple on/off button, LED indicators for both battery status and power source indication and a single connector intended for an external power source, satisfying requirement \textbf{RTKBS.MAIN.PWS.050}, as well as all the requirements defined in Section~\ref{sec:II_HMI_requirements}.
+The datasheet for LAN9514 details the chip as a 10/100 Ethernet controller, as well as a USB 2.0 hub with four downstream ports and one upstream port, and targets it for desktop computers and embedded systems, among other uses~\cite{LAN9514}. The LAN9514 also fits the Peripherals subgroup, along with the ZED-F9P GNSS module and the HMI, the latter of which bridges the user-device gap via a simple on/off button, LED indicators for both battery status and power source indication and a single connector intended for an external power source, satisfying requirement \textbf{RTKBS.MAIN.PWS.050}, as well as all the requirements defined in Section~\ref{sec:II_HMI_requirements}.
 
-It is also worth mentioning that, referring to requirements \textbf{RTKBS.MAIN.FCT.020} and \textbf{RTKBS.MAIN.FCT.040}, which correspond to the GNSS receiver (ZED-F9P) and the Wi-Fi transceiver (Digi XBee\textsuperscript{\textregistered} 3), respectively, there were no changes in such elements for the new beRTK\textsuperscript{\textregistered}'s proposed solution.
+It is also worth mentioning that, referring to requirements \textbf{RTKBS.MAIN.FCT.020} and \textbf{RTKBS.MAIN.FCT.040}, which correspond to the GNSS module (ZED-F9P) and the Wi-Fi transceiver (Digi XBee\textsuperscript{\textregistered} 3), respectively, there were no changes in such elements for the new beRTK\textsuperscript{\textregistered}'s proposed solution.
 
 %sSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsS
 \subsection{Power Supply}\label{sec:313_PowerSupply}
@@ -476,7 +476,7 @@ The use of another diode is necessary, this time in parallel with the bottom FET
 Lastly, the placement of a final Schottky diode is also advised between the system power node (i.e. the PWR\_SUPPLY net) and the BAT pin of the LTC4012 (i.e. the VBAT net). This diode is intended as a means to prevent the flow of current from the external power adapater to the battery terminal, while also aiding in the powering of the load applied to the subsequent circuit when said adapter is unconnected~\cite{LTC4012,CSD17308Q3}.
 
 \paragraph{Loop Compensation and Soft-Start} %ler a partir de "Soft-Start" para entender os 3 loops de PWM -- pag. 12-15
-
+% REFAZER ISTO!!!!!!!!!!!!!!!
 The three separate PWM control loops of the LTC4012 (current, voltage or adapter limit) can be compensated by a single set of components attached between the ITH pin and GND. As shown in the typical LTC4012 application, a 6.04k resistor in series with a capacitor of at least 0.1uF provides adequate loop compensation for the majority of applications.
 The LTC4012 can be soft-started with the compensation capacitor on the ITH pin. At start-up, ITH will quickly rise to about 0.25V, then ramp up at a rate set by the compensation capacitor and the 40uA ITH bias current.
 The full programmed charge current will be reached when ITH reaches approximately 2V. With a 0.1uF capacitor, the time to reach full charge current is usually greater than 1.5ms.
@@ -690,9 +690,10 @@ Note that there is a $0.1 \mu$F capacitor connecting the terminals switching and
 
 \paragraph{Adjusting the Loop Compensation}	In order to adjust the loop response, an external RC network may be connected to the COMP pin of the device. This network is composed of resistor R43 and capacitor C45. Table~\ref{tab:AP64501_recommended_values} recommends 15.80k$\Omega$ and 2.7nF as the values for R43 and C45, respectively. The addition of an extra capacitor in parallel with the R43 and C45 series is able to cause an increase in the gain margin, as well as a decrease in phase margin. The recommended value is 33pF\footnote[12]{\cite{AP64501} dedicates a detailed section regarding the calculation of the COMP compensation pin's network.}.
 
-\paragraph{Selecting the Output Capacitor}	Generally, filtering the switching noise generated by a buck converter can be done with the help of an inductor and a capacitor. This is applicable for the AP64501.
+\paragraph{Selecting the Output Capacitor}	Generally, filtering the switching noise generated by a buck converter can be done with the help of an inductor and a capacitor.
+This is applicable to the AP64501.
 Observing once again Figure~\ref{fig:AP64501_circuit}, the last components to mention are the three output capacitors, represented by C40, C42 and C43. These capacitors all represent the same output capacitance, and therefore serve the same purpose, and for simplicity reasons, will be labelled as ``$C_{OUT}$''. The output capacitance on the AP64501 is charged with the typical decoupling capcitor tasks, among which are the filtering of unwanted noise, as mentioned several times before.
-\cite{AP64501} presents an interesting approach: instead of using just a single output filtering capacitor, three of the same kind are suggested; Table~\ref{tab:AP64501_recommended_values} suggests using three $22 \mu$F capacitors -- in this case, in parallel.\footnote[13]{Naturally,~\cite{AP64501} also dedicated a section to the calculation of the ideal value for the $C_{OUT}$ capacitance, also mentioning that, for most applications, $22 \mu$F to $68 \mu$F ceramic output capacitors are acceptable.}.\\
+\cite{AP64501} presents an interesting approach: instead of using just a single output filtering capacitor, three of the same kind are suggested; Table~\ref{tab:AP64501_recommended_values} suggests using three $22 \mu$F capacitors -- in this case, in parallel\footnote[13]{Naturally,~\cite{AP64501} also dedicated a section to the calculation of the ideal value for the $C_{OUT}$ capacitance, also mentioning that, for most applications, $22 \mu$F to $68 \mu$F ceramic output capacitors are acceptable.}.\\
 
 With this, the 5V supply can be established. In the schematics of the system circuit -- displayed in present Chapter --, this supply is represented by a schematic symbol composed of a vertical arrow with a ``+5V'' label above it (observable on the right side of Figure~\ref{fig:AP64501_circuit}).
 
@@ -738,22 +739,26 @@ With this, the 5V supply can be established. In the schematics of the system cir
 
 \subsection{Control}\label{sec:322_CONTROL}
 	%mini introdução
+The CM4 \gls{SoM} introduced in Section~\ref{sec:311_Control} is a powerful addition to the new beRTK\textsuperscript{\textregistered}, given its ability of carrying out all the necessary operations required by the system, thanks to the on-board processor, memory and eMMC Flash~\cite{CM4}.
+
+The new beRTK\textsuperscript{\textregistered}'s system will make use of three of the available interfaces offered by the CM4: USB 2.0 (high-speed), HDMI 2.0 and GPIO.
+
+The CM4's electrical interface is made up of two 100-pin high-density connectors, and is powered by the AP64501's 5V supply through the interconnected pins 77, 79, 81, 83, 85 and 87 (visible on the right side of the schematic symbol for the first CM4 connector, in Figure~\ref{fig:CM4_GPIO_circuit}).
+
+From a macroscopic point of view, the use of specific interfaces is entrusted with each connector: one is in charge of establishing connections to the high-speed serial interfaces, while the other with the remaining interfaces (among other setup pins), the most important of which is the GPIO.
+\cite{CM4} references the BCM2711 ARM peripherals book (\cite{BCM2711_book}), a guide describing all the features provided by the CM4, along with all the alternative functions available, suitable for most designs.
+
+As an important note, it must be mentioned that the Raspberry Pi Foundation provides a development board for the CM4 -- the CM4IO Board\footnote[14]{Available at \url{https://www.raspberrypi.com/products/compute-module-4-io-board/}.} --, whose design intends to allow the testing and understanding of every interface provided by the CM4 module. The design files for this board are also available online, since the Foundation made them fully open source.
 
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
-\subsubsection{CPU Board -- GPIO}\label{sec:3221_CM4_GPIO}
 
-% meter aqui circuito do CM4_GPIO
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/CM4_GPIO.pdf}
-	\caption{beRTK\textsuperscript{\textregistered} Base Station's CM4's GPIO schematic diagram.}
-	\label{fig:CM4_GPIO_circuit}
-\end{figure}
+\subsubsection{Control Unit -- High-Speed Serial Interfaces}\label{sec:3221_CM4_HSpeed}
 
-% REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
-%s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
+\paragraph{HDMI 2.0 Interface}	Two HDMI 2.0 interfaces are available to use with the CM4 and each have the ability of providing 4K images. For the new beRTK\textsuperscript{\textregistered}, only one HDMI interface is necessary, and therefore only one HDMI port is needed. Figure~\ref{fig:CM4_HighSpeed_circuit} represents the schematic diagram of the second 100-pin connector of the CM4 (with pins 101 to 200), responsible for the high-speed serial interfaces -- two of which are HDMI 2.0. The interface used for the project is labeled as HDMI0, and is represented by every pin connected to an external label that starts with ``HDMI0'' -- 12 pins in total. To the right of the same figure, the HDMI type-A connector port can be seen, represented by F6. To minimize incoming noise from the 5V power supply (i.e. from the AP64501), implemented right before this connector's power input pin is a ferrite bead (FB1) rated at 2.0A, a more-than-sufficient current rating for the project's 5V power supply.
 
-\subsubsection{CPU Board -- High-Speed}\label{sec:3222_CM4_HSpeed}
+\paragraph{USB 2.0 Interface}	The CM4's USB 2.0 interface enables a signalling rate of 480Mbit/s and is accessible via two pins, USB2\_N and USB2\_P, which represent the negative (D-) and positive (D+) data pins, respectively. In Figure~\ref{fig:CM4_HighSpeed_circuit}, these pins are, in the same order as mentioned, represented by pins 103 and 105; they are connected to the pins $\overline{\mbox{USBDM0}}$ and USBDP0 (pins number 58 and 59, respectively) of the LAN9514 USB 2.0 hub, covered in Section~\ref{sec:3234_LAN9514}.
+
+There is one extra pin (numbered 101) used in this interface, labelled as USB\_OTG\_ID. This pin  provides the CM4's USB port the ability of being used as a true On-The-Go (OTG) port, accomplished by (typically) tying the USB\_OTG\_ID pin to the ID pin of a Micro USB connector. This feature allows the CM4 to act interchangeably as either a host or a device. For this version of the project, there is no necessity of the OTG feature, and as such, the USB\_OTG\_ID pin is simply tied to GND, as that ensures the module will be used as either a fixed host or fixed device, according to~\cite{CM4}.
 
 % meter aqui circuito do CM4_HighSpeed
 \begin{figure}[h]
@@ -766,6 +771,87 @@ With this, the 5V supply can be established. In the schematics of the system cir
 % REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
 %sSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsS
 
+\subsubsection{Control Unit -- GPIO Interface}\label{sec:3222_CM4_GPIO}
+
+The BCM2711 provides 58 GPIO lines which are split into three different banks. Bank 0 contains all GPIO pins from 0 to 27 -- the only bank used by the CM4. Therefore, the module's GPIO is made up of 28 pins. It is located on the first 100-pin connector of the CM4 (which covers pins 1 to 100) -- represented in Figure~\ref{fig:CM4_GPIO_circuit}. Since the CM4's design is ``loosely based'' on the Raspberry Pi 4 Model B's (\cite{CM4}), the GPIO pins of the former correspond to the same GPIO pins of the latter, and grant access to internal peripherals, such as SMI, DPI, I2C, PWM, SPI, and UART.
+
+The CM4 provides a specially dedicated pin to power bank 0 (and thus set the ``pull'' level to each GPIO pin), labelled GPIO\_VREF (pin 78 in Figure~\ref{fig:CM4_GPIO_circuit}), which can either be tied to the CM4's +1.8V or +3.3V supply output (pins 88 and 90, or pins 84 and 86, respectively). It should be noted that the load connected to these output pins must not surpass 600mA. As for the total load of the 28 GPIO pins, it should be kept below 50mA.
+
+Besides the ability of standard GPIO operation, all the GPIO pins are able to carry out up to six alternative functions, which can be selected by modifying the address of a corresponding ``Function Select Register'', assigned to each pin. According to~\cite{BCM2711}, for the GPIO pins used in this project -- GPIO4, GPIO8 and GPIO9 (pins 54, 39 and 40, respectively, in Figure~\ref{fig:CM4_GPIO_circuit}) --, the Function Select Register is GPFSEL0. All the alternative functions of the GPIO pins used in the project are presented in Table~\ref{tab:GPIO_alternative_functions}.
+
+%table GPIO_alternative_functions:
+\begingroup
+\begin{table}[h]
+	\caption{Alternative function assignment of the GPIO pins used in the project (adapted from~\cite{CM4}).}
+	\label{tab:GPIO_alternative_functions}
+	\centering
+	\begin{tabular}{lccccccc}
+        \toprule
+        \textbf{GPIO} & \textbf{Pull} & \textbf{ALT0} & \textbf{ALT1} & \textbf{ALT2} & \textbf{ALT3} & \textbf{ALT4} & \textbf{ALT5} \\
+        \midrule
+        GPIO4 & High & GPCLK0 & SA1 & DPI\_D0 & SPI4\_CE0\_N & TXD3 & SDA3 \\
+		\midrule
+        GPIO8 & High & SPI0\_CE0\_N & SD0 & DPI\_D4 & BSCSL / CE\_N & TXD4 & SDA4 \\
+		\midrule
+		GPIO9 & Low & SPI0\_MISO & SD1 & DPI\_D5 & BSCSL / MISO & RXD4 & SCL4 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\endgroup
+
+% meter aqui circuito do CM4_GPIO
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/CM4_GPIO.pdf}
+	\caption{beRTK\textsuperscript{\textregistered} Base Station's CM4's GPIO schematic diagram.}
+	\label{fig:CM4_GPIO_circuit}
+\end{figure}
+
+% REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
+%s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
+
+\subsubsection{Control Unit -- Status Control Points}\label{sec:3223_CM4_CTRL_POINTS}
+
+\paragraph{Power and Activity LEDs}	To indicate correct power-on, boot and operation of the module, two important pins are available on the CM4 -- the power and activity LED pins:
+
+\begin{itemize}
+	\item Pin 95, PI\_LED\_nPWR -- This is an active-low output used to drive an power-on LED indicator.
+	\cite{CM4} informs that the signal output from this pin must be buffered, and together with its active-low topology, the circuit of Figure~\ref{fig:PI_LED_nPWR} can be connected to it.
+	%sub-circuito PI_LED_nPWR:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.6\textwidth]{Chapters/Figures/chapter3/PI_LED_nPWR.pdf}
+		\caption{Inverting buffer circuit for the CM4's power-on LED.}
+		\label{fig:PI_LED_nPWR}
+	\end{figure}
+	This small circuit forces the pin's output signal through a 74AHC1G04 single inverter gate, which draws its supply voltage from the AP64501's 5V supply net. Therefore, when fed a low input signal, the output of this inverter will simply correspond to its operating voltage, i.e. 5V. Finally, connecting a reasonably-valued resistor in series with an LED to the inverter's output results in the power-on indicator.
+
+	\item Pin 21, PI\_nLED\_Activity -- With an LED pulled-up to 5V, this active-low pin is used to indicate activity of the CM4. It also aids in boot troubleshooting, since it will cause the connected LED to flash in pre-defined patterns that can be decoded using a specialized look-up table\footnote[15]{Available at \url{https://www.raspberrypi.com/documentation/computers/configuration.html}.}.
+\end{itemize}
+
+\paragraph{Additional Test Points}	To verify and debug the CM4's operation, e.g. to check its correct enabled and running status, a few test points were added to the design. Observing once again Figure~\ref{fig:CM4_GPIO_circuit}, the test points added are:
+\begin{itemize}
+	\item Pin 99, Global\_EN -- 
+	\item Pin 100, nEXTRST -- 
+	\item Pin 92, RUN\_PG -- 
+	\item Pin 89, WL\_nDisable -- 
+	\item Pin 91, BT\_nDisable -- 
+	\item Pin 31, GPIO12 -- 
+	\item Pin 28, GPIO13 -- 
+	\item Pin 49, GPIO18 --
+	\item Pin 26, GPIO19 -- 
+	\item Pin 27, GPIO20 -- 
+	\item Pin 25, GPIO21 -- 
+\end{itemize}
+
+Even though not every interface available on the CM4 is used, pins that represent some of them. Keeping in mind that there is always room for improvement, these test points' utility doubles, in the sense that they provide valuable pin status information that can be used to account for future versions of the beRTK\textsuperscript{\textregistered}.% arranjar maneira de meter uma frase sobre o debug e sobre o test de tensoes em features para versões futuras.
+% ESTES TEXTOS DEVEM ESTAR ANTES DO \begin{itemize}
+
+The CM4 also provides ways for the user to verify and debus its operation, via certain   selecting the main CM4 features to be used, there must be a way of status verification of these must be addressed, 
+
+
+% REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
+%s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
 
 \subsection{Peripherals and Communications}\label{sec:323_PERIPHERALS_COMMS}
 	%mini introdução
@@ -789,20 +875,49 @@ With this, the 5V supply can be established. In the schematics of the system cir
 
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
 
-\subsubsection{GNSS Receiver, RTK Radio Link and Wi-Fi Transceiver}\label{sec:3232_ZEDF9P_XBEE3}
+\subsubsection{GNSS Receiver and RTK Radio Link}\label{sec:3232_ZEDF9P}
 
-% meter aqui circuito do ZEDF9P_XBEE3
+% descrever o simbolo da carrier board:
+
+% 1º: como está feita no projeto do GPS_RTK:
+
+% 2º: como aparece o símbolo no projeto da base station --  esse será o simbolo ao qual vou SEMPRE fazer referência:
+
+% 3º: agora já posso explicar como é que vou fazer a transmissão de dados via UART do ZED-F9P para o CM4 e vice-versa:
+Since the module chosen for operation in the GNSS side of the project is the ZED-F9P~\cite{ZED_F9P}, the way this module transmits and receives position correction must be accounted for by the device intended to interpret this data. In this case, the ZED-F9P will relay its data via \gls{UART}, which happens through pins 3, 4, 11 and 13 of the carrier board.
+
+% meter aqui circuito do ZEDF9P
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/Modules_ZEDF9P_XBEE3.pdf}
-	\caption{beRTK\textsuperscript{\textregistered} Base Station's GNSS and Wi-Fi modules schematic diagram.}
-	\label{fig:ZEDF9P_XBEE3_circuit}
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/Modules_ZEDF9P.pdf}
+	\caption{beRTK\textsuperscript{\textregistered} Base Station's GNSS module schematic diagram.}
+	\label{fig:ZEDF9P_circuit}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/ZED-F9P_carrier_board.pdf}
+	\caption{Carrier board for the ZED-F9P GNSS module, developed by Beyond Vision.}
+	\label{fig:ZED-F9P_carrier_board}
 \end{figure}
 
 % REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
 
-\subsubsection{USB Hub}\label{sec:3233_LAN9514}
+\subsubsection{Wi-Fi Transceiver}\label{sec:3233_XBEE3}
+
+% meter aqui circuito do XBEE3
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/Modules_XBEE3.pdf}
+	\caption{beRTK\textsuperscript{\textregistered} Base Station's Wi-Fi module schematic diagram.}
+	\label{fig:XBEE3_circuit}
+\end{figure}
+
+% REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
+%s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
+
+\subsubsection{USB 2.0 Hub}\label{sec:3234_LAN9514}
 
 % meter aqui circuito do USB_Hub_1
 \begin{figure}[h]
