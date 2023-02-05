@@ -517,9 +517,9 @@ The remaining components' values were selected as to comply with the BQ29209 rec
 
 \noindent As the nominal value for $X_{DELAY}$ is $9s/ \mu$F, a delay time capacitance of $0.33 \mu$F results.
 
-It must be noted that the overvoltage protection feature is not indicated for the project's backup battery pack, since due to each cell's charging cycle termination voltage limit being 4.20V, this level will not meet the only two fixed overvoltage protection thresholds rated for the BQ2920x product family (4.30V or 4.35V, $\pm 0.25$mV) without causing damage overtime. Nevertheless, the delay time capacitance is still included in the circuit, for a future version of the beRTK\textsuperscript{\textregistered} with different backup battery pack specifications. Also concerning the overvoltage feature is the OUT output pin component setting, composed by a resistor and a MOSFET (R51 and Q7, respectively). The OUT output pin is initially set low, only switching to a high state when any cell reaches an overvoltage condition. This high state activates MOSFET Q7, shunting the battery power supply to ground in order to preserve health and life cycle of the cells.
+It must be noted that the overvoltage protection feature is not indicated for the project's backup battery pack, since due to each cell's charging cycle termination voltage limit being 4.20V, this level will not meet the only two fixed overvoltage protection thresholds rated for the BQ2920x product family (4.30V or 4.35V, $\pm 0.25$mV) without causing damage overtime. Nevertheless, the delay time capacitance is still included in the circuit, for future work on the beRTK\textsuperscript{\textregistered}, e.g. with different backup battery pack specifications. Also concerning the overvoltage feature is the OUT output pin component setting, composed by a resistor and a MOSFET (R51 and Q7, respectively). The OUT output pin is initially set low, only switching to a high state when any cell reaches an overvoltage condition. This high state activates MOSFET Q7, shunting the battery power supply to ground in order to preserve health and life cycle of the cells.
 
-Regarding the indication of the state of the battery pack's voltage, MOSFETs Q6 and Q8 make up another switching system as the one presented in Section~\ref{sec:3213_SWITCH}, for the Power Switch circuit. Observing once more Figure~\ref{fig:BQ29209_circuit}, it can be seen that the VBAT net is constantly supplying the battery pack's voltage through resistor R50 to Q6's gate. Being Q6 a P-channel type MOSFET, it will act as an open switch when such voltage is fed to its gate. This will not allow the battery pack's voltage to be transferred to net VBAT\_STAT, a net intended to supply a comparator used to indicate the status of this same voltage (hereby defined as the ``status voltage'') -- explained in Section~\ref{sec:3231_BACKPANEL}. This status voltage is only fed to the voltage comparator of Figure~\ref{fig:HMI_circuit} (U6) upon the activation of MOSFET Q8 of the BQ29209 circuit (Figure~\ref{fig:BQ29209_circuit}). Assuming the battery pack is connected to the system, Q8 can be arbitrarily turned off or on, just by plugging in or out the external power adapter, respectively. In other words, when only the adapter is not connected, Q8 will be on, and therefore Q6 will be on as well. Conversely, upon plugging the external adapter in, the LTC4012's $\overline{\mbox{ACP}}$ open-drain output will be pulled to GND, turning both Q8 and Q6 off, disabling the feeding of comparator U6 with the status voltage of the battery pack~\cite{bq29209}.
+Regarding indication of the battery pack's voltage state, MOSFETs Q6 and Q8 make up another switching system as the one presented in Section~\ref{sec:3213_SWITCH}, for the Power Switch circuit. Observing Figure~\ref{fig:BQ29209_circuit} once more, it can be seen that the VBAT net is constantly supplying the battery pack's voltage through resistor R50 to Q6's gate. As Q6 is a P-channel type MOSFET, it will act as an open switch when such voltage is fed to its gate. This will not allow the battery pack's voltage to be transferred to the VBAT\_STAT net, intended to supply a comparator used to indicate the status of this same voltage (hereby defined as the ``status voltage'') -- explained in Section~\ref{sec:3231_BACKPANEL}. This status voltage is only fed to the voltage comparator of Figure~\ref{fig:HMI_circuit} (U6) upon the activation of the Q8 FET (Figure~\ref{fig:BQ29209_circuit}). Assuming the battery pack is connected to the system, Q8 can arbitrarily be turned off or on just by plugging in or out the external power adapter, respectively. In other words, when only the battery pack is connected, Q8 will be on, and therefore Q6 will be on as well. On the other hand, upon plugging the external adapter in, the LTC4012's $\overline{\mbox{ACP}}$ open-drain output will be pulled to GND, turning both Q8 and Q6 off, cutting off comparator U6's supply.
 
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
 
@@ -695,7 +695,7 @@ This is applicable to the AP64501.
 Observing once again Figure~\ref{fig:AP64501_circuit}, the last components to mention are the three output capacitors, represented by C40, C42 and C43. These capacitors all represent the same output capacitance, and therefore serve the same purpose, and for simplicity reasons, will be labelled as ``$C_{OUT}$''. The output capacitance on the AP64501 is charged with the typical decoupling capcitor tasks, among which are the filtering of unwanted noise, as mentioned several times before.
 \cite{AP64501} presents an interesting approach: instead of using just a single output filtering capacitor, three of the same kind are suggested; Table~\ref{tab:AP64501_recommended_values} suggests using three $22 \mu$F capacitors -- in this case, in parallel\footnote[13]{Naturally,~\cite{AP64501} also dedicated a section to the calculation of the ideal value for the $C_{OUT}$ capacitance, also mentioning that, for most applications, $22 \mu$F to $68 \mu$F ceramic output capacitors are acceptable.}.\\
 
-With this, the 5V supply can be established. In the schematics of the system circuit -- displayed in present Chapter --, this supply is represented by a schematic symbol composed of a vertical arrow with a ``+5V'' label above it (observable on the right side of Figure~\ref{fig:AP64501_circuit}).
+With this, the 5V supply can be established. In the schematics of the system circuit -- displayed in present Chapter --, this supply is represented by a schematic symbol composed of an arrow with a ``+5V'' label near it (observable on the right side of Figure~\ref{fig:AP64501_circuit}).
 
 
 % VIN 2
@@ -775,9 +775,11 @@ There is one extra pin (numbered 101) used in this interface, labelled as USB\_O
 
 The BCM2711 provides 58 GPIO lines which are split into three different banks. Bank 0 contains all GPIO pins from 0 to 27 -- the only bank used by the CM4. Therefore, the module's GPIO is made up of 28 pins. It is located on the first 100-pin connector of the CM4 (which covers pins 1 to 100) -- represented in Figure~\ref{fig:CM4_GPIO_circuit}. Since the CM4's design is ``loosely based'' on the Raspberry Pi 4 Model B's (\cite{CM4}), the GPIO pins of the former correspond to the same GPIO pins of the latter, and grant access to internal peripherals, such as SMI, DPI, I2C, PWM, SPI, and UART.
 
-The CM4 provides a specially dedicated pin to power bank 0 (and thus set the ``pull'' level to each GPIO pin), labelled GPIO\_VREF (pin 78 in Figure~\ref{fig:CM4_GPIO_circuit}), which can either be tied to the CM4's +1.8V or +3.3V supply output (pins 88 and 90, or pins 84 and 86, respectively). It should be noted that the load connected to these output pins must not surpass 600mA. As for the total load of the 28 GPIO pins, it should be kept below 50mA.
+The CM4 provides a specially dedicated pin to power bank 0 (and thus set the ``pull'' level to each GPIO pin), labelled GPIO\_VREF (pin 78 in Figure~\ref{fig:CM4_GPIO_circuit}), which can either be tied to the CM4's +1.8V or +3.3V supply output (pins 88 and 90, or pins 84 and 86, respectively). For this project, GPIO\_VREF is tied to the +3.3V pins.
 
-Besides the ability of standard GPIO operation, all the GPIO pins are able to carry out up to six alternative functions, which can be selected by modifying the address of a corresponding ``Function Select Register'', assigned to each pin. According to~\cite{BCM2711}, for the GPIO pins used in this project -- GPIO4, GPIO8 and GPIO9 (pins 54, 39 and 40, respectively, in Figure~\ref{fig:CM4_GPIO_circuit}) --, the Function Select Register is GPFSEL0. All the alternative functions of the GPIO pins used in the project are presented in Table~\ref{tab:GPIO_alternative_functions}.
+Similarly to the 5V power supply, the +3.3V supply is marked in the schematics of the project by an arrow symbol with a ``+3V3'' label near it, and is hereby referred to as ``3V3''. This net is also used to supply other ICs and components on the beRTK\textsuperscript{\textregistered} system. It must be noted that the load connected to it must not surpass 600mA. As for the total load of the 28 GPIO pins, it should be kept below 50mA.
+
+Besides the ability of standard GPIO operation, all the GPIO pins are able to carry out up to six alternative functions, which can be selected by modifying the address of a corresponding ``Function Select Register'', assigned to each pin. According to~\cite{BCM2711}, for the GPIO pins used in this project -- GPIO4, GPIO8 and GPIO9 (pins 54, 39 and 40, respectively, in Figure~\ref{fig:CM4_GPIO_circuit}) --, the Function Select Register is GPFSEL0. The alternative functions of the GPIO pins used in the project (as well as the ones with test points only\footnote[16]{See Section~\ref{sec:3223_CM4_CTRL_POINTS}.}) are presented in Table~\ref{tab:GPIO_alternative_functions}.
 
 %table GPIO_alternative_functions:
 \begingroup
@@ -785,6 +787,7 @@ Besides the ability of standard GPIO operation, all the GPIO pins are able to ca
 	\caption{Alternative function assignment of the GPIO pins used in the project (adapted from~\cite{CM4}).}
 	\label{tab:GPIO_alternative_functions}
 	\centering
+	\resizebox{\textwidth}{!}{%
 	\begin{tabular}{lccccccc}
         \toprule
         \textbf{GPIO} & \textbf{Pull} & \textbf{ALT0} & \textbf{ALT1} & \textbf{ALT2} & \textbf{ALT3} & \textbf{ALT4} & \textbf{ALT5} \\
@@ -794,8 +797,20 @@ Besides the ability of standard GPIO operation, all the GPIO pins are able to ca
         GPIO8 & High & SPI0\_CE0\_N & SD0 & DPI\_D4 & BSCSL / CE\_N & TXD4 & SDA4 \\
 		\midrule
 		GPIO9 & Low & SPI0\_MISO & SD1 & DPI\_D5 & BSCSL / MISO & RXD4 & SCL4 \\
+		\midrule
+        GPIO12 & Low & PWM0\_0 & SD4 & DPI\_D8 & SPI5\_CE0\_N & TXD5 & SDA5 \\
+		\midrule
+        GPIO13 & Low & PWM0\_1 & SD5 & DPI\_D9 & SPI5\_MISO & RXD5 & SCL5 \\
+		\midrule
+        GPIO18 & Low & PCM\_CLK & SD10 & DPI\_D14 & SPI6\_CE0\_N & SPI1\_CE0\_N & PWM0\_0 \\
+		\midrule
+        GPIO19 & Low & PCM\_FS & SD11 & DPI\_D15 & SPI6\_MISO & SPI1\_MISO & PWM0\_1 \\
+		\midrule
+        GPIO20 & Low & PCM\_DIN & SD12 & DPI\_D16 & SPI6\_MOSI & SPI1\_MOSI & GPCLK0 \\
+		\midrule
+        GPIO21 & Low & PCM\_DOUT & SD13 & DPI\_D17 & SPI6\_SCLK & SPI1\_SCLK & GPCLK1 \\
         \bottomrule
-    \end{tabular}
+    \end{tabular}}
 \end{table}
 \endgroup
 
@@ -815,7 +830,7 @@ Besides the ability of standard GPIO operation, all the GPIO pins are able to ca
 \paragraph{Power and Activity LEDs}	To indicate correct power-on, boot and operation of the module, two important pins are available on the CM4 -- the power and activity LED pins:
 
 \begin{itemize}
-	\item Pin 95, PI\_LED\_nPWR -- This is an active-low output used to drive an power-on LED indicator.
+	\item Pin 95, PI\_LED\_nPWR -- An active-low output used to drive an power-on LED indicator.
 	\cite{CM4} informs that the signal output from this pin must be buffered, and together with its active-low topology, the circuit of Figure~\ref{fig:PI_LED_nPWR} can be connected to it.
 	%sub-circuito PI_LED_nPWR:
 	\begin{figure}[H]
@@ -826,29 +841,35 @@ Besides the ability of standard GPIO operation, all the GPIO pins are able to ca
 	\end{figure}
 	This small circuit forces the pin's output signal through a 74AHC1G04 single inverter gate, which draws its supply voltage from the AP64501's 5V supply net. Therefore, when fed a low input signal, the output of this inverter will simply correspond to its operating voltage, i.e. 5V. Finally, connecting a reasonably-valued resistor in series with an LED to the inverter's output results in the power-on indicator.
 
-	\item Pin 21, PI\_nLED\_Activity -- With an LED pulled-up to 5V, this active-low pin is used to indicate activity of the CM4. It also aids in boot troubleshooting, since it will cause the connected LED to flash in pre-defined patterns that can be decoded using a specialized look-up table\footnote[15]{Available at \url{https://www.raspberrypi.com/documentation/computers/configuration.html}.}.
+	\item Pin 21, PI\_nLED\_Activity -- With an LED pulled up to 5V, this active-low pin is used to indicate activity of the CM4. It also aids in boot troubleshooting, since it will cause the connected LED to flash in pre-defined patterns that can be decoded using a specialized look-up table\footnote[15]{Available at \url{https://www.raspberrypi.com/documentation/computers/configuration.html}.}.
 \end{itemize}
 
-\paragraph{Additional Test Points}	To verify and debug the CM4's operation, e.g. to check its correct enabled and running status, a few test points were added to the design. Observing once again Figure~\ref{fig:CM4_GPIO_circuit}, the test points added are:
+\paragraph{Additional Test Points}	A few test points were added to the design, in order to monitor and debug the CM4's operation.
+Also keeping in mind that there is always room for improvement, these test points' utility doubles, in the sense that adding them to the pins of unused interfaces of the module provide valuable status information that can be used to account for future versions of the beRTK\textsuperscript{\textregistered}.
+Observing once again Figure~\ref{fig:CM4_GPIO_circuit}, the test points added are:
 \begin{itemize}
-	\item Pin 99, Global\_EN -- 
-	\item Pin 100, nEXTRST -- 
-	\item Pin 92, RUN\_PG -- 
-	\item Pin 89, WL\_nDisable -- 
-	\item Pin 91, BT\_nDisable -- 
-	\item Pin 31, GPIO12 -- 
-	\item Pin 28, GPIO13 -- 
-	\item Pin 49, GPIO18 --
-	\item Pin 26, GPIO19 -- 
-	\item Pin 27, GPIO20 -- 
-	\item Pin 25, GPIO21 -- 
+	\item Pin 99, Global\_EN -- Upon powering on the CM4, this input is internally pulled up to 5V through a 100k$\Omega$ resistor. In case this pin is pulled low, the module is set to its lowest possible power consumption state. Conversely, driving it low (i.e. directly to GND) shuts down the CM4.
+	
+	\item Pin 100, nEXTRST -- This output is driven high (i.e. to 3V3) once the CM4 starts its booting process. On the other hand, upon reset, the pin will read a logical low voltage, as it becomes tied to the internal GND of the CM4.
+	
+	\item Pin 92, RUN\_PG -- A bidirectional pin used to signal the run state of the CM4. When on, it is internally pulled up to 3V3 and means the module is running; pulling it low through a resistor (e.g. 220$\Omega$) will reset the module's CPU.
+
+	\item Pin 89, WL\_nDisable -- The CM4 modules can benefit from the addition of an on-board wireless module that supports 2.4 GHz, 5.0 GHz IEEE 802.11 b/g/n/ac wireless, as well as Bluetooth 5.0, BLE. In that case, the WL\_nDisable pin can be used for monitoring the state of the wireless networking. If the voltage on this pin reads a logical high (3.3V), it implies that the wireless module is powered up. Conversely, when this pin is tied or even driven low, the wireless module will not power up (useful for reducing power consumption in designs that do not require wireless features).
+
+	\item Pin 91, BT\_nDisable -- Similarly to pin 89, this pin derives from the same wireless module, and it is used for monitoring the state of Bluetooth on the module. If the voltage on this pin reads a logical high (3.3V), it implies that Bluetooth is powered up. Conversely, when this pin is tied or even driven low, the wireless module will not power up and therefore no Bluetooth features will be available.
+	
+	\item Pin 31, GPIO12 -- GPIO pin with six alternative functions (see Table~\ref{tab:GPIO_alternative_functions} for more details).
+
+	\item Pin 28, GPIO13 -- GPIO pin with six alternative functions (see Table~\ref{tab:GPIO_alternative_functions} for more details).
+
+	\item Pin 49, GPIO18 -- GPIO pin with six alternative functions (see Table~\ref{tab:GPIO_alternative_functions} for more details).
+
+	\item Pin 26, GPIO19 -- GPIO pin with six alternative functions (see Table~\ref{tab:GPIO_alternative_functions} for more details).
+
+	\item Pin 27, GPIO20 -- GPIO pin with six alternative functions (see Table~\ref{tab:GPIO_alternative_functions} for more details).
+
+	\item Pin 25, GPIO21 -- GPIO pin with six alternative functions (see Table~\ref{tab:GPIO_alternative_functions} for more details).
 \end{itemize}
-
-Even though not every interface available on the CM4 is used, pins that represent some of them. Keeping in mind that there is always room for improvement, these test points' utility doubles, in the sense that they provide valuable pin status information that can be used to account for future versions of the beRTK\textsuperscript{\textregistered}.% arranjar maneira de meter uma frase sobre o debug e sobre o test de tensoes em features para versões futuras.
-% ESTES TEXTOS DEVEM ESTAR ANTES DO \begin{itemize}
-
-The CM4 also provides ways for the user to verify and debus its operation, via certain   selecting the main CM4 features to be used, there must be a way of status verification of these must be addressed, 
-
 
 % REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
@@ -860,6 +881,8 @@ The CM4 also provides ways for the user to verify and debus its operation, via c
 
 \subsubsection{Human-Machine Interface (HMI)}\label{sec:3231_BACKPANEL}
 
+As previously mentioned in Section~\ref{sec:3212_BQ29209}, the battery pack's status voltage (present on the VBAT\_STAT net) is the power supply for IC U6 (Figure~\ref{fig:HMI_circuit}), a low-power quad voltage comparator named LM2901 (by STMicroelectronics~\cite{LM2901}). This voltage comparator is designed to compare four voltage levels with 2.048V, the voltage set by LM404DBZ-2.0 (U7), a precision voltage reference manufactured by Texas Instruments. Since the four internal comparators of the LM2901 are non-inverting, the voltage reference will be tied directly to the negative terminals (xIN-) of the comparators, while the different voltage levels of the battery pack (set by resistors R24, R29, R30, R31 and R32) will be connected to the positive terminals (xIN+). Regarding the LM2901's four outputs (xOUT), in order to achieve the objective of LED voltage status indication (through LEDs D9-D12), each of these is pulled up to 5V through a 330$\Omega$ resistor, in order to drive each LED, in case the respective internal comparator senses the battery's voltage to be higher than the 2.048V reference.
+
 % meter aqui circuito do BACKPANEL
 \begin{figure}[h]
 	\centering
@@ -867,6 +890,56 @@ The CM4 also provides ways for the user to verify and debus its operation, via c
 	\caption{beRTK\textsuperscript{\textregistered} Base Station's HMI schematic diagram.}
 	\label{fig:HMI_circuit}
 \end{figure}
+
+With this, besides the four battery status indicator LEDs, the system's HMI itself is also composed of the push-button mentioned in Section~\ref{sec:3213_SWITCH} -- used for turning on and of the supply for the AP64501 buck converter --, as well as another LED used to indicate when an external adapter is plugged in and powering the system (D13 in Figure~\ref{fig:HMI_circuit}).
+
+It is considered good practice to include a voltage regulator for the input coming from an external adapter net. For this project, a voltage regulator circuit of this type was implemented, and it is connected to input DCIN of the LTC4012, near the top of Figure~\ref{fig:LTC4012_circuit}. Figure~\ref{fig:EXT_PWR} showcases such a circuit. This circuit is also used to supply power to LED D13, the external power indicator.
+
+% meter aqui circuito do EXT_PWR
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\textwidth]{Chapters/Figures/chapter3/EXT_PWR.pdf}
+	\caption{beRTK\textsuperscript{\textregistered} Base Station's external power voltage reference schematic diagram.}
+	\label{fig:EXT_PWR}
+\end{figure}
+
+% meter aqui circuito do EXT_PWR
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\textwidth]{Chapters/Figures/chapter3/EXT_PWR_2.pdf}
+	\caption{beRTK\textsuperscript{\textregistered} Base Station's external power voltage reference equivalent circuit.}
+	\label{fig:EXT_PWR_2}
+\end{figure}
+
+It is common to use a Zener diode to build a voltage reference, which was the case for this project. The circuit of Figure~\ref{fig:EXT_PWR} can be approximated by the equivalent circuit of Figure~\ref{fig:EXT_PWR_2}, where $V_{EXT}$ represents the external adapter's input voltage, that can range from +15VDC to +22VDC, as stated in the beginning of Section~\ref{sec:313_PowerSupply}.
+
+To correctly pick out Zener diode D1, the two most important specifications of this component must be known, which are the Zener voltage ($V_{Z_{D1}}$) and the maximum power dissipation ($P_{Z_{D1}}$). Since the typical DC input voltage for the system was already established at 15V, the criteria was to choose a Zener diode with $V_{Z_{D1}}=15$V. At the time of the project's phase described in the present chapter, the CDZVT2R15B Zener diode model was chosen as the main component of the voltage reference circuit. This model has minimum and maximum Zener voltage values of 14.340V and 14.980V, respectively.
+This value can be rounded up to meet the 15V input of the external adapter.
+It also bears a maximum power dissipation of 100mW, and therefore $P_{Z_{D1}}=100$mW~\cite{CDZVT2R15B}. This means the maximum current that may flow through D1 ($I_{Z_{D1}}$) is given by expression (\ref{eq:Zener_Imax}):
+
+\begin{equation}\label{eq:Zener_Imax}
+	I_{Z_{D1}}=\frac{P_{Z_{D1}}}{V_{Z_{D1}}}=\frac{0.1}{15} \approx 6.667 \textrm{mA}\,\medskip
+\end{equation}
+
+The LED model to be used for D13 (visible in Figure~\ref{fig:HMI_circuit}) was already known: KP-2012SGD by Kingbright. This LED presents a typical forward voltage ($V_F$) of 2.2V, and assuming a forward current ($I_F$) of 20mA, Figure~\ref{fig:HMI_circuit} R1's value can be calculated through (\ref{eq:R1_Zener}):
+
+\begin{equation}\label{eq:R1_Zener}
+	R1=\frac{V_{Z_{D1}} - V_F}{I_F}=\frac{15 - 2.2}{0.02}=640\Omega \,\medskip
+\end{equation}
+
+The nearest standard value for R1 is $634 \Omega$, which causes $I_F$ to be 20.158mA (therefore, $I_{R1}=20.158$mA) -- acceptable as it is lower than the the D13 LED's forward current maximum rating.
+
+Lastly, to determine resistor R2's value, since it is known from Kirchhoff's current law that the current flowing through this component ($I_{R2}$) is equal to the sum of the Zener current and R1's current, i.e. $I_{R2}=I_{Z_{D1}}+I_{R1} \approx 26.825$mA, R2's value can be derived from equation (\ref{eq:R2_Zener}):
+
+\begin{equation}\label{eq:R2_Zener}
+	R2 = \frac{V_{EXT_{max}} - V_{Z_{D1}}}{I_{R2}} = \frac{22 - 15}{0.026825} \approx 260.951 \Omega \,\medskip
+\end{equation}
+
+The nearest standard value for R2 is $261 \Omega$. In the conditions presented for equation (\ref{eq:R2_Zener}), this results on a flow of 20.153mA on LED D13, which is still completely acceptable.
+
+It must be noted that the LM2901's outputs, as well as nets PWR\_SWITCH, PWR\_LED and EXT\_PWR, which are complementary to the HMI, are connected to the HMI itself (i.e. the push-button SW1 and the power indication LEDs) through two 2.54mm pitch pin headers (F4 and F5 in Figure~\ref{fig:HMI_circuit}), in order to allocate it on a specific user-accessible location of the beRTK\textsuperscript{\textregistered} casing.
+
+
 
 %https://www.farnell.com/datasheets/2702810.pdf - Diodo Zener 15V - explicar porque e que escolhi 15V...
 %https://www.youtube.com/watch?v=GtH8lAzQf2A&ab_channel=GreatScott%21
