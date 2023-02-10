@@ -3,17 +3,17 @@
 %% chapter3_HardwareDesign.tex
 %% NOVA thesis document file
 %%
-%% Chapter with the Hardware Design part
+%% Chapter with the Hardware Design of the Power Supply part
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \typeout{NT FILE chapter3_HardwareDesign.tex}
 
-\chapter{Hardware Design}\label{cha:chapter3_HardwareDesign}
+\chapter{Hardware Design -- Power Supply}\label{cha:chapter3_HardwareDesign}
 
-Meter aqui um pequena introdução do que e mostrado neste capitulo e descrição de seccoes
+%Meter aqui um pequena introdução do que e mostrado neste capitulo e descrição de seccoes
 
 %SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
-\section{Architecture and Component Selection}\label{sec:31_Architecture}
+\section{The New System's Architecture}\label{sec:31_Architecture}
 
 The system's desired specifications and requirements exposed throughout Section~\ref{sec:II_Specs} allow a redesign of its current architecture (Figure~\ref{fig:architecture_original}), which is presented in Figure~\ref{fig:architecture_new}.
 
@@ -25,40 +25,17 @@ The system's desired specifications and requirements exposed throughout Section~
 	\label{fig:architecture_new}
 \end{figure}
 
-%VER SE ESTA ORDEM DE SUBCAPITULOS É BOA O SUFICIENTE, ou se tenho de a alterar
+\section{The Power Supply}\label{sec:32_PowerSupply}
 
-%sSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsS
-\subsection{Control}\label{sec:311_Control}
+By observing the architecture for the new beRTK\textsuperscript{\textregistered} system, one subgroup stands out, as it is common to every other subgroup: the Power Supply. The design of a system's power supply is critical to its workings, as it manages voltages and currents across all components that define the device as a whole. This chapter is dedicated to the exposition of the power supply hardware design process, which corresponds to the highlighted blocks in Figure~\ref{fig:architecture_new_PS}.
 
-Starting from the control subgroup, the only component to be selected was a single-board computer able to replace the previously used Raspberry Pi 4 Model B; this means the chosen device would have to be able to carry out a pre-determined set of instructions crucial for the operation of the base station. Such requirement is presented in Section~\ref{sec:II_FCT_requirements} -- requirement \textbf{RTKBS.MAIN.FCT.030}, which proposes the use of a single-board computer (SBC).
-The set of instructions performed by the original beRTK\textsuperscript{\textregistered} base station is carried out by a Raspberry Pi 4 Model B computer (described in Section~\ref{sec:II_architecture_Control}), therefore, an element with a comparable computational power as this computer would be ideal. The Raspberry Pi Foundation offers a variety of solutions for many project ideas\footnote[7]{The Raspberry Pi Foundation's hardware offers are available at \url{https://www.raspberrypi.com/products/}.}, and since the operations intended for the beRTK\textsuperscript{\textregistered} base station are so well performed by the Raspberry Pi 4 Model B, it would be worth looking through the array of Raspberry Pi products in order to find a good solution. Research leads to the Raspberry Pi Compute Module 4.
-This compact module not only has a small form factor when compared with the Raspberry Pi 4 Model B, but it also bears its computational power, thanks to the same processor (a Broadcom BCM2711 quad-core Cortex-A72 (ARM v8) 64-bit SoC @ 1.5GHz). This makes it a great option for the system's control unit~\cite{CM4}.
-
-%meter imagem CM4:
+% meter aqui o NOVO diagrama de blocos com PS highlight -- INACABADO;
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.5\textwidth]{Chapters/Figures/CM4.png}
-	\caption{The Raspberry Pi Compute Module 4 (CM4)~\cite{CM4}.}
-	\label{fig:CM4}
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/Chapter3_bloackDiagram.pdf}
+	\caption{beRTK\textsuperscript{\textregistered}'s new system architecture blocks covered in this chapter.}
+	\label{fig:architecture_new_PS}
 \end{figure}
-
-One can choose from thirty-two CM4 variants which differ from each other on RAM and eMMC flash, as well as with or without wireless capabilities.
-
-%sSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsS
-\subsection{Peripherals and Communications}\label{sec:312_Peripherals_Communications}
-
-Since this module is intended to be an embedded solution without any of the external ports present in the Raspberry Pi 4 Model B, the relevant ones must be included in the proposed solution, which in this case are USB and HDMI. The CM4 provides all the necessary pins for the implementation of two HDMI connectors on its carrier board (in this case the base station); however, when it comes to using its USB interface, the user must add a USB hub, since only two USB data pins are provided, along with a USB On-The-Go (OTG) pin. The latter, is used in order to define the CM4 as either a host or a slave~\cite{CM4}.
-
-%meter imagem do HUB usb: LAN9514
-
-In order to enable such data transfers, the base station would need a component designed to allow the setup of both upstream and downstream USB ports. The Raspberry Pi 3 Model B uses a chip known as LAN9514, which is a four-port USB 2.0 hub with Ethernet functionality. Since this chip has the needed characteristics for the setup of the CM4's USB interface, it was chosen as the main module concerning USB data transfer.
-
-The datasheet for LAN9514 details the chip as a 10/100 Ethernet controller, as well as a USB 2.0 hub with four downstream ports and one upstream port, and targets it for desktop computers and embedded systems, among other uses~\cite{LAN9514}. The LAN9514 also fits the Peripherals subgroup, along with the ZED-F9P GNSS module and the HMI, the latter of which bridges the user-device gap via a simple on/off button, LED indicators for both battery status and power source indication and a single connector intended for an external power source, satisfying requirement \textbf{RTKBS.MAIN.PWS.050}, as well as all the requirements defined in Section~\ref{sec:II_HMI_requirements}.
-
-It is also worth mentioning that, referring to requirements \textbf{RTKBS.MAIN.FCT.020} and \textbf{RTKBS.MAIN.FCT.040}, which correspond to the GNSS module (ZED-F9P) and the Wi-Fi transceiver (Digi XBee\textsuperscript{\textregistered} 3), respectively, there were no changes in such elements for the new beRTK\textsuperscript{\textregistered}'s proposed solution.
-
-%sSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsS
-\subsection{Power Supply}\label{sec:313_PowerSupply}
 
 The secondary power arrangement in the original beRTK\textsuperscript{\textregistered} design features two external batteries that would feed the entire system once the mains power supply was disconnected. This form of supply poses considerable disadvantages when it comes to a continuous operation, due to the impractical need of removing the batteries in order to charge them. In the system's power supply subgroup, this was the main improvement to be made following the requirements defined in Section~\ref{sec:II_PWS_requirements}. For that, the base station's enclosure sould count on an internal battery (requirement \textbf{RTKBS.MAIN.PWS.020}) that must not be removed (such battery could be comprised of either a single or multi-cell arrangement) on which the system could rely once the external power supply was disconnected. This idea would help meet requirement \textbf{RTKBS.MAIN.MEC.030}, proposing however a new issue, namely, the charging of the internal battery arrangement.
 %meter hyperLINK PARA CADA REQUIREMENT
@@ -78,18 +55,14 @@ Taking into account requirement \textbf{RTKBS.MAIN.PWS.010} -- which regards the
 	%- meter requirement(s) que condigam com tudo
 
 %SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
-\section{Circuit Design}\label{sec:32_Circuit}
+\section{Circuit Design}\label{sec:33_Circuit}
 
 %meter uma pequena introduçao a dizer que usei o kicad e que segui uma metodologia qualquer
 
-%sSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsS
-\subsection{Power Supply}\label{sec:321_POWERSUPPLY}
-	%mini introdução
-
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
-\subsubsection{Power Selector}\label{sec:3211_LTC4012}
+\subsection{Power Selector}\label{sec:3211_LTC4012}
 
-\paragraph{Programming the Charge Current}	When it comes to powering the system through different sources, maintaining its continuous operation when switching between said sources is crucial. The LTC4012 battery charger is able to accomplish just that: this buck converter relies on a synchronous quasi-constant frequency \gls{PWM} control architecture and is able to provide a connected battery pack with a charge current programmed through external resistors. Since it does not have a built-in termination, it is capable of charging a broad range of batteries at a maximized rate and effieciency -- for a given established power level --, due to an existing \gls{AC} adapter current limiting feature, possible to program and monitor via an external sense resistor. For this project, an arrangement of two rechargeable Lithium-ion (Li-ion) cells in series (also known as a ``2S Li-ion battery'') was chosen as the backup battery pack for the system, with each of the cells offering $3,350$mAh worth of capacity. It must be noted that a set of two cells in series does not alter the pack's total capacity, therefore this same specification will remain the same for the backup battery -- $3,350$mAh.
+\paragraph{Programming the Charge Current}	When it comes to powering the system through different sources, maintaining its continuous operation when switching between said sources is crucial. The LTC4012 battery charger is able to accomplish just that: this buck converter relies on a synchronous quasi-constant frequency \gls{PWM} control architecture and is able to provide a connected battery pack with a charge current programmed through external resistors. Since it does not have a built-in termination, it is capable of charging a broad range of batteries at a maximized rate and efficiency -- for a given established power level --, due to an existing \gls{AC} adapter current limiting feature, possible to program and monitor via an external sense resistor. For this project, an arrangement of two rechargeable Lithium-ion (Li-ion) cells in series (also known as a ``2S Li-ion battery'') was chosen as the backup battery pack for the system, with each of the cells offering $3,350$mAh worth of capacity. It must be noted that a set of two cells in series does not alter the pack's total capacity, therefore this same specification will remain the same for the backup battery -- $3,350$mAh.
 
 With this in mind, studying the battery cell's datasheet reveals that each battery -- and therefore, the 2S arrangement -- is capable of being charged with a recommended standard charge of $1,700$mA~\cite{INR18650-35E}.
 Figure~\ref{fig:battery2S} and Table~\ref{tab:battery2S} show a close-up representation and typical characteristics of a single cell, respectively.
@@ -166,7 +139,7 @@ The LTC4012 datasheet provides a helpful typical application circuit, as well as
 \begin{equation}\label{eq:r_sense}
     R_{SENSE}=\frac{100 \textrm{mV}}{I_{MAX}}\,,\medskip
 \end{equation}
-where $I_{MAX}$ corresponds to the maximum $I_{CHRG}$ charge current desired for the charging process. As per Table~\ref{tab:battery2S}, the battery pack allows a maximum charge current of $2,000$mA, but this value does not account for the maintenance of each cell's health. For that, a standard charging current of $1,700$mA is mentioned in the datasheet; in C-rate units, this charging current rate corresponds to 0.5C, since the explicit 1C rate for this type of cell is equal to $3,400$mA\footnote[8]{In the C-rate standard, 1C corresponds to a charging from 0 to 100\% in the span of one hour. The higher the C-rate coefficient, the faster the charge, and vice-versa. For example, a rate of 2C corresponds to thirty minutes of charge time and 0.5C to two hours.}~\cite{C-rate}.
+where $I_{MAX}$ corresponds to the maximum $I_{CHRG}$ charge current desired for the charging process. As per Table~\ref{tab:battery2S}, the battery pack allows a maximum charge current of $2,000$mA, but this value does not account for the maintenance of each cell's health. For that, a standard charging current of $1,700$mA is mentioned in the datasheet; in C-rate units, this charging current rate corresponds to 0.5C, since the explicit 1C rate for this type of cell is equal to $3,400$mA\footnote[7]{In the C-rate standard, 1C corresponds to a charging from 0 to 100\% in the span of one hour. The higher the C-rate coefficient, the faster the charge, and vice-versa. For example, a rate of 2C corresponds to thirty minutes of charge time and 0.5C to two hours.}~\cite{C-rate}.
 However, it is also pointed out that, in order to maintain the batteries' health as pristine as possible (thus prolonging their life cycle), a charge current of $1,020$mA -- i.e. maintaining the cell's C-rate of 0.3C -- would have to be employed. Choosing a maximum charge current of $I_{MAX}=1,020$mA results in an $R_{SENSE}$ value of 0.098$\Omega$ (98m$\Omega$), according to~(\ref{eq:r_sense}) (represented in the schematic of Figure~\ref{fig:LTC4012_circuit} by R12). Therefore, the value of $I_{MAX}=1,020$mA is hereby defined as the 1C rate of the new beRTK\textsuperscript{\textregistered}'s battery pack. It should also be noted that the target sense voltage of 100mV can differ in order to accomodate standard $R_{SENSE}$ values available on the market, however lower values are likely to cause inaccuracies when it comes to current regulation.
 
 % meter aqui circuito do LTC4012:
@@ -177,7 +150,7 @@ However, it is also pointed out that, in order to maintain the batteries' health
 	\label{fig:LTC4012_circuit}
 \end{figure}
 
-It is established in the documentation that the LTC4012 provides the best performance with two equal 3.01k$\Omega$ $R_{IN}$ input resistors\footnote[9]{Other input resistor values can also be used in order to adjust to different standard sense resistor value that could be chosen~\cite{LTC4012}.} (represented in Figure~\ref{fig:LTC4012_circuit} by R11 and R14). This input resistor value is used for the calculation of the minimum resistance required between the PROG pin and \gls{GND}, given by (\ref{eq:r_prog}).
+It is established in the documentation that the LTC4012 provides the best performance with two equal 3.01k$\Omega$ $R_{IN}$ input resistors\footnote[8]{Other input resistor values can also be used in order to adjust to different standard sense resistor value that could be chosen~\cite{LTC4012}.} (represented in Figure~\ref{fig:LTC4012_circuit} by R11 and R14). This input resistor value is used for the calculation of the minimum resistance required between the PROG pin and \gls{GND}, given by (\ref{eq:r_prog}).
 
 \begin{equation}\label{eq:r_prog}
     R_{PROG (MIN)}=\frac{1.2085 \textrm{V} \cdot R_{IN}}{0.1 \textrm{V} + 11.67 \mu \textrm{A} \cdot R_{IN}} \approx 26.9 \textrm{k}\Omega \,\medskip
@@ -203,7 +176,7 @@ With the calculated values for resistors $R_{IN}$, $R_{SENSE}$ and $R_{PROG}$ it
     R7=R9 \cdot \left(\frac{V_{BAT}}{1.2085\textrm{V}} - 1\right)\,\medskip
 \end{equation}
 
-If the selected value of R9 is less than 50k$\Omega$ and the joint value of R7 and R9 surpasses (or at least equals) 200k$\Omega$, then the lowest possible error at the $V_{FB}$ sense input is acheived\footnote[10]{The use of resistors with a tolerance level of 0.25\% is advised to achieve the desired level of accuracy~\cite{LTC4012}.}. It should be noted that the influence of this battery voltage feedback input is present in equations (\ref{eq:v_bat}) and (\ref{eq:r7_r9}), as well as in equations (\ref{eq:i_chrg}) and (\ref{eq:r_prog}), in the form of the nominal 1.2085 pin voltage~\cite{LTC4012}.
+If the selected value of R9 is less than 50k$\Omega$ and the joint value of R7 and R9 surpasses (or at least equals) 200k$\Omega$, then the lowest possible error at the $V_{FB}$ sense input is acheived\footnote[9]{The use of resistors with a tolerance level of 0.25\% is advised to achieve the desired level of accuracy~\cite{LTC4012}.}. It should be noted that the influence of this battery voltage feedback input is present in equations (\ref{eq:v_bat}) and (\ref{eq:r7_r9}), as well as in equations (\ref{eq:i_chrg}) and (\ref{eq:r_prog}), in the form of the nominal 1.2085 pin voltage~\cite{LTC4012}.
 
 \paragraph{Programming the Input Current Limit}	The previous version of the beRTK\textsuperscript{\textregistered} base station presented a power consumption of approximately 3 to 3.5Wh, and one of the requirements of this project is to cut the power consumption down to a maximum of 400mA at +5VDC -- as stated in requirement \textbf{RTKBS.MAIN.PWS.040}. Therefore, a 1.00A external adapter current rating can safely be considered, however, it is best to consider the double of that value, to safely consider high peak currents and discharge problems that may arise.
 The LTC4012 datasheet provides a table with common values for a sense resistor dedicated to the programming of the input current limiting -- R3 in Figure~\ref{fig:LTC4012_circuit}. For this case, considering an adapter rating of 2.00A, R3's estimated value would be equal to 0.050$\Omega$ (50m$\Omega$). The value of this sense resistor can also be determined through expression (\ref{eq:r_cl}),
@@ -484,7 +457,7 @@ This capacitor can be increased if longer start-up times are required, but loop 
 
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
 
-\subsubsection{Battery Balancer}\label{sec:3212_BQ29209}
+\subsection{Battery Balancer}\label{sec:3212_BQ29209}
 
 The battery pack used for this project relies on two equal Li-ion cells disposed in a 2-Series cell configuration, which imperatively requires cell balancing -- a specific technique used for preserving the batteries' health, i.e. their life cycle. Although the two cells used for the backup pack are the same model, there will certainly be discrepancies between them, since no two batteries are the same, which translates in different levels for the \gls{SoC} of both cells. Such problem requires a way not to allow the draining of any cell below its rated cut-off voltage (in the case of the INR18650-35E cell, 2.65V, as presented in Table~\ref{tab:battery2S}) or overcharging past the 4.20V ($\pm0.05$V) termination voltage limit. Texas Instruments offers a low-power solution for this: the BQ29209 is an IC capable of providing automatic cell balance for 2-series cell Li-ion battery packs, along with overvoltage protection. The cell balancing is achieved through the comparison of each cell's voltage, enabling and disabling the feature when nominal differences of 30mV (or more) or 0mV, respectively, are detected.
 
@@ -523,7 +496,7 @@ Regarding indication of the battery pack's voltage state, MOSFETs Q6 and Q8 make
 
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
 
-\subsubsection{Power Switch}\label{sec:3213_SWITCH}
+\subsection{Power Switch}\label{sec:3213_SWITCH}
 
 The circuit in charge of switching the system's power on and off is represented in Figure~\ref{fig:SWITCH_circuit}. Its function relies on an output signal set by a SN74LVC2G74DCTR, a D-type flip-flop -- manufactured by Texas Instruments~\cite{SN74LVC2G74DCTR} -- which in turn allows or blocks the incoming power from either the external power adapter or the battery pack (i.e. from the PWR\_SUPPLY net) to the voltage converter (Section~\ref{sec:3214_AP64501}) that powers the rest of the system.
 This flip-flop output signal is, in turn, controlled by a push-button located on the outside of the base station casing, and when pressed ties the GND net to the input pin of a single Schmitt-trigger inverter -- 74AHC1G14, by Diodes Incorporated~\cite{74AHC1G14}.
@@ -575,11 +548,11 @@ This opens a path for power from the mentioned PWR\_SUPPLY net to flow to the ma
 
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
 
-\subsubsection{Voltage Converter}\label{sec:3214_AP64501}
+\subsection{Voltage Converter}\label{sec:3214_AP64501}
 
 Most of the main ICs and many other components of the base station run on 5V. The best way to achieve such continuous supply level in this project is through the use of a DC-to-DC buck converter. The AP64501 (by Diodes Incorporated) synchronous buck converter was the selected part to establish the necessary 5V power source. High power efficiency can be achieved at light loads -- the case for the beRTK\textsuperscript{\textregistered} system --, since this device operates in \gls{PFM} mode. The operation occurs at a typical frequency of 570kHz. Upon heavy load supply needs, it operates in a forced PWM mode.
 
-The AP64501 is capable of supplying DC voltage from 0.8V to 39V, as well as up to 5A of continuous current, for an input supply voltage ranging from 3.8V to 40V. It generates a low amount of quiescent current as well\footnote[11]{In a no-load and non-switching condition, the quiescent current typically generated by the AP64501 is $25 \mu$A.}, very important since this IC draws its power from either the external power adapter or the battery pack (via the LTC4012, i.e. the PWR\_SUPPLY net, as mentioned in Section~\cite{sec:3213_SWITCH}); a higher quiescent current could result in a non-negligible and unnecessary drain of the battery pack, while the system is in a stand-by/idle operation.
+The AP64501 is capable of supplying DC voltage from 0.8V to 39V, as well as up to 5A of continuous current, for an input supply voltage ranging from 3.8V to 40V. It generates a low amount of quiescent current as well\footnote[10]{In a no-load and non-switching condition, the quiescent current typically generated by the AP64501 is $25 \mu$A.}, very important since this IC draws its power from either the external power adapter or the battery pack (via the LTC4012, i.e. the PWR\_SUPPLY net, as mentioned in Section~\cite{sec:3213_SWITCH}); a higher quiescent current could result in a non-negligible and unnecessary drain of the battery pack, while the system is in a stand-by/idle operation.
 
 Similar to previously mentioned ICs, the AP64501's datasheet (\cite{AP64501}) also provides a typical application circuit, along with helpful application notes. These guidelines were adapted in order to construct the circuit displayed in the schematic of Figure~\ref{fig:AP64501_circuit}.
 
@@ -630,7 +603,7 @@ The $V_{ON}$ voltage to enable the regulator must be chosen considering the poss
 % apresentar os resultados do excel:
 Substituting the $V_{ON}$ and $V_{OFF}$ in (\ref{eq:R10}), $10.732$k$\Omega$ result for R10. Subsequently, using this value in (\ref{eq:R13}), $2.617$k$\Omega$ result for R13. The closest values available for R10 and R13 at the prototyping phase were 11k$\Omega$ and 2.7k$\Omega$, respectively. Reversing expressions (\ref{eq:R10}) and (\ref{eq:R13}) and using these adapted resistor values result in the intended $V_{ON}$ and $V_{OFF}$ values.
 
-As stated in the last paragraph of Section~\ref{sec:313_PowerSupply}, the input voltage of the system (and therefore the input voltage of the LTC4012) can range from 15V to 22V. It should then be added that if the system is supplied with a maximum of 22V (by the external adapter), the AP64501 is still turned on, since that value lies well within the EN pin voltage rating. Therefore, even in this case, the UVLO feature will still be available.
+As stated in the last paragraph of Section~\ref{sec:32_PowerSupply}, the input voltage of the system (and therefore the input voltage of the LTC4012) can range from 15V to 22V. It should then be added that if the system is supplied with a maximum of 22V (by the external adapter), the AP64501 is still turned on, since that value lies well within the EN pin voltage rating. Therefore, even in this case, the UVLO feature will still be available.
 
 \paragraph{Setting the Output Voltage}	As stated earlier, the AP64501 is able to output voltages that range from 0.8V to 39V. For this project, in order to program the desired 5V output voltage, once again a voltage divider is used. This simple double-resistor setup is composed by R41 and R42, whose values can be determined solely from expression (\ref{eq:R41_R42}):
 
@@ -673,8 +646,7 @@ As stated in the last paragraph of Section~\ref{sec:313_PowerSupply}, the input 
 \paragraph{Selecting the Inductor}	Once again, the topic of inductor selection for a buck converter arises. The AP64501 relies on a pre-defined frequency in order to deliver the appropriate amount of power to the load connected upstream.
 Switching the supply voltage on and off according to a certain duty cycle results in the sought-after 5V, and for that, a proper inductor is critical. It is recommended by \cite{AP64501} the selection of an inductor value between $1 \mu$H to $10 \mu$H, and therefore, taking into account the values presented in Table~\ref{tab:AP64501_recommended_values}, an inductor of $3.6 \mu$H was selected. It is also advised to select an inductor with a DC current rating of at least 35\% higher than the maximum 5A load current of the AP64501, which corresponds to 6.75A.
 
-\cite{AP64501} also offers an equation to determine the L2 inductor value that can be used for most design applications -- represented by (\cite{eq:L2}).
-
+To determine the L2 inductor value that can be used for most design applications,~\cite{AP64501} also offers equation (\ref{eq:L2}), 
 \begin{equation}\label{eq:L2}
 	L2 = \frac{V_{OUT} \cdot \left(V_{IN} - V_{OUT}\right)}{V_{IN} \cdot \Delta I_L \cdot f_{sw}}\,,\medskip
 \end{equation}
@@ -688,12 +660,12 @@ Note that there is a $0.1 \mu$F capacitor connecting the terminals switching and
 
 \paragraph{Selecting the Input Capacitor}	Similarly to input capacitor selected for the LTC4012's +15VDC power input (DCIN), an input capacitor for the VIN pin the AP64501 must also be chosen. As stated before, this capacitor is tasked with the bypassing of switching noise from the device, as well as minimizing the impact of surge currents that arrive to its input terminal. Following once again Table~\ref{tab:AP64501_recommended_values} and the~\cite{AP64501} datasheet, it can be ascertained that an input capacitor value of at least $10 \mu$F is recommended. In this case, $15 \mu$F were used for this part.
 
-\paragraph{Adjusting the Loop Compensation}	In order to adjust the loop response, an external RC network may be connected to the COMP pin of the device. This network is composed of resistor R43 and capacitor C45. Table~\ref{tab:AP64501_recommended_values} recommends 15.80k$\Omega$ and 2.7nF as the values for R43 and C45, respectively. The addition of an extra capacitor in parallel with the R43 and C45 series is able to cause an increase in the gain margin, as well as a decrease in phase margin. The recommended value is 33pF\footnote[12]{\cite{AP64501} dedicates a detailed section regarding the calculation of the COMP compensation pin's network.}.
+\paragraph{Adjusting the Loop Compensation}	In order to adjust the loop response, an external RC network may be connected to the COMP pin of the device. This network is composed of resistor R43 and capacitor C45. Table~\ref{tab:AP64501_recommended_values} recommends 15.80k$\Omega$ and 2.7nF as the values for R43 and C45, respectively. The addition of an extra capacitor in parallel with the R43 and C45 series is able to cause an increase in the gain margin, as well as a decrease in phase margin. The recommended value is 33pF\footnote[11]{\cite{AP64501} dedicates a detailed section regarding the calculation of the COMP compensation pin's network.}.
 
 \paragraph{Selecting the Output Capacitor}	Generally, filtering the switching noise generated by a buck converter can be done with the help of an inductor and a capacitor.
 This is applicable to the AP64501.
 Observing once again Figure~\ref{fig:AP64501_circuit}, the last components to mention are the three output capacitors, represented by C40, C42 and C43. These capacitors all represent the same output capacitance, and therefore serve the same purpose, and for simplicity reasons, will be labelled as ``$C_{OUT}$''. The output capacitance on the AP64501 is charged with the typical decoupling capcitor tasks, among which are the filtering of unwanted noise, as mentioned several times before.
-\cite{AP64501} presents an interesting approach: instead of using just a single output filtering capacitor, three of the same kind are suggested; Table~\ref{tab:AP64501_recommended_values} suggests using three $22 \mu$F capacitors -- in this case, in parallel\footnote[13]{Naturally,~\cite{AP64501} also dedicated a section to the calculation of the ideal value for the $C_{OUT}$ capacitance, also mentioning that, for most applications, $22 \mu$F to $68 \mu$F ceramic output capacitors are acceptable.}.\\
+\cite{AP64501} presents an interesting approach: instead of using just a single output filtering capacitor, three of the same kind are suggested; Table~\ref{tab:AP64501_recommended_values} suggests using three $22 \mu$F capacitors -- in this case, in parallel\footnote[12]{Naturally,~\cite{AP64501} also dedicated a section to the calculation of the ideal value for the $C_{OUT}$ capacitance, also mentioning that, for most applications, $22 \mu$F to $68 \mu$F ceramic output capacitors are acceptable.}.\\
 
 With this, the 5V supply can be established. In the schematics of the system circuit -- displayed in present Chapter --, this supply is represented by a schematic symbol composed of an arrow with a ``+5V'' label near it (observable on the right side of Figure~\ref{fig:AP64501_circuit}).
 
@@ -737,292 +709,16 @@ With this, the 5V supply can be established. In the schematics of the system cir
 
 %sSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsS
 
-\subsection{Control}\label{sec:322_CONTROL}
-	%mini introdução
-The CM4 \gls{SoM} introduced in Section~\ref{sec:311_Control} is a powerful addition to the new beRTK\textsuperscript{\textregistered}, given its ability of carrying out all the necessary operations required by the system, thanks to the on-board processor, memory and eMMC Flash~\cite{CM4}.
-
-The new beRTK\textsuperscript{\textregistered}'s system will make use of three of the available interfaces offered by the CM4: USB 2.0 (high-speed), HDMI 2.0 and GPIO.
-
-The CM4's electrical interface is made up of two 100-pin high-density connectors, and is powered by the AP64501's 5V supply through the interconnected pins 77, 79, 81, 83, 85 and 87 (visible on the right side of the schematic symbol for the first CM4 connector, in Figure~\ref{fig:CM4_GPIO_circuit}).
-
-From a macroscopic point of view, the use of specific interfaces is entrusted with each connector: one is in charge of establishing connections to the high-speed serial interfaces, while the other with the remaining interfaces (among other setup pins), the most important of which is the GPIO.
-\cite{CM4} references the BCM2711 ARM peripherals book (\cite{BCM2711_book}), a guide describing all the features provided by the CM4, along with all the alternative functions available, suitable for most designs.
-
-As an important note, it must be mentioned that the Raspberry Pi Foundation provides a development board for the CM4 -- the CM4IO Board\footnote[14]{Available at \url{https://www.raspberrypi.com/products/compute-module-4-io-board/}.} --, whose design intends to allow the testing and understanding of every interface provided by the CM4 module. The design files for this board are also available online, since the Foundation made them fully open source.
-
-%s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
-
-\subsubsection{Control Unit -- High-Speed Serial Interfaces}\label{sec:3221_CM4_HSpeed}
-
-\paragraph{HDMI 2.0 Interface}	Two HDMI 2.0 interfaces are available to use with the CM4 and each have the ability of providing 4K images. For the new beRTK\textsuperscript{\textregistered}, only one HDMI interface is necessary, and therefore only one HDMI port is needed. Figure~\ref{fig:CM4_HighSpeed_circuit} represents the schematic diagram of the second 100-pin connector of the CM4 (with pins 101 to 200), responsible for the high-speed serial interfaces -- two of which are HDMI 2.0. The interface used for the project is labeled as HDMI0, and is represented by every pin connected to an external label that starts with ``HDMI0'' -- 12 pins in total. To the right of the same figure, the HDMI type-A connector port can be seen, represented by F6. To minimize incoming noise from the 5V power supply (i.e. from the AP64501), implemented right before this connector's power input pin is a ferrite bead (FB1) rated at 2.0A, a more-than-sufficient current rating for the project's 5V power supply.
-
-\paragraph{USB 2.0 Interface}	The CM4's USB 2.0 interface enables a signalling rate of 480Mbit/s and is accessible via two pins, USB2\_N and USB2\_P, which represent the negative (D-) and positive (D+) data pins, respectively. In Figure~\ref{fig:CM4_HighSpeed_circuit}, these pins are, in the same order as mentioned, represented by pins 103 and 105; they are connected to the pins $\overline{\mbox{USBDM0}}$ and USBDP0 (pins number 58 and 59, respectively) of the LAN9514 USB 2.0 hub, covered in Section~\ref{sec:3234_LAN9514}.
-
-There is one extra pin (numbered 101) used in this interface, labelled as USB\_OTG\_ID. This pin  provides the CM4's USB port the ability of being used as a true On-The-Go (OTG) port, accomplished by (typically) tying the USB\_OTG\_ID pin to the ID pin of a Micro USB connector. This feature allows the CM4 to act interchangeably as either a host or a device. For this version of the project, there is no necessity of the OTG feature, and as such, the USB\_OTG\_ID pin is simply tied to GND, as that ensures the module will be used as either a fixed host or fixed device, according to~\cite{CM4}.
-
-% meter aqui circuito do CM4_HighSpeed
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/CM4_HighSpeed.pdf}
-	\caption{beRTK\textsuperscript{\textregistered} Base Station's CM4's High Speed schematic diagram.}
-	\label{fig:CM4_HighSpeed_circuit}
-\end{figure}
-
-% REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
-%sSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsS
-
-\subsubsection{Control Unit -- GPIO Interface}\label{sec:3222_CM4_GPIO}
-
-The BCM2711 provides 58 GPIO lines which are split into three different banks. Bank 0 contains all GPIO pins from 0 to 27 -- the only bank used by the CM4. Therefore, the module's GPIO is made up of 28 pins. It is located on the first 100-pin connector of the CM4 (which covers pins 1 to 100) -- represented in Figure~\ref{fig:CM4_GPIO_circuit}. Since the CM4's design is ``loosely based'' on the Raspberry Pi 4 Model B's (\cite{CM4}), the GPIO pins of the former correspond to the same GPIO pins of the latter, and grant access to internal peripherals, such as SMI, DPI, I2C, PWM, SPI, and UART.
-
-The CM4 provides a specially dedicated pin to power bank 0 (and thus set the ``pull'' level to each GPIO pin), labelled GPIO\_VREF (pin 78 in Figure~\ref{fig:CM4_GPIO_circuit}), which can either be tied to the CM4's +1.8V or +3.3V supply output (pins 88 and 90, or pins 84 and 86, respectively). For this project, GPIO\_VREF is tied to the +3.3V pins.
-
-Similarly to the 5V power supply, the +3.3V supply is marked in the schematics of the project by an arrow symbol with a ``+3V3'' label near it, and is hereby referred to as ``3V3''. This net is also used to supply other ICs and components on the beRTK\textsuperscript{\textregistered} system. It must be noted that the load connected to it must not surpass 600mA. As for the total load of the 28 GPIO pins, it should be kept below 50mA.
-
-Besides the ability of standard GPIO operation, all the GPIO pins are able to carry out up to six alternative functions, which can be selected by modifying the address of a corresponding ``Function Select Register'', assigned to each pin. According to~\cite{BCM2711}, for the GPIO pins used in this project -- GPIO4, GPIO8 and GPIO9 (pins 54, 39 and 40, respectively, in Figure~\ref{fig:CM4_GPIO_circuit}) --, the Function Select Register is GPFSEL0. The alternative functions of the GPIO pins used in the project (as well as the ones with test points only\footnote[16]{See Section~\ref{sec:3223_CM4_CTRL_POINTS}.}) are presented in Table~\ref{tab:GPIO_alternative_functions}.
-
-%table GPIO_alternative_functions:
-\begingroup
-\begin{table}[h]
-	\caption{Alternative function assignment of the GPIO pins used in the project (adapted from~\cite{CM4}).}
-	\label{tab:GPIO_alternative_functions}
-	\centering
-	\resizebox{\textwidth}{!}{%
-	\begin{tabular}{lccccccc}
-        \toprule
-        \textbf{GPIO} & \textbf{Pull} & \textbf{ALT0} & \textbf{ALT1} & \textbf{ALT2} & \textbf{ALT3} & \textbf{ALT4} & \textbf{ALT5} \\
-        \midrule
-        GPIO4 & High & GPCLK0 & SA1 & DPI\_D0 & SPI4\_CE0\_N & TXD3 & SDA3 \\
-		\midrule
-        GPIO8 & High & SPI0\_CE0\_N & SD0 & DPI\_D4 & BSCSL / CE\_N & TXD4 & SDA4 \\
-		\midrule
-		GPIO9 & Low & SPI0\_MISO & SD1 & DPI\_D5 & BSCSL / MISO & RXD4 & SCL4 \\
-		\midrule
-        GPIO12 & Low & PWM0\_0 & SD4 & DPI\_D8 & SPI5\_CE0\_N & TXD5 & SDA5 \\
-		\midrule
-        GPIO13 & Low & PWM0\_1 & SD5 & DPI\_D9 & SPI5\_MISO & RXD5 & SCL5 \\
-		\midrule
-        GPIO18 & Low & PCM\_CLK & SD10 & DPI\_D14 & SPI6\_CE0\_N & SPI1\_CE0\_N & PWM0\_0 \\
-		\midrule
-        GPIO19 & Low & PCM\_FS & SD11 & DPI\_D15 & SPI6\_MISO & SPI1\_MISO & PWM0\_1 \\
-		\midrule
-        GPIO20 & Low & PCM\_DIN & SD12 & DPI\_D16 & SPI6\_MOSI & SPI1\_MOSI & GPCLK0 \\
-		\midrule
-        GPIO21 & Low & PCM\_DOUT & SD13 & DPI\_D17 & SPI6\_SCLK & SPI1\_SCLK & GPCLK1 \\
-        \bottomrule
-    \end{tabular}}
-\end{table}
-\endgroup
-
-% meter aqui circuito do CM4_GPIO
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/CM4_GPIO.pdf}
-	\caption{beRTK\textsuperscript{\textregistered} Base Station's CM4's GPIO schematic diagram.}
-	\label{fig:CM4_GPIO_circuit}
-\end{figure}
-
-% REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
-%s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
-
-\subsubsection{Control Unit -- Status Control Points}\label{sec:3223_CM4_CTRL_POINTS}
-
-\paragraph{Power and Activity LEDs}	To indicate correct power-on, boot and operation of the module, two important pins are available on the CM4 -- the power and activity LED pins:
-
-\begin{itemize}
-	\item Pin 95, PI\_LED\_nPWR -- An active-low output used to drive an power-on LED indicator.
-	\cite{CM4} informs that the signal output from this pin must be buffered, and together with its active-low topology, the circuit of Figure~\ref{fig:PI_LED_nPWR} can be connected to it.
-	%sub-circuito PI_LED_nPWR:
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.6\textwidth]{Chapters/Figures/chapter3/PI_LED_nPWR.pdf}
-		\caption{Inverting buffer circuit for the CM4's power-on LED.}
-		\label{fig:PI_LED_nPWR}
-	\end{figure}
-	This small circuit forces the pin's output signal through a 74AHC1G04 single inverter gate, which draws its supply voltage from the AP64501's 5V supply net. Therefore, when fed a low input signal, the output of this inverter will simply correspond to its operating voltage, i.e. 5V. Finally, connecting a reasonably-valued resistor in series with an LED to the inverter's output results in the power-on indicator.
-
-	\item Pin 21, PI\_nLED\_Activity -- With an LED pulled up to 5V, this active-low pin is used to indicate activity of the CM4. It also aids in boot troubleshooting, since it will cause the connected LED to flash in pre-defined patterns that can be decoded using a specialized look-up table\footnote[15]{Available at \url{https://www.raspberrypi.com/documentation/computers/configuration.html}.}.
-\end{itemize}
-
-\paragraph{Additional Test Points}	A few test points were added to the design, in order to monitor and debug the CM4's operation.
-Also keeping in mind that there is always room for improvement, these test points' utility doubles, in the sense that adding them to the pins of unused interfaces of the module provide valuable status information that can be used to account for future versions of the beRTK\textsuperscript{\textregistered}.
-Observing once again Figure~\ref{fig:CM4_GPIO_circuit}, the test points added are:
-\begin{itemize}
-	\item Pin 99, Global\_EN -- Upon powering on the CM4, this input is internally pulled up to 5V through a 100k$\Omega$ resistor. In case this pin is pulled low, the module is set to its lowest possible power consumption state. Conversely, driving it low (i.e. directly to GND) shuts down the CM4.
-	
-	\item Pin 100, nEXTRST -- This output is driven high (i.e. to 3V3) once the CM4 starts its booting process. On the other hand, upon reset, the pin will read a logical low voltage, as it becomes tied to the internal GND of the CM4.
-	
-	\item Pin 92, RUN\_PG -- A bidirectional pin used to signal the run state of the CM4. When on, it is internally pulled up to 3V3 and means the module is running; pulling it low through a resistor (e.g. 220$\Omega$) will reset the module's CPU.
-
-	\item Pin 89, WL\_nDisable -- The CM4 modules can benefit from the addition of an on-board wireless module that supports 2.4 GHz, 5.0 GHz IEEE 802.11 b/g/n/ac wireless, as well as Bluetooth 5.0, BLE. In that case, the WL\_nDisable pin can be used for monitoring the state of the wireless networking. If the voltage on this pin reads a logical high (3.3V), it implies that the wireless module is powered up. Conversely, when this pin is tied or even driven low, the wireless module will not power up (useful for reducing power consumption in designs that do not require wireless features).
-
-	\item Pin 91, BT\_nDisable -- Similarly to pin 89, this pin derives from the same wireless module, and it is used for monitoring the state of Bluetooth on the module. If the voltage on this pin reads a logical high (3.3V), it implies that Bluetooth is powered up. Conversely, when this pin is tied or even driven low, the wireless module will not power up and therefore no Bluetooth features will be available.
-	
-	\item Pin 31, GPIO12 -- GPIO pin with six alternative functions (see Table~\ref{tab:GPIO_alternative_functions} for more details).
-
-	\item Pin 28, GPIO13 -- GPIO pin with six alternative functions (see Table~\ref{tab:GPIO_alternative_functions} for more details).
-
-	\item Pin 49, GPIO18 -- GPIO pin with six alternative functions (see Table~\ref{tab:GPIO_alternative_functions} for more details).
-
-	\item Pin 26, GPIO19 -- GPIO pin with six alternative functions (see Table~\ref{tab:GPIO_alternative_functions} for more details).
-
-	\item Pin 27, GPIO20 -- GPIO pin with six alternative functions (see Table~\ref{tab:GPIO_alternative_functions} for more details).
-
-	\item Pin 25, GPIO21 -- GPIO pin with six alternative functions (see Table~\ref{tab:GPIO_alternative_functions} for more details).
-\end{itemize}
-
-% REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
-%s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
-
-\subsection{Peripherals and Communications}\label{sec:323_PERIPHERALS_COMMS}
-	%mini introdução
-
-%s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
-
-\subsubsection{Human-Machine Interface (HMI)}\label{sec:3231_BACKPANEL}
-
-As previously mentioned in Section~\ref{sec:3212_BQ29209}, the battery pack's status voltage (present on the VBAT\_STAT net) is the power supply for IC U6 (Figure~\ref{fig:HMI_circuit}), a low-power quad voltage comparator named LM2901 (by STMicroelectronics~\cite{LM2901}). This voltage comparator is designed to compare four voltage levels with 2.048V, the voltage set by LM404DBZ-2.0 (U7), a precision voltage reference manufactured by Texas Instruments. Since the four internal comparators of the LM2901 are non-inverting, the voltage reference will be tied directly to the negative terminals (xIN-) of the comparators, while the different voltage levels of the battery pack (set by resistors R24, R29, R30, R31 and R32) will be connected to the positive terminals (xIN+). Regarding the LM2901's four outputs (xOUT), in order to achieve the objective of LED voltage status indication (through LEDs D9-D12), each of these is pulled up to 5V through a 330$\Omega$ resistor, in order to drive each LED, in case the respective internal comparator senses the battery's voltage to be higher than the 2.048V reference.
-
-% meter aqui circuito do BACKPANEL
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/Back_Panel.pdf}
-	\caption{beRTK\textsuperscript{\textregistered} Base Station's HMI schematic diagram.}
-	\label{fig:HMI_circuit}
-\end{figure}
-
-With this, besides the four battery status indicator LEDs, the system's HMI itself is also composed of the push-button mentioned in Section~\ref{sec:3213_SWITCH} -- used for turning on and of the supply for the AP64501 buck converter --, as well as another LED used to indicate when an external adapter is plugged in and powering the system (D13 in Figure~\ref{fig:HMI_circuit}).
-
-It is considered good practice to include a voltage regulator for the input coming from an external adapter net. For this project, a voltage regulator circuit of this type was implemented, and it is connected to input DCIN of the LTC4012, near the top of Figure~\ref{fig:LTC4012_circuit}. Figure~\ref{fig:EXT_PWR} showcases such a circuit. This circuit is also used to supply power to LED D13, the external power indicator.
-
-% meter aqui circuito do EXT_PWR
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=0.6\textwidth]{Chapters/Figures/chapter3/EXT_PWR.pdf}
-	\caption{beRTK\textsuperscript{\textregistered} Base Station's external power voltage reference schematic diagram.}
-	\label{fig:EXT_PWR}
-\end{figure}
-
-% meter aqui circuito do EXT_PWR
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=0.6\textwidth]{Chapters/Figures/chapter3/EXT_PWR_2.pdf}
-	\caption{beRTK\textsuperscript{\textregistered} Base Station's external power voltage reference equivalent circuit.}
-	\label{fig:EXT_PWR_2}
-\end{figure}
-
-It is common to use a Zener diode to build a voltage reference, which was the case for this project. The circuit of Figure~\ref{fig:EXT_PWR} can be approximated by the equivalent circuit of Figure~\ref{fig:EXT_PWR_2}, where $V_{EXT}$ represents the external adapter's input voltage, that can range from +15VDC to +22VDC, as stated in the beginning of Section~\ref{sec:313_PowerSupply}.
-
-To correctly pick out Zener diode D1, the two most important specifications of this component must be known, which are the Zener voltage ($V_{Z_{D1}}$) and the maximum power dissipation ($P_{Z_{D1}}$). Since the typical DC input voltage for the system was already established at 15V, the criteria was to choose a Zener diode with $V_{Z_{D1}}=15$V. At the time of the project's phase described in the present chapter, the CDZVT2R15B Zener diode model was chosen as the main component of the voltage reference circuit. This model has minimum and maximum Zener voltage values of 14.340V and 14.980V, respectively.
-This value can be rounded up to meet the 15V input of the external adapter.
-It also bears a maximum power dissipation of 100mW, and therefore $P_{Z_{D1}}=100$mW~\cite{CDZVT2R15B}. This means the maximum current that may flow through D1 ($I_{Z_{D1}}$) is given by expression (\ref{eq:Zener_Imax}):
-
-\begin{equation}\label{eq:Zener_Imax}
-	I_{Z_{D1}}=\frac{P_{Z_{D1}}}{V_{Z_{D1}}}=\frac{0.1}{15} \approx 6.667 \textrm{mA}\,\medskip
-\end{equation}
-
-The LED model to be used for D13 (visible in Figure~\ref{fig:HMI_circuit}) was already known: KP-2012SGD by Kingbright. This LED presents a typical forward voltage ($V_F$) of 2.2V, and assuming a forward current ($I_F$) of 20mA, Figure~\ref{fig:HMI_circuit} R1's value can be calculated through (\ref{eq:R1_Zener}):
-
-\begin{equation}\label{eq:R1_Zener}
-	R1=\frac{V_{Z_{D1}} - V_F}{I_F}=\frac{15 - 2.2}{0.02}=640\Omega \,\medskip
-\end{equation}
-
-The nearest standard value for R1 is $634 \Omega$, which causes $I_F$ to be 20.158mA (therefore, $I_{R1}=20.158$mA) -- acceptable as it is lower than the the D13 LED's forward current maximum rating.
-
-Lastly, to determine resistor R2's value, since it is known from Kirchhoff's current law that the current flowing through this component ($I_{R2}$) is equal to the sum of the Zener current and R1's current, i.e. $I_{R2}=I_{Z_{D1}}+I_{R1} \approx 26.825$mA, R2's value can be derived from equation (\ref{eq:R2_Zener}):
-
-\begin{equation}\label{eq:R2_Zener}
-	R2 = \frac{V_{EXT_{max}} - V_{Z_{D1}}}{I_{R2}} = \frac{22 - 15}{0.026825} \approx 260.951 \Omega \,\medskip
-\end{equation}
-
-The nearest standard value for R2 is $261 \Omega$. In the conditions presented for equation (\ref{eq:R2_Zener}), this results on a flow of 20.153mA on LED D13, which is still completely acceptable.
-
-It must be noted that the LM2901's outputs, as well as nets PWR\_SWITCH, PWR\_LED and EXT\_PWR, which are complementary to the HMI, are connected to the HMI itself (i.e. the push-button SW1 and the power indication LEDs) through two 2.54mm pitch pin headers (F4 and F5 in Figure~\ref{fig:HMI_circuit}), in order to allocate it on a specific user-accessible location of the beRTK\textsuperscript{\textregistered} casing.
-
-
-
-%https://www.farnell.com/datasheets/2702810.pdf - Diodo Zener 15V - explicar porque e que escolhi 15V...
-%https://www.youtube.com/watch?v=GtH8lAzQf2A&ab_channel=GreatScott%21
-
-% REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
-
-%s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
-
-\subsubsection{GNSS Receiver and RTK Radio Link}\label{sec:3232_ZEDF9P}
-
-% descrever o simbolo da carrier board:
-
-% 1º: como está feita no projeto do GPS_RTK:
-
-% 2º: como aparece o símbolo no projeto da base station --  esse será o simbolo ao qual vou SEMPRE fazer referência:
-
-% 3º: agora já posso explicar como é que vou fazer a transmissão de dados via UART do ZED-F9P para o CM4 e vice-versa:
-Since the module chosen for operation in the GNSS side of the project is the ZED-F9P~\cite{ZED_F9P}, the way this module transmits and receives position correction must be accounted for by the device intended to interpret this data. In this case, the ZED-F9P will relay its data via \gls{UART}, which happens through pins 3, 4, 11 and 13 of the carrier board.
-
-% meter aqui circuito do ZEDF9P
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/Modules_ZEDF9P.pdf}
-	\caption{beRTK\textsuperscript{\textregistered} Base Station's GNSS module schematic diagram.}
-	\label{fig:ZEDF9P_circuit}
-\end{figure}
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/ZED-F9P_carrier_board.pdf}
-	\caption{Carrier board for the ZED-F9P GNSS module, developed by Beyond Vision.}
-	\label{fig:ZED-F9P_carrier_board}
-\end{figure}
-
-% REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
-%s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
-
-\subsubsection{Wi-Fi Transceiver}\label{sec:3233_XBEE3}
-
-% meter aqui circuito do XBEE3
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/Modules_XBEE3.pdf}
-	\caption{beRTK\textsuperscript{\textregistered} Base Station's Wi-Fi module schematic diagram.}
-	\label{fig:XBEE3_circuit}
-\end{figure}
-
-% REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
-%s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
-
-\subsubsection{USB 2.0 Hub}\label{sec:3234_LAN9514}
-
-% meter aqui circuito do USB_Hub_1
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/USB_Hub_1.pdf}
-	\caption{beRTK\textsuperscript{\textregistered} Base Station's USB Hub schematic diagram.}
-	\label{fig:USB_Hub_1_circuit}
-\end{figure}
-
-% meter aqui circuito do USB_Hub_1
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/USB_Hub_PwrSplyFiltering.pdf}
-	\caption{beRTK\textsuperscript{\textregistered} Base Station's USB Hub's Power Supply Filtering schematic diagram.}
-	\label{fig:USB_Hub_PwrSplyFiltering_circuit}
-\end{figure}
-
-% meter aqui circuito do USB_Hub_1
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/USB_Hub_Downstream.pdf}
-	\caption{beRTK\textsuperscript{\textregistered} Base Station's USB Hub's Downstream schematic diagram.}
-	\label{fig:USB_Hub_Downstream_circuit}
-\end{figure}
-
-% REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
-%SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
-
-
-\section{PCB Layout Design}\label{sec:33_PCBlayout}
-
--- $20 \mu$F ceramic capacitors were chosen for both the power inputs and power output of the LTC4012. 
-
--- As mentioned before, the top and bottom power FETs Q2 and Q9, along with inductor L1 are vital to the PWM control architecture. These components are part of the sub-circuit that starts from the +15VDC source of power and passes across FET Q1 (connected to pin INFET), sense resistor R3, 
-This sub-circuit forms the ``power supply rail'', and upon layout design of the circuit from Figure~\ref{fig:LTC4012_circuit}, this section must bear a track width large enough to withstand large values of currents or any other phenomena that may occur (e.g. voltage/current spikes). The needed track width can be calculated through the following expression:
+% \section{PCB Layout Design}\label{sec:33_PCBlayout}
+
+% -- $20 \mu$F ceramic capacitors were chosen for both the power inputs and power output of the LTC4012. 
+
+% -- As mentioned before, the top and bottom power FETs Q2 and Q9, along with inductor L1 are vital to the PWM control architecture. These components are part of the sub-circuit that starts from the +15VDC source of power and passes across FET Q1 (connected to pin INFET), sense resistor R3, 
+% This sub-circuit forms the ``power supply rail'', and upon layout design of the circuit from Figure~\ref{fig:LTC4012_circuit}, this section must bear a track width large enough to withstand large values of currents or any other phenomena that may occur (e.g. voltage/current spikes). The needed track width can be calculated through the following expression:
+
+%XBee: Digi XBee 3 RF Module Hardware Reference Manual
+% We design XBee 3 RF Modules to be self-sufficient and have minimal sensitivity to nearby processors,
+% crystals or other printed circuit board (PCB) components. Keep power and ground traces thicker than
+% signal traces and make sure that they are able to comfortably support the maximum current
+% specifications. There are no other special PCB design considerations to integrate XBee 3 RF Modules,
+% with the exception of antennas.

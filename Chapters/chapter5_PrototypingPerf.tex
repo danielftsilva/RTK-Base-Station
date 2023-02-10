@@ -1,27 +1,28 @@
 %!TEX root = ../template.tex
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% chapter4_PrototypingPerf.tex
+%% chapter5_PrototypingPerf.tex
 %% NOVA thesis document file
 %%
 %% Chapter with the Prototyping and Performance Evaluation Results part
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\typeout{NT FILE chapter4_PrototypingPerf.tex}
+\typeout{NT FILE chapter5_PrototypingPerf.tex}
 
-\chapter{Prototyping and Performance Evaluation Results}\label{cha:chapter4_PrototypingPerf}
+\chapter{Prototyping and Performance Evaluation Results}\label{cha:chapter5_PrototypingPerf}
 
 So neste capitulo e que se deve descrever a operacao do circuito.
 
 It should be noted that, for the top and bottom FET selection stage, the Si7212DN model suggested is a double FET in one package. The CSD17308Q3 substituting model is a single-channel FET (only one per package), and therefore two units had to be acquired -- Section~\ref{sec:3211_LTC4012}.
 
-\section{PCB Manufacture}\label{sec:41_PCBmanufacture}
+\section{PCB Manufacture}\label{sec:51_PCBmanufacture}
 
-\section{Component Acquisition}\label{sec:42_ComponentAcquisition}
+\section{Component Acquisition}\label{sec:52_ComponentAcquisition}
 
 %ate agora foram os unicos MOSFETs que nao disse o nome:
 
 %como nao foi relevante, ate agora ainda nao disse que MOSFETs selecionei para o power switch: Q4 e Q5.
 %Q3, Q10, Q6, Q8 -- BQ29209
+%PMEG2010ER - GNSS module
 
 % AP64501:
 Recalling Section~\ref{sec:3214_AP64501}, it is stated that the closest commercially available values of 11k$\Omega$ and 2.7k$\Omega$ were selected for R10 and R13, respectively, at the prototyping phase. Following expressions (\ref{eq:R10}) and (\ref{eq:R13}), these values allow the expected $V_{ON}$ and $V_{OFF}$ values.
@@ -48,6 +49,6 @@ Recalling Section~\ref{sec:3214_AP64501}, it is stated that the closest commerci
 % LAN9514:
     However, USB has the advantage of allowing hot-swapping, making it useful for mobile peripherals, including drives of various kinds. -- mesmo que digam isto ja é possivel por natureza do USB, eu ainda tentei fazer o que dizia no datahseet do LAN9514 para dar enable ao hot-swapping, mas continuou sem funcionar.
 
-\section{Prototype Assembly}\label{sec:43_PrototypeAssembly}
+\section{Prototype Assembly}\label{sec:53_PrototypeAssembly}
 
-\section{Functional Testing and Results}\label{sec:44_FunctionalTesting}
+\section{Functional Testing and Results}\label{sec:54_FunctionalTesting}
