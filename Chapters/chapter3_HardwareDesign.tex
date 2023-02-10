@@ -118,7 +118,7 @@ Figure~\ref{fig:battery2S} and Table~\ref{tab:battery2S} show a close-up represe
 \end{table}
 \endgroup
 
-Table~\ref{tab:battery2S} specifies that each battery provides a charging cycle termination voltage of approximately 4.20V, which bespeaks that the 2S arrangement adds up to a total of (approximately) 8.4V of backup energy.
+Table~\ref{tab:battery2S} specifies that each battery provides a charging cycle termination voltage of approximately 4.2V, meaning the 2S arrangement adds up to a total of up to 8.4V of backup energy.
 
 It is possible to calculate an estimate of the system's battery life using expression~(\ref{eq:battery_life}):
 
@@ -667,7 +667,7 @@ This is applicable to the AP64501.
 Observing once again Figure~\ref{fig:AP64501_circuit}, the last components to mention are the three output capacitors, represented by C40, C42 and C43. These capacitors all represent the same output capacitance, and therefore serve the same purpose, and for simplicity reasons, will be labelled as ``$C_{OUT}$''. The output capacitance on the AP64501 is charged with the typical decoupling capcitor tasks, among which are the filtering of unwanted noise, as mentioned several times before.
 \cite{AP64501} presents an interesting approach: instead of using just a single output filtering capacitor, three of the same kind are suggested; Table~\ref{tab:AP64501_recommended_values} suggests using three $22 \mu$F capacitors -- in this case, in parallel\footnote[12]{Naturally,~\cite{AP64501} also dedicated a section to the calculation of the ideal value for the $C_{OUT}$ capacitance, also mentioning that, for most applications, $22 \mu$F to $68 \mu$F ceramic output capacitors are acceptable.}.\\
 
-With this, the 5V supply can be established. In the schematics of the system circuit -- displayed in present Chapter --, this supply is represented by a schematic symbol composed of an arrow with a ``+5V'' label near it (observable on the right side of Figure~\ref{fig:AP64501_circuit}).
+With this, the 5V supply can be established. In the schematics of the system's circuit, this supply is represented by a schematic symbol composed of an arrow with a ``+5V'' label near it (observable on the right side of Figure~\ref{fig:AP64501_circuit}).
 
 
 % VIN 2

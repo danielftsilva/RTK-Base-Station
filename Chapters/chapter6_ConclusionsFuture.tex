@@ -46,6 +46,8 @@ why? Because the ZED-F9P pins connected to the CM4's GPIO pins are part of a UAR
 8. % LAN9514:
 However, USB has the advantage of allowing hot-swapping, making it useful for mobile peripherals, including drives of various kinds. -- mesmo que digam isto ja é possivel por natureza do USB, eu ainda tentei fazer o que dizia no datahseet do LAN9514 para dar enable ao hot-swapping, mas continuou sem funcionar.
 
+9. %cm4:
+In Section~\ref{sec:3234_LAN9514}, the lack of implementation of the upstream USB PHY block was addressed. It must be noted that this such block should be implemented in the beRTK\textsuperscript{\textregistered}'s system, since it not only facilitates the OS loading into the CM4, but can also be used to transfer data if needed.
 
 % Dizer isto no final:
 no Final de tudo estar bem feito, teria de se demonstrar aquela compliance matrix que apresenta a conclusao de todos os requirements apresentados na Section~\ref{sec:II_Specs}.

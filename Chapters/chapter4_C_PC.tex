@@ -13,7 +13,7 @@
 %Meter aqui um pequena introdução do que e mostrado neste capitulo e descrição de seccoes
 
 %SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
-\section{Control, Peripherals and Communications}\label{sec:41_C_PC}
+\section{Control, Peripherals, and Communications}\label{sec:41_C_PC}
 
 Fed by the carefully laid out system's power supply, this chapter focuses on describing the hardware design process of the Control, Peripherals and Communications subgroups of the new architecture, which depend on each other in order to interpret the positioning correction data flow. These subgroups are highlighted in Figure~\ref{fig:architecture_new_C_PC}.
 
@@ -49,9 +49,9 @@ Since this module is intended to be an embedded solution without any of the exte
 
 %meter imagem do HUB usb: LAN9514
 
-In order to enable such data transfers, the base station needs a component designed to allow the setup of both upstream and downstream USB ports. The Raspberry Pi 3 Model B uses a chip known as LAN9514, which is a four-port USB 2.0 hub and Ethernet controller. Since this chip has the needed characteristics for the setup of the CM4's USB interface, it was chosen as the main module concerning USB data transfer.
+In order to enable such data transfers, the base station requires a way to allow the setup of both upstream and downstream USB ports. The Raspberry Pi 3 Model B uses a chip known as LAN9514, which is a four-port USB 2.0 hub and Ethernet controller. Since this chip has the needed characteristics for the setup of the CM4's USB interface, it was chosen as the main module concerning USB data transfer.
 
-The datasheet for LAN9514 details the chip as a 10/100 Ethernet controller, as well as a USB 2.0 hub with four downstream ports and one upstream port, and targets it for desktop computers and embedded systems, among other uses~\cite{LAN9514}. The LAN9514 also fits the Peripherals subgroup, along with the ZED-F9P module and the HMI, the latter of which bridges the user-device gap via a simple on/off button, LED indicators for both battery status and power source indication and a single connector intended for an external power source, satisfying requirement \textbf{RTKBS.MAIN.PWS.050}, as well as all the requirements defined in Section~\ref{sec:II_HMI_requirements}.
+The datasheet for LAN9514 details the IC as a 10/100 Ethernet controller, as well as a USB 2.0 hub with four downstream ports and one upstream port, and targets it for desktop computers and embedded systems, among other uses~\cite{LAN9514}. The LAN9514 also fits the Peripherals subgroup, along with the ZED-F9P module and the HMI, the latter of which bridges the user-device gap via a simple on/off button, LED indicators for both battery status and power source indication and a single connector intended for an external power source, satisfying requirement \textbf{RTKBS.MAIN.PWS.050}, as well as all the requirements defined in Section~\ref{sec:II_HMI_requirements}.
 
 It is also worth mentioning that, referring to requirements \textbf{RTKBS.MAIN.FCT.020} and \textbf{RTKBS.MAIN.FCT.040}, which correspond to the GNSS module (ZED-F9P) and the Wi-Fi transceiver (Digi XBee 3 RF module), respectively, there were no changes in such elements for the new beRTK\textsuperscript{\textregistered}'s proposed solution.
 
@@ -78,7 +78,7 @@ As an important note, it must be mentioned that the Raspberry Pi Foundation prov
 
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
 
-\subsubsection{Control Unit -- High-Speed Serial Interfaces}\label{sec:3221_CM4_HSpeed}
+\subsubsection{High-Speed Serial Interfaces}\label{sec:3221_CM4_HSpeed}
 
 \paragraph{HDMI 2.0 Interface}	Two HDMI 2.0 interfaces are available to use with the CM4 and each have the ability of providing 4K images. For the new beRTK\textsuperscript{\textregistered}, only one HDMI interface is necessary, and therefore only one HDMI port is needed. Figure~\ref{fig:CM4_HighSpeed_circuit} represents the schematic diagram of the second 100-pin connector of the CM4 (MOD1B, with pins 101 to 200), responsible for the high-speed serial interfaces -- two of which are HDMI 2.0. The interface used for the project is labeled as HDMI0, and is represented by every pin connected to an external label that starts with ``HDMI0'' -- 12 pins in total. To the right of the same figure, the HDMI type-A connector port can be seen, represented by F6. To minimize incoming noise from the 5V power supply (i.e. from the AP64501), implemented right before this connector's power input pin is a ferrite bead (FB1) rated at 2.0A, a more-than-sufficient current rating for the project's 5V power supply.
 
@@ -90,14 +90,14 @@ There is one extra pin (numbered 101) used in this interface, labelled as USB\_O
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/CM4_HighSpeed.pdf}
-	\caption{beRTK\textsuperscript{\textregistered} Base Station's CM4's High Speed schematic diagram.}
+	\caption{beRTK\textsuperscript{\textregistered} base station's CM4 High Speed schematic diagram.}
 	\label{fig:CM4_HighSpeed_circuit}
 \end{figure}
 
 % REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
 %sSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsS
 
-\subsubsection{Control Unit -- GPIO Interface}\label{sec:3222_CM4_GPIO}
+\subsubsection{GPIO Interface}\label{sec:3222_CM4_GPIO}
 
 The BCM2711 provides 58 GPIO lines which are split into three different banks. Bank 0 contains all GPIO pins from 0 to 27 -- the only bank used by the CM4. Therefore, the module's GPIO is made up of 28 pins. It is located on the first 100-pin connector of the CM4 (MOD1A, which covers pins 1 to 100) -- represented in Figure~\ref{fig:CM4_GPIO_circuit}. Since the CM4's design is ``loosely based'' on the Raspberry Pi 4 Model B's (\cite{CM4}), the GPIO pins of the former correspond to the same GPIO pins of the latter, and grant access to internal peripherals, such as SMI, DPI, I2C, PWM, SPI, and UART.
 
@@ -144,14 +144,14 @@ Besides the ability of standard GPIO operation, all the GPIO pins are able to ca
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/CM4_GPIO.pdf}
-	\caption{beRTK\textsuperscript{\textregistered} Base Station's CM4's GPIO schematic diagram.}
+	\caption{beRTK\textsuperscript{\textregistered} base station's CM4 GPIO schematic diagram.}
 	\label{fig:CM4_GPIO_circuit}
 \end{figure}
 
 % REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
 
-\subsubsection{Control Unit -- Status Control Points}\label{sec:3223_CM4_CTRL_POINTS}
+\subsubsection{Status Control Points}\label{sec:3223_CM4_CTRL_POINTS}
 
 \paragraph{Power and Activity LEDs}	To indicate correct power-on, boot and operation of the module, two important pins are available on the CM4 -- the power and activity LED pins:
 
@@ -213,7 +213,7 @@ As previously mentioned in Section~\ref{sec:3212_BQ29209}, the battery pack's st
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/Back_Panel.pdf}
-	\caption{beRTK\textsuperscript{\textregistered} Base Station's HMI schematic diagram.}
+	\caption{beRTK\textsuperscript{\textregistered} base station's HMI schematic diagram.}
 	\label{fig:HMI_circuit}
 \end{figure}
 
@@ -225,7 +225,7 @@ It is considered good practice to include a voltage regulator for the input comi
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.6\textwidth]{Chapters/Figures/chapter3/EXT_PWR.pdf}
-	\caption{beRTK\textsuperscript{\textregistered} Base Station's external power voltage reference schematic diagram.}
+	\caption{beRTK\textsuperscript{\textregistered} base station's external power voltage reference schematic diagram.}
 	\label{fig:EXT_PWR}
 \end{figure}
 
@@ -233,13 +233,13 @@ It is considered good practice to include a voltage regulator for the input comi
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.6\textwidth]{Chapters/Figures/chapter3/EXT_PWR_2.pdf}
-	\caption{beRTK\textsuperscript{\textregistered} Base Station's external power voltage reference equivalent circuit.}
+	\caption{beRTK\textsuperscript{\textregistered} base station's external power voltage reference equivalent circuit.}
 	\label{fig:EXT_PWR_2}
 \end{figure}
 
-It is common to use a Zener diode to build a voltage reference, which was the case for this project. The circuit of Figure~\ref{fig:EXT_PWR} can be approximated by the equivalent circuit of Figure~\ref{fig:EXT_PWR_2}, where $V_{EXT}$ represents the external adapter's input voltage, that can range from +15VDC to +22VDC, as stated in the beginning of Section~\ref{sec:313_PowerSupply}.
+It is common to use a Zener diode to build a voltage reference, which was the case for this project. The circuit of Figure~\ref{fig:EXT_PWR} can be approximated by the equivalent circuit of Figure~\ref{fig:EXT_PWR_2}, where $V_{EXT}$ represents the external adapter's input voltage that ranges from +15VDC to +22VDC.
 
-To correctly pick out Zener diode D1, the two most important specifications of this component must be known, which are the Zener voltage ($V_{Z_{D1}}$) and the maximum power dissipation ($P_{Z_{D1}}$). Since the typical DC input voltage for the system was already established at 15V, the criteria was to choose a Zener diode with $V_{Z_{D1}}=15$V. At the time of the project's phase described in the present chapter, the CDZVT2R15B Zener diode model was chosen as the main component of the voltage reference circuit. This model has minimum and maximum Zener voltage values of 14.340V and 14.980V, respectively.
+To correctly pick out Zener diode D1, the two most important specifications of this component must be known, which are the Zener voltage ($V_{Z_{D1}}$) and the maximum power dissipation ($P_{Z_{D1}}$). Since the typical DC input voltage for the system was already established at 15V, the criteria was to choose a Zener diode with $V_{Z_{D1}}=15$V. At the time of the project's hardware design phase, the CDZVT2R15B Zener diode model was chosen as the main component of the voltage reference circuit. This model has minimum and maximum Zener voltage values of 14.340V and 14.980V, respectively.
 This value can be rounded up to meet the 15V input of the external adapter.
 It also bears a maximum power dissipation of 100mW, and therefore $P_{Z_{D1}}=100$mW~\cite{CDZVT2R15B}. This means the maximum current that may flow through D1 ($I_{Z_{D1}}$) is given by expression (\ref{eq:Zener_Imax}):
 
@@ -270,7 +270,7 @@ It must be noted that the LM2901's outputs, as well as nets PWR\_SWITCH, PWR\_LE
 
 \subsubsection{GNSS Receiver and RTK Radio Link}\label{sec:3232_ZEDF9P}
 
-The element that provides the system with its distinct GNSS and RTK specifications is also a part of the Peripherals and Communications group. This element is known, as previously mentioned, as ZED-F9P, and it is a high precision module equipped with a multiband GNSS receiver. Therefore, this module can be used in applications that require precise positioning, such as in the agricultural or industrial settings, robotic guidance or, the case study for this project, survey and mapping for UAVs. For that, the module offers centimetre-level accuracy through the use of RTK, which is the main positioning technology adopted for the beRTK\textsuperscript{\textregistered} Base Station.
+The element that provides the system with its distinct GNSS and RTK specifications is also a part of the Peripherals and Communications group. This element is known, as previously mentioned, as ZED-F9P, and it is a high precision module equipped with a multiband GNSS receiver. Therefore, this module can be used in applications that require precise positioning, such as in the agricultural or industrial settings, robotic guidance or, the case study for this project, survey and mapping for UAVs. For that, the module offers centimetre-level accuracy through the use of RTK, which is the main positioning technology adopted for the beRTK\textsuperscript{\textregistered} base station.
 
 % 1º: descrever o simbolo da carrier board:
 The implementation the ZED-F9P in the new beRTK\textsuperscript{\textregistered}'s system is achieved through the assembly (to the motherboard) of a secondary board which carries the GNSS module along with external circuitry (i.e. a carrier board) to aid on its use -- particularly, an SMA connector for an antenna to establish the RTK radio link. Beyond Vision has developed this carrier board for an earlier project, and it resulted in the schematic symbol block MOD2, used to represent the system's GNSS module (Figure~\ref{fig:ZEDF9P_circuit}).
@@ -279,7 +279,7 @@ The implementation the ZED-F9P in the new beRTK\textsuperscript{\textregistered}
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/Modules_ZEDF9P.pdf}
-	\caption{beRTK\textsuperscript{\textregistered} Base Station's GNSS module schematic diagram.}
+	\caption{beRTK\textsuperscript{\textregistered} base station's GNSS module schematic diagram.}
 	\label{fig:ZEDF9P_circuit}
 \end{figure}
 
@@ -322,7 +322,7 @@ As mentioned in Chapter~\ref{cha:chapter2_SotA}, the XBee 3 RF module is used in
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/Modules_XBEE3.pdf}
-	\caption{beRTK\textsuperscript{\textregistered} Base Station's Wi-Fi module schematic diagram.}
+	\caption{beRTK\textsuperscript{\textregistered} base station's Wi-Fi module schematic diagram.}
 	\label{fig:XBEE3_circuit}
 \end{figure}
 
@@ -350,29 +350,45 @@ Six other pins of the XBee are also used:
 
 \subsubsection{USB 2.0 Hub}\label{sec:3234_LAN9514}
 
+As stated earlier in Section~\ref{sec:312_Peripherals_Communications}, the LAN9514 is an IC that operates as a USB 2.0 hub, while also doubling its functionality as a 10/100 Ethernet controller. Figure~\ref{fig:LAN9514_blockDiagram} from~\cite{LAN9514} details the internal block diagram of the IC. 
 
+%meter imagem LAN9514 block diagram:
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/LAN9514_blockDiagram.png}
+	\caption{LAN9514/LAN9514i internal block diagram~\cite{LAN9514}.}
+	\label{fig:LAN9514_blockDiagram}
+\end{figure}
+
+Since for this project only the USB specifications of this IC are needed, the TAP, Ethernet (and its PHY) and EEPROM controllers blocks' implementation was (carefully) left out. The upstream USB PHY block implementation was also left out, although it is required to load the Raspberry Pi operating system (Raspberry Pi OS) into the CM4 module. However, this was not a problem, since the CM4IO board (referenced in the last paragraph of Section~\ref{sec:322_CONTROL}) that provides the user with such possibility was available during the project development stage.
+
+The hub is designed to be fully compliant with the USB 2.0 specification, and is therefore able to comfortably operate with signalling rates of up to 480Mbit/s (i.e. high-speed). This operating mode is particularly interesting to the new beRTK\textsuperscript{\textregistered}'s application, since the CM4 module's USB interface also operates with high-speed signalling rates, as described in Section~\ref{sec:3221_CM4_HSpeed}.
+
+Similarly to the other ICs referenced in this project, a typical application circuit is also available for the LAN9514. This reference design (\cite{LAN9514_ref_schematic}) is divided into seven interdependent circuits that allow engagement with all interfaces of the hub. The schematic of Figure~\ref{fig:USB_Hub_1_circuit} presents the circuit implementation around the LAN9514 itself (represented by U9), adapted from the reference design.%parei aqui - começar desde o numero 1
 
 % meter aqui circuito do USB_Hub_1
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/USB_Hub_1.pdf}
-	\caption{beRTK\textsuperscript{\textregistered} Base Station's USB hub schematic diagram.}
+	\caption{beRTK\textsuperscript{\textregistered} base station's USB hub schematic diagram.}
 	\label{fig:USB_Hub_1_circuit}
 \end{figure}
 
-% meter aqui circuito do USB_Hub_1
+Starting with
+
+% meter aqui circuito do USB_Hub_1 -- POWER SUPPLY FILTERING
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/USB_Hub_PwrSplyFiltering.pdf}
-	\caption{beRTK\textsuperscript{\textregistered} Base Station's USB Hub's Power Supply Filtering schematic diagram.}
+	\caption{beRTK\textsuperscript{\textregistered} base station's USB hub Power Supply Filtering schematic diagram.}
 	\label{fig:USB_Hub_PwrSplyFiltering_circuit}
 \end{figure}
 
-% meter aqui circuito do USB_Hub_1
+% meter aqui circuito do USB_Hub_1 -- DOWNSTREAM
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/USB_Hub_Downstream.pdf}
-	\caption{beRTK\textsuperscript{\textregistered} Base Station's USB Hub's Downstream schematic diagram.}
+	\caption{beRTK\textsuperscript{\textregistered} base station's USB hub Downstream schematic diagram.}
 	\label{fig:USB_Hub_Downstream_circuit}
 \end{figure}
 
