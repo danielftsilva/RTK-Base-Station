@@ -364,7 +364,7 @@ Since for this project only the USB specifications of this IC are needed, the TA
 
 The hub is designed to be fully compliant with the USB 2.0 specification, and is therefore able to comfortably operate with signalling rates of up to 480Mbit/s (i.e. high-speed). This operating mode is particularly interesting to the new beRTK\textsuperscript{\textregistered}'s application, since the CM4 module's USB interface also operates with high-speed signalling rates, as described in Section~\ref{sec:3221_CM4_HSpeed}.
 
-Similarly to the other ICs referenced in this project, a typical application circuit is also available for the LAN9514. This reference design (\cite{LAN9514_ref_schematic}) is divided into seven interdependent circuits that allow engagement with all interfaces of the hub. The schematic of Figure~\ref{fig:USB_Hub_1_circuit} presents the circuit implementation around the LAN9514 itself (represented by U9), adapted from the reference design.%parei aqui - começar desde o numero 1
+Similarly to the other ICs referenced in this project, a typical application circuit is also available for the LAN9514. This reference design (\cite{LAN9514_ref_schematic}) is divided into seven interdependent circuits that allow engagement with all interfaces of the hub. The schematic of Figure~\ref{fig:USB_Hub_1_circuit} presents the circuit implementation around the LAN9514 itself (represented by U9), adapted from the reference design.
 
 % meter aqui circuito do USB_Hub_1
 \begin{figure}[h]
@@ -374,7 +374,15 @@ Similarly to the other ICs referenced in this project, a typical application cir
 	\label{fig:USB_Hub_1_circuit}
 \end{figure}
 
-Starting with
+Since USB is a synchronous protocol, it requires a clock source to establish that synchronous nature. For such purpose, a single 25MHz crystal oscillator is recommended by the hub's documentation. Represented in the schematic of Figure~\ref{fig:USB_Hub_1_circuit} by XT1, this crystal is connected between pins 60 and 61 of the LAN9514, which correspond to the respective output (XO) and input (XI) crystal pins. Also available online is a hardware design checklist that highlights the need of a 1M$\Omega$ load resistor connected in parallel with the crystal (R38), along with two 15pF-33pF capacitors connected from each terminal (XO, XI) to ground (C22 and C21), for proper operation~\cite{LAN9514_HW_Design_Checklist}.
+
+In case another hub is implemented in the same plane as the LAN9514, the latter offers an optional 24MHz reference clock output pin, CLK24\_OUT, which will output that frequency value if pin CLK24\_EN is fed with a logical high voltage. In this case, this last pin is simply tied to GND as to disable this optional clock.
+
+Pin 12 corresponds to the hub system's active low reset input, and is therefore pulled up to the 3V3 power net from the CM4, through a 10k$\Omega$ resistor (R35).
+
+This same 3V3 net is the power supply for the LAN9514. The VDD33IO pins (19, 27, 33, 39, and 46; represented only by pin 19 in Figure~\ref{fig:USB_Hub_1_circuit}) correspond to the 3.3V power supply for the hub's I/O pins, and the VDD33A pins (5, 10, 49, 51, 54, 57, and 64; represented only by pin 5 in Figure~\ref{fig:USB_Hub_1_circuit}). All VDD33IO and VDD33A input terminals draw their power from the 3V3 net, and Figure~\ref{fig:USB_Hub_PwrSplyFiltering_circuit} shows the addition of one $0.1 \mu$F decoupling capacitor for each terminal of VDD33IO (C33-C37) and VDD33A (C23-C29).
+
+% parei aqui
 
 % meter aqui circuito do USB_Hub_1 -- POWER SUPPLY FILTERING
 \begin{figure}[h]
