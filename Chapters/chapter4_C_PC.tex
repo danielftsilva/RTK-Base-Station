@@ -29,7 +29,7 @@ Fed by the carefully laid out system's power supply, this chapter focuses on des
 \section{Control}\label{sec:311_Control}
 
 Starting from the control subgroup, the only component to be selected was a single-board computer able to replace the previously used Raspberry Pi 4 Model B; this means the chosen device would have to be able to carry out a pre-determined set of instructions crucial for the operation of the base station. Such requirement is presented in Section~\ref{sec:II_FCT_requirements} -- requirement \textbf{RTKBS.MAIN.FCT.030}, which proposes the use of a single-board computer (SBC).
-The set of instructions performed by the original beRTK\textsuperscript{\textregistered} base station is carried out by a Raspberry Pi 4 Model B computer (described in Section~\ref{sec:II_architecture_Control}), therefore, an element with a comparable computational power as this computer would be ideal. The Raspberry Pi Foundation offers a variety of solutions for many project ideas\footnote[13]{The Raspberry Pi Foundation's hardware offers are available at \url{https://www.raspberrypi.com/products/}.}, and since the operations intended for the beRTK\textsuperscript{\textregistered} base station are so well performed by the Raspberry Pi 4 Model B, it would be worth looking through the array of Raspberry Pi products in order to find a good solution. Research leads to the Raspberry Pi Compute Module 4.
+The set of instructions performed by the original beRTK\textsuperscript{\textregistered} base station is carried out by a Raspberry Pi 4 Model B computer (described in Section~\ref{sec:II_architecture_Control}), therefore, an element with a comparable computational power as this computer would be ideal. The Raspberry Pi Foundation offers a variety of solutions for many project ideas\footnote[14]{The Raspberry Pi Foundation's hardware offers are available at \url{https://www.raspberrypi.com/products/}.}, and since the operations intended for the beRTK\textsuperscript{\textregistered} base station are so well performed by the Raspberry Pi 4 Model B, it would be worth looking through the array of Raspberry Pi products in order to find a good solution. Research leads to the Raspberry Pi Compute Module 4.
 This compact module not only has a small form factor when compared with the Raspberry Pi 4 Model B, but it also bears its computational power, thanks to the same processor (a Broadcom BCM2711 quad-core Cortex-A72 (ARM v8) 64-bit SoC @ 1.5GHz). This makes it a great option for the system's control unit~\cite{CM4}.
 
 %meter imagem CM4:
@@ -74,7 +74,7 @@ The CM4's electrical interface is made up of two 100-pin high-density connectors
 From a macroscopic point of view, the use of specific interfaces is entrusted with each connector: one is in charge of establishing connections to the high-speed serial interfaces, while the other with the remaining interfaces (among other setup pins), the most important of which is the GPIO.
 \cite{CM4} references the BCM2711 ARM peripherals book (\cite{BCM2711_book}), a guide describing all the features provided by the CM4, along with all the alternative functions available, suitable for most designs.
 
-As an important note, it must be mentioned that the Raspberry Pi Foundation provides a development board for the CM4 -- the CM4IO Board\footnote[14]{Available at \url{https://www.raspberrypi.com/products/compute-module-4-io-board/}.} --, whose design intends to allow the testing and understanding of every interface provided by the CM4 module. The design files for this board are also available online, since the Foundation made them fully open source.
+As an important note, it must be mentioned that the Raspberry Pi Foundation provides a development board for the CM4 -- the CM4IO Board\footnote[15]{Available at \url{https://www.raspberrypi.com/products/compute-module-4-io-board/}.} --, whose design intends to allow the testing and understanding of every interface provided by the CM4 module. The design files for this board are also available online, since the Foundation made them fully open source.
 
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
 
@@ -105,7 +105,7 @@ The CM4 provides a specially dedicated pin to power bank 0 (and thus set the ``p
 
 Similarly to the 5V power supply, the +3.3V supply is marked in the schematics of the project by an arrow symbol with a ``+3V3'' label near it, and is hereby referred to as ``3V3''. This net is also used to supply other ICs and components on the beRTK\textsuperscript{\textregistered} system. It must be noted that the load connected to it must not surpass 600mA. As for the total load of the 28 GPIO pins, it should be kept below 50mA.
 
-Besides the ability of standard GPIO operation, all the GPIO pins are able to carry out up to six alternative functions, which can be selected by modifying the address of a corresponding ``Function Select Register'', assigned to each pin. According to~\cite{BCM2711}, for the GPIO pins used in this project -- GPIO4, GPIO8 and GPIO9 (pins 54, 39 and 40, respectively, in Figure~\ref{fig:CM4_GPIO_circuit}) --, the Function Select Register is GPFSEL0. The alternative functions of the GPIO pins used in the project (as well as the ones with test points only\footnote[15]{See Section~\ref{sec:3223_CM4_CTRL_POINTS}.}) are presented in Table~\ref{tab:GPIO_alternative_functions}.
+Besides the ability of standard GPIO operation, all the GPIO pins are able to carry out up to six alternative functions, which can be selected by modifying the address of a corresponding ``Function Select Register'', assigned to each pin. According to~\cite{BCM2711}, for the GPIO pins used in this project -- GPIO4, GPIO8 and GPIO9 (pins 54, 39 and 40, respectively, in Figure~\ref{fig:CM4_GPIO_circuit}) --, the Function Select Register is GPFSEL0. The alternative functions of the GPIO pins used in the project (as well as the ones with test points only\footnote[16]{See Section~\ref{sec:3223_CM4_CTRL_POINTS}.}) are presented in Table~\ref{tab:GPIO_alternative_functions}.
 
 %table GPIO_alternative_functions:
 \begingroup
@@ -167,7 +167,7 @@ Besides the ability of standard GPIO operation, all the GPIO pins are able to ca
 	\end{figure}
 	This small circuit forces the pin's output signal through a 74AHC1G04 single inverter gate, which draws its supply voltage from the AP64501's 5V supply net. Therefore, when fed a low input signal, the output of this inverter will simply correspond to its operating voltage, i.e. 5V. Finally, connecting a reasonably-valued resistor in series with an LED to the inverter's output results in the power-on indicator;
 
-	\item Pin 21, PI\_nLED\_Activity -- With an LED pulled up to 5V, this active-low pin is used to indicate activity of the CM4. It also aids in boot troubleshooting, since it will cause the connected LED to flash in pre-defined patterns that can be decoded using a specialized look-up table\footnote[16]{Available at \url{https://www.raspberrypi.com/documentation/computers/configuration.html}.}.
+	\item Pin 21, PI\_nLED\_Activity -- With an LED pulled up to 5V, this active-low pin is used to indicate activity of the CM4. It also aids in boot troubleshooting, since it will cause the connected LED to flash in pre-defined patterns that can be decoded using a specialized look-up table\footnote[17]{Available at \url{https://www.raspberrypi.com/documentation/computers/configuration.html}.}.
 \end{itemize}
 
 \paragraph{Additional Test Points}	A few test points were added to the design, in order to monitor and debug the CM4's operation.
@@ -405,7 +405,7 @@ As stated in Section~\ref{sec:3221_CM4_HSpeed}, the CM4's USB 2.0 interface pins
 Following the USB specification~\cite{USB_Specification}, each downstream port must have connections for positive and negative USB data signals (i.e. the differential pair). In the LAN9514, pins $\overline{\mbox{USBDM2}}$, $\overline{\mbox{USBDM3}}$, $\overline{\mbox{USBDM4}}$ and $\overline{\mbox{USBDM5}}$ correspond to the negative downstream data signals for each downstream port the hub allows to implement, and USBDP2, USBDP3, USBDP4 and USBDP5 to the respective positive downstream data signals (see Figure~\ref{fig:USB_Hub_1_circuit}).
 
 To deliver power to each downstream port, the LAN9514 provides four individual port power control pins named PRTCTL[5:2] (pins 14, 16, 17 and 18 in Figure~\ref{fig:USB_Hub_1_circuit}), that are also able to detect over-current conditions. Each of these terminals must be connected to the enable pin of a power distribution switch.
-\cite{LAN9514_ref_schematic} suggests the MIC2026-1BM for such, however, at the design and prototyping phases of the project, this component was never available. An alternative was chosen, named MIC2026A-2YM~\cite{MIC2026A}. The difference between the alternative and the suggested power distribution switch is, besides a small variation for the on-resistance, the fact that its enable pin is of an active-low nature\footnote[17]{For the MIC2026 and MIC2026A parts, the number after the dash character represents either an active-high or active-low enable pin (-1 or -2, respectively).}.
+\cite{LAN9514_ref_schematic} suggests the MIC2026-1BM for such, however, at the design and prototyping phases of the project, this component was never available. An alternative was chosen, named MIC2026A-2YM~\cite{MIC2026A}. The difference between the alternative and the suggested power distribution switch is, besides a small variation for the on-resistance, the fact that its enable pin is of an active-low nature\footnote[18]{For the MIC2026 and MIC2026A parts, the number after the dash character represents either an active-high or active-low enable pin (-1 or -2, respectively).}.
 
 Therefore, knowing the MIC2026A-2YM enable pin's topology is active-low and that these components offer two power distribution switches in one package, each PRTCTL pins of the LAN9514 was connected to the input of a 74AHC1G04 single inverter gate supplied with 3.3V (which lies within the power supply range of the MIC2026A-2YM enable pin), as shown in Figure~\ref{fig:USB_Hub_Downstream_circuit}. Connecting the IN pin of each MIC2026A-2YM (U11 and U12) to the 5V power net, this same voltage will power each downstream port through the OUTA and OUTB pins, upon receiving the PRTCTL enabling signal by the hub. When this occurs, an LED is lit, signalling a correct power delivery to its respective downstream USB port.
 
@@ -414,18 +414,3 @@ According to~\cite{LAN9514}, if the hub is bus-powered, VBUS\_DET must be tied t
 
 % REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
 %SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
-
-
-% \section{PCB Layout Design}\label{sec:4_PCBlayout}
-
-% -- $20 \mu$F ceramic capacitors were chosen for both the power inputs and power output of the LTC4012. 
-
-% -- As mentioned before, the top and bottom power FETs Q2 and Q9, along with inductor L1 are vital to the PWM control architecture. These components are part of the sub-circuit that starts from the +15VDC source of power and passes across FET Q1 (connected to pin INFET), sense resistor R3, 
-% This sub-circuit forms the ``power supply rail'', and upon layout design of the circuit from Figure~\ref{fig:LTC4012_circuit}, this section must bear a track width large enough to withstand large values of currents or any other phenomena that may occur (e.g. voltage/current spikes). The needed track width can be calculated through the following expression:
-
-%XBee: Digi XBee 3 RF Module Hardware Reference Manual
-% We design XBee 3 RF Modules to be self-sufficient and have minimal sensitivity to nearby processors,
-% crystals or other printed circuit board (PCB) components. Keep power and ground traces thicker than
-% signal traces and make sure that they are able to comfortably support the maximum current
-% specifications. There are no other special PCB design considerations to integrate XBee 3 RF Modules,
-% with the exception of antennas.
