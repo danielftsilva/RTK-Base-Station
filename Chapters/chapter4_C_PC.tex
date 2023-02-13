@@ -82,7 +82,7 @@ As an important note, it must be mentioned that the Raspberry Pi Foundation prov
 
 \paragraph{HDMI 2.0 Interface}	Two HDMI 2.0 interfaces are available to use with the CM4 and each have the ability of providing 4K images. For the new beRTK\textsuperscript{\textregistered}, only one HDMI interface is necessary, and therefore only one HDMI port is needed. Figure~\ref{fig:CM4_HighSpeed_circuit} represents the schematic diagram of the second 100-pin connector of the CM4 (MOD1B, with pins 101 to 200), responsible for the high-speed serial interfaces -- two of which are HDMI 2.0. The interface used for the project is labeled as HDMI0, and is represented by every pin connected to an external label that starts with ``HDMI0'' -- 12 pins in total. To the right of the same figure, the HDMI type-A connector port can be seen, represented by F6. To minimize incoming noise from the 5V power supply (i.e. from the AP64501), implemented right before this connector's power input pin is a ferrite bead (FB1) rated at 2.0A, a more-than-sufficient current rating for the project's 5V power supply.
 
-\paragraph{USB 2.0 Interface}	The CM4's USB 2.0 interface enables a signalling rate of 480Mbit/s and is accessible via two pins, USB2\_N and USB2\_P, which represent the negative (D-) and positive (D+) data pins, respectively. In Figure~\ref{fig:CM4_HighSpeed_circuit}, these pins are, in the same order as mentioned, represented by pins 103 and 105; they are connected to the pins $\overline{\mbox{USBDM0}}$ and USBDP0 (pins number 58 and 59, respectively) of the LAN9514 USB 2.0 hub, covered in Section~\ref{sec:3234_LAN9514}.
+\paragraph{USB 2.0 Interface}	The CM4's USB 2.0 interface enables a signalling rate of 480Mbit/s and is accessible via two pins, USB2\_N and USB2\_P, which represent the negative (D-) and positive (D+) data pins, respectively. In Figure~\ref{fig:CM4_HighSpeed_circuit}, these pins are, in the same order as mentioned, represented by pins 103 and 105; they are connected to pins $\overline{\mbox{USBDM0}}$ and USBDP0 (pins number 58 and 59, respectively) of the LAN9514 USB 2.0 hub, covered in Section~\ref{sec:3234_LAN9514}.
 
 There is one extra pin (numbered 101) used in this interface, labelled as USB\_OTG\_ID. This pin  provides the CM4's USB port the ability of being used as a true On-The-Go (OTG) port, accomplished by (typically) tying the USB\_OTG\_ID pin to the ID pin of a Micro USB connector. This feature allows the CM4 to act interchangeably as either a host or a device. For this version of the project, there is no necessity of the OTG feature, and as such, the USB\_OTG\_ID pin is simply tied to GND, as that ensures the module will be used as either a fixed host or fixed device, according to~\cite{CM4}.
 
@@ -380,9 +380,7 @@ In case another hub is implemented in the same plane as the LAN9514, the latter 
 
 Pin 12 corresponds to the hub system's active low reset input, and is therefore pulled up to the 3V3 power net from the CM4, through a 10k$\Omega$ resistor (R35).
 
-This same 3V3 net is the power supply for the LAN9514. The VDD33IO pins (19, 27, 33, 39, and 46; represented only by pin 19 in Figure~\ref{fig:USB_Hub_1_circuit}) correspond to the 3.3V power supply for the hub's I/O pins, and the VDD33A pins (5, 10, 49, 51, 54, 57, and 64; represented only by pin 5 in Figure~\ref{fig:USB_Hub_1_circuit}). All VDD33IO and VDD33A input terminals draw their power from the 3V3 net, and Figure~\ref{fig:USB_Hub_PwrSplyFiltering_circuit} shows the addition of one $0.1 \mu$F decoupling capacitor for each terminal of VDD33IO (C33-C37) and VDD33A (C23-C29).
-
-% parei aqui
+This same 3V3 net is the power supply for the LAN9514. The VDD33IO pins (19, 27, 33, 39, and 46; represented only by pin 19 in Figure~\ref{fig:USB_Hub_1_circuit}) correspond to the 3.3V power supply for the hub's I/O pins, and the VDD33A pins (5, 10, 49, 51, 54, 57, and 64; represented only by pin 5 in Figure~\ref{fig:USB_Hub_1_circuit}). All VDD33IO and VDD33A input terminals draw their power from the 3V3 net, and Figure~\ref{fig:USB_Hub_PwrSplyFiltering_circuit} shows the addition of one $0.1 \mu$F decoupling capacitor for each terminal of VDD33IO (C33-C37) and VDD33A (C23-C29). This figure also depicts other bypass capacitors, connected to pin VDD18CORE of the LAN9514. This pin serves as a means to bypass the hub's internal +1.8V core regulator.
 
 % meter aqui circuito do USB_Hub_1 -- POWER SUPPLY FILTERING
 \begin{figure}[h]
@@ -392,6 +390,10 @@ This same 3V3 net is the power supply for the LAN9514. The VDD33IO pins (19, 27,
 	\label{fig:USB_Hub_PwrSplyFiltering_circuit}
 \end{figure}
 
+The hub's USB interface is set up by several pins. To set up the correct high-speed bias currents for the USB physical device inside the LAN9514 this pin must be pulled to GND through a 12k$\Omega$ resistor.
+
+As stated in Section~\ref{sec:3221_CM4_HSpeed}, the CM4's USB 2.0 interface pins USB2\_N and USB2\_P are connected to their counterparts in the LAN9514, through pins $\overline{\mbox{USBDM0}}$ (pin 58) and USBDP0 (pin 59). These two pins are in charge of the upstream USB data signals. As for the downstream USB data signals, these run from the downstream USB data pins of the hub to their respective USB ports, shown in Figure~\ref{fig:USB_Hub_Downstream_circuit}.
+
 % meter aqui circuito do USB_Hub_1 -- DOWNSTREAM
 \begin{figure}[h]
 	\centering
@@ -400,11 +402,21 @@ This same 3V3 net is the power supply for the LAN9514. The VDD33IO pins (19, 27,
 	\label{fig:USB_Hub_Downstream_circuit}
 \end{figure}
 
+Following the USB specification~\cite{USB_Specification}, each downstream port must have connections for positive and negative USB data signals (i.e. the differential pair). In the LAN9514, pins $\overline{\mbox{USBDM2}}$, $\overline{\mbox{USBDM3}}$, $\overline{\mbox{USBDM4}}$ and $\overline{\mbox{USBDM5}}$ correspond to the negative downstream data signals for each downstream port the hub allows to implement, and USBDP2, USBDP3, USBDP4 and USBDP5 to the respective positive downstream data signals (see Figure~\ref{fig:USB_Hub_1_circuit}).
+
+To deliver power to each downstream port, the LAN9514 provides four individual port power control pins named PRTCTL[5:2] (pins 14, 16, 17 and 18 in Figure~\ref{fig:USB_Hub_1_circuit}), that are also able to detect over-current conditions. Each of these terminals must be connected to the enable pin of a power distribution switch.
+\cite{LAN9514_ref_schematic} suggests the MIC2026-1BM for such, however, at the design and prototyping phases of the project, this component was never available. An alternative was chosen, named MIC2026A-2YM~\cite{MIC2026A}. The difference between the alternative and the suggested power distribution switch is, besides a small variation for the on-resistance, the fact that its enable pin is of an active-low nature\footnote[17]{For the MIC2026 and MIC2026A parts, the number after the dash character represents either an active-high or active-low enable pin (-1 or -2, respectively).}.
+
+Therefore, knowing the MIC2026A-2YM enable pin's topology is active-low and that these components offer two power distribution switches in one package, each PRTCTL pins of the LAN9514 was connected to the input of a 74AHC1G04 single inverter gate supplied with 3.3V (which lies within the power supply range of the MIC2026A-2YM enable pin), as shown in Figure~\ref{fig:USB_Hub_Downstream_circuit}. Connecting the IN pin of each MIC2026A-2YM (U11 and U12) to the 5V power net, this same voltage will power each downstream port through the OUTA and OUTB pins, upon receiving the PRTCTL enabling signal by the hub. When this occurs, an LED is lit, signalling a correct power delivery to its respective downstream USB port.
+
+Referring back to Figure~\ref{fig:USB_Hub_1_circuit}, a very important pin for the USB definition on the LAN9514 is VBUS\_DET. This pin is used to define the hub's powering mode.
+According to~\cite{LAN9514}, if the hub is bus-powered, VBUS\_DET must be tied to VDD33IO (i.e. 3V3); if it is instead self-powered from a permanent connection to a host, VBUS\_DET should be pulled to VDD33IO. In this case, since the hub is permanently connected to CM4, which is a host, VBUS\_DET should be pulled to the 3V3 net. This pin also serves as a detector of the upstream bus power state, in order to, for example, signal connect events of an upstream USB port.	
+
 % REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
 %SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
 
 
-% \section{PCB Layout Design}\label{sec:33_PCBlayout}
+% \section{PCB Layout Design}\label{sec:4_PCBlayout}
 
 % -- $20 \mu$F ceramic capacitors were chosen for both the power inputs and power output of the LTC4012. 
 

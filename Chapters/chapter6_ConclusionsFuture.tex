@@ -44,7 +44,9 @@ Having done this, the next step is related to the establishment of requirements 
 why? Because the ZED-F9P pins connected to the CM4's GPIO pins are part of a UART peripheral set on the ZED-F9P module, as it is possible to observe in the circuit of Figure~\ref{fig:ZED-F9P_carrier_board}, along with Section 3.1 of~\cite{ZED_F9P}.
 
 8. % LAN9514:
-However, USB has the advantage of allowing hot-swapping, making it useful for mobile peripherals, including drives of various kinds. -- mesmo que digam isto ja é possivel por natureza do USB, eu ainda tentei fazer o que dizia no datahseet do LAN9514 para dar enable ao hot-swapping, mas continuou sem funcionar.
+However, USB has the advantage of allowing hot-swapping, making it useful for mobile peripherals, including drives of various kinds. -- mesmo que digam isto ja é possivel por natureza do USB, eu ainda tentei fazer o que dizia no datahseet do LAN9514 para dar enable ao hot-swapping, mas continuou sem funcionar;
+8.1: Meter FIGURE 2-3 do datasheet do LAN9514 e falar do PRTCTL
+8.2: falta VDD18USBPLL com capacitor, e com ferrite para VDD18ETHPLL
 
 9. %cm4:
 In Section~\ref{sec:3234_LAN9514}, the lack of implementation of the upstream USB PHY block was addressed. It must be noted that this such block should be implemented in the beRTK\textsuperscript{\textregistered}'s system, since it not only facilitates the OS loading into the CM4, but can also be used to transfer data if needed.
