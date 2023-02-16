@@ -93,21 +93,21 @@ This IC's datasheet (\cite{bq29209}) also provides a dedicated section highlight
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
 \subsubsection{Voltage Converter}\label{sec:5114_VoltageConverter}
 
-Similar to the previous IC's datasheets,~\cite{AP64501} singles important guidelines for a thorough layout of the AP64501's circuit. These guidelines are laid out in list form, starting by addressing the recommended copper thickness for the carrier board for the IC (due to the maximum 5A output current), followed by the importance of the placement of the input capacitors and inductor (L2) as close as possible to their respective terminals on the converter. More specifically, the input capacitors should be placed close to the power supply (VIN) of the IC, and the inductor close to the switching terminal (SW) -- similiar to the layout topology addressed by the LAN9514's datasheet. After this, the list focuses on output capacitors, feedback components, and finally PCB layers and vias. A layout schematic example is also provided, and is represented in Figure~\ref{fig:AP64501_layout_Datasheet}.
+Similar to the previous IC's datasheets,~\cite{AP64501} singles important guidelines for a thorough layout of the AP64501's circuit. These guidelines are laid out in list form, starting by addressing the recommended copper thickness for the carrier board for the IC (due to the maximum 5A output current), followed by the importance of the placement of the input capacitors and inductor (L2) as close as possible to their respective terminals on the converter. More specifically, the input capacitors should be placed close to the power supply (VIN) of the IC, and the inductor close to the switching terminal (SW) -- similar to the layout topology addressed by the LAN9514's datasheet. After this, the list focuses on output capacitors, feedback components, and finally PCB layers and vias. A layout schematic example is also provided, and is represented in Figure~\ref{fig:AP64501_layout_Datasheet}.
 
 % meter aqui AP64501 layout - datasheet
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.7\textwidth]{Chapters/Figures/chapter5/AP64501_layout_Datasheet.pdf}
+	\includegraphics[width=0.5\textwidth]{Chapters/Figures/chapter5/AP64501_layout_Datasheet.pdf}
 	\caption{Recommended layout for the AP64501 synchronous buck converter's circuit~\cite{AP64501}.}
 	\label{fig:AP64501_layout_Datasheet}
 \end{figure}
 
-Taking all these notes into account, the component placement depicted on Figure~\ref{fig:placement_VoltageConverter} results.
+Taking all these notes into account resulted in the component placement depicted on Figure~\ref{fig:placement_VoltageConverter}.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.7\textwidth]{Chapters/Figures/chapter5/placement_VoltageConverter.png}
+	\includegraphics[width=0.6\textwidth]{Chapters/Figures/chapter5/placement_VoltageConverter.png}
 	\caption{Final placement of the Voltage Converter circuit's components.}
 	\label{fig:placement_VoltageConverter}
 \end{figure}%placement_VoltageConverter
@@ -116,11 +116,11 @@ Taking all these notes into account, the component placement depicted on Figure~
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
 \subsubsection{Power Switch}\label{sec:5115_PowerSwitch}
 
-%parei aqui
+The power switch circuit placement revealed itself to be very simple, only with notes from~\cite{SN74LVC2G74DCTR} to pay attention to upon the routing phase -- addressed in Section~\ref{sec:52_Routing}. Figure~\ref{fig:placement_PowerSwitch} shows the arrangement made for this circuit, which basically surrounds the main ICs (the D-type flip-flop, the inverter, and the voltage regulator) with their function-defining components.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.7\textwidth]{Chapters/Figures/chapter5/placement_PowerSwitch.png}
+	\includegraphics[width=0.4\textwidth]{Chapters/Figures/chapter5/placement_PowerSwitch.png}
 	\caption{Final placement of the Power Switch circuit's components.}
 	\label{fig:placement_PowerSwitch}
 \end{figure}%placement_PowerSwitch
@@ -128,6 +128,11 @@ Taking all these notes into account, the component placement depicted on Figure~
 
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
 \subsubsection{Human-Machine Interface}\label{sec:5116_HMI}
+
+Figure~\ref{fig:placement_HMI} shows the placement of the LM2901 comparator's circuit (previously represented on the left of Figure~\ref{fig:HMI_circuit}).
+Placement for this part of the system also proved to be straightforward, due to the reduced number of components (mainly resistors), which were simply laid out around comparator U6.
+
+As explained previously, the status voltage from the comparator flows to the HMI itself through the connection of two 2.54mm pitch pin headers, F4 and F5. F4 is placed close to U6, as well as to the top right corner of the board, on its opposite side (see Figure~\ref{fig:placement_HMI}, left). It is supposed to be connected to F5 to power all indication LEDs and push-button SW1, as well as to establish nets PWR\_SWITCH, PWR\_LED and EXT\_PWR. The right side of Figure~\ref{fig:placement_HMI} shows a small separate PCB just for the HMI. The reason for this separate board is due to its specific user-accessible location on the outside of the base station's casing.
 
 \begin{figure}[h]
 	\centering
@@ -140,17 +145,32 @@ Taking all these notes into account, the component placement depicted on Figure~
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
 \subsubsection{GNSS module and Wi-Fi Transceiver}\label{sec:5117_ZED_XBEE}
 
+Aside from connector F4, the GNSS module was the only system part to be placed on the back side of the main board, since this was the most convenient location due to its mechanical structure (i.e. because the module itself consists on a small PCB with a pin header soldered on it). The remaining components connected to the GNSS module's circuit, namely the RTK ISP connector, input capacitors C9 and C10, and diodes D6 and D7 are placed on the front side of the main board, near the opposite location of the module itself, along with the RTK data test points. All this can be seen on the top portion of the left side of Figure~\ref{fig:placement_ZED_XBEE}.
+
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.3\textwidth]{Chapters/Figures/chapter5/placement_ZED_XBEE.png}
-	\caption{Final placement of the GNSS module and Wi-Fi Transceiver circuits' components.}
+	\includegraphics[width=0.6\textwidth]{Chapters/Figures/chapter5/placement_ZED_XBEE.png}
+	\caption{Final placement of the GNSS module and Wi-Fi Transceiver circuits' components (left); Antenna keepout area for the XBee 3 RF module (right).}
 	\label{fig:placement_ZED_XBEE}
 \end{figure}%placement_ZED_XBEE
+
+As for the Wi-Fi transceiver, i.e. the XBee 3 RF module,~\cite{XBee} provides layout design notes to help achieve the best antenna performance possible. Since the XBee module used in this project is known as the its ``micro chip'' version, the notes for this version are the ones to pay attention to. These state that non-metal enclosures are preferred, and that all metal parts of the system -- either internal or external in respect to the main board -- must be kept at the maximum distance possible from the module's antenna. For that,~\cite{XBee} also provides a graphic visualization of a recommended antenna keepout area to implement. The righ side of Figure~\ref{fig:placement_ZED_XBEE} shows such area.
+
+After assessing these guidelines, the placement of this circuit's components was standard when compared to the previous sections, with output capacitors C11-C14 of the U2 LDO placed as close as possible to its output, as well as to the VCC input (pin 2) of the XBee module. All test points for the latter (DIO0-DIO3) are placed above it.
 
 %   dizer que é importante o cristal estar mais perto possivel do LAN, porque o routing desta parte do circuito é critica;
 %   importante as USB downstream ports estarem o mais perto possivel do LAN
 %   ver se me lembro de mais regras...
 %   definiu-se um limite experimental para a placa ($100 \times 70$ mm (length $\times$ width)) e acabou por se aumentar para $129 \times 90$ mm (length $\times$ width).
+
+Concluding the placement of every sub-circuit, the remaining placement-related task is to assign these to a roughly specific location on the board. Choosing the board's dimensions settles the placement phase. For the main board, the final size was set to $129 \times 90$ mm (length $\times$ width). As for the HMI board, the same $30 \times 60$ mm (length $\times$ width) measurements from the previous beRTK\textsuperscript{\textregistered} version were kept unaltered. Figure~\ref{fig:placement_FULL} shows the final placement of the entire system within the board's defined limits.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\textwidth]{Chapters/Figures/chapter5/placement_FULL.png}
+	\caption{Final placement of the new beRTK\textsuperscript{\textregistered} system within the board's defined limits.}
+	\label{fig:placement_FULL}
+\end{figure}%placement_FULL
 
 \subsection{Routing}\label{sec:52_Routing}
 
