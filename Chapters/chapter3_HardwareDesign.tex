@@ -461,9 +461,9 @@ This capacitor can be increased if longer start-up times are required, but loop 
 
 The battery pack used for this project relies on two equal Li-ion cells disposed in a 2-Series cell configuration, which imperatively requires cell balancing -- a specific technique used for preserving the batteries' health, i.e. their life cycle. Although the two cells used for the backup pack are the same model, there will certainly be discrepancies between them, since no two batteries are the same, which translates in different levels for the \gls{SoC} of both cells. Such problem requires a way not to allow the draining of any cell below its rated cut-off voltage (in the case of the INR18650-35E cell, 2.65V, as presented in Table~\ref{tab:battery2S}) or overcharging past the 4.20V ($\pm0.05$V) termination voltage limit. Texas Instruments offers a low-power solution for this: the BQ29209 is an IC capable of providing automatic cell balance for 2-series cell Li-ion battery packs, along with overvoltage protection. The cell balancing is achieved through the comparison of each cell's voltage, enabling and disabling the feature when nominal differences of 30mV (or more) or 0mV, respectively, are detected.
 
-BQ29209's datasheet (\cite{bq29209}) provides a typical application circuit, as well as some application notes. However, the typical application circuit cannot be implemented for the new beRTK\textsuperscript{\textregistered}, since the internal system of this battery balancer can only support cell balancing currents of up to 15mA, which would not cause any kind of reaction within the INR18650-35E cells used, since their minimum charge current is 68mA. Therefore,~\cite{bq29209} provides an application circuit capable of supporting a cell balancing current higher than 15mA, which was adapted for this project. This implementation is presented in Figure~\ref{fig:BQ29209_circuit}. %caso meta esta parte, descomentar o minimum charge current de 68mA da Table 3.1!
+BQ29209's datasheet (\cite{bq29209}) provides a typical application circuit, as well as some application notes. The implementation of that circuit is presented in Figure~\ref{fig:BQ29209_circuit}.
 
-% meter aqui circuito do BQ29209
+% meter aqui circuito do BQ29209 - DEIXAR como está!!!!
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/Battery_Balancer.pdf}
@@ -471,18 +471,9 @@ BQ29209's datasheet (\cite{bq29209}) provides a typical application circuit, as 
     \label{fig:BQ29209_circuit}
 \end{figure}
 
-The circuit of Figure~\ref{fig:BQ29209_circuit} is valid for a $V_{DD}$ supply voltage that ranges from 4V to 10V. In this case, the BQ29209 IC is powered by the battery pack, and therefore $V_{DD}$ is approximately equal to the battery pack's voltage (due to the 100$\Omega$ R48 resistor), which will always be maintained within the intended voltage supply range. This same circuit also ensures that, due to FETs Q3 (NMOS) and Q10 (PMOS), a higher cell balancing current can safely be established, being it defined by either cell's voltage, along with resistor R4:
+The circuit of Figure~\ref{fig:BQ29209_circuit} is valid for a $V_{DD}$ supply voltage that ranges from 4V to 10V. In this case, the BQ29209 IC is powered by the battery pack, and therefore $V_{DD}$ is approximately equal to the battery pack's voltage (due to the 100$\Omega$ R48 resistor), which will always be within the intended voltage supply range.
 
-\begin{equation}\label{eq:IBAL}
-	I_{BAL}=\frac{V_{Cell}}{R4}\,\medskip
-\end{equation}
-
-\noindent It should be noted that resistor R54's purpose lies on ensuring that both ``balancing'' FETs will remain off while cell balancing is not taking place and should be selected with a value above 2k$\Omega$.
-
-\cite{bq29209} clarifies that the BQ29209 ensures cell balancing on the cell that presents the higher voltage of the pack.
-Taking into account that recommended cell arrangement sequence (from the bottom of the stack) of GND--Cell1--Cell2 (i.e. from pin 3 to pin 1 of connector F9 -- Figure~\ref{fig:BQ29209_circuit}) was followed, the balancing of Cell1 would start by pulling pin VC1\_CB of BQ29209 to GND, therefore setting PMOS Q10's gate-source voltage at around $-V_{Cell1}$. This would cause a balancing current of $I_{BAL1}=\frac{V_{Cell1}}{R4}$. Conversely, if Cell2 were in need of balancing, VC1\_CB would instead be pulled to $V_{DD}$, thus setting Q3's gate voltage at around $V_{Cell1}+V_{Cell2}$, which translates into a gate-source voltage of approximately $V_{Cell2}$, having the source voltage being set at around $V_{Cell1}$. With this, resorting again to equation (\ref{eq:IBAL}), a cell balancing current of $I_{BAL2}=\frac{V_{Cell2}}{R4}$ results. In order to set a balancing current for each cell that would always surpass the minimum charge current of 68mA, a value of 20$\Omega$ was sized for R4. 
-
-The remaining components' values were selected as to comply with the BQ29209 recommended operating conditions, except for the delay time capacitance, C55, which can be calculated based on a desired delay time ($t_d$) for the activation of the overvoltage protection feature -- expression (\ref{eq:CCD}) --, as well as on an overvoltage delay time scale factor, $X_{DELAY}$, expressed in $s/ \mu F$.
+All components' values were selected according to the design parameters suggested by~\cite{bq29209}. It should be noted that a particular component, named ``delay time capacitance'' (C55), can be calculated based on a desired delay time ($t_d$) for the activation of the overvoltage protection feature -- expression (\ref{eq:CCD}) --, as well as on an overvoltage delay time scale factor, $X_{DELAY}$, expressed in $s/ \mu F$.
 
 \begin{equation}\label{eq:CCD}
 	C55=\frac{t_d}{X_{DELAY}}\,\medskip
@@ -490,7 +481,7 @@ The remaining components' values were selected as to comply with the BQ29209 rec
 
 \noindent As the nominal value for $X_{DELAY}$ is $9s/ \mu$F, a delay time capacitance of $0.33 \mu$F results.
 
-It must be noted that the overvoltage protection feature is not indicated for the project's backup battery pack, since due to each cell's charging cycle termination voltage limit being 4.20V, this level will not meet the only two fixed overvoltage protection thresholds rated for the BQ2920x product family (4.30V or 4.35V, $\pm 0.25$mV) without causing damage overtime. Nevertheless, the delay time capacitance is still included in the circuit, for future work on the beRTK\textsuperscript{\textregistered}, e.g. with different backup battery pack specifications. Also concerning the overvoltage feature is the OUT output pin component setting, composed by a resistor and a MOSFET (R51 and Q7, respectively). The OUT output pin is initially set low, only switching to a high state when any cell reaches an overvoltage condition. This high state activates MOSFET Q7, shunting the battery power supply to ground in order to preserve health and life cycle of the cells.
+It must be noted that the overvoltage protection feature is not indicated for the project's backup battery pack, since due to each cell's charging cycle termination voltage limit being 4.20V, this level will not meet the only two fixed overvoltage protection thresholds rated for the BQ2920x product family (4.30V or 4.35V, $\pm 0.25$mV) without causing damage overtime. Nevertheless, the delay time capacitance is still included in the circuit, for future work on the beRTK\textsuperscript{\textregistered}, e.g. with different backup battery pack specifications. Also concerning the overvoltage feature is the OUT output pin component setting, composed by a resistor and a MOSFET (R51 and Q7, respectively). The OUT output pin is initially set low, only switching to a high state when any cell reaches an overvoltage condition. This high state activates MOSFET Q7, shunting the battery power supply to ground in order to preserve health and life cycle of the connected cells.
 
 Regarding indication of the battery pack's voltage state, MOSFETs Q6 and Q8 make up another switching system as the one presented in Section~\ref{sec:3213_SWITCH}, for the Power Switch circuit. Observing Figure~\ref{fig:BQ29209_circuit} once more, it can be seen that the VBAT net is constantly supplying the battery pack's voltage through resistor R50 to Q6's gate. As Q6 is a P-channel type MOSFET, it will act as an open switch when such voltage is fed to its gate. This will not allow the battery pack's voltage to be transferred to the VBAT\_STAT net, intended to supply a comparator used to indicate the status of this same voltage (hereby defined as the ``status voltage'') -- explained in Section~\ref{sec:3231_BACKPANEL}. This status voltage is only fed to the voltage comparator of Figure~\ref{fig:HMI_circuit} (U6) upon the activation of the Q8 FET (Figure~\ref{fig:BQ29209_circuit}). Assuming the battery pack is connected to the system, Q8 can arbitrarily be turned off or on just by plugging in or out the external power adapter, respectively. In other words, when only the battery pack is connected, Q8 will be on, and therefore Q6 will be on as well. On the other hand, upon plugging the external adapter in, the LTC4012's $\overline{\mbox{ACP}}$ open-drain output will be pulled to GND, turning both Q8 and Q6 off, cutting off comparator U6's supply.
 
@@ -580,14 +571,14 @@ where C41 is the capacitance (in nF) and must be at least equal to 10nF, and $t_
 	\label{fig:UVLO_divider}
 \end{figure}
 
-Figure~\ref{fig:UVLO_divider} presents the external voltage divider setting that can be implemented in order to program the UVLO feature, where resistors R3 and R4 correspond to resistors R10 and R13 (respectively) of Figure~\ref{fig:AP64501_circuit}. The values of such resistors can be determined through expressions (\ref{eq:R10}) and (\ref{eq:R13}):
+Figure~\ref{fig:UVLO_divider} presents the external voltage divider setting that can be implemented in order to program the UVLO feature, where resistors R3 and R4 correspond to resistors R39 and R40 (respectively) of Figure~\ref{fig:AP64501_circuit}. The values of such resistors can be determined through expressions (\ref{eq:R39}) and (\ref{eq:R40}):
 
-\begin{equation}\label{eq:R10}
-	R10 = \frac{0.924 \cdot V_{ON} - V_{OFF}}{4.1 \mu \textrm{A}}\,\medskip
+\begin{equation}\label{eq:R39}
+	R39 = \frac{0.924 \cdot V_{ON} - V_{OFF}}{4.1 \mu \textrm{A}}\,\medskip
 \end{equation}
 
-\begin{equation}\label{eq:R13}
-	R13 = \frac{1.09 \cdot R10}{V_{OFF} - 1.09 \textrm{V} + 5.5 \mu \textrm{A} \cdot R10}\,\medskip
+\begin{equation}\label{eq:R40}
+	R40 = \frac{1.09 \cdot R39}{V_{OFF} - 1.09 \textrm{V} + 5.5 \mu \textrm{A} \cdot R39}\,\medskip
 \end{equation}
 
 Where:
@@ -601,7 +592,7 @@ In the case of this project, each battery cell has a discharge cut-off voltage o
 The $V_{ON}$ voltage to enable the regulator must be chosen considering the possibility of the system powered on by the battery pack only. This pack's maximum voltage will not surpass 8.4V, and therefore $V_{ON}$ must be lower than that. Also considering the likeliness of the battery pack not being fully charged at the time on powering on the system, 6V would a safe low value for $V_{ON}$.
 
 % apresentar os resultados do excel:
-Substituting the $V_{ON}$ and $V_{OFF}$ in (\ref{eq:R10}), $10.732$k$\Omega$ result for R10. Subsequently, using this value in (\ref{eq:R13}), $2.617$k$\Omega$ result for R13. The closest values available for R10 and R13 at the prototyping phase were 11k$\Omega$ and 2.7k$\Omega$, respectively. Reversing expressions (\ref{eq:R10}) and (\ref{eq:R13}) and using these adapted resistor values result in the intended $V_{ON}$ and $V_{OFF}$ values.
+Substituting the $V_{ON}$ and $V_{OFF}$ in (\ref{eq:R39}), $10.732$k$\Omega$ result for R39. Subsequently, using this value in (\ref{eq:R40}), $2.617$k$\Omega$ result for R40. The closest values available for R39 and R40 at the prototyping phase were 11k$\Omega$ and 2.7k$\Omega$, respectively. Reversing expressions (\ref{eq:R39}) and (\ref{eq:R40}) and using these adapted resistor values result in the intended $V_{ON}$ and $V_{OFF}$ values.
 
 As stated in the last paragraph of Section~\ref{sec:32_PowerSupply}, the input voltage of the system (and therefore the input voltage of the LTC4012) can range from 15V to 22V. It should then be added that if the system is supplied with a maximum of 22V (by the external adapter), the AP64501 is still turned on, since that value lies well within the EN pin voltage rating. Therefore, even in this case, the UVLO feature will still be available.
 

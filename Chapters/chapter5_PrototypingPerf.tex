@@ -13,8 +13,10 @@
 %So neste capitulo e que se deve descrever a operacao do circuito.
 Upon completion of the circuit design phase, the next step starts to dictate the physical shape of the prototype.
 
-\section{PCB Layout}\label{sec:5_PCBlayout} % se calhar tiro "Design"
+\section{PCB Layout}\label{sec:51_PCBlayout} % se calhar tiro "Design"
 %provavelmente este capitulo deve ficar no final do Chapter 4, porque layout também é hardware design
+
+\subsection{Footprint Assignment and Placement}\label{sec:511_Placement}
 
 Once every component symbol in the schematics is correctly referenced and the electrical rules check reports no errors nor warnings, KiCad provides a footprint assignment tool, to attribute the desired footprints to the project's parts. Since the new beRTK\textsuperscript{\textregistered} circuit is based around fourteen main ICs and modules, selecting the correct footprints for each of these was the starting point for the layout phase. For that, datasheets for ICs and modules usually feature a section dedicated to presenting the recommended footprint for their component. This facilitates designers' work, as KiCad already provides a vast list of footprint libraries with many footprints to choose from, and therefore the attribution boiled down to a simple matter of finding the correct matches, referring to the datasheets. Figure~\ref{fig:footprint_AP64501} shows the recommended solder pad pitch and dimensions for the AP64501 buck converter addressed in Section~\ref{sec:3214_AP64501}, an example of what is taken as reference when assigning footprints.
 
@@ -33,21 +35,124 @@ Capacitors should also have a 0805 SMD package footprint and be rated for 50V, u
 As for the remaining components, i.e. MOSFETs, diodes, inductors, ferrites, crystal and connectors, their footprint depends on the application.
 Datasheets of ICs and modules usually refer the characteristics and/or models to use in a typical implementation.
 
-To effectively design the board's layout, KiCad provides a PCB editor that directly places the assigned footprints in single editing window. These footprints must then be placed according to their respective component's location in the schematic, in the most efficient way possible among the other components. The PCB editor also displays white lines (known as ``ratsnest lines'') that connect different components' pads to each other, just as defined by the schematic design. This helps in the subsequent routing process (i.e. effectively connecting every component with tracks and/or vias). Figure~\ref{fig:ratsnest} shows an early version of the layout for the external power supply region of the system, which is connected to the LTC4012 and to the external power voltage reference (top left area of the schematic of Figure~\ref{fig:LTC4012_circuit}).
+To effectively design the board's layout, KiCad provides a PCB editor that places the assigned footprints in single editing window. This premature placement must then be rearranged according to the respective component's location in the circuit, in the most efficient way possible among other partner components. The PCB editor also displays white lines (known as ``ratsnest lines'') that connect the different components' pads to each other, just as defined in the schematic design. This subsequently helps in the routing process (i.e. effectively connecting every component with tracks, vias and zones). Figure~\ref{fig:ratsnest} shows an early version of the layout for the external power supply region of the system, which is connected to the LTC4012 and to the external power voltage reference (top left area of the schematic of Figure~\ref{fig:LTC4012_circuit}).
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter5/ratsnest.png}
+	\includegraphics[width=0.8\textwidth]{Chapters/Figures/chapter5/ratsnest.png}
 	\caption{Unconnected footprints for the external power supply region of the system (early version).}
 	\label{fig:ratsnest}
 \end{figure}
 
-%parei aqui:
+
+%s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
+\subsubsection{Control Unit and USB 2.0 Hub}\label{sec:5111_CM4_LAN9514}
+
 %0. falar do placement estar concluido:
+To arrange all components in the best way possible, one has to take into account a provisional routing, to achieve a good placement in the least amount of iterations possible. For that, it's considered good practice to start by imagining and experimenting with placing and routing of the high-speed zones of the circuit first. For this project, that would concern the CM4's high-speed side and the LAN9514's USB side. Figure~\ref{fig:placement_CM4_LAN9514} focuses on the final component placement of the CM4 module and the LAN9514 hub on the board.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{Chapters/Figures/chapter5/placement_CM4_LAN9514.png}
+	\caption{Final placement of the CM4 and LAN9514 circuits' components.}
+	\label{fig:placement_CM4_LAN9514}
+\end{figure}%placement_CM4_LAN9514
+
+The location of the peripheral ports (HDMI and USB) must also be accounted for. It is common for these to be placed near the limits of the board so that user access is facilitated.
+
+After placing the downstream USB connectors near the right edge of the board, the LAN9514 hub was placed to the left of these, in way that it would be more-or-less equidistant from each to account for the routing of the high-speed USB data traces. After defining a position for the hub, its most important component was placed: the crystal oscillator XT1. This part must be the closest possible to its respective hub's pins, in order to settle a trustworthy clock frequency from which the IC will rely on. Followed by the crystal's capacitors, the remaining components were placed the nearest possible to the hub.
+
+Setting the CM4 immediately to the left of the USB hub, choosing to locate the HDMI port on the left edge of the board, near the CM4's HDMI pins, was straightforward.
+
+The power and activity LEDs (D15 and D14, respectively) were placed near the top left edge of the board (i.e. top left of Figure~\ref{fig:placement_CM4_LAN9514}), a simple and easy-to-remind location, specially for the testing phase.
+
+All the CM4's test points (e.g. +3V3, WL\_nDisable, GPIOx, etc.) are located either near the top or bottom of the module (MOD1) -- also easy-to-remind and to reach locations.
+
+Regarding the LAN9514's bypass capacitors, these were placed near the top-middle of the board, as well as above and below the downstream USB connectors (also visible in Figure~\ref{fig:placement_CM4_LAN9514}).
+
+
+%s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
+\subsubsection{Power Selector}\label{sec:5112_LAN9514}
+
+The next step taken was the placement of the power selector circuit. In the applications information sections of the LTC4012 datahseet (\cite{LTC4012}), a list of PCB layout considerations are provided. Regarding these, it is recommended to follow a specific priority order, as to ensure a proper layout. The notes go through the best possible layout for the switch node of the battery charger and its importance in the design. This switch node corresponds to the point where diode D4 and inductor L1 meet (see Figure~\ref{fig:LTC4012_circuit}). The suggested priority list for the LTC4012 layout starts with notes on the correct placement of the switching FETs (Q2 and Q9) relative to the IC and its input capacitors, running through the inductor, current sense resistors, output capacitors and notes regarding PCB layer, track and via topology. Following these guidelines resulted in the component placement represented on the right side of Figure~\ref{fig:placement_Power_Selector_and_BQ29209}, where the switching FETs, input capacitors and inductor are clearly visible close and around the LTC4012 footprint.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{Chapters/Figures/chapter5/placement_Power_Selector_and_BQ29209.png}
+	\caption{Final placement of the Power Selector and Battery Balancer circuits' components.}
+	\label{fig:placement_Power_Selector_and_BQ29209}
+\end{figure}%placement_Power_Selector_and_BQ29209
+
+
+%s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
+\subsubsection{Battery Balancer}\label{sec:5113_BQ29209}
+
+This IC's datasheet (\cite{bq29209}) also provides a dedicated section highlighting recommended layout suggestions for users. Among other notes, these encourage the designer to place the input capacitors as close as possible to the IC in order to filter out the most amount of noise possible. This resulted in the placement shown on the lower left zone of Figure~\ref{fig:placement_Power_Selector_and_BQ29209}.
+
+
+%s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
+\subsubsection{Voltage Converter}\label{sec:5114_VoltageConverter}
+
+Similar to the previous IC's datasheets,~\cite{AP64501} singles important guidelines for a thorough layout of the AP64501's circuit. These guidelines are laid out in list form, starting by addressing the recommended copper thickness for the carrier board for the IC (due to the maximum 5A output current), followed by the importance of the placement of the input capacitors and inductor (L2) as close as possible to their respective terminals on the converter. More specifically, the input capacitors should be placed close to the power supply (VIN) of the IC, and the inductor close to the switching terminal (SW) -- similiar to the layout topology addressed by the LAN9514's datasheet. After this, the list focuses on output capacitors, feedback components, and finally PCB layers and vias. A layout schematic example is also provided, and is represented in Figure~\ref{fig:AP64501_layout_Datasheet}.
+
+% meter aqui AP64501 layout - datasheet
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{Chapters/Figures/chapter5/AP64501_layout_Datasheet.pdf}
+	\caption{Recommended layout for the AP64501 synchronous buck converter's circuit~\cite{AP64501}.}
+	\label{fig:AP64501_layout_Datasheet}
+\end{figure}
+
+Taking all these notes into account, the component placement depicted on Figure~\ref{fig:placement_VoltageConverter} results.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{Chapters/Figures/chapter5/placement_VoltageConverter.png}
+	\caption{Final placement of the Voltage Converter circuit's components.}
+	\label{fig:placement_VoltageConverter}
+\end{figure}%placement_VoltageConverter
+
+
+%s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
+\subsubsection{Power Switch}\label{sec:5115_PowerSwitch}
+
+%parei aqui
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{Chapters/Figures/chapter5/placement_PowerSwitch.png}
+	\caption{Final placement of the Power Switch circuit's components.}
+	\label{fig:placement_PowerSwitch}
+\end{figure}%placement_PowerSwitch
+
+
+%s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
+\subsubsection{Human-Machine Interface}\label{sec:5116_HMI}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{Chapters/Figures/chapter5/placement_HMI.png}
+	\caption{Final placement of the status voltage comparator (left) and HMI (right) circuits' components.}
+	\label{fig:placement_HMI}
+\end{figure}%placement_HMI
+
+
+%s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
+\subsubsection{GNSS module and Wi-Fi Transceiver}\label{sec:5117_ZED_XBEE}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.3\textwidth]{Chapters/Figures/chapter5/placement_ZED_XBEE.png}
+	\caption{Final placement of the GNSS module and Wi-Fi Transceiver circuits' components.}
+	\label{fig:placement_ZED_XBEE}
+\end{figure}%placement_ZED_XBEE
+
 %   dizer que é importante o cristal estar mais perto possivel do LAN, porque o routing desta parte do circuito é critica;
 %   importante as USB downstream ports estarem o mais perto possivel do LAN
 %   ver se me lembro de mais regras...
 %   definiu-se um limite experimental para a placa ($100 \times 70$ mm (length $\times$ width)) e acabou por se aumentar para $129 \times 90$ mm (length $\times$ width).
+
+\subsection{Routing}\label{sec:52_Routing}
 
 %   depois começa o routing:
 %1. falar das minimum design rules da eurocircuits
@@ -86,7 +191,7 @@ with the exception of antennas.
 It should be noted that, for the top and bottom FET selection stage, the Si7212DN model suggested is a double FET in one package. The CSD17308Q3 substituting model is a single-channel FET (only one per package), and therefore two units had to be acquired -- Section~\ref{sec:3211_LTC4012}.
 
 % AP64501:
-Recalling Section~\ref{sec:3214_AP64501}, it is stated that the closest commercially available values of 11k$\Omega$ and 2.7k$\Omega$ were selected for R10 and R13, respectively, at the prototyping phase. Following expressions (\ref{eq:R10}) and (\ref{eq:R13}), these values allow the expected $V_{ON}$ and $V_{OFF}$ values.
+Recalling Section~\ref{sec:3214_AP64501}, it is stated that the closest commercially available values of 11k$\Omega$ and 2.7k$\Omega$ were selected for R10 and R13, respectively, at the prototyping phase. Following expressions (\ref{eq:R39}) and (\ref{eq:R40}), these values allow the expected $V_{ON}$ and $V_{OFF}$ values.
     % inductor L2:
     Meter Eq. 9 do datasheet do AP64501;
     
@@ -106,6 +211,7 @@ Recalling Section~\ref{sec:3214_AP64501}, it is stated that the closest commerci
 
     6. The port is capable of being used as a true USB On-The-Go (OTG) port. While there is no official documentation, some users have had success making this work. The USB\_OTG\_ID pin is used to select between USB host and device that is typically wired to the ID pin of a Micro USB connector. To use this functionality it must be enabled in the OS. If using either as a fixed slave or fixed master, please tie the USB\_OTG\_ID pin to ground. tentei isto e nao deu.
 
+	-- It also states that, in order to assemble this module onto a carrier board, one of two possible mating connectors must be chosen. The two options are named DF40C-100DS-0.4v and DF40HC(3.0)-100DS-0.4v and when installed, provide a clearance under the CM4 of 0mm and 1.5mm, respectively. 
 
 % LAN9514:
     However, USB has the advantage of allowing hot-swapping, making it useful for mobile peripherals, including drives of various kinds. -- mesmo que digam isto ja é possivel por natureza do USB, eu ainda tentei fazer o que dizia no datahseet do LAN9514 para dar enable ao hot-swapping, mas continuou sem funcionar.

@@ -27,13 +27,47 @@ Having done this, the next step is related to the establishment of requirements 
 
 2. para ter 2-level charging: instalar comparador LM311 e seguir o que diz aqui: https://www.electro-tech-online.com/threads/simple-circuit-to-invert-dc-from-positive-to-negative.141411/
 
-2. This results in a value of R15 of approximately 5.36k$\Omega$, however, at the time of soldering, the closest standard resistor value available was 6.2k$\Omega$, which, when applying the same previous law to a variation of the equivalent circuit of Figure~\ref{fig:voltage_divider_1} results in a voltage between R10 and R15 of approximately 1.15V -- sufficient to drive Q3.
+2. This results in a value of R15 of approximately 5.36k$\Omega$, however, at the time of soldering, the closest standard resistor value available was 6.2k$\Omega$, which, when applying the same previous law to a variation of the equivalent circuit of
+% Figure~\ref{fig:voltage_divider_1}
+results in a voltage between R10 and R15 of approximately 1.15V -- sufficient to drive Q3.
 
 3. Meter condensadores de desacoplamento --> como o modulo 3.3V funciona por pulsos (btw tudo no esquematico é digital), vai existir ruido consideravel quando a tensao for puxada/convertida --> os condensadores de desacoplamento servem para atenuar esse ruido.
 
 4. meter o consumo teorico de todos os componentes -- deu me 1.650 mA??? (é suposto dar 400mA @ 5V como diz em \textbf{RTKBS.MAIN.PWS.040})
 
 5. embora tenha a corrente IRMS (\ref{eq:i_rms}) do condensador C8 da battery, nao usei um condensador eletrolitico de aluminio, mas sim um de ceramica de 20uF
+
+
+
+%aquele circuito novo do bq29209:---------------------------------
+%bq29209:
+\subsection{Battery Balancer}\label{sec:6_BQ29209}
+As mentioned in Section~\ref{sec:3212_BQ29209},~\cite{bq29209} provides a typical application circuit for the BQ29209 together with a few application notes. However, that typical application circuit should not be implemented for the new beRTK\textsuperscript{\textregistered}, since the internal system of the BQ29209 can only support cell balancing currents of up to 15mA, which would not cause any kind of reaction within the cells used (INR18650-35E), since their minimum charge current is 68mA. Therefore,~\cite{bq29209} provides another application circuit capable of supporting a cell balancing current higher than 15mA. This implementation is presented in Figure~\ref{fig:BQ29209_circuit_NEW}.
+% meter aqui circuito do BQ29209 - NEW:
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.3\textwidth]{Chapters/Figures/chapter3/Battery_Balancer.pdf}
+    \caption{beRTK\textsuperscript{\textregistered} Base Station's Battery Balancer schematic diagram.}
+    \label{fig:BQ29209_circuit_NEW}
+\end{figure}
+
+The circuit of Figure~\ref{fig:BQ29209_circuit_NEW} is also valid for a $V_{DD}$ supply voltage ranging from 4V to 10V. This new circuit also ensures that, due to FETs Q3 (NMOS) and Q10 (PMOS), a higher cell balancing current can safely be established, being it defined by either cell's voltage, along with resistor R4:
+
+\begin{equation}\label{eq:IBAL}
+	I_{BAL}=\frac{V_{Cell}}{R4}\,\medskip
+\end{equation}
+
+\noindent It should be noted that resistor R54's purpose lies on ensuring that both ``balancing'' FETs will remain off, while cell balancing is not taking place and should be selected with a value above 2k$\Omega$.
+
+\cite{bq29209} clarifies that the BQ29209 ensures cell balancing on the cell that presents the higher voltage of the pack.
+Taking into account that recommended cell arrangement sequence (from the bottom of the stack) of GND--Cell1--Cell2 (i.e. from pin 3 to pin 1 of connector F9 -- Figure~\ref{fig:BQ29209_circuit}) was followed, the balancing of Cell1 would start by pulling pin VC1\_CB of BQ29209 to GND, therefore setting PMOS Q10's gate-source voltage at around $-V_{Cell1}$. This would cause a balancing current of $I_{BAL1}=\frac{V_{Cell1}}{R4}$. Conversely, if Cell2 were in need of balancing, VC1\_CB would instead be pulled to $V_{DD}$, thus setting Q3's gate voltage at around $V_{Cell1}+V_{Cell2}$, which translates into a gate-source voltage of approximately $V_{Cell2}$, having the source voltage being set at around $V_{Cell1}$. With this, resorting again to equation (\ref{eq:IBAL}), a cell balancing current of $I_{BAL2}=\frac{V_{Cell2}}{R4}$ results. In order to set a balancing current for each cell that would always surpass the minimum charge current of 68mA, a value of 20$\Omega$ was sized for R4. 
+
+The remaining components' values were selected as to comply with the BQ29209 recommended operating conditions.
+%------- fim do new circuit do BQ29209 ----------------------
+
+
+
+
 
 6. The port is capable of being used as a true USB On-The-Go (OTG) port. While there is no official documentation, some users have had success making this work. The USB\_OTG\_ID pin is used to select between USB host and device that is typically wired to the ID pin of a Micro USB connector. To use this functionality it must be enabled in the OS. If using either as a fixed slave or fixed master, please tie the USB\_OTG\_ID pin to ground. tentei isto e nao deu
 
