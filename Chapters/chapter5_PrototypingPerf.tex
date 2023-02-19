@@ -35,7 +35,7 @@ Capacitors should also have a 0805 SMD package footprint and be rated for 50V, u
 As for the remaining components, i.e. MOSFETs, diodes, inductors, ferrites, crystal and connectors, their footprint depends on the application.
 Datasheets of ICs and modules usually refer the characteristics and/or models to use in a typical implementation.
 
-To effectively design the board's layout, KiCad provides a PCB editor that places the assigned footprints in single editing window. This premature placement must then be rearranged according to the respective component's location in the circuit, in the most efficient way possible among other partner components. The PCB editor also displays white lines (known as ``ratsnest lines'') that connect the different components' pads to each other, just as defined in the schematic design. This subsequently helps in the routing process (i.e. effectively connecting every component with tracks, vias and zones). Figure~\ref{fig:ratsnest} shows an early version of the layout for the external power supply region of the system, which is connected to the LTC4012 and to the external power voltage reference (top left area of the schematic of Figure~\ref{fig:LTC4012_circuit}).
+To effectively design the board's layout, KiCad provides a PCB editor that places the assigned footprints in single editing window. This premature placement must then be rearranged according to the respective component's location in the circuit, in the most efficient way possible among other partner components. The PCB editor also displays white lines (known as ``ratsnest lines'') that connect the different components' pads to each other, just as defined in the schematic design. This subsequently helps in the routing process (i.e. effectively connecting every component with tracks (also known as ``traces''), vias and zones). Figure~\ref{fig:ratsnest} shows an early version of the layout for the external power supply region of the system, which is connected to the LTC4012 and to the external power voltage reference (top left area of the schematic of Figure~\ref{fig:LTC4012_circuit}).
 
 \begin{figure}[h]
 	\centering
@@ -74,7 +74,7 @@ Regarding the LAN9514's bypass capacitors, these were placed near the top-middle
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
 \subsubsection{Power Selector}\label{sec:5112_LAN9514}
 
-The next step taken was the placement of the power selector circuit. In the applications information sections of the LTC4012 datahseet (\cite{LTC4012}), a list of PCB layout considerations are provided. Regarding these, it is recommended to follow a specific priority order, as to ensure a proper layout. The notes go through the best possible layout for the switch node of the battery charger and its importance in the design. This switch node corresponds to the point where diode D4 and inductor L1 meet (see Figure~\ref{fig:LTC4012_circuit}). The suggested priority list for the LTC4012 layout starts with notes on the correct placement of the switching FETs (Q2 and Q9) relative to the IC and its input capacitors, running through the inductor, current sense resistors, output capacitors and notes regarding PCB layer, track and via topology. Following these guidelines resulted in the component placement represented on the right side of Figure~\ref{fig:placement_Power_Selector_and_BQ29209}, where the switching FETs, input capacitors and inductor are clearly visible close and around the LTC4012 footprint.
+The next step taken was the placement of the power selector circuit. In the applications information sections of the LTC4012 datahseet (\cite{LTC4012}), a list of PCB layout considerations are provided. Regarding these, it is recommended to follow a specific priority order, as to ensure a proper layout. The notes go through the best possible layout for the switch node of the battery charger and its importance in the design. This switch node corresponds to the point where diode D4 and inductor L1 meet (see Figure~\ref{fig:LTC4012_circuit}). The suggested priority list for the LTC4012 layout starts with notes on the correct placement of the switching FETs (Q2 and Q9) relative to the IC and its input capacitors, running through the inductor, current sense resistors, output capacitors and notes regarding PCB layer, trace and via topology. Following these guidelines resulted in the component placement represented on the right side of Figure~\ref{fig:placement_Power_Selector_and_BQ29209}, where the switching FETs, input capacitors and inductor are clearly visible close and around the LTC4012 footprint.
 
 \begin{figure}[h]
 	\centering
@@ -175,7 +175,127 @@ Concluding the placement of every sub-circuit, the remaining placement-related t
 \subsection{Routing}\label{sec:52_Routing}
 
 %   depois começa o routing:
-%1. falar das minimum design rules da eurocircuits
+After placement, routing is the process that connects every component to each other, and at the PCB level, this can either occur with traces, vias or copper pours.
+
+%1. falar das minimum design rules da eurocircuits:
+Right before beginning the routing process, the board setup must be done in the KiCad PCB editor. This critical step consists in defining the board's stackup (i.e. number of layers, copper pour thickness) and design rules. Depending on the chosen PCB manufacturer, these definitions may vary. For this project, the selected board manufacturer was Eurocircuits, a ``specialist manufacturer and assembler of prototype and small series PCBs''\footnote[19]{Available at \url{https://www.eurocircuits.com/who-are-we/}.}. For KiCad users, Eurocircuits provides sets of minimum design rules (i.e. design constraints) for various PCB stackup types that may vary in either single or double-sided designs, number of layers, or copper thickness. The following set of constraints presented are for a four-layer board with a base copper thickness of $18 \mu$m and $35 \mu$m, for the outer (OL) and inner (IL) layers, respectively\footnote[20]{Eurocircuit's KiCad design rules for other board stackups are available at \url{https://www.eurocircuits.com/blog/kicad-design-rules/}.}:
+\begin{itemize}
+	\item Min. trace width, OL: 0.150mm;
+	
+	\item Min. clearance, OL: 0.150mm;
+	
+	\item Min. trace width, IL: 0.150mm;
+	
+	\item Min. clearance, IL: 0.150mm;
+
+	\item Min. via drill diameter (tool size): 0.35mm;
+	
+	\item Min. via pad diameter, OL: 0.600mm;
+	
+	\item Min. via pad diameter, IL: 0.600mm.
+\end{itemize}
+Therefore, the board's stackup defined by these constraints was selected as the stackup for the new beRTK\textsuperscript{\textregistered}'s board. The four-layer order chosen (from the top-down) was signal-power-power-signal (in this case: F.Cu-GND-PWR-B.Cu; F.Cu and B.Cu refer to the board's front and back copper signal layers).
+
+A second Eurocircuits' tool can be used to obtain the board's physical stackup dimensions -- the ``Buildup Editor''. This tool allows the user to select the board's desired number of layers, along with its thickness and base material (among other specifications), and provides a preview of its layers' stackup with the expected physical dimensions in millimetres. Figure~\ref{fig:buildup_4layer} shows the Eurocircuits Buildup Editor's calculation of the physical stackup for a four-layer, 1.55mm thick PCB with an FR-4 Improved base material.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Chapters/Figures/chapter5/buildup_4layer.png}
+	\caption{Eurocircuits Buildup Editor's calculation of the physical stackup of a four-layer, 1.55mm thick PCB with an FR-4 Improved base material (available in the Eurocircuits website).}
+	\label{fig:buildup_4layer}
+\end{figure}
+
+\noindent The values displayed in the diagram of Figure~\ref{fig:buildup_4layer} can thus be applied to the physical stackup tab of KiCad's board setup manager, as shown in Figure~\ref{fig:KiCad_buildup_4layer}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Chapters/Figures/chapter5/KiCad_buildup_4layer.png}
+	\caption{Board's physical stackup dimensions applied in KiCad's board setup manager.}
+	\label{fig:KiCad_buildup_4layer}
+\end{figure}
+
+After setting up the physical stackup of the board and defining its design rules' constraints, the net classes must be defined. For specified nets (e.g. VBAT, PWR\_LED, GPS\_VDD, etc.), these dictate the actual PCB trace's width and clearance, as well as the size of vias to use. To define a net's trace dimensions, key parameters such as its current flow capacity (in A) temperature rise above ambient ($\Delta T$, in $\degree$C), and copper resistivity ($1.72 \cdot 10^{-8} \Omega$m) must be taken into account. KiCad also provides a PCB calculator tool for trace width calculation, shown in Figure~\ref{fig:PCB_calculator}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Chapters/Figures/chapter5/PCB_calculator.png}
+	\caption{KiCad's PCB track width calculator used.}
+	\label{fig:PCB_calculator}
+\end{figure}
+
+Looking at Figure~\ref{fig:PCB_calculator}, it is possible to see that the calculator accepts either parameter or layer trace dimension inputs. As stated in the figure, the IPC 2221 (the Generic Standard on Printed Board Design) formula to calculate the trace's maximum current allowed is given by (\ref{eq:I_trace}):
+
+\begin{equation}\label{eq:I_trace}
+	I = K \cdot \Delta T^{0.44} \cdot (W \cdot H)^{0.725}\,\medskip
+\end{equation}
+\noindent Where:
+\begin{itemize}
+	\item $I$ -- Maximum current that will flow through the trace, in A;
+	
+	\item $\Delta T$ -- Temperature rise above ambient, in $\degree$C;
+	
+	\item $W$ -- Trace width, in mils (1 mils $=$ 0.0254 millimeters);
+	
+	\item $H$ -- Trace thickness (i.e. height), in mils;
+	
+	\item $K$ -- 0.024 for internal traces or 0.048 for external traces.
+\end{itemize}
+
+For this project, four net classes were defined for the routing process:
+
+\begin{itemize}
+	\item Default net class -- Corresponds to every net in the circuit that is not HDMI, USB, or power-related. Examples for such are the nets that connect each of the four outputs of comparator U6 to pin header F4, for the status voltage (Figure~\ref{fig:HMI_circuit});
+	
+	\item Power net class -- Corresponds to every net in the circuit where considerable amount of current is expected to flow. Examples for such are the PWR\_SUPPLY and 5V nets;
+	
+	\item USB net class -- Corresponds to every USB-related net in the circuit;
+	
+	\item HDMI net class -- Corresponds to every HDMI-related net in the circuit.
+\end{itemize}
+
+It must be noted that, for this project, routing is only be done on the outer (i.e. signal) layers of the board. The inner layers are defined in zones. The GND layer is a single, continuous layer that serves as a ground reference for every component, IC, and module; the PWR layer is separated into different zones, to account for dissipation of the circuit's power needs, i.e. to avoid concentrating large amounts of power solely on the outer layers' traces.
+
+Starting by defining the ``Default'' net class: choosing a trace width of 0.20mm, a trace thickness of $18 \mu$m (as defined earlier in the board stackup manager), and a common $\Delta T$ temperature rise of $20 \degree$C, plugging those values into KiCad's PCB calculator, a maximum current of approximately 0.624A is allowed to flow through the trace (see Figure~\ref{fig:PCB_calculator}) before any type of trace overheat or breakdown occurs. Requirement \textbf{RTKBS.MAIN.PWS.040} states that the base station ``shall not exceed an average of 400mA of current consumption at 5VDC voltage level''. If every ``Default'' net at 5V consumes the 400mA maximum stipulated, the 0.20mm trace thickness for these nets will be large enough, since it can withstand up to 624mA of current. For this net class, vias were kept at the minimum size allowed by design rule constraints.
+
+The ``Power'' net class encompasses the routing for power-hungry devices in the system, and therefore it must account for larger amounts of current that may flow. Even though the entire system is expected to consume a low amount of power, the Power net class traces and vias should be larger when compared to the Default net class, in case large surges of current or unexpected temperature rises occur. A trace width of 0.50mm was chosen, which allows a maximum current flow of approximately 1.212A. Vias for this net class were defined at a total diameter of 0.80mm with a finished hole size of 0.40mm.
+
+Defining the correct trace dimensions for high-speed circuits is more critical than for default nets or even power nets, for that matter. This is because high-speed circuits are subject to problems such as signal reflection, coupling and crosstalk, if designed poorly. The intrinsic inductive and resistive nature of traces is often overlooked for typical low-speed circuitry. The same occurs for the capacitive effect between traces, which calls back to the ``clearance between traces'' parameter. However, for high-speed circuits, these characteristics must never be dismissed, and defining this type of traces is called ``impedance matching''.
+
+Referring to Section 7.1.1.3 of the USB 2.0 Specification, it defines that the board traces for the USB 2.0 data differential pair must bear a nominal differential characteristic impedance of $90 \Omega \pm 15\%$, which means that this impedance value may range from $[76.5,\, 103.5]\Omega$. The first step in calculating the differential impedance ($Z_{DIFF}$) of a USB 2.0 differential pair of traces is to know the single-ended impedance ($Z_0$) value, which can be calculated through expression (\ref{eq:USB_impedance_Z_0}):
+
+\begin{equation}\label{eq:USB_impedance_Z_0}
+	Z_0 = \frac{87}{\sqrt{\epsilon_r + 1.41}} \cdot \ln \left(\frac{5.98 \cdot h}{0.8 \cdot w + t}\right)\,\medskip
+\end{equation}
+$\epsilon_r$ is the substrate's relative permittivity (i.e. dielectric constant) and, for the FR-4 material, is typically equal to 4.5.
+Figure~\ref{fig:USB_differential_pair} shows the cross-section of a PCB with a differential pair of traces. The traces' and board's dimensions highlighted by the variables are some of the parameters used for the calculation of $Z_0$ and are known as:
+\begin{itemize}
+	\item $w$ -- Trace width, in meters;
+	
+	\item $d$ -- Trace spacing, in meters;
+	
+	\item $t$ -- Trace thickness, in meters;
+	
+	\item $h$ -- Dielectric thickness, in meters.
+\end{itemize}
+
+% meter aqui traces e board diagram
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Chapters/Figures/chapter5/USB_differential_pair.pdf}
+    \caption{Cross-section of a PCB with a differential pair of traces.}
+    \label{fig:USB_differential_pair}
+\end{figure}
+
+%parei aqui. agarrar na calculadora e fazer a conta para Z_0.
+
+Expression (\ref{eq:USB_impedance_Z_DIFF}) allows calculating the differential impedance ($Z_{DIFF}$) of a USB 2.0 differential pair of traces. For that : 
+
+\begin{equation}\label{eq:USB_impedance_Z_DIFF}
+	Z_{DIFF} = 2 \cdot Z_0 \cdot \left(1 - 0.48 \cdot e^{-0.96 \cdot \frac{d}{h}}\right)\,\medskip
+\end{equation}
+
+
+
 %2. falar das minimum design rules que eu usei, que sao um pouco diferentes
 %3. dizer a thickness da placa, 4 layers -- 2 signal, 2 pwr -- mostrar a janela do kicad
 %4. falar das thickness das tracks de power, de signal, tamanho das vias de power, de signal. clearance
