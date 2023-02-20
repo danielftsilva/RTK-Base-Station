@@ -72,9 +72,9 @@ Regarding the LAN9514's bypass capacitors, these were placed near the top-middle
 
 
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
-\subsubsection{Power Selector}\label{sec:5112_LAN9514}
+\subsubsection{Power Selector and Battery Balancer}\label{sec:5112_LTC4012_BQ29209}
 
-The next step taken was the placement of the power selector circuit. In the applications information sections of the LTC4012 datahseet (\cite{LTC4012}), a list of PCB layout considerations are provided. Regarding these, it is recommended to follow a specific priority order, as to ensure a proper layout. The notes go through the best possible layout for the switch node of the battery charger and its importance in the design. This switch node corresponds to the point where diode D4 and inductor L1 meet (see Figure~\ref{fig:LTC4012_circuit}). The suggested priority list for the LTC4012 layout starts with notes on the correct placement of the switching FETs (Q2 and Q9) relative to the IC and its input capacitors, running through the inductor, current sense resistors, output capacitors and notes regarding PCB layer, trace and via topology. Following these guidelines resulted in the component placement represented on the right side of Figure~\ref{fig:placement_Power_Selector_and_BQ29209}, where the switching FETs, input capacitors and inductor are clearly visible close and around the LTC4012 footprint.
+The next step taken was the placement of the power selector circuit. In the applications information sections of the LTC4012 datahseet (\cite{LTC4012}), a list of PCB layout considerations are provided. Regarding these, it is recommended to follow a specific priority order, as to ensure a proper layout. The notes go through the best possible layout for the switch node of the battery charger and its importance in the design. This switch node corresponds to the point where diode D4 and inductor L1 meet (see Figure~\ref{fig:LTC4012_circuit}), and is directly connected to pin SW of the LTC4012. The suggested priority list for the LTC4012 layout starts with notes on the correct placement of the switching FETs (Q2 and Q9) relative to the IC and its input capacitors, running through the inductor, current sense resistors, output capacitors and notes regarding PCB layer, trace and via topology. Following these guidelines resulted in the component placement represented on the right side of Figure~\ref{fig:placement_Power_Selector_and_BQ29209}, where the switching FETs, input capacitors and inductor are clearly visible close and around the LTC4012 footprint.
 
 %placement_Power_Selector_and_BQ29209
 \begin{figure}[h]
@@ -84,11 +84,7 @@ The next step taken was the placement of the power selector circuit. In the appl
 	\label{fig:placement_Power_Selector_and_BQ29209}
 \end{figure}
 
-
-%s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
-\subsubsection{Battery Balancer}\label{sec:5113_BQ29209}
-
-This IC's datasheet (\cite{bq29209}) also provides a dedicated section highlighting recommended layout suggestions for users. Among other notes, these encourage the designer to place the input capacitors as close as possible to the IC in order to filter out the most amount of noise possible. This resulted in the placement shown on the lower left zone of Figure~\ref{fig:placement_Power_Selector_and_BQ29209}.
+BQ29209's datasheet (\cite{bq29209}) also provides a dedicated section highlighting recommended layout suggestions for users. Among other notes, these encourage the designer to place the input capacitors as close as possible to the IC in order to filter out the most amount of noise possible. This resulted in the placement shown on the lower left-hand side of Figure~\ref{fig:placement_Power_Selector_and_BQ29209}.
 
 
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
@@ -118,7 +114,8 @@ Taking all these notes into account resulted in the component placement depicted
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
 \subsubsection{Power Switch}\label{sec:5115_PowerSwitch}
 
-The power switch circuit placement revealed itself to be very simple, only with notes from~\cite{SN74LVC2G74DCTR} to pay attention to upon the routing phase -- addressed in Section~\ref{sec:52_Routing}. Figure~\ref{fig:placement_PowerSwitch} shows the arrangement made for this circuit, which basically surrounds the main ICs (the D-type flip-flop, the inverter, and the voltage regulator) with their function-defining components.
+The power switch circuit placement revealed itself to be very simple.
+\cite{SN74LVC2G74DCTR} highlights that the unused inputs for the D-type flip-flop must be tied either to GND or VCC. Figure~\ref{fig:placement_PowerSwitch} shows the arrangement made for this circuit, which essentially surrounds the main ICs (the D-type flip-flop, the inverter, and the voltage regulator) with their function-defining components.
 
 %placement_PowerSwitch
 \begin{figure}[h]
@@ -132,15 +129,15 @@ The power switch circuit placement revealed itself to be very simple, only with 
 %s--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--Ss--S
 \subsubsection{Human-Machine Interface}\label{sec:5116_HMI}
 
-Figure~\ref{fig:placement_HMI} shows the placement of the LM2901 comparator's circuit (previously represented on the left of Figure~\ref{fig:HMI_circuit}).
+Figure~\ref{fig:placement_HMI} shows the placement of the LM2901 comparator's circuit (see left-hand side of Figure~\ref{fig:HMI_circuit}).
 Placement for this part of the system also proved to be straightforward, due to the reduced number of components (mainly resistors), which were simply laid out around comparator U6.
 
-As explained previously, the status voltage from the comparator flows to the HMI itself through the connection of two 2.54mm pitch pin headers, F4 and F5. F4 is placed close to U6, as well as to the top right corner of the board, on its opposite side (see Figure~\ref{fig:placement_HMI}, left). It is supposed to be connected to F5 to power all indication LEDs and push-button SW1, as well as to establish nets PWR\_SWITCH, PWR\_LED and EXT\_PWR. The right side of Figure~\ref{fig:placement_HMI} shows a small separate PCB just for the HMI. The reason for this separate board is due to its specific user-accessible location on the outside of the base station's casing.
+As explained previously, the status voltage from the comparator flows to the HMI itself through the connection of two 2.54mm pitch pin headers, F4 and F5. F4 is placed close to U6, as well as to the top right corner of the board, on its opposite side (see Figure~\ref{fig:placement_HMI}, left). It is supposed to be connected to F5 to power all status-indication LEDs and push-button SW1, as well as to establish nets PWR\_SWITCH, PWR\_LED and EXT\_PWR. The right side of Figure~\ref{fig:placement_HMI} shows a small separate PCB just for the HMI. The reason for this separate board is due to its specific user-accessible location on the outside of the base station's casing.
 
 %placement_HMI
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.7\textwidth]{Chapters/Figures/chapter5/placement_HMI.png}
+	\includegraphics[width=0.8\textwidth]{Chapters/Figures/chapter5/placement_HMI.png}
 	\caption{Final placement of the status voltage comparator (left) and HMI (right) circuits' components.}
 	\label{fig:placement_HMI}
 \end{figure}
@@ -154,21 +151,21 @@ Aside from connector F4, the GNSS module was the only system part to be placed o
 %placement_ZED_XBEE
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.6\textwidth]{Chapters/Figures/chapter5/placement_ZED_XBEE.png}
+	\includegraphics[width=0.8\textwidth]{Chapters/Figures/chapter5/placement_ZED_XBEE.png}
 	\caption{Final placement of the GNSS module and Wi-Fi Transceiver circuits' components (left); Antenna keepout area for the XBee 3 RF module (right).}
 	\label{fig:placement_ZED_XBEE}
 \end{figure}
 
-As for the Wi-Fi transceiver, i.e. the XBee 3 RF module,~\cite{XBee} provides layout design notes to help achieve the best antenna performance possible. Since the XBee module used in this project is known as the its ``micro chip'' version, the notes for this version are the ones to pay attention to. These state that non-metal enclosures are preferred, and that all metal parts of the system -- either internal or external in respect to the main board -- must be kept at the maximum distance possible from the module's antenna. For that,~\cite{XBee} also provides a graphic visualization of a recommended antenna keepout area to implement. The righ side of Figure~\ref{fig:placement_ZED_XBEE} shows such area.
+As for the Wi-Fi transceiver, i.e. the XBee 3 RF module,~\cite{XBee} provides layout design notes to help achieve the best antenna performance possible. Since the XBee module used in this project is known as the its ``micro chip'' version, the notes for this version are the ones to pay attention to. These state that non-metal enclosures are preferred, and that all metal parts of the system -- either internal or external in respect to the main board -- must be kept at the maximum distance possible from the module's antenna. For that,~\cite{XBee} also provides a graphic visualization of a recommended antenna keepout area to implement. In this area, only a copper pour and minimal routing (to connect the needed module's pins on that zone) are permitted. The right side of Figure~\ref{fig:placement_ZED_XBEE} shows such area (represented by a large rectangle).
 
-After assessing these guidelines, the placement of this circuit's components was standard when compared to the previous sections, with output capacitors C11-C14 of the U2 LDO placed as close as possible to its output, as well as to the VCC input (pin 2) of the XBee module. All test points for the latter (DIO0-DIO3) are placed above it.
+After assessing these guidelines, the placement of this circuit's components was standard when compared to the previous sections, with output capacitors C11-C14 of the LDO U2 placed as close as possible to its output, as well as to the VCC input (pin 2) of the XBee module. All test points for the latter (DIO0-DIO3) are placed above it.
 
 %   dizer que é importante o cristal estar mais perto possivel do LAN, porque o routing desta parte do circuito é critica;
 %   importante as USB downstream ports estarem o mais perto possivel do LAN
 %   ver se me lembro de mais regras...
 %   definiu-se um limite experimental para a placa ($100 \times 70$ mm (length $\times$ width)) e acabou por se aumentar para $129 \times 90$ mm (length $\times$ width).
 
-Concluding the placement of every sub-circuit, the remaining placement-related task is to assign these to a roughly specific location on the board. Choosing the board's dimensions settles the placement phase. For the main board, the final size was set to $129 \times 90$ mm (length $\times$ width). As for the HMI board, the same $30 \times 60$ mm (length $\times$ width) measurements from the previous beRTK\textsuperscript{\textregistered} version were kept unaltered. Figure~\ref{fig:placement_FULL} shows the final placement of the entire system within the board's defined limits.
+Concluding the placement of every circuit, the remaining placement-related task was to assign these to roughly specific locations on the board. Choosing the board's dimensions settles the placement phase. For the main board, the final size was set to $129 \times 90$ mm (length $\times$ width). As for the HMI board, the same $30 \times 60$ mm (length $\times$ width) measurements from the previous beRTK\textsuperscript{\textregistered} version were kept unaltered. Figure~\ref{fig:placement_FULL} shows the final placement of the entire system within the board's defined limits.
 
 %placement_FULL
 \begin{figure}[h]
@@ -188,7 +185,7 @@ After placement, routing is the process that connects every component to each ot
 \subsubsection{Board Setup}\label{sec:521_Board_Setup}
 
 %1. falar das minimum design rules da eurocircuits:
-Before beginning the routing process, the board setup must be done in the KiCad PCB editor. This critical step consists in defining the board's stack-up (i.e. number of layers, copper pour thickness) and design rules. Depending on the chosen PCB manufacturer, these definitions may vary. For this project, the selected board manufacturer was Eurocircuits, a ``specialist manufacturer and assembler of prototype and small series PCBs''\footnote[19]{Available at \url{https://www.eurocircuits.com/who-are-we/}.}. For KiCad users, Eurocircuits provides sets of minimum design rules (i.e. design constraints) for various PCB stack-up types that may vary in either single or double-sided designs, number of layers, or copper thickness. The following set of constraints presented are for a four-layer board with a base copper thickness of $18 \mu$m and $35 \mu$m, for the outer (OL) and inner (IL) layers, respectively\footnote[20]{Eurocircuit's KiCad design rules for other board stack-ups are available at \url{https://www.eurocircuits.com/blog/kicad-design-rules/}.}:
+Before beginning the routing process, the board setup must be done in the KiCad PCB editor. This critical step consists in defining the board's stack-up (i.e. number of copper layers -- or simply ``layers'' --, copper pour thickness) and design rules. Depending on the chosen PCB manufacturer, these definitions may vary. For this project, the selected board manufacturer was Eurocircuits, a ``specialist manufacturer and assembler of prototype and small series PCBs''\footnote[19]{Available at \url{https://www.eurocircuits.com/who-are-we/}.}. For KiCad users, Eurocircuists provides sets of minimum design rules (i.e. design constraints) for various PCB stack-up types that may vary in either single or double-sided designs, number of layers, or copper thickness. The following set of constraints presented are for a four-layer board with a base copper thickness of $18 \mu$m and $35 \mu$m, for the outer (OL) and inner (IL) layers, respectively\footnote[20]{Eurocircuits KiCad design rules for other board stack-ups are available at \url{https://www.eurocircuits.com/blog/kicad-design-rules/}.}:
 \begin{itemize}
 	\item Min. trace width, OL: 0.150mm;
 	
@@ -256,7 +253,7 @@ For this project, four net classes were defined for the routing process:
 \begin{itemize}
 	\item Default net class -- Corresponds to every net in the circuit that is not HDMI, USB, or power-related. Examples for such are the nets that connect each of the four outputs of comparator U6 to pin header F4, for the status voltage (Figure~\ref{fig:HMI_circuit});
 	
-	\item Power net class -- Corresponds to every net in the circuit where considerable amount of current is expected to flow. Examples for such are the PWR\_SUPPLY and 5V nets;
+	\item Power net class -- Corresponds to every net in the circuit where considerable amount of current is expected to flow. Examples for such are the PWR\_LTC and 5V nets;
 	
 	\item USB net class -- Corresponds to every USB-related net in the circuit;
 	
@@ -282,7 +279,7 @@ The first step in calculating the differential impedance ($Z_{DIFF}$) of a USB 2
 \begin{equation}\label{eq:USB_impedance_Z_0}
 	Z_0 = \frac{87}{\sqrt{\epsilon_r + 1.41}} \cdot \ln \left(\frac{5.98 \cdot h}{0.8 \cdot w + t}\right)\,\medskip
 \end{equation}
-$\epsilon_r$ is the substrate's relative permittivity (i.e. dielectric constant) and, for the FR-4 material, is typically equal to 4.5.
+$\epsilon_r$ is the substrate's relative permittivity (i.e. dielectric constant) and, for the FR-4 material, is typically equal to $4.5$.
 Figure~\ref{fig:USB_differential_pair} shows the cross-section of a PCB with a coupled microstrip line. The traces' and board's dimensions highlighted by the variables are some of the parameters used for the calculation of $Z_0$ and are known as:
 \begin{itemize}
 	\item $w$ -- Microstrip width, in meters;
@@ -343,7 +340,11 @@ Besides the high-speed connections mentioned, every other trace visible belongs 
 
 
 %ssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssS
-\subsubsection{Power Selector}\label{sec:522_LAN9514}
+\subsubsection{Power Selector and Battery Balancer}\label{sec:522_LTC4012_BQ29209}
+
+Following the layout priority order suggested by~\cite{LTC4012} --  as mentioned in Section~\ref{sec:5112_LTC4012_BQ29209} --, the routing process for the power selector started on its switch node. This is a critical node where FET switching takes place, at a high-frequency. Current values and dissipated power can easily be higher than usual on this node, and therefore it was classified as a ``Power'' net. However, to account for larger current surges and higher power dissipation, the connections between switching FETs (Q2 and Q9) to diode D4 and inductor L1, and also the latter to sense resistor R12 were routed as a $1.50$mm-wide trace (similarly to what was done to the 3V3 power net). This type of tracing is also done on the DCIN node (i.e. from the external adapter input to input PFET controller Q1 -- see Figure~\ref{fig:LTC4012_circuit}) and then across sense resistor R3 to the PWR\_LTC net.
+
+The remaining connections are made in a standard way, as short as possible according to the placement, and only relying on vias when absolutely needed. The final routing of the power selector, on the front and back signal layers of the board, is shown on the right-hand side of Figure~\ref{fig:2_routing_LTC4012_BQ29209_FCu_BCu}.
 
 %2_routing_LTC4012_BQ29209_FCu_BCu
 \begin{figure}[h]
@@ -353,14 +354,14 @@ Besides the high-speed connections mentioned, every other trace visible belongs 
 	\label{fig:2_routing_LTC4012_BQ29209_FCu_BCu}
 \end{figure}
 
-
-%ssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssS
-\subsubsection{Battery Balancer}\label{sec:523_BQ29209}
-%referir a mesma imagem que o Power Selector
+At the left-hand side of Figure~\ref{fig:2_routing_LTC4012_BQ29209_FCu_BCu} the battery balancer can be seen. For its power nets, the traces' width is the defined $0.50$mm, and similarly to the routing in the LTC4012's circuit, a particular set of nets have wider traces. In this case, a $1.0$mm-wide trace is used to connect the battery pack connector's (F9) terminals to the circuit, in order to deliver the needed power in the safest way possible. And as is other wide-trace nets, this width also aids in current flow and power dissipation.
 
 
 %ssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssS
 \subsubsection{Voltage Converter}\label{sec:524_VoltageConverter}
+
+For the 5V supply, i.e. the AP64501,~\cite{AP64501} suggests a layout design whose placement was covered earlier, in Section~\ref{sec:5114_VoltageConverter}.This layout suggestion is featured in Figure~\ref{fig:AP64501_layout_Datasheet}.
+Since the base station's system is designed to be low-power, high amounts of current are not expected to be drawn from the power supplies, and therefore the layout part visible on Figure~\ref{fig:AP64501_layout_Datasheet} is not deemed necessary, since wider traces and isolated zones on the PCB's PWR layer are able to provide trustworthy routing, as shown on Figure~\ref{fig:3_routing_Voltage_Converter_FCu}.
 
 %3_routing_Voltage_Converter_FCu
 \begin{figure}[h]
@@ -370,14 +371,18 @@ Besides the high-speed connections mentioned, every other trace visible belongs 
 	\label{fig:3_routing_Voltage_Converter_FCu}
 \end{figure}
 
+It should be noted that special care was taken when routing the 5V output net (from inductor L2). To provide the desired voltage with the lowest amount of disturbances possible, a $1.50$mm-wide trace is routed from terminal 2 of the L2 inductor and, before reaching the VCC (+5V) terminal -- which in turn is connected to an isolated zone in the board's PWR layer for the 5V net --, it first must run across the three output capacitors, C40, C42 and C43 (see Figure~\ref{fig:AP64501_circuit} for reference). This way these capacitors can properly fulfil their bypassing purpose for this power supply.
+
 
 %ssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssS
 \subsubsection{Power Switch}\label{sec:525_PowerSwitch}
 
+Just like the placement of the power switch circuit, its routing process was also simple, with special attention devoted to the higher-loaded connections, such as between the PWR\_LTC and the PWR\_AP64501 nets, i.e. across FET Q4 (see Figure~\ref{fig:SWITCH_circuit}). Figure~\ref{fig:4_routing_Switch_FCu_BCu} shows the final routing on the front and back layers of the board for this circuit, where these latter connections can be observed.
+
 %4_routing_Switch_FCu_BCu
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.6\textwidth]{Chapters/Figures/chapter5/4_routing_Switch_FCu_BCu.png}
+	\includegraphics[width=0.8\textwidth]{Chapters/Figures/chapter5/4_routing_Switch_FCu_BCu.png}
 	\caption{Final routing on the front (left) and back (right) signal layers for the Power Switch circuit.}
 	\label{fig:4_routing_Switch_FCu_BCu}
 \end{figure}
@@ -386,18 +391,24 @@ Besides the high-speed connections mentioned, every other trace visible belongs 
 %ssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssS
 \subsubsection{Human-Machine Interface}\label{sec:526_HMI}
 
+Routing the LM2901 comparator's circuit was analogous to its placement -- straightforward.
+
+It must be noted that, since this IC is used to compare the battery pack's voltage with a voltage reference (U7), all nets that connect those ICs to the ``status resistors'' (R24, R29, R30, R31, and R32; see Figure~\ref{fig:HMI_circuit}) belong to the ``Power'' net class, as it is possible to verify though Figure~\ref{fig:5_routing_HMI_FCu_1}.
+
 %5_routing_HMI_FCu_1
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.7\textwidth]{Chapters/Figures/chapter5/5_routing_HMI_FCu_1.png}
+	\includegraphics[width=0.8\textwidth]{Chapters/Figures/chapter5/5_routing_HMI_FCu_1.png}
 	\caption{Final routing on the front (left) and back (right) signal layers for the status voltage comparator circuit.}
 	\label{fig:5_routing_HMI_FCu_1}
 \end{figure}
 
+As previously mentioned, the individual HMI PCB is adjacent to the main system's board, and its routing just consists in connecting push-button SW1 and all LEDs used for power-status indication to pin header F5. Figure~\ref{fig:5_routing_HMI_FCu_2} presents said routing.
+
 %5_routing_HMI_FCu_2
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.7\textwidth]{Chapters/Figures/chapter5/5_routing_HMI_FCu_2.png}
+	\includegraphics[width=0.8\textwidth]{Chapters/Figures/chapter5/5_routing_HMI_FCu_2.png}
 	\caption{Final routing on the front (left) and back (right) signal layers for the HMI circuit.}
 	\label{fig:5_routing_HMI_FCu_2}
 \end{figure}
@@ -406,16 +417,22 @@ Besides the high-speed connections mentioned, every other trace visible belongs 
 %ssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssS
 \subsubsection{GNSS module and Wi-Fi Transceiver}\label{sec:527_ZED_XBEE}
 
+For the GNSS module, the routing's most important section corresponds to the module's power input, which is connected to the GPS\_VDD power net. As done in the routing of the 5V voltage converter, before this trace reaches the power input for the GNSS module, it must first connect to the input bypass capacitors C9 and C10 (see Figure~\ref{fig:ZEDF9P_circuit}), to filter out signal abnormalities.
+
+As for the Wi-Fi transceiver, the important routing section also refers to the power connections. In this case, after the step-down conversion from 5V to 3.3V by LDO U2, the trace delivering these 3.3V to the XBee module must first run across bypass capacitors C11-C14.
+
+For both modules, the remaining routing process was standard. Figure~\ref{fig:6_routing_ZED_XBee} shows the routing of both modules' circuits.
+
 %6_routing_ZED_XBee
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.6\textwidth]{Chapters/Figures/chapter5/6_routing_ZED_XBee.png}
+	\includegraphics[width=0.8\textwidth]{Chapters/Figures/chapter5/6_routing_ZED_XBee.png}
 	\caption{Final routing on the front (left) and back (right) signal layers for the GNSS module and Wi-Fi Transceiver circuits.}
 	\label{fig:6_routing_ZED_XBee}
 \end{figure}
 
-
-%agora falar da full board
+%agora falar da full board:
+While routing the entire board, the copper pours for all four layers -- which were already defined as the board's geometric shape -- were repeatedly updated (i.e. ``filled''). Special care was also taken for both signal layers by adding evenly-spaced free-standing vias from these layers to the GND layer, in order to define a solid and reliable ground reference plane. All this was done in order to avoid re-routing as much as possible due to, for example, the hypothetical existence of numerous copper islands\footnote[21]{Small, unconnected zones of copper on a PCB layer. In high-speed circuits, these zones can act as small antennas, causing problems such as signal reflection, or crosstalk. In case removal is not practical/possible, these islands should be connected to the GND layer using isolated vias.}, among other issues. Figure~\ref{fig:7_routing_FULL_FCu_BCu} shows a general view of the final routing on the front and back signal layers, for the entire board.
 
 %7_routing_FULL_FCu_BCu
 \begin{figure}[h]
@@ -425,6 +442,50 @@ Besides the high-speed connections mentioned, every other trace visible belongs 
 	\label{fig:7_routing_FULL_FCu_BCu}
 \end{figure}
 
+Regarding the PWR layer, it was the only manipulated layer (in terms of geometry), since it was subdivided into eight different zones for the main board, corresponding to the system's power nets considered most important (due to current flow, power dissipation, etc.):
+
+\begin{itemize}
+	\item 5V;
+	\item 3V3;
+	\item VDD33A;
+	\item PWR\_AP64501;
+	\item PWR\_LTC;
+	\item VBAT;
+	\item DCIN;
+	\item SW (LTC4012).
+\end{itemize}
+
+On the HMI adjacent board, this layer instead acts as a ground reference layer -- i.e. it essentially performs as another GND layer --, since this board does not need a PWR layer for power purposes. 
+
+Each of the PWR zones on the main is evenly-spaced from each other by $2.0$mm gaps. This distance guarantees electrical isolation between the separated PWR zones, which is critical in order to avoid dielectric breakdown. Figure~\ref{fig:dielectric_breakdown} represents a theoretical top view of two hypothetical zones on the PWR layer separated by the board's dielectric, known as FR-4.
+
+% meter aqui dielectric_breakdown:
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Chapters/Figures/chapter5/dielectric_breakdown.pdf}
+    \caption{Dielectric breakdown on the PWR layer.}
+    \label{fig:dielectric_breakdown}
+\end{figure}
+
+Looking at Figure~\ref{fig:dielectric_breakdown}, three variables to define the dielectric breakdown can be seen, and are defined as such:
+\begin{itemize}
+	\item $g$ -- Dielectric gap between copper zones. Selected as $2.0$mm;
+	
+	\item $d_s$ -- Dielectric strength for the FR-4 material. Equal to $20 \cdot 10^{6}$V/m;
+	
+	\item $\epsilon_r$ -- Dielectric constant for the FR-4 material. Typically equal to $4.5$.
+\end{itemize}
+
+The dielectric strength of $d_s=20 \cdot 10^{6}$V/m means the FR-4 dielectric between the PWR zones will break down if an electric field stronger than $20 \cdot 10^{6}$V/m is applied between them. Thus, in order to verify if the $2.0$mm gap is large enough to avoid dielectric break down, the maximum voltage that can be applied between the copper layers must be determined. Expression (\ref{eq:dielectric_breakdown}) can be used for such:
+
+\begin{equation}\label{eq:dielectric_breakdown}
+	V_{max} = d_s \cdot g = 20 \cdot 10^{6} \cdot 2 \cdot 10^{-3} = 40,000 \textrm{V}\,\medskip
+\end{equation}
+
+Therefore, selecting a gap of $2.0$mm provides a more-than-enough isolation between each PWR layer, since the maximum voltage that can be applied before the FR-4 dielectric breaks down is orders of magnitude above the maximum voltage that may be applied to the system (22V).
+
+Figure~\ref{fig:8_FCu_GND_PWR_BCu} presents all the copper pours for every layer (with all subdivisions of the PWR layer respectively labelled).
+
 %8_FCu_GND_PWR_BCu
 \begin{figure}[h]
 	\centering
@@ -433,8 +494,8 @@ Besides the high-speed connections mentioned, every other trace visible belongs 
 	\label{fig:8_FCu_GND_PWR_BCu}
 \end{figure}
 
-%parei aqui. começar pelo 2_routing_LTC4012_BQ29209_FCu_BCu
 
+%ssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssS
 
 
 
