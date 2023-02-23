@@ -8,7 +8,7 @@
 
 \typeout{NT FILE chapter5_PrototypingPerf.tex}
 
-\chapter{Prototyping and Performance Evaluation Results}\label{cha:chapter5_PrototypingPerf}
+\chapter{Prototyping and Functional Evaluation Results}\label{cha:chapter5_PrototypingPerf}
 
 %So neste capitulo e que se deve descrever a operacao do circuito.
 Upon completion of the circuit design phase, the next step starts to dictate the physical shape of the prototype.
@@ -18,7 +18,14 @@ Upon completion of the circuit design phase, the next step starts to dictate the
 
 \subsection{Footprint Assignment and Placement}\label{sec:511_Placement}
 
-Once every component symbol in the schematics is correctly referenced and the electrical rules check reports no errors nor warnings, KiCad provides a footprint assignment tool, to attribute the desired footprints to the project's parts. Since the new beRTK\textsuperscript{\textregistered} circuit is based around fourteen main ICs and modules, selecting the correct footprints for each of these was the starting point for the layout phase. For that, datasheets for ICs and modules usually feature a section dedicated to presenting the recommended footprint for their component. This facilitates designers' work, as KiCad already provides a vast list of footprint libraries with many footprints to choose from, and therefore the attribution boiled down to a simple matter of finding the correct matches, referring to the datasheets. Figure~\ref{fig:footprint_AP64501} shows the recommended solder pad pitch and dimensions for the AP64501 buck converter addressed in Section~\ref{sec:3214_AP64501}, an example of what is taken as reference when assigning footprints.
+Once the all circuits' schematics that make up the system are correctly designed, every component symbol is referenced, and the KiCad's Electrical Rules Checker (ERC) has been ran, reporting no errors nor warnings (Figure~\ref{fig:ERC_errors}), the process of footprint assignment for the parts can start. KiCad provides a footprint assignment tool, to attribute the desired footprints to the project's parts.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\textwidth]{Chapters/Figures/chapter5/ERC.png}
+	\caption{KiCad's Electrical Rules Checker ran for all the finalized system's circuit schematics.}
+	\label{fig:ERC_errors}
+\end{figure}
+Since the new beRTK\textsuperscript{\textregistered} circuit is based around fourteen main ICs and modules, selecting the correct footprints for each of these was the starting point for the layout phase. For that, datasheets for ICs and modules usually feature a section dedicated to presenting the recommended footprint for their component. This facilitates designers' work, as KiCad already provides a vast list of footprint libraries with many footprints to choose from, and therefore the attribution boiled down to a simple matter of finding the correct matches, referring to the datasheets. Figure~\ref{fig:footprint_AP64501} shows the recommended solder pad pitch and dimensions for the AP64501 buck converter addressed in Section~\ref{sec:3214_AP64501}, an example of what is taken as reference when assigning footprints.
 
 % meter aqui footprint LTC4012 - datasheet
 \begin{figure}[h]
@@ -30,7 +37,7 @@ Once every component symbol in the schematics is correctly referenced and the el
 
 For the ICs and modules whose footprints are not provided by default by the software, internet research was conducted in order to find them -- \url{https://www.snapeda.com/} and \url{https://pt.mouser.com/} were the two websites accessed for such purpose, since these are known to provide trustworthy footprints.
 
-Regarding resistors, unless otherwise stated, all should have a 0805 \gls{SMD} package footprint and a tolerance of 5\%. The standard 0805 package size measures $0.08 \times 0.05$ inches (length $\times$ width), which corresponds, in the metric system, to a 2012 package size, at $2.0 \times 1.25$ millimetres (length $\times$ width).
+As a design rule for this project, regarding resistors, unless otherwise stated, all should have a 0805 \gls{SMD} package footprint and a tolerance of 5\%. The standard 0805 package size measures $0.08 \times 0.05$ inches (length $\times$ width), which corresponds, in the metric system, to a 2012 package size, at $2.0 \times 1.25$ millimetres (length $\times$ width).
 Capacitors should also have a 0805 SMD package footprint and be rated for 50V, unless otherwise stated.
 As for the remaining components, i.e. MOSFETs, diodes, inductors, ferrites, crystal and connectors, their footprint depends on the application.
 Datasheets of ICs and modules usually refer the characteristics and/or models to use in a typical implementation.
@@ -165,7 +172,8 @@ After assessing these guidelines, the placement of this circuit's components was
 %   ver se me lembro de mais regras...
 %   definiu-se um limite experimental para a placa ($100 \times 70$ mm (length $\times$ width)) e acabou por se aumentar para $129 \times 90$ mm (length $\times$ width).
 
-Concluding the placement of every circuit, the remaining placement-related task was to assign these to roughly specific locations on the board. Choosing the board's dimensions settles the placement phase. For the main board, the final size was set to $129 \times 90$ mm (length $\times$ width). As for the HMI board, the same $30 \times 60$ mm (length $\times$ width) measurements from the previous beRTK\textsuperscript{\textregistered} version were kept unaltered. Figure~\ref{fig:placement_FULL} shows the final placement of the entire system within the board's defined limits.
+After the placement of every circuit, three fiducial markers were added on every corner of the main board but the top-right one. These markers serve as reference points for the PCB manufacturing machines.
+With such, the remaining placement-related task was to assign these to roughly specific locations on the board. Choosing the board's dimensions settles the placement phase. For the main board, the final size was set to $129 \times 90$ mm (length $\times$ width). As for the HMI board, the same $30 \times 60$ mm (length $\times$ width) measurements from the previous beRTK\textsuperscript{\textregistered} version were kept unaltered. Figure~\ref{fig:placement_FULL} shows the final placement of the entire system within the board's defined limits.
 
 %placement_FULL
 \begin{figure}[h]
@@ -185,7 +193,7 @@ After placement, routing is the process that connects every component to each ot
 \subsubsection{Board Setup}\label{sec:521_Board_Setup}
 
 %1. falar das minimum design rules da eurocircuits:
-Before beginning the routing process, the board setup must be done in the KiCad PCB editor. This critical step consists in defining the board's stack-up (i.e. number of copper layers -- or simply ``layers'' --, copper pour thickness) and design rules. Depending on the chosen PCB manufacturer, these definitions may vary. For this project, the selected board manufacturer was Eurocircuits, a ``specialist manufacturer and assembler of prototype and small series PCBs''\footnote[19]{Available at \url{https://www.eurocircuits.com/who-are-we/}.}. For KiCad users, Eurocircuists provides sets of minimum design rules (i.e. design constraints) for various PCB stack-up types that may vary in either single or double-sided designs, number of layers, or copper thickness. The following set of constraints presented are for a four-layer board with a base copper thickness of $18 \mu$m and $35 \mu$m, for the outer (OL) and inner (IL) layers, respectively\footnote[20]{Eurocircuits KiCad design rules for other board stack-ups are available at \url{https://www.eurocircuits.com/blog/kicad-design-rules/}.}:
+Before beginning the routing process, the board setup must be done in the KiCad PCB editor. This critical step consists in defining the board's stack-up (i.e. number of copper layers -- or simply ``layers'' --, copper pour thickness) and design rules. Depending on the chosen PCB manufacturer, these definitions may vary. For this project, the selected board manufacturer was Eurocircuits, a ``specialist manufacturer and assembler of prototype and small series PCBs''\footnote[19]{Available at \url{https://www.eurocircuits.com/who-are-we/}.}. For KiCad users, Eurocircuits provides sets of minimum design rules (i.e. design constraints) for various PCB stack-up types that may vary in either single or double-sided designs, number of layers, or copper thickness. The following set of constraints presented are for a four-layer board with a base copper thickness of $18 \mu$m and $35 \mu$m, for the outer (OL) and inner (IL) layers, respectively\footnote[20]{Eurocircuits KiCad design rules for other board stack-ups are available at \url{https://www.eurocircuits.com/blog/kicad-design-rules/}.}:
 \begin{itemize}
 	\item Min. trace width, OL: 0.150mm;
 	
@@ -432,7 +440,7 @@ For both modules, the remaining routing process was standard. Figure~\ref{fig:6_
 \end{figure}
 
 %agora falar da full board:
-While routing the entire board, the copper pours for all four layers -- which were already defined as the board's geometric shape -- were repeatedly updated (i.e. ``filled''). Special care was also taken for both signal layers by adding evenly-spaced free-standing vias from these layers to the GND layer, in order to define a solid and reliable ground reference plane. All this was done in order to avoid re-routing as much as possible due to, for example, the hypothetical existence of numerous copper islands\footnote[21]{Small, unconnected zones of copper on a PCB layer. In high-speed circuits, these zones can act as small antennas, causing problems such as signal reflection, or crosstalk. In case removal is not practical/possible, these islands should be connected to the GND layer using isolated vias.}, among other issues. Figure~\ref{fig:7_routing_FULL_FCu_BCu} shows a general view of the final routing on the front and back signal layers, for the entire board.
+While routing the entire board, the copper pours for all four layers -- which were already defined as the board's geometric shape -- were repeatedly updated (i.e. ``filled''). Special care was also taken for both signal layers by adding evenly-spaced free-standing vias from these layers to the GND layer, in order to define a solid and reliable ground reference plane. All this was done in order to avoid re-routing as much as possible due to, for example, the existence of numerous GND copper islands\footnote[21]{Small, unconnected zones of copper on a PCB layer. In high-speed circuits, these zones can act as small antennas, causing problems such as signal reflection, or crosstalk. In case removal is not practical/possible, these islands should be connected to the GND layer using isolated vias.} -- which must be connected to the GND layer in order to reduce \gls{EMC} problems --, among other issues. Figure~\ref{fig:7_routing_FULL_FCu_BCu} shows a general view of the final routing on the front and back signal layers, for the entire board.
 
 %7_routing_FULL_FCu_BCu
 \begin{figure}[h]
@@ -494,12 +502,91 @@ Figure~\ref{fig:8_FCu_GND_PWR_BCu} presents all the copper pours for every layer
 	\label{fig:8_FCu_GND_PWR_BCu}
 \end{figure}
 
+Finally, after the routing process has been completed, a last run of the KiCad PCB Editor's Design Rules Checker (DRC) closes this phase. Figure~\ref{fig:DRC_errors} shows the DRC for the finalized placement and routing of the new beRTK\textsuperscript{\textregistered} system.
 
-%ssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssS
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\textwidth]{Chapters/Figures/chapter5/DRC.png}
+	\caption{KiCad's Design Rules Checker ran for the finalized system's placement and routing.}
+	\label{fig:DRC_errors}
+\end{figure}
+
+%parei aqui - ver o OneNote para ver qual o passo seguinte
+%SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+\section{Physical Prototype}\label{sec:53_Prototype}
+
+Finishing the routing process closes the project's design phase. To effectively evaluate the project, the next phase corresponds to the assembly of a functioning prototype, which in turn opens the doors to the physical world.
+
+%sSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsS
+\subsection{PCB Manufacture}\label{sec:531_PCBmanufacture}
+
+To manufacture a completed PCB design, the files that describe it (copper layers, reference layer, board's limits, etc.) must be exported. The Gerber file format is the conventional way of doing so.
+
+KiCad provides a ``plot'' tool for generating the Gerber files for every layer of the PCB's layout, as well as files for its through-holes (``drill files'') -- which can be plated (completely lined with copper, e.g. to use as test points) or non-plated (bare through-hole, e.g. to use as mounting holes).
+
+The PCB layers exported as Gerber files were the following~\cite{pcbnew_kicad}:
+\begin{itemize}
+	\item F.Cu -- Front copper layer;
+	\item GND -- Ground copper layer;
+	\item PWR -- Power copper layer;
+	\item B.Cu -- Back copper layer;
+	\item F.Paste -- Front solder paste layer;
+	\item B.Paste -- Back solder paste layer;
+	\item F.Silkscreen -- Front silkscreen layer;
+	\item B.Silkscreen -- Back silkscreen layer;
+	\item F.Mask -- Front solder mask layer;
+	\item B.Mask -- Back solder mask layer;
+	\item Edge.Cuts -- Board's margins layer;
+	\item F.Courtyard -- Front courtyard layer;
+	\item B.Courtyard -- Back courtyard layer.
+\end{itemize}
+\noindent Uploading these layers to the Eurocircuits manufacturer's website, its PCB Viewer tool helps visualize each of the uploaded layers, also presenting simulated views for the front and back of the board -- shown in Figure~\ref{fig:EC_Front_Back_views}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter5/prototype/EC_Front_Back_views.png}
+	\caption{Simulated front (left) and back (right) views of the new beRTK\textsuperscript{\textregistered} PCB (from the Eurocircuits website).}
+	\label{fig:EC_Front_Back_views}
+\end{figure}
+
+Eurocircuits also provides a PCB checker tool, with DRC and DFM (Design For Manufacture) information, in order to double-check the integrity of the board's design and avoid manufacturing problems. After this tool's check, the uploaded design is categorized under the Eurocircuits PCB Design Classification system (shown in Figure~\ref{fig:PCB_EC_Class}), used to inform the user of the PCB's manufacturing possibility using Eurocircuits' pooling services, as well as its expected price. The result classified the board's technology at 6C. This technology class resulted from the defined minimum design rules -- addressed in Section~\ref{sec:521_Board_Setup}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter5/prototype/PCB_EC_Class.png}
+	\caption{Eurocircuits PCB Design Classification overview (available in the Eurocircuits website).}
+	\label{fig:PCB_EC_Class}
+\end{figure}
+
+%sSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsS
+\subsection{Component Acquisition}\label{sec:532_ComponentAcquisition}
+
+%1. ir ao excel do soldererd, e meter os valores (diferentes) que soldei a serio no esquematico
+%2. falar desses valores
+
+While exposing every circuit that makes up the base station's system, the respective components were described, and the relevant models' names were also cited. Therefore, compiling every component model's name, value, and footprint in a list was the first step of component selection. This list, know as a \gls{BOM}, is presented in Annex~\ref{ann:BOM}.
+
+Since most of the components needed were already available beforehand, only twenty needed to be bought. For that selection, three main distributors were used:
+\begin{itemize}
+	\item Farnell -- \url{https://pt.farnell.com/};
+	\item Mouser Electronics -- \url{https://pt.mouser.com/};
+	\item Digi-Key -- \url{https://www.digikey.pt/}.
+\end{itemize}
+
+It should be noted that special care needs to be taken when selecting the already available components, particularly when picking out capacitors. The maximum expected voltage on the nets to which these components are connected to must be known, so that the chosen capacitor's DC voltage rating is always greater than that value. For that, the 50V DC rating design rule for capacitors mentioned in Section~\ref{sec:511_Placement} was followed.
 
 
+%sSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsS	
+\subsection{Assembly, Functional Testing and Results}\label{sec:533_PrototypeAssembly}
 
--- $20 \mu$F ceramic capacitors were chosen for both the power inputs and power output of the LTC4012, instead of $22 \mu$F. 
+% mostrar fotos que tirei
+%modos de operação:
+%1: só EXT power -- tensao no terminal BAT do LTC4012 passa como se fosse CLN (ou a tensao exterior), e como ACP vs 5V ainda é suficiente para ligar o PMOS switch Q8,Q6, a status voltage passa na mesma e assim acendem os LEDs na mesma. - solução: fazer o R14,D6,Q4
+%2: EXT power + baterias
+%3: só baterias - diminuir a luz de um LED no photoshop para mostrar que os LEDs iam apagando
+
+-- $22 \mu$F ceramic capacitors were chosen for both the power inputs and outputs of the LTC4012, instead of $20 \mu$F, since~\cite{LTC4012} states that ``high-capacity ceramic capacitors ($20 \mu$F or more) available from a variety of manufacturers can be used for input/output capacitors.'' %mudar frase
+and $22 \mu$F ceramic capacitors were already in stock prior to the component purchase phase.
 
 -- As mentioned before, the top and bottom power FETs Q2 and Q9, along with inductor L1 are vital to the PWM control architecture. These components are part of the sub-circuit that starts from the +15VDC source of power and passes across FET Q1 (connected to pin INFET), sense resistor R3, 
 This sub-circuit forms the ``power supply rail'', and upon layout design of the circuit from Figure~\ref{fig:LTC4012_circuit}, this section must bear a track width large enough to withstand large values of currents or any other phenomena that may occur (e.g. voltage/current spikes). The needed track width can be calculated through the following expression:
@@ -511,15 +598,8 @@ signal traces and make sure that they are able to comfortably support the maximu
 specifications. There are no other special PCB design considerations to integrate XBee 3 RF Modules,
 with the exception of antennas.
 
-\section{PCB Manufacture}\label{sec:51_PCBmanufacture}
 
-\section{Component Acquisition}\label{sec:52_ComponentAcquisition}
 
-%ate agora foram os unicos MOSFETs que nao disse o nome:
-
-%como nao foi relevante, ate agora ainda nao disse que MOSFETs selecionei para o power switch: Q4 e Q5.
-%Q3, Q10, Q6, Q8 -- BQ29209
-%PMEG2010ER - GNSS module
 
 %LTC4012:
 It should be noted that, for the top and bottom FET selection stage, the Si7212DN model suggested is a double FET in one package. The CSD17308Q3 substituting model is a single-channel FET (only one per package), and therefore two units had to be acquired -- Section~\ref{sec:3211_LTC4012}.
@@ -549,7 +629,28 @@ Recalling Section~\ref{sec:3214_AP64501}, it is stated that the closest commerci
 
 % LAN9514:
     However, USB has the advantage of allowing hot-swapping, making it useful for mobile peripherals, including drives of various kinds. -- mesmo que digam isto ja é possivel por natureza do USB, eu ainda tentei fazer o que dizia no datahseet do LAN9514 para dar enable ao hot-swapping, mas continuou sem funcionar.
+	
 
-\section{Prototype Assembly}\label{sec:53_PrototypeAssembly}
+%SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+\subsection{Functional Testing and Results}\label{sec:55_FunctionalTesting}
 
-\section{Functional Testing and Results}\label{sec:54_FunctionalTesting}
+AP64501:
+nao se compraram os valores necessarios para R41 e R42 (voltage divider to set the output voltage of the AP64501, Section~\ref{sec:3214_AP64501}); usando a expressao (\ref{eq:R41_R42}) foram-se avaliando os valores de resistencias disponiveis. como se estava a trabalhar com um power supply crítico (5V), era necessario que, para os valores de resistencias escolhidos para o divisor de tensao, o valor de tensao de output do AP64501 fosse 5V$\pm 5\%$, i.e. $[4.95,\, 5.05]$V. tentaram-se cinco combinaçoes diferentes, representadas na 
+% Table~\ref{tab:R41_R42_values}:
+
+%meter tabela aqui:
+
+% end table------
+
+note-se que a
+% Table~\ref{tab:R41_R42_values}
+mostra o erro relativo do $V_{OUT}$ em relaçao aos 5V desejados. sendo que todas as combinaçoes possiblitam valores de tensao $V_{OUT}$ dentro do intervalo desejado, escolheu-se a combinaçao que possui o menor erro relativo possivel, e foi essa que foi soldada na PCB -- R$41=430$k$\Omega$ and R$42=82$k$\Omega$.
+%meter foto desta parte da PCB?
+
+%-------------------------------
+Basicamente o processo de fazer uma base rtk de zero é simples:
+% 	- O software é instalares o OS e depois fazeres clone da tal git.
+% 	- Na git estão as instruções de como instalar o software todo. É só seguir e está feito.
+% 	- É possível que tenhas de trocar uma porta nos parâmetros ou algo assim porque em vez do wi-fi estar na USB3 está na USB1 ou algo assim, mas não há de ser muito mais que isso.
+% 	- Ya podes fazer uma imagem clean no teu rpi e instalar tudo como se fosse uma base rtk.
+% Depois no fim fazes uma imagem clean again só para não ficares com a tralha.
