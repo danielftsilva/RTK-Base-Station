@@ -38,7 +38,8 @@ Since the new beRTK\textsuperscript{\textregistered} circuit is based around fou
 For the ICs and modules whose footprints are not provided by default by the software, internet research was conducted in order to find them -- \url{https://www.snapeda.com/} and \url{https://pt.mouser.com/} were the two websites accessed for such purpose, since these are known to provide trustworthy footprints.
 
 As a design rule for this project, regarding resistors, unless otherwise stated, all should have a 0805 \gls{SMD} package footprint and a tolerance of 5\%. The standard 0805 package size measures $0.08 \times 0.05$ inches (length $\times$ width), which corresponds, in the metric system, to a 2012 package size, at $2.0 \times 1.25$ millimetres (length $\times$ width).
-Capacitors should also have a 0805 SMD package footprint and be rated for 50V, unless otherwise stated.
+Capacitors should also have a 0805 SMD package footprint and be rated for 50V, unless otherwise stated. It should be noted that, for these package's footprints, a version labelled ``HandSolder'' (in KiCad) was selected. This was done in order to aid the hand soldering parts of the prototype assembly phase, since for these the footprint, the package's pads are made slightly wider.
+
 As for the remaining components, i.e. MOSFETs, diodes, inductors, ferrites, crystal and connectors, their footprint depends on the application.
 Datasheets of ICs and modules usually refer the characteristics and/or models to use in a typical implementation.
 
@@ -579,7 +580,73 @@ It should be noted that special care needs to be taken when selecting the alread
 %sSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsSsS	
 \subsection{Assembly, Functional Testing and Results}\label{sec:533_PrototypeAssembly}
 
+This section closes Chapter~\ref{cha:chapter5_PrototypingPerf} with the assembly and subsequent testing of the prototype for the new beRTK\textsuperscript{\textregistered} PCB.
+
 % mostrar fotos que tirei
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter5/prototype/1_proto_Front_Back_view.png}
+	\caption{Front (left) and back (right) views of the new beRTK\textsuperscript{\textregistered} PCB.}
+	\label{fig:1_proto_Front_Back_view}
+\end{figure}% 1_proto_Front_Back_view
+
+Having the manufactured PCB finally at hands (Figure~\ref{fig:1_proto_Front_Back_view}), the assembly process began by soldering capacitors and resistors first. This step proved itself to be very simple, due to the basic PCB hand soldering techniques needed, as well as to the nature of the components' footprints and packages selected. Figure~\ref{fig:2_proto_Capacitors} shows the first components soldered on the PCB, the capacitors.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\textwidth]{Chapters/Figures/chapter5/prototype/2_proto_Capacitors.png}
+	\caption{First components soldered.}
+	\label{fig:2_proto_Capacitors}
+\end{figure}% 2_proto_Capacitors
+
+During the soldering process, the values for some components to solder suffered changes when compared to the schematics, due to the already available stock. This was, of course, accomplished whilst keeping in mind the values recommended to use by the datasheets used as reference. An example for such alteration regards the installation of the LTC4012 output capacitors -- represented by C3 and C8 in Figure~\ref{fig:LTC4012_circuit} -- suggested to be implemented as $20 \mu$F ceramic capacitors. Recalling Section~\ref{sec:3211_LTC4012}, it is assessed that~\cite{LTC4012} states that high-capacity ceramic capacitors worth $20 \mu$F or more are possible to use as the LTC4012's input and output capacitors. Therefore, $22 \mu$F ceramic capacitors rated at 50VDC are used in the prototype as both input and output capacitors for the battery charger's circuit. This is the same model used for the input and output capacitors, for the AP64501 buck converter's circuit (Figure~\ref{fig:AP64501_circuit}).
+
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth]{Chapters/Figures/chapter5/prototype/3_proto_Microscope_Capacitors.png}
+	\caption{Microscopic view of the soldering process.}
+	\label{fig:3_proto_Microscope_Capacitors}
+\end{figure}% 3_proto_Microscope_Capacitors
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter5/prototype/3_proto_ReworkStation.png}
+	\caption{MLINK X2 Rework Station used (left); microscopic view of the rework station's process (right).}
+	\label{fig:3_proto_ReworkStation}
+\end{figure}% 3_proto_ReworkStation
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{Chapters/Figures/chapter5/prototype/4_Soldering_finished.png}
+	\caption{Final result of the soldering process for the new beRTK\textsuperscript{\textregistered} PCB.}
+	\label{fig:4_Soldering_finished}
+\end{figure}% 4_Soldering_finished
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{Chapters/Figures/chapter5/prototype/5_proto_first_test_ONLY_EXT_PWR.png}
+	\caption{Functional testing of the new beRTK\textsuperscript{\textregistered} PCB (external power only; without the Raspberry Pi CM4).}
+	\label{fig:5_proto_first_test_ONLY_EXT_PWR}
+\end{figure}% 5_proto_first_test_ONLY_EXT_PWR
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter5/prototype/5_proto_first_test_ONLY_Batteries.png}
+	\caption{Functional testing of the new beRTK\textsuperscript{\textregistered} PCB (battery pack power only; without the Raspberry Pi CM4).}
+	\label{fig:5_proto_first_test_ONLY_Batteries}
+\end{figure}% 5_proto_first_test_ONLY_Batteries
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter5/prototype/5_proto_first_test_EXT_ON_Batteries.png}
+	\caption{Functional testing of the new beRTK\textsuperscript{\textregistered} PCB (external power and battery pack power applied; without the Raspberry Pi CM4).}
+	\label{fig:5_proto_first_test_EXT_ON_Batteries}
+\end{figure}% 5_proto_first_test_EXT_ON_Batteries
+
+
 %modos de operação:
 %1: só EXT power -- tensao no terminal BAT do LTC4012 passa como se fosse CLN (ou a tensao exterior), e como ACP vs 5V ainda é suficiente para ligar o PMOS switch Q8,Q6, a status voltage passa na mesma e assim acendem os LEDs na mesma. - solução: fazer o R14,D6,Q4
 %2: EXT power + baterias
