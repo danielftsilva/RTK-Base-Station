@@ -140,7 +140,7 @@ The LTC4012 datasheet provides a helpful typical application circuit, as well as
     R_{SENSE}=\frac{100 \textrm{mV}}{I_{MAX}}\,,\medskip
 \end{equation}
 where $I_{MAX}$ corresponds to the maximum $I_{CHRG}$ charge current desired for the charging process. As per Table~\ref{tab:battery2S}, the battery pack allows a maximum charge current of $2,000$mA, but this value does not account for the maintenance of each cell's health. For that, a standard charging current of $1,700$mA is mentioned in the datasheet; in C-rate units, this charging current rate corresponds to 0.5C, since the explicit 1C rate for this type of cell is equal to $3,400$mA\footnote[8]{In the C-rate standard, 1C corresponds to a charging from 0 to 100\% in the span of one hour. The higher the C-rate coefficient, the faster the charge, and vice-versa. For example, a rate of 2C corresponds to thirty minutes of charge time and 0.5C to two hours.}~\cite{C-rate}.
-However, it is also pointed out that, in order to maintain the batteries' health as pristine as possible (thus prolonging their life cycle), a charge current of $1,020$mA -- i.e. maintaining the cell's C-rate of 0.3C -- would have to be employed. Choosing a maximum charge current of $I_{MAX}=1,020$mA results in an $R_{SENSE}$ value of 0.098$\Omega$ (98m$\Omega$), according to~(\ref{eq:r_sense}) (represented in the schematic of Figure~\ref{fig:LTC4012_circuit} by R12). Therefore, the value of $I_{MAX}=1,020$mA is hereby defined as the 1C rate of the new beRTK\textsuperscript{\textregistered}'s battery pack. It should also be noted that the target sense voltage of 100mV can differ in order to accomodate standard $R_{SENSE}$ values available on the market, however lower values are likely to cause inaccuracies when it comes to current regulation.
+However, it is also pointed out that, in order to maintain the batteries' health as pristine as possible (thus prolonging their life cycle), a maximum charge current of $1,020$mA -- i.e. maintaining the cell's C-rate of 0.3C -- would have to be employed. Choosing a maximum charge current of $I_{MAX}=1,020$mA results in an $R_{SENSE}$ value of 0.098$\Omega$ (98m$\Omega$), according to~(\ref{eq:r_sense}) (represented in the schematic of Figure~\ref{fig:LTC4012_circuit} by R12). Therefore, the value of $I_{MAX}=1,020$mA is hereby defined as the 1C rate of the new beRTK\textsuperscript{\textregistered}'s battery pack. It should also be noted that the target sense voltage of 100mV can differ in order to accomodate standard $R_{SENSE}$ values available on the market, however lower values are likely to cause inaccuracies when it comes to current regulation.
 
 % meter aqui circuito do LTC4012:
 \begin{figure}[h]
@@ -156,13 +156,13 @@ It is established in the documentation that the LTC4012 provides the best perfor
     R_{PROG (MIN)}=\frac{1.2085 \textrm{V} \cdot R_{IN}}{0.1 \textrm{V} + 11.67 \mu \textrm{A} \cdot R_{IN}} \approx 26.9 \textrm{k}\Omega \,\medskip
 \end{equation}
 
-\noindent Expression (\ref{eq:r_prog}) results in a minimum $R_{PROG}$ value of approximately 26.9k$\Omega$, and connecting a resistor of this value between the PROG pin and GND is enough to control the maximum charge current of $I_{MAX}$ (i.e. 1C).
+\noindent Expression (\ref{eq:r_prog}) results in a minimum $R_{PROG}$ (i.e. R8) value of approximately 26.9k$\Omega$, and connecting a resistor of this value between the PROG pin and GND is enough to control the maximum charge current of $I_{MAX}=1,020$mA (i.e. 1C).
 
 % \noindent Expression (\ref{eq:r_prog}) results in a minimum $R_{PROG}$ value of approximately 26.9k$\Omega$, and connecting a resistor of this value between the PROG pin and GND would be sufficient if the only charge current rate defined was $I_{MAX}$ (i.e. 1C).
 % However, when batteries discharge to a voltage level below their minimum specified recommendation (in the case of the cells used, 2.5V), they suffer internal damage, which results -- in the long run -- in a loss of battery life.
-% Therefore, when the aforesaid situation occurs, the charging process should be done with a low initial charge current. Such practice also ensures an overall safe charging of the baterries, regardless of whether or not a heavy discharge has taken palce.
+% Therefore, when such situation occurs, the charging process should be done with a low initial charge current. This practice also ensures an overall safe charging of the baterries, regardless of whether or not a heavy discharge has taken palce.
 % The LTC4012 charger allows a specific charging control process for the battery pack by altering the resistance between the PROG pin and GND, designated as a ``two-level'' charge. This charging process is achieved via the switching of a control transistor (Q3 in Figure~\ref{fig:LTC4012_circuit}) which, when turned off, cuts down the charge current to $\frac{I_{MAX}}{10}$ (i.e. C/10), only allowing the full $I_{MAX}$ current for a ``bulk charge'' when turned on. In the schematic of Figure~\ref{fig:LTC4012_circuit}, the two-level approach is implemented through transistor Q3, resistors R8 and R13 and capacitor C7. Connecting the gate of Q3 to the battery supply rail ($\mathrm{V_{BAT}}$ net in Figure~\ref{fig:LTC4012_circuit}) serves the purpose of allowing transistor Q3 to exit or enter its active zone, in order to subsequently grant both levels of charge current available with the implemented method. When the battery pack's voltage dips to a value equal to or below 2.5V -- i.e. when it reaches a heavy discharge status --, Q3 is switched on, increasing (MENTIRA! ELE DIMINUI A RESISTENCIA...) the resistance between PROG and GND. For that, the recommended transistor to use (from the LTC4012 datasheet) is the 2N7002 N-channel \gls{FET}~\cite{2N7002}. This FET holds a gate threshold voltage between 1.0V and 2.5V.
-%DESCARTEI O 2-LEVEL CHARGE.
+%%DESCARTEI O 2-LEVEL CHARGE.
 
 With the calculated values for resistors $R_{IN}$, $R_{SENSE}$ and $R_{PROG}$ it is then possible to obtain a value of $I_{CHRG} = 1,020$mA for the programmed charge current, through expression~(\ref{eq:i_chrg})~\cite{LTC4012}.
 
@@ -178,7 +178,7 @@ With the calculated values for resistors $R_{IN}$, $R_{SENSE}$ and $R_{PROG}$ it
 
 If the selected value of R9 is less than 50k$\Omega$ and the joint value of R7 and R9 surpasses (or at least equals) 200k$\Omega$, then the lowest possible error at the $V_{FB}$ sense input is acheived\footnote[10]{The use of resistors with a tolerance level of 0.25\% is advised to achieve the desired level of accuracy~\cite{LTC4012}.}. It should be noted that the influence of this battery voltage feedback input is present in equations (\ref{eq:v_bat}) and (\ref{eq:r7_r9}), as well as in equations (\ref{eq:i_chrg}) and (\ref{eq:r_prog}), in the form of the nominal 1.2085 pin voltage~\cite{LTC4012}.
 
-\paragraph{Programming the Input Current Limit}	The previous version of the beRTK\textsuperscript{\textregistered} base station presented a power consumption of approximately 3 to 3.5Wh, and one of the requirements of this project is to cut the power consumption down to a maximum of 400mA at +5VDC -- as stated in requirement \textbf{RTKBS.MAIN.PWS.040}. Therefore, a 1.00A external adapter current rating can safely be considered, however, it is best to consider the double of that value, to safely consider high peak currents and discharge problems that may arise.
+\paragraph{Programming the Input Current Limit}	The previous version of the beRTK\textsuperscript{\textregistered} base station presented a power consumption of approximately 3 to 3.5Wh, and one of the requirements of this project is to cut the power consumption down to a maximum of 400mA at +5VDC -- as stated in requirement \textbf{RTKBS.MAIN.PWS.040}. Therefore, a 1.00A external adapter current rating can safely be considered, however, it is best to consider the double of that value, to account for future work on this system.
 The LTC4012 datasheet provides a table with common values for a sense resistor dedicated to the programming of the input current limiting -- R3 in Figure~\ref{fig:LTC4012_circuit}. For this case, considering an adapter rating of 2.00A, R3's estimated value would be equal to 0.050$\Omega$ (50m$\Omega$). The value of this sense resistor can also be determined through expression (\ref{eq:r_cl}),
 \begin{equation}\label{eq:r_cl}
     R3=\frac{100\textrm{mV}}{I_{LIM}}\,,\medskip
@@ -206,11 +206,11 @@ An additional input capacitor of $20 \mu$F must also be placed, this time betwee
 
 \paragraph{Inductor Selection}	Pulse width modulation is often translated into high switching frequencies, therefore, the use of FETs with this power control method leads to losses due to charges acting upon these components' gates. However, it also allows the use of smaller values for capacitors, as well as inductors. The latter plays an important role on making circuits benefit from the use of PWM, as they act as a means to maintain a stable voltage output during the off periods of the switching transistor, thanks to the energy stored during the on periods~\cite{pwm_site}. In this case, the switching transistors referred to are the ``top'' and ``bottom'' FETs Q2 and Q9, respectively, along with inductor L1, all present in Figure~\ref{fig:LTC4012_circuit}.
 
-The LTC4012 datasheet provides a table with the minimum typical inductor values to be use as a guideline, which is represented by Table~\ref{tab:typ_inductor_values}.
+The LTC4012 datasheet provides a table with the recommended typical inductor values to be used as a guideline, which is represented by Table~\ref{tab:typ_inductor_values}.
 % meter a table 6 aqui:
 \begingroup
 \begin{table}[h]
-	\caption{Minimum typical inductor values~\cite{LTC4012}.}
+	\caption{Recommended typical inductor values~\cite{LTC4012}.}
 	\label{tab:typ_inductor_values}
 	\centering%@{}l@{}@{}c@{}@{}c@{}@{}c@{}@{}c@{}
     % \setlength{\tabcolsep}{10pt} % Default value: 6pt
@@ -258,7 +258,7 @@ It should be noted that the values for $R_{SENSE}$, $R_{IN}$ and $R_{PROG}$ on t
 % Grade 4: 0°C to +70°C ambient operating temperature range
 
 The L1 inductor must be carefully chosen due to the amount of ripple current $\Delta I_L$ it generates. 
-A high ripple current leads, due to Ohm's law, to a higher output voltage ripple -- the unwanted noise --, and corresponds to a measure that decreases upon the rise of the PWM operating frequency ($f_{PWM}$) and/or the inductor's own inductance, as it is possible to analyse through expression (\ref{eq:delta_iL}):
+A high ripple current leads to, according to Ohm's law, higher output voltage ripple -- the unwanted noise --, and corresponds to a measure that decreases upon the rise of the PWM operating frequency ($f_{PWM}$) and/or the inductor's own inductance, as it is possible to analyse through expression (\ref{eq:delta_iL}):
 
 \begin{equation}\label{eq:delta_iL}
     \Delta I_L = \frac{V_{BAT} \cdot \left(1-\frac{V_{BAT}}{V_{CLP}}\right)}{L1 \cdot f_{PWM}}\,\medskip
@@ -634,7 +634,7 @@ As stated in the last paragraph of Section~\ref{sec:32_PowerSupply}, the input v
 \endgroup
 
 \paragraph{Selecting the Inductor}	Once again, the topic of inductor selection for a buck converter arises. The AP64501 relies on a pre-defined frequency in order to deliver the appropriate amount of power to the load connected upstream.
-Switching the supply voltage on and off according to a certain duty cycle results in the sought-after 5V, and for that, a proper inductor is critical. It is recommended by \cite{AP64501} the selection of an inductor value between $1 \mu$H to $10 \mu$H, and therefore, taking into account the values presented in Table~\ref{tab:AP64501_recommended_values}, an inductor of $3.6 \mu$H was selected. It is also advised to select an inductor with a DC current rating of at least 35\% higher than the maximum 5A load current of the AP64501, which corresponds to 6.75A.
+Switching the supply voltage on and off according to a certain duty cycle results in the sought-after 5V, and for that, a proper inductor is critical. It is recommended by \cite{AP64501} the selection of an inductor value between $1 \mu$H to $10 \mu$H, and therefore, taking into account the values presented in Table~\ref{tab:AP64501_recommended_values}, an inductor value of $3.6 \mu$H is recommended. It is also advised to select an inductor with a DC current rating of at least 35\% higher than the maximum 5A load current of the AP64501, which corresponds to 6.75A.
 
 To determine the L2 inductor value that can be used for most design applications,~\cite{AP64501} also offers equation (\ref{eq:L2}), 
 \begin{equation}\label{eq:L2}

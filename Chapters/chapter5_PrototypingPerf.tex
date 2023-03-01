@@ -590,18 +590,55 @@ This section closes Chapter~\ref{cha:chapter5_PrototypingPerf} with the assembly
 	\label{fig:1_proto_Front_Back_view}
 \end{figure}% 1_proto_Front_Back_view
 
-Having the manufactured PCB finally at hands (Figure~\ref{fig:1_proto_Front_Back_view}), the assembly process began by soldering capacitors and resistors first. This step proved itself to be very simple, due to the basic PCB hand soldering techniques needed, as well as to the nature of the components' footprints and packages selected. Figure~\ref{fig:2_proto_Capacitors} shows the first components soldered on the PCB, the capacitors.
+Having the manufactured PCB finally at hands (Figure~\ref{fig:1_proto_Front_Back_view}), the assembly process began by soldering the capacitors. This step proved itself to be very simple, due to the basic PCB hand soldering techniques needed, as well as to the nature of the components' footprints and packages selected, as mentioned in Section~\ref{sec:511_Placement}. Figure~\ref{fig:2_proto_Capacitors} shows the first capacitors soldered onto the PCB.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.6\textwidth]{Chapters/Figures/chapter5/prototype/2_proto_Capacitors.png}
+	\includegraphics[width=0.5\textwidth]{Chapters/Figures/chapter5/prototype/2_proto_Capacitors.png}
 	\caption{First components soldered.}
 	\label{fig:2_proto_Capacitors}
 \end{figure}% 2_proto_Capacitors
 
 During the soldering process, the values for some components to solder suffered changes when compared to the schematics, due to the already available stock. This was, of course, accomplished whilst keeping in mind the values recommended to use by the datasheets used as reference. An example for such alteration regards the installation of the LTC4012 output capacitors -- represented by C3 and C8 in Figure~\ref{fig:LTC4012_circuit} -- suggested to be implemented as $20 \mu$F ceramic capacitors. Recalling Section~\ref{sec:3211_LTC4012}, it is assessed that~\cite{LTC4012} states that high-capacity ceramic capacitors worth $20 \mu$F or more are possible to use as the LTC4012's input and output capacitors. Therefore, $22 \mu$F ceramic capacitors rated at 50VDC are used in the prototype as both input and output capacitors for the battery charger's circuit. This is the same model used for the input and output capacitors, for the AP64501 buck converter's circuit (Figure~\ref{fig:AP64501_circuit}).
 
+After soldering the capacitors, the second most-present components on the system were soldered: resistors. Just like the ``HandSolder'' version chosen for the capacitors footprints, the same was done for the footprints of every resistor with a 0805 package attributed. Also, similarly to what was done with the capacitors, some resistors' values were changed in order to fit the available stock. The most important change was made on the AP64501 circuit.
+Originally, following the recommended component values for the typical AP64501 circuit presented in Table~\ref{tab:AP64501_recommended_values}, the necessary values for R41 and R42 (voltage divider to set the output voltage of the AP64501, Section~\ref{sec:3214_AP64501}) are specified at 115.8k$\Omega$ and 22.1k$\Omega$, respectively. However, this voltage divider can be accomplished with other resistor values, preferably with ones that would be available in stock, in order not to buy two single resistors specifically for this purpose. 
 
+Since the AP64501 buck converter is a critical IC that sets up the entire 5V power supply, it is necessary that the resistance values chosen for the R41-R42 voltage divider allow the AP64501 to provide an output voltage value as close as possible to 5V. A range of 5V$\pm 5\%$, i.e. $[4.95,\, 5.05]$V was deemed reasonable. Recurring to expression (\ref{eq:R41_R42}), various R41-R42 combinations were taken into account to calculate the output voltage expected. Table~\ref{tab:R41_R42_values} compiles the best combinations found that fit the intended $\pm 5\%$ tolerance.
+
+\begingroup
+\begin{table}[H]
+	\caption{Possible combinations and relative error for the R41-R42 voltage divider.}
+	\label{tab:R41_R42_values}
+	\centering%@{}l@{}@{}c@{}@{}c@{}@{}c@{}@{}c@{}
+    % \setlength{\tabcolsep}{10pt} % Default value: 6pt
+    % \renewcommand{\arraystretch}{1.5} % Default value: 1
+	\begin{tabular}{cccc}
+        \toprule
+        \textbf{R41} \textbf{(k}$\mathbf{\Omega}$\textbf{)} & \textbf{R42} \textbf{(k}$\mathbf{\Omega}$\textbf{)} & $\mathbf{V_{OUT}}$ \textbf{(V)} & \textbf{Rel. error (\%)} \\
+        \midrule
+        124 & 24 & $4.933$ & $1.333$ \\
+		\midrule
+		390 & 75 & $4.960$ & $0.800$ \\
+		\midrule
+		270 & 51 & $5.0353$ & $0.706$ \\
+		\midrule
+		430 & 82 & $4.995$ & $0.098$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\endgroup
+
+The relative error of the $V_{OUT}$ output voltage was determined for each combination, and the pair that presented the best results was R$41=430$k$\Omega$, R$42=82$k$\Omega$. These values allow the AP64501 to provide an output voltage of $4.995$V, which presents only a $0.098\%$ error, when compared to the expected 5V. Therefore, these were the R41 and R42 values soldered onto the PCB.
+
+% % ACRESCENTAR? --> programmed charge current do LTC4012: R3 era para ser 0.050R, eu meti 0.025R --> na altura dos testes, soldei dois 0.025R em serie para fazer os 0.050R; R12 era para ser 0.098R, eu meti 0.025R --> na altura dos testes, soldei quatro 0.025R em serie para fazer 0.1R, que é approx. 0.098R. --> se me perguntarem, sugerir meter isso no relatório. 
+% R3 --> RCL, para fazer set up do input current limit feature.
+% R12 --> -RSENSE, para programar a charge current.
+
+% ACRESCENTAR? --> It should also be noted that, for the input resistors R11 and R14 of the LTC4012, 3k$\Omega$ resistors were used instead of the suggested $3.01$k$\Omega$. This was not a problem, since~\cite{LTC4012} informs that ``The LTC4012 operates best with 3.01k input resistors, although other resistors near this value can be used to accommodate standard sense resistor values.''.
+
+%depois soldaram-se diodes, FB, ... dizer isto
+After soldering capacitors and resistors, every other component was also assembled onto the board, except the CM4. Some of these required special aid from a digital microscope -- shown in Figure~\ref{fig:3_proto_Microscope_Capacitors} --, and/or a rework station. The LAN9514 hub is an example of that. This IC's package presents (like others in the system) a large bottom pad that is not accessible with a regular PCB soldering iron, and therefore can only be soldered onto the board using hot air. Its connecting pins are also very thin, and non-external to the package, which presents yet another disadvantage when it comes to hand soldering. Figure~\ref{fig:3_proto_ReworkStation} shows the rework station used, as well as a microscopic view of the soldering process for the LAN9514 hub.
 
 \begin{figure}[h]
 	\centering
@@ -610,20 +647,286 @@ During the soldering process, the values for some components to solder suffered 
 	\label{fig:3_proto_Microscope_Capacitors}
 \end{figure}% 3_proto_Microscope_Capacitors
 
-
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter5/prototype/3_proto_ReworkStation.png}
-	\caption{MLINK X2 Rework Station used (left); microscopic view of the rework station's process (right).}
+	\caption{Rework station used (left); microscopic view of the rework station's process (right).}
 	\label{fig:3_proto_ReworkStation}
 \end{figure}% 3_proto_ReworkStation
 
+%falar dos indutores:
+Regarding inductors, it must be mentioned that, even though the recommendations given by Table~\ref{tab:typ_inductor_values} point to an L1 inductor value $\geq 20 \mu$H for this project's case, the selection of this component was made relying on inequation (\ref{eq:L1}) instead, since it provides a more refined calculation for the inductor's value (i.e. it takes into account more variables that refer to the specific design). With this in mind, a $10 \mu$H inductor was chosen for L1, which is still greater than the $7.48 \mu$H determined by (\ref{eq:L1}). The DC current rating for this inductor was chosen to be 4A, providing a very safe margin.
+
+As for the inductor L2, as stated in Section~\ref{sec:3214_AP64501}, an inductor value between $1 \mu$H to $10 \mu$H inductor should be selected, and it should have a DC current rating at least 35\% higher than the maximum 5A load current the AP64501 is able to output -- i.e. $6.75$A. Therefore, a $3.3 \mu$H inductor rated at 12.7A was selected for L2.
+
+Ideally, all system's power supplies should be tested before assembling any module onto the board, in order not to damage these valuable parts. This means double-checking the expected voltages in every important node of the system. In this case, the ZED-F9P and XBee modules were assembled prematurely (referring to this first testing phase).
+
+% Programar a fonte para me dar a tensão que eu quero -- 15V @ 2A = rating de I do adapter
+Having finished the assembly process, the prototype is ready for functional testing. Figure~\ref{fig:4_Soldering_finished} shows the final result of the assembly process, with an established connection to the external power connector.
+Such connection originates from a DC power supply, which was used as the external power supply for the prototype.
+
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.7\textwidth]{Chapters/Figures/chapter5/prototype/4_Soldering_finished.png}
-	\caption{Final result of the soldering process for the new beRTK\textsuperscript{\textregistered} PCB.}
+	\includegraphics[width=0.6\textwidth]{Chapters/Figures/chapter5/prototype/4_Soldering_finished.png}
+	\caption{Final result of the assembly process for the new beRTK\textsuperscript{\textregistered} PCB.}
 	\label{fig:4_Soldering_finished}
 \end{figure}% 4_Soldering_finished
+
+% objetivo é Garantir que as tensões no circuito estão todas corretas (picar todos os pontos que se sabe que vão dar uma tensão fixa e ver se as tensões batem certo)
+The functional tests are the first effective experiments the prototype is subject to. In this case, these tests occur at bench level and afterwards at field level, and are used to verify and analyse the device's relevant voltage levels, in order to evaluate its power supplies' basic functions. Functional testing is critical, since the following performance-related tests dictate the device's limitations, and can only take place once all the intended functionalities have been extensively checked. If applicable, a final testing category, related to certification, double-checks the device's operation in order to assess its compliance to applicable European norms.
+
+% 3. Antes de ligar a fonte (vou trabalhar com a mais pequena): a primeira vez que ligar, garantir que quando se liga, estar atento se alguma coisa larga fumo e tocar na placa para sentir se está a ficar muito quente;
+To start the functional tests, it must first be verified if the prototype is able to support the intended external power from the DC supply. This equipment was adjusted in order to first supply 12VDC, at a maximum continuous current of 1.00A, in order to verify if there was any component overheat/burnout. Since there were no such problems, the supply was once again adjusted, this time up to 15VDC, and the maximum continuous current was then adjusted to 2.00A, corresponding to the rating of the external DC adapter considered, as mentioned in Section~\ref{sec:3211_LTC4012}.
+
+The device was tested considering its three possible power modes (in the following order):
+\begin{enumerate}
+	\item External power ON, backup battery OFF -- Figure~\ref{fig:5_proto_first_test_ONLY_EXT_PWR};
+	\item Backup battery ON, external power OFF -- Figure~\ref{fig:5_proto_first_test_ONLY_Batteries};
+	\item External power ON, backup battery ON -- Figure~\ref{fig:5_proto_first_test_EXT_ON_Batteries}.
+\end{enumerate}
+
+This was done without the CM4 mounted on the prototype, in order not to damage the module in case of unexpected levels measured. It should also be noted that all voltages were measured using the BAT\_GND test point, which is connected to the general GND layer.
+
+\begingroup
+\begin{table}[H]
+	\caption{LTC4012 circuit's most relevant voltages expected and measured, for all operational modes, with the CM4 unmounted from the prototype.}
+	\label{tab:LTC4012_3_modes_NO_CM4}
+	\centering
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{lcccccc}
+        \toprule
+		\multicolumn{7}{c}{\textbf{LTC4012 Circuit}} \\
+		\midrule
+        {} & \multicolumn{2}{c}{\textbf{Mode 1}} & \multicolumn{2}{c}{\textbf{Mode 2}} & \multicolumn{2}{c}{\textbf{Mode 3}} \\
+		\midrule
+		{} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} \\
+		\midrule
+		\textbf{EXT\_PWR} & $15.00$ & $15.05$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+        \midrule
+		\textbf{PWR\_LTC} & $15.00$ & $15.08$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+        \midrule
+		\textbf{VBAT} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+        \midrule
+		\textbf{!ACP} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+        \midrule
+		\textbf{SW} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+        \midrule
+		\textbf{INTVDD} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+        \midrule
+		\textbf{FBDIV} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+        \midrule
+		\textbf{VFB} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+        \midrule
+		\textbf{PROG} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+        \bottomrule
+    \end{tabular}}
+\end{table}
+\endgroup% LTC4012 Circuit
+
+\begingroup
+\begin{table}[H]
+	\caption{BQ29209 circuit's most relevant voltages expected and measured, for all operational modes, with the CM4 unmounted from the prototype.}
+	\label{tab:BQ29209_3_modes_NO_CM4}
+	\centering
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{lcccccc}
+        \toprule
+		\multicolumn{7}{c}{\textbf{BQ29209 Circuit}} \\
+		\midrule
+        {} & \multicolumn{2}{c}{\textbf{Mode 1}} & \multicolumn{2}{c}{\textbf{Mode 2}} & \multicolumn{2}{c}{\textbf{Mode 3}} \\
+		\midrule
+		{} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} \\
+		\midrule
+		\textbf{VBAT} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+        \midrule
+		\textbf{BAT1-BAT2} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+        \midrule
+		\textbf{BAT2} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+        \midrule
+		\textbf{VBAT\_STAT} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+        \bottomrule
+    \end{tabular}}
+\end{table}
+\endgroup% BQ29209 Circuit
+
+\begingroup
+\begin{table}[H]
+	\caption{Power switch circuit's most relevant voltages expected and measured, for all operational modes, with the CM4 unmounted from the prototype.}
+	\label{tab:PowerSwitch_3_modes_NO_CM4}
+	\centering
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{lcccccc}
+        \toprule
+		\multicolumn{7}{c}{\textbf{Power Switch Circuit}} \\
+		\midrule
+        {} & \multicolumn{2}{c}{\textbf{Mode 1}} & \multicolumn{2}{c}{\textbf{Mode 2}} & \multicolumn{2}{c}{\textbf{Mode 3}} \\
+		\midrule
+		{} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} \\
+		\midrule
+		\textbf{PWR\_AP64501} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+        \midrule
+		\textbf{PWR\_LED} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+        \bottomrule
+    \end{tabular}}
+\end{table}
+\endgroup% Power Switch Circuit
+
+\begingroup
+\begin{table}[H]
+	\caption{AP64501 circuit's most relevant voltages expected and measured, for all operational modes, with the CM4 unmounted from the prototype.}
+	\label{tab:AP64501_3_modes_NO_CM4}
+	\centering
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{lcccccc}
+        \toprule
+		\multicolumn{7}{c}{\textbf{AP64501 Circuit}} \\
+		\midrule
+        {} & \multicolumn{2}{c}{\textbf{Mode 1}} & \multicolumn{2}{c}{\textbf{Mode 2}} & \multicolumn{2}{c}{\textbf{Mode 3}} \\
+		\midrule
+		{} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} \\
+		\midrule
+		\textbf{PWR\_AP64501} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+        \midrule
+		\textbf{VCC (+5V)} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+        \midrule
+		\textbf{EN} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+        \midrule
+		\textbf{FB} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+        \bottomrule
+    \end{tabular}}
+\end{table}
+\endgroup% AP64501 Circuit
+
+FALAR DE U7 TERMINAL 1 TER 2.048V E DE como OS LEDS ficam acesos em cada modo% HMI Circuit
+
+\begingroup
+\begin{table}[H]
+	\caption{CM4 GPIO circuit's most relevant voltages expected and measured, for all operational modes, with the CM4 unmounted from the prototype.}
+	\label{tab:CM4_GPIO_3_modes_NO_CM4}
+	\centering
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{lcccccc}
+        \toprule
+		\multicolumn{7}{c}{\textbf{CM4 GPIO Circuit}} \\
+		\midrule
+        {} & \multicolumn{2}{c}{\textbf{Mode 1}} & \multicolumn{2}{c}{\textbf{Mode 2}} & \multicolumn{2}{c}{\textbf{Mode 3}} \\
+		\midrule
+		{} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} \\
+		\midrule
+		\textbf{+5V} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+        \midrule
+		\textbf{+3V3} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+        \midrule
+		\textbf{Global\_EN} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+        \midrule
+		\textbf{RUN\_PG} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+		\midrule
+		\textbf{nEXTRST} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+		\midrule
+		\textbf{WL\_nDisable} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+		\midrule
+		\textbf{BT\_nDisable} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+		\midrule
+		\textbf{GPIO12} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+		\midrule
+		\textbf{GPIO13} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+		\midrule
+		\textbf{GPIO18} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+		\midrule
+		\textbf{GPIO19} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+		\midrule
+		\textbf{GPIO20} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+		\midrule
+		\textbf{GPIO21} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+        \bottomrule
+    \end{tabular}}
+\end{table}
+\endgroup% CM4_GPIO Circuit
+
+\begingroup
+\begin{table}[H]
+	\caption{CM4 high-speed circuit's most relevant voltages expected and measured, for all operational modes, with the CM4 unmounted from the prototype.}
+	\label{tab:CM4_HighSpeed_3_modes_NO_CM4}
+	\centering
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{lcccccc}
+        \toprule
+		\multicolumn{7}{c}{\textbf{CM4 High-Speed Circuit}} \\
+		\midrule
+        {} & \multicolumn{2}{c}{\textbf{Mode 1}} & \multicolumn{2}{c}{\textbf{Mode 2}} & \multicolumn{2}{c}{\textbf{Mode 3}} \\
+		\midrule
+		{} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} \\
+		\midrule
+		\textbf{USB\_OTG\_ID} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+        \midrule
+		\textbf{HDMI\_5V} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+        \bottomrule
+    \end{tabular}}
+\end{table}
+\endgroup% CM4 HighSpeed Circuit
+
+\begingroup
+\begin{table}[H]
+	\caption{LAN9514 and downstream ports circuits' most relevant voltages expected and measured, for all operational modes, with the CM4 unmounted from the prototype.}
+	\label{tab:LAN9514_3_modes_NO_CM4}
+	\centering
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{lcccccc}
+        \toprule
+		\multicolumn{7}{c}{\textbf{LAN9514 Circuit}} \\
+		\midrule
+        {} & \multicolumn{2}{c}{\textbf{Mode 1}} & \multicolumn{2}{c}{\textbf{Mode 2}} & \multicolumn{2}{c}{\textbf{Mode 3}} \\
+		\midrule
+		{} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} \\
+		\midrule
+		\textbf{VDD33IO} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+        \midrule
+		\textbf{VDD33A} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+        \midrule
+		\textbf{VDD18CORE} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+		\midrule
+		\textbf{IN -- U11} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+		\midrule % port 1
+		\textbf{PRTCTL2} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+		\midrule
+		\textbf{ENA -- U11} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+		\midrule
+		\textbf{PWR2} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+		\midrule % port 2
+		\textbf{PRTCTL3} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+		\midrule
+		\textbf{ENB -- U11} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+		\midrule
+		\textbf{PWR3} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+		\midrule		
+		\textbf{IN -- U12} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+		\midrule % port 3
+		\textbf{PRTCTL4} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+		\midrule
+		\textbf{ENA -- U12} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+		\midrule
+		\textbf{PWR4} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+		\midrule % port 4
+		\textbf{PRTCTL5} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+		\midrule
+		\textbf{ENB -- U12} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+		\midrule
+		\textbf{PWR5} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+        \bottomrule
+    \end{tabular}}
+\end{table}
+\endgroup% LAN9514 Circuit
+
+\paragraph{CM4 Mounted}	Afterwards, the same tests were run with the CM4 mounted on the prototype, since the most important voltage level for this device read a safe value (i.e. the 5V net).
+
+% O zigbee não tem o jumper para ficar ligado, por isso não faz muito mal medir já as tensões fixas.
+
+% 3 modos de operaçao
+% funtional tests foram feitos com:
+%	CM4 ON
+%	CM4 OFF
+% depois programou se o CM4
+% falar da Table 1 LTC4012 open-drain indicator outputs
 
 \begin{figure}[h]
 	\centering
@@ -647,13 +950,14 @@ During the soldering process, the values for some components to solder suffered 
 \end{figure}% 5_proto_first_test_EXT_ON_Batteries
 
 
+
+
 %modos de operação:
 %1: só EXT power -- tensao no terminal BAT do LTC4012 passa como se fosse CLN (ou a tensao exterior), e como ACP vs 5V ainda é suficiente para ligar o PMOS switch Q8,Q6, a status voltage passa na mesma e assim acendem os LEDs na mesma. - solução: fazer o R14,D6,Q4
 %2: EXT power + baterias
 %3: só baterias - diminuir a luz de um LED no photoshop para mostrar que os LEDs iam apagando
 
--- $22 \mu$F ceramic capacitors were chosen for both the power inputs and outputs of the LTC4012, instead of $20 \mu$F, since~\cite{LTC4012} states that ``high-capacity ceramic capacitors ($20 \mu$F or more) available from a variety of manufacturers can be used for input/output capacitors.'' %mudar frase
-and $22 \mu$F ceramic capacitors were already in stock prior to the component purchase phase.
+
 
 -- As mentioned before, the top and bottom power FETs Q2 and Q9, along with inductor L1 are vital to the PWM control architecture. These components are part of the sub-circuit that starts from the +15VDC source of power and passes across FET Q1 (connected to pin INFET), sense resistor R3, 
 This sub-circuit forms the ``power supply rail'', and upon layout design of the circuit from Figure~\ref{fig:LTC4012_circuit}, this section must bear a track width large enough to withstand large values of currents or any other phenomena that may occur (e.g. voltage/current spikes). The needed track width can be calculated through the following expression:
@@ -671,8 +975,9 @@ with the exception of antennas.
 %LTC4012:
 It should be noted that, for the top and bottom FET selection stage, the Si7212DN model suggested is a double FET in one package. The CSD17308Q3 substituting model is a single-channel FET (only one per package), and therefore two units had to be acquired -- Section~\ref{sec:3211_LTC4012}.
 
-% AP64501:
-Recalling Section~\ref{sec:3214_AP64501}, it is stated that the closest commercially available values of 11k$\Omega$ and 2.7k$\Omega$ were selected for R10 and R13, respectively, at the prototyping phase. Following expressions (\ref{eq:R39}) and (\ref{eq:R40}), these values allow the expected $V_{ON}$ and $V_{OFF}$ values.
+
+
+
     % inductor L2:
     Meter Eq. 9 do datasheet do AP64501;
     
@@ -696,23 +1001,7 @@ Recalling Section~\ref{sec:3214_AP64501}, it is stated that the closest commerci
 
 % LAN9514:
     However, USB has the advantage of allowing hot-swapping, making it useful for mobile peripherals, including drives of various kinds. -- mesmo que digam isto ja é possivel por natureza do USB, eu ainda tentei fazer o que dizia no datahseet do LAN9514 para dar enable ao hot-swapping, mas continuou sem funcionar.
-	
 
-%SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
-\subsection{Functional Testing and Results}\label{sec:55_FunctionalTesting}
-
-AP64501:
-nao se compraram os valores necessarios para R41 e R42 (voltage divider to set the output voltage of the AP64501, Section~\ref{sec:3214_AP64501}); usando a expressao (\ref{eq:R41_R42}) foram-se avaliando os valores de resistencias disponiveis. como se estava a trabalhar com um power supply crítico (5V), era necessario que, para os valores de resistencias escolhidos para o divisor de tensao, o valor de tensao de output do AP64501 fosse 5V$\pm 5\%$, i.e. $[4.95,\, 5.05]$V. tentaram-se cinco combinaçoes diferentes, representadas na 
-% Table~\ref{tab:R41_R42_values}:
-
-%meter tabela aqui:
-
-% end table------
-
-note-se que a
-% Table~\ref{tab:R41_R42_values}
-mostra o erro relativo do $V_{OUT}$ em relaçao aos 5V desejados. sendo que todas as combinaçoes possiblitam valores de tensao $V_{OUT}$ dentro do intervalo desejado, escolheu-se a combinaçao que possui o menor erro relativo possivel, e foi essa que foi soldada na PCB -- R$41=430$k$\Omega$ and R$42=82$k$\Omega$.
-%meter foto desta parte da PCB?
 
 %-------------------------------
 Basicamente o processo de fazer uma base rtk de zero é simples:

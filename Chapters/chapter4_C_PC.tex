@@ -270,12 +270,14 @@ It must be noted that the LM2901's outputs, as well as nets PWR\_SWITCH, PWR\_LE
 
 \subsubsection{GNSS Receiver and RTK Radio Link}\label{sec:3232_ZEDF9P}
 
-The element that provides the system with its distinct GNSS and RTK specifications is also a part of the Peripherals and Communications group. This element is known, as previously mentioned, as ZED-F9P, and it is a high precision module equipped with a multiband GNSS receiver. Therefore, this module can be used in applications that require precise positioning, such as in the agricultural or industrial settings, robotic guidance or, the case study for this project, survey and mapping for UAVs. For that, the module offers centimetre-level accuracy through the use of RTK, which is the main positioning technology adopted for the beRTK\textsuperscript{\textregistered} base station.
+The element that provides the system with its distinct GNSS and RTK specifications is also a part of the Peripherals and Communications group. This element is known, as previously mentioned, as ZED-F9P, and it is a high precision module equipped with a multiband GNSS receiver. Therefore, this module can be used in applications that require precise positioning, such as in the agricultural or industrial settings, robotic guidance or, the case study for this project, survey and mapping for UAVs. For that, the module offers centimetre-level accuracy through the use of RTK, the main positioning-correction technology adopted for the beRTK\textsuperscript{\textregistered} base station.
 
 % 1º: descrever o simbolo da carrier board:
-The implementation the ZED-F9P in the new beRTK\textsuperscript{\textregistered}'s system is achieved through the assembly (to the motherboard) of a secondary board which carries the GNSS module along with external circuitry (i.e. a carrier board) to aid on its use -- particularly, an SMA connector for an antenna to establish the RTK radio link. Beyond Vision has developed this carrier board for an earlier project, and it resulted in the schematic symbol block MOD2, used to represent the system's GNSS module (Figure~\ref{fig:ZEDF9P_circuit}).
+The implementation of the ZED-F9P in the new beRTK\textsuperscript{\textregistered} system is achieved through the assembly (to the motherboard) of a secondary board which carries the GNSS module along with external circuitry (i.e. a carrier board) to aid on its use -- particularly, an SMA connector for an antenna to establish the RTK radio link. MOD2 is the symbol used to represent the system's GNSS module (Figure~\ref{fig:ZEDF9P_circuit}).
+% % ACRESCENTAR? --> para uma versão futura, pode-se usar o GNSS module desenhado pela Beyond Vision:
+% Beyond Vision has developed this carrier board for an earlier project, and it resulted in the schematic symbol block MOD2, used to represent the system's GNSS module (Figure~\ref{fig:ZEDF9P_circuit}).
 
-	% meter aqui circuito do ZEDF9P
+% meter aqui circuito do ZEDF9P
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/Modules_ZEDF9P.pdf}
