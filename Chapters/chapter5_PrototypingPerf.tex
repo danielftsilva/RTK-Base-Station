@@ -512,7 +512,7 @@ Finally, after the routing process has been completed, a last run of the KiCad P
 	\label{fig:DRC_errors}
 \end{figure}
 
-%parei aqui - ver o OneNote para ver qual o passo seguinte
+
 %SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
 \section{Physical Prototype}\label{sec:53_Prototype}
 
@@ -590,7 +590,7 @@ This section closes Chapter~\ref{cha:chapter5_PrototypingPerf} with the assembly
 	\label{fig:1_proto_Front_Back_view}
 \end{figure}% 1_proto_Front_Back_view
 
-Having the manufactured PCB finally at hands (Figure~\ref{fig:1_proto_Front_Back_view}), the assembly process began by soldering the capacitors. This step proved itself to be very simple, due to the basic PCB hand soldering techniques needed, as well as to the nature of the components' footprints and packages selected, as mentioned in Section~\ref{sec:511_Placement}. Figure~\ref{fig:2_proto_Capacitors} shows the first capacitors soldered onto the PCB.
+Having the manufactured PCB finally at hands (Figure~\ref{fig:1_proto_Front_Back_view}), the assembly process began by soldering the capacitors. This step proved itself to be very simple, due to the basic PCB hand soldering techniques needed, as well as to the nature of the components' footprints and packages selected, as mentioned in Section~\ref{sec:511_Placement}. Figure~\ref{fig:2_proto_Capacitors} shows the first capacitors soldered on the PCB.
 
 \begin{figure}[h]
 	\centering
@@ -629,7 +629,7 @@ Since the AP64501 buck converter is a critical IC that sets up the entire 5V pow
 \end{table}
 \endgroup
 
-The relative error of the $V_{OUT}$ output voltage was determined for each combination, and the pair that presented the best results was R$41=430$k$\Omega$, R$42=82$k$\Omega$. These values allow the AP64501 to provide an output voltage of $4.995$V, which presents only a $0.098\%$ error, when compared to the expected 5V. Therefore, these were the R41 and R42 values soldered onto the PCB.
+The relative error of the $V_{OUT}$ output voltage was determined for each combination, and the pair that presented the best results was R$41=430$k$\Omega$, R$42=82$k$\Omega$. These values allow the AP64501 to provide an output voltage of $4.995$V, which presents only a $0.098\%$ error, when compared to the expected 5V. Therefore, these were the R41 and R42 values soldered on the PCB.
 
 % % ACRESCENTAR? --> programmed charge current do LTC4012: R3 era para ser 0.050R, eu meti 0.025R --> na altura dos testes, soldei dois 0.025R em serie para fazer os 0.050R; R12 era para ser 0.098R, eu meti 0.025R --> na altura dos testes, soldei quatro 0.025R em serie para fazer 0.1R, que é approx. 0.098R. --> se me perguntarem, sugerir meter isso no relatório. 
 % R3 --> RCL, para fazer set up do input current limit feature.
@@ -638,7 +638,7 @@ The relative error of the $V_{OUT}$ output voltage was determined for each combi
 % ACRESCENTAR? --> It should also be noted that, for the input resistors R11 and R14 of the LTC4012, 3k$\Omega$ resistors were used instead of the suggested $3.01$k$\Omega$. This was not a problem, since~\cite{LTC4012} informs that ``The LTC4012 operates best with 3.01k input resistors, although other resistors near this value can be used to accommodate standard sense resistor values.''.
 
 %depois soldaram-se diodes, FB, ... dizer isto
-After soldering capacitors and resistors, every other component was also assembled onto the board, except the CM4. Some of these required special aid from a digital microscope -- shown in Figure~\ref{fig:3_proto_Microscope_Capacitors} --, and/or a rework station. The LAN9514 hub is an example of that. This IC's package presents (like others in the system) a large bottom pad that is not accessible with a regular PCB soldering iron, and therefore can only be soldered onto the board using hot air. Its connecting pins are also very thin, and non-external to the package, which presents yet another disadvantage when it comes to hand soldering. Figure~\ref{fig:3_proto_ReworkStation} shows the rework station used, as well as a microscopic view of the soldering process for the LAN9514 hub.
+After soldering capacitors and resistors, every other component was also assembled on the board, except the CM4. Some of these required special aid from a digital microscope -- shown in Figure~\ref{fig:3_proto_Microscope_Capacitors} --, and/or a rework station. The LAN9514 hub is an example of that. This IC's package presents (like others in the system) a large bottom pad that is not accessible with a regular PCB soldering iron, and therefore can only be soldered on the board using hot air. Its connecting pins are also very thin, and non-external to the package, which presents yet another disadvantage when it comes to hand soldering. Figure~\ref{fig:3_proto_ReworkStation} shows the rework station used, as well as a microscopic view of the soldering process for the LAN9514 hub.
 
 \begin{figure}[h]
 	\centering
@@ -659,7 +659,7 @@ Regarding inductors, it must be mentioned that, even though the recommendations 
 
 As for the inductor L2, as stated in Section~\ref{sec:3214_AP64501}, an inductor value between $1 \mu$H to $10 \mu$H inductor should be selected, and it should have a DC current rating at least 35\% higher than the maximum 5A load current the AP64501 is able to output -- i.e. $6.75$A. Therefore, a $3.3 \mu$H inductor rated at 12.7A was selected for L2.
 
-Ideally, all system's power supplies should be tested before assembling any module onto the board, in order not to damage these valuable parts. This means double-checking the expected voltages in every important node of the system. In this case, the ZED-F9P and XBee modules were assembled prematurely (referring to this first testing phase).
+Ideally, all system's power supplies should be tested before assembling any module on the board, in order not to damage these valuable parts. This means double-checking the expected voltages in every important node of the system. In this case, the ZED-F9P and XBee modules were assembled prematurely (referring to this first testing phase).
 
 % Programar a fonte para me dar a tensão que eu quero -- 15V @ 2A = rating de I do adapter
 Having finished the assembly process, the prototype is ready for functional testing. Figure~\ref{fig:4_Soldering_finished} shows the final result of the assembly process, with an established connection to the external power connector.
@@ -676,257 +676,14 @@ Such connection originates from a DC power supply, which was used as the externa
 The functional tests are the first effective experiments the prototype is subject to. In this case, these tests occur at bench level and afterwards at field level, and are used to verify and analyse the device's relevant voltage levels, in order to evaluate its power supplies' basic functions. Functional testing is critical, since the following performance-related tests dictate the device's limitations, and can only take place once all the intended functionalities have been extensively checked. If applicable, a final testing category, related to certification, double-checks the device's operation in order to assess its compliance to applicable European norms.
 
 % 3. Antes de ligar a fonte (vou trabalhar com a mais pequena): a primeira vez que ligar, garantir que quando se liga, estar atento se alguma coisa larga fumo e tocar na placa para sentir se está a ficar muito quente;
-To start the functional tests, it must first be verified if the prototype is able to support the intended external power from the DC supply. This equipment was adjusted in order to first supply 12VDC, at a maximum continuous current of 1.00A, in order to verify if there was any component overheat/burnout. Since there were no such problems, the supply was once again adjusted, this time up to 15VDC, and the maximum continuous current was then adjusted to 2.00A, corresponding to the rating of the external DC adapter considered, as mentioned in Section~\ref{sec:3211_LTC4012}.
+To start the functional tests, it must first be verified if the prototype is able to support the intended external power from the DC supply. This equipment was adjusted in order to first supply 12VDC, at a maximum continuous current of 1.00A, in order to verify if there was any component overheat/burnout. Since there were no such problems, the supply was once again adjusted, this time up to 15VDC, and the maximum continuous current was increased to 2.00A, corresponding to the rating of the external DC adapter considered, as mentioned in Section~\ref{sec:3211_LTC4012}.
 
-The device was tested considering its three possible power modes (in the following order):
+The device was tested considering its three possible power modes:
 \begin{enumerate}
 	\item External power ON, backup battery OFF -- Figure~\ref{fig:5_proto_first_test_ONLY_EXT_PWR};
 	\item Backup battery ON, external power OFF -- Figure~\ref{fig:5_proto_first_test_ONLY_Batteries};
 	\item External power ON, backup battery ON -- Figure~\ref{fig:5_proto_first_test_EXT_ON_Batteries}.
 \end{enumerate}
-
-This was done without the CM4 mounted on the prototype, in order not to damage the module in case of unexpected levels measured. It should also be noted that all voltages were measured using the BAT\_GND test point, which is connected to the general GND layer.
-
-\begingroup
-\begin{table}[H]
-	\caption{LTC4012 circuit's most relevant voltages expected and measured, for all operational modes, with the CM4 unmounted from the prototype.}
-	\label{tab:LTC4012_3_modes_NO_CM4}
-	\centering
-	\resizebox{\textwidth}{!}{%
-	\begin{tabular}{lcccccc}
-        \toprule
-		\multicolumn{7}{c}{\textbf{LTC4012 Circuit}} \\
-		\midrule
-        {} & \multicolumn{2}{c}{\textbf{Mode 1}} & \multicolumn{2}{c}{\textbf{Mode 2}} & \multicolumn{2}{c}{\textbf{Mode 3}} \\
-		\midrule
-		{} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} \\
-		\midrule
-		\textbf{EXT\_PWR} & $15.00$ & $15.05$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-        \midrule
-		\textbf{PWR\_LTC} & $15.00$ & $15.08$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-        \midrule
-		\textbf{VBAT} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-        \midrule
-		\textbf{!ACP} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-        \midrule
-		\textbf{SW} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-        \midrule
-		\textbf{INTVDD} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-        \midrule
-		\textbf{FBDIV} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-        \midrule
-		\textbf{VFB} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-        \midrule
-		\textbf{PROG} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-        \bottomrule
-    \end{tabular}}
-\end{table}
-\endgroup% LTC4012 Circuit
-
-\begingroup
-\begin{table}[H]
-	\caption{BQ29209 circuit's most relevant voltages expected and measured, for all operational modes, with the CM4 unmounted from the prototype.}
-	\label{tab:BQ29209_3_modes_NO_CM4}
-	\centering
-	\resizebox{\textwidth}{!}{%
-	\begin{tabular}{lcccccc}
-        \toprule
-		\multicolumn{7}{c}{\textbf{BQ29209 Circuit}} \\
-		\midrule
-        {} & \multicolumn{2}{c}{\textbf{Mode 1}} & \multicolumn{2}{c}{\textbf{Mode 2}} & \multicolumn{2}{c}{\textbf{Mode 3}} \\
-		\midrule
-		{} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} \\
-		\midrule
-		\textbf{VBAT} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-        \midrule
-		\textbf{BAT1-BAT2} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-        \midrule
-		\textbf{BAT2} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-        \midrule
-		\textbf{VBAT\_STAT} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-        \bottomrule
-    \end{tabular}}
-\end{table}
-\endgroup% BQ29209 Circuit
-
-\begingroup
-\begin{table}[H]
-	\caption{Power switch circuit's most relevant voltages expected and measured, for all operational modes, with the CM4 unmounted from the prototype.}
-	\label{tab:PowerSwitch_3_modes_NO_CM4}
-	\centering
-	\resizebox{\textwidth}{!}{%
-	\begin{tabular}{lcccccc}
-        \toprule
-		\multicolumn{7}{c}{\textbf{Power Switch Circuit}} \\
-		\midrule
-        {} & \multicolumn{2}{c}{\textbf{Mode 1}} & \multicolumn{2}{c}{\textbf{Mode 2}} & \multicolumn{2}{c}{\textbf{Mode 3}} \\
-		\midrule
-		{} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} \\
-		\midrule
-		\textbf{PWR\_AP64501} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-        \midrule
-		\textbf{PWR\_LED} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-        \bottomrule
-    \end{tabular}}
-\end{table}
-\endgroup% Power Switch Circuit
-
-\begingroup
-\begin{table}[H]
-	\caption{AP64501 circuit's most relevant voltages expected and measured, for all operational modes, with the CM4 unmounted from the prototype.}
-	\label{tab:AP64501_3_modes_NO_CM4}
-	\centering
-	\resizebox{\textwidth}{!}{%
-	\begin{tabular}{lcccccc}
-        \toprule
-		\multicolumn{7}{c}{\textbf{AP64501 Circuit}} \\
-		\midrule
-        {} & \multicolumn{2}{c}{\textbf{Mode 1}} & \multicolumn{2}{c}{\textbf{Mode 2}} & \multicolumn{2}{c}{\textbf{Mode 3}} \\
-		\midrule
-		{} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} \\
-		\midrule
-		\textbf{PWR\_AP64501} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-        \midrule
-		\textbf{VCC (+5V)} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-        \midrule
-		\textbf{EN} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-        \midrule
-		\textbf{FB} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-        \bottomrule
-    \end{tabular}}
-\end{table}
-\endgroup% AP64501 Circuit
-
-FALAR DE U7 TERMINAL 1 TER 2.048V E DE como OS LEDS ficam acesos em cada modo% HMI Circuit
-
-\begingroup
-\begin{table}[H]
-	\caption{CM4 GPIO circuit's most relevant voltages expected and measured, for all operational modes, with the CM4 unmounted from the prototype.}
-	\label{tab:CM4_GPIO_3_modes_NO_CM4}
-	\centering
-	\resizebox{\textwidth}{!}{%
-	\begin{tabular}{lcccccc}
-        \toprule
-		\multicolumn{7}{c}{\textbf{CM4 GPIO Circuit}} \\
-		\midrule
-        {} & \multicolumn{2}{c}{\textbf{Mode 1}} & \multicolumn{2}{c}{\textbf{Mode 2}} & \multicolumn{2}{c}{\textbf{Mode 3}} \\
-		\midrule
-		{} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} \\
-		\midrule
-		\textbf{+5V} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-        \midrule
-		\textbf{+3V3} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-        \midrule
-		\textbf{Global\_EN} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-        \midrule
-		\textbf{RUN\_PG} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-		\midrule
-		\textbf{nEXTRST} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-		\midrule
-		\textbf{WL\_nDisable} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-		\midrule
-		\textbf{BT\_nDisable} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-		\midrule
-		\textbf{GPIO12} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-		\midrule
-		\textbf{GPIO13} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-		\midrule
-		\textbf{GPIO18} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-		\midrule
-		\textbf{GPIO19} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-		\midrule
-		\textbf{GPIO20} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-		\midrule
-		\textbf{GPIO21} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-        \bottomrule
-    \end{tabular}}
-\end{table}
-\endgroup% CM4_GPIO Circuit
-
-\begingroup
-\begin{table}[H]
-	\caption{CM4 high-speed circuit's most relevant voltages expected and measured, for all operational modes, with the CM4 unmounted from the prototype.}
-	\label{tab:CM4_HighSpeed_3_modes_NO_CM4}
-	\centering
-	\resizebox{\textwidth}{!}{%
-	\begin{tabular}{lcccccc}
-        \toprule
-		\multicolumn{7}{c}{\textbf{CM4 High-Speed Circuit}} \\
-		\midrule
-        {} & \multicolumn{2}{c}{\textbf{Mode 1}} & \multicolumn{2}{c}{\textbf{Mode 2}} & \multicolumn{2}{c}{\textbf{Mode 3}} \\
-		\midrule
-		{} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} \\
-		\midrule
-		\textbf{USB\_OTG\_ID} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-        \midrule
-		\textbf{HDMI\_5V} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-        \bottomrule
-    \end{tabular}}
-\end{table}
-\endgroup% CM4 HighSpeed Circuit
-
-\begingroup
-\begin{table}[H]
-	\caption{LAN9514 and downstream ports circuits' most relevant voltages expected and measured, for all operational modes, with the CM4 unmounted from the prototype.}
-	\label{tab:LAN9514_3_modes_NO_CM4}
-	\centering
-	\resizebox{\textwidth}{!}{%
-	\begin{tabular}{lcccccc}
-        \toprule
-		\multicolumn{7}{c}{\textbf{LAN9514 Circuit}} \\
-		\midrule
-        {} & \multicolumn{2}{c}{\textbf{Mode 1}} & \multicolumn{2}{c}{\textbf{Mode 2}} & \multicolumn{2}{c}{\textbf{Mode 3}} \\
-		\midrule
-		{} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} \\
-		\midrule
-		\textbf{VDD33IO} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-        \midrule
-		\textbf{VDD33A} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-        \midrule
-		\textbf{VDD18CORE} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-		\midrule
-		\textbf{IN -- U11} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-		\midrule % port 1
-		\textbf{PRTCTL2} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-		\midrule
-		\textbf{ENA -- U11} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-		\midrule
-		\textbf{PWR2} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-		\midrule % port 2
-		\textbf{PRTCTL3} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-		\midrule
-		\textbf{ENB -- U11} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-		\midrule
-		\textbf{PWR3} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-		\midrule		
-		\textbf{IN -- U12} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-		\midrule % port 3
-		\textbf{PRTCTL4} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-		\midrule
-		\textbf{ENA -- U12} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-		\midrule
-		\textbf{PWR4} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-		\midrule % port 4
-		\textbf{PRTCTL5} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-		\midrule
-		\textbf{ENB -- U12} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-		\midrule
-		\textbf{PWR5} & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
-        \bottomrule
-    \end{tabular}}
-\end{table}
-\endgroup% LAN9514 Circuit
-
-\paragraph{CM4 Mounted}	Afterwards, the same tests were run with the CM4 mounted on the prototype, since the most important voltage level for this device read a safe value (i.e. the 5V net).
-
-% O zigbee não tem o jumper para ficar ligado, por isso não faz muito mal medir já as tensões fixas.
-
-% 3 modos de operaçao
-% funtional tests foram feitos com:
-%	CM4 ON
-%	CM4 OFF
-% depois programou se o CM4
-% falar da Table 1 LTC4012 open-drain indicator outputs
 
 \begin{figure}[h]
 	\centering
@@ -950,6 +707,460 @@ FALAR DE U7 TERMINAL 1 TER 2.048V E DE como OS LEDS ficam acesos em cada modo% H
 \end{figure}% 5_proto_first_test_EXT_ON_Batteries
 
 
+%ssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssS
+\subsubsection{CM4 Unmounted from the Prototype}\label{sec:5331_CM4_UNmounted}
+
+The functional tests were first run without the CM4 mounted on the prototype -- as it is possible to observe through Figures~\ref{fig:5_proto_first_test_ONLY_EXT_PWR},~\ref{fig:5_proto_first_test_ONLY_Batteries} and~\ref{fig:5_proto_first_test_EXT_ON_Batteries} --, in order not to damage this module in case of unexpected levels. It must also be noted that all voltages were measured using the BAT\_GND test point, which is connected to the general GND layer.
+
+
+\begingroup
+\begin{table}[H]
+	\caption{LTC4012 circuit's most relevant voltages expected and measured, for all operational modes, with the CM4 unmounted from the prototype.}
+	\label{tab:LTC4012_3_modes_NO_CM4}
+	\centering
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{lcccccc}
+        \toprule
+		\multicolumn{7}{c}{\textbf{LTC4012 Circuit (CM4 unmounted from the board)}} \\
+		\midrule
+        {} & \multicolumn{2}{c}{\textbf{Mode 1}} & \multicolumn{2}{c}{\textbf{Mode 2}} & \multicolumn{2}{c}{\textbf{Mode 3}} \\
+		\midrule
+		{} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} \\
+		\midrule
+		\textbf{EXT\_PWR} & $15.00$ & $15.05$ & $0.00$  & $0.00$  & $15.00$ & $15.05$ \\
+        \midrule
+		\textbf{PWR\_LTC} & $15.00$ & $15.08$ & $8.40$  & $8.43$  & $15.00$ & $15.08$ \\
+        \midrule
+		\textbf{VBAT} 	  & $8.37$  & $8.36$  & $8.40$  & $8.15$  & $8.40$  & $8.13$ \\
+        \midrule
+		\textbf{!ACP} 	  & $0.00$  & $0.09$  & $5.00$  & $4.96$  & $0.00$  & $0.09$ \\
+        \midrule
+		% \textbf{SW} 	  & $0.00$  & $0.00$  & $0.00$  & $0.00$  & $0.00$  & $0.00$ \\
+        % \midrule
+		% \textbf{INTVDD}   & $0.00$  & $0.00$  & $0.00$  & $0.00$  & $0.00$  & $0.00$ \\
+        % \midrule
+		% \textbf{FBDIV}    & $0.00$  & $0.00$  & $0.00$  & $0.00$  & $0.00$  & $0.00$ \\
+        % \midrule % so é interessante caso esteja a haver carga de baterias
+		\textbf{VFB} 	  & $1.21$  & $1.21$  & $1.21$  & $1.20$  & $1.21$  & $1.21$ \\
+        % \midrule
+		% \textbf{PROG} 	  & $1.21$  & $0.54$  & $0.00$  & $0.00$  & $0.00$  & $0.00$ \\
+        \bottomrule
+    \end{tabular}}
+\end{table}
+\endgroup% LTC4012 Circuit
+
+Table~\ref{tab:LTC4012_3_modes_NO_CM4} verifies a VBAT voltage of 8.37V in Mode 1. This voltage is programmed through the voltage divider composed by resistors R7 and R9, and can be calculated using equation (\ref{eq:v_bat}), as explained in Section~\ref{sec:3211_LTC4012}. These resistors are suggested to be equal to 169k$\Omega$ and $28.4$k$\Omega$ (respectively), according to~\cite{LTC4012}, however, using this same equation and selecting the more well-suited available resistors, these were selected as R$7=160$k$\Omega$ and R$9=27$k$\Omega$, resulting in the $VBAT=8.369 \approx 8.37$V value measured.
+
+
+\begingroup
+\begin{table}[H]
+	\caption{BQ29209 circuit's most relevant voltages expected and measured, for all operational modes, with the CM4 unmounted from the prototype.}
+	\label{tab:BQ29209_3_modes_NO_CM4}
+	\centering
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{lcccccc}
+        \toprule
+		\multicolumn{7}{c}{\textbf{BQ29209 Circuit (CM4 unmounted from the board)}} \\
+		\midrule
+        {} & \multicolumn{2}{c}{\textbf{Mode 1}} & \multicolumn{2}{c}{\textbf{Mode 2}} & \multicolumn{2}{c}{\textbf{Mode 3}} \\
+		\midrule
+		{} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} \\
+		\midrule
+		\textbf{VBAT} 		& $8.37$ & $8.36$ & $8.40$ & $8.15$ & $8.40$ & $8.13$ \\
+        \midrule
+		\textbf{BAT1-BAT2} 	& $0.00$ & $0.00$ & $4.20$ & $4.07$ & $4.20$ & $4.07$ \\
+        \midrule
+		\textbf{BAT2} 		& $0.00$ & $0.00$ & $4.20$ & $4.08$ & $4.20$ & $4.08$ \\
+        \midrule
+		\textbf{VBAT\_STAT} & $0.00$ & $8.11$ & $8.40$ & $7.87$ & $8.40$ & $7.90$ \\
+        \bottomrule
+    \end{tabular}}
+\end{table}
+\endgroup% BQ29209 Circuit
+
+%explicar os resultados da tabela do BQ29209
+When observing Figure~\ref{fig:5_proto_first_test_ONLY_EXT_PWR}, an undesired occurrence can be seen. The status LEDs are lit up when Mode 1 is in operation.
+Such event should not happen, since the status LEDs are used only to indicate the battery pack's status, and should be off when only external power is plugged in to feed the system.
+Referring back to tables~\ref{tab:LTC4012_3_modes_NO_CM4} and~\ref{tab:BQ29209_3_modes_NO_CM4}, it can be concluded that the VBAT net will never measure a voltage value anywhere close to zero, due to the programming done for the VBAT voltage on the LTC4012 charger, as explained earlier. This reveals to be a problem when Mode 1 is chosen. This problem is related to the clash between the voltage on the !ACP pin and the 5V net (referring back to Figure~\ref{fig:LTC4012_circuit}). These are the reasons why all the status voltage LEDs turn on while Mode 1 is in operation and should be worked on in the future. 
+
+
+\begingroup
+\begin{table}[H]
+	\caption{Power switch circuit's most relevant voltages expected and measured, for all operational modes, with the CM4 unmounted from the prototype.}
+	\label{tab:PowerSwitch_3_modes_NO_CM4}
+	\centering
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{lcccccc}
+        \toprule
+		\multicolumn{7}{c}{\textbf{Power Switch Circuit (CM4 unmounted from the board)}} \\
+		\midrule
+        {} & \multicolumn{2}{c}{\textbf{Mode 1}} & \multicolumn{2}{c}{\textbf{Mode 2}} & \multicolumn{2}{c}{\textbf{Mode 3}} \\
+		\midrule
+		{} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} \\
+		\midrule
+		\textbf{PWR\_AP64501} 	& $15.00$ & $14.93$ & $8.40$  & $8.31$  & $15.00$ & $14.94$ \\
+        \midrule
+		\textbf{PWR\_LED} 		& $5.00$  & $4.94$  & $5.00$  & $4.95$  & $5.00$  & $4.94$ \\
+        \bottomrule
+    \end{tabular}}
+\end{table}
+\endgroup% Power Switch Circuit
+
+
+\begingroup
+\begin{table}[H]
+	\caption{AP64501 circuit's most relevant voltages expected and measured, for all operational modes, with the CM4 unmounted from the prototype.}
+	\label{tab:AP64501_3_modes_NO_CM4}
+	\centering
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{lcccccc}
+        \toprule
+		\multicolumn{7}{c}{\textbf{AP64501 Circuit (CM4 unmounted from the board)}} \\
+		\midrule
+        {} & \multicolumn{2}{c}{\textbf{Mode 1}} & \multicolumn{2}{c}{\textbf{Mode 2}} & \multicolumn{2}{c}{\textbf{Mode 3}} \\
+		\midrule
+		{} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} \\
+		\midrule
+		\textbf{PWR\_AP64501} 	& $15.00$ & $14.93$ & $8.40$  & $8.31$  & $15.00$ & $14.94$ \\
+        \midrule
+		\textbf{VCC (+5V)} 		& $5.00$  & $5.01$  & $5.00$  & $5.01$  & $5.00$  & $5.01$ \\
+        \midrule
+		\textbf{EN}				& $2.96$  & $2.94$ 	& $1.66$  & $1.64$  & $2.96$  & $2.94$ \\
+        % \midrule
+		% \textbf{FB} 			& $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+        \bottomrule
+    \end{tabular}}
+\end{table}
+\endgroup% AP64501 Circuit
+
+Tables~\ref{tab:PowerSwitch_3_modes_NO_CM4} and~\ref{tab:AP64501_3_modes_NO_CM4} reveal the correct operation of the power switch circuit and AP64501 buck converter. In practical terms, the power switch circuit corresponds to whether the input power voltage from either the external adapter or the battery pack is allowed into the input terminal of the AP64501 (PWR\_AP64501), as mentioned in Section~\ref{sec:3213_SWITCH}. The correct workings of both circuits are related to the lighting status of the switch's (SW1) integrated LED (PWR\_LED, present in the HMI circuit), followed by the 5V output from the AP64501 (VCC (+5V)).
+
+
+
+
+
+%ssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssSssS
+\subsubsection{CM4 Mounted on the Prototype}\label{5332_CM4_Mounted_ON}
+
+After verifying the voltage levels were stable and indicated for the CM4, the module was assembled on the board's respective connectors, and the same functional tests as exposed in Section~\ref{sec:5331_CM4_UNmounted} were conducted.
+
+Assembling the module on the board enables the 3.3V net. Since the only IC that uses this supply is the LAN9514 hub, the measured voltages for every other circuit should remain unaltered.
+
+\begingroup
+\begin{table}[H]
+	\caption{LTC4012 circuit's most relevant voltages expected and measured, for all operational modes, with the CM4 mounted on the prototype.}
+	\label{tab:LTC4012_3_modes_WITH_CM4}
+	\centering
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{lcccccc}
+        \toprule
+		\multicolumn{7}{c}{\textbf{LTC4012 Circuit (CM4 mounted on the board)}} \\
+		\midrule
+        {} & \multicolumn{2}{c}{\textbf{Mode 1}} & \multicolumn{2}{c}{\textbf{Mode 2}} & \multicolumn{2}{c}{\textbf{Mode 3}} \\
+		\midrule
+		{} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} \\
+		\midrule
+		\textbf{EXT\_PWR} & $15.00$ & $15.05$ & $0.00$  & $0.00$  & $15.00$ & $15.05$ \\
+        \midrule
+		\textbf{PWR\_LTC} & $15.00$ & $15.07$ & $8.40$  & $8.42$  & $15.00$ & $15.07$ \\
+        \midrule
+		\textbf{VBAT} 	  & $8.37$  & $8.35$  & $8.40$  & $8.13$  & $8.40$  & $8.12$ \\
+        \midrule
+		\textbf{!ACP} 	  & $0.00$  & $0.09$  & $5.00$  & $4.97$  & $0.00$  & $0.09$ \\
+        \midrule
+		% \textbf{SW} 	  & $0.00$  & $0.00$  & $0.00$  & $0.00$  & $0.00$  & $0.00$ \\
+        % \midrule
+		% \textbf{INTVDD}   & $0.00$  & $0.00$  & $0.00$  & $0.00$  & $0.00$  & $0.00$ \\
+        % \midrule
+		% \textbf{FBDIV}    & $0.00$  & $0.00$  & $0.00$  & $0.00$  & $0.00$  & $0.00$ \\
+        % \midrule % so é interessante caso esteja a haver carga de baterias
+		\textbf{VFB} 	  & $1.21$  & $1.21$  & $1.21$  & $1.20$  & $1.21$  & $1.21$ \\
+        % \midrule
+		% \textbf{PROG} 	  & $1.21$  & $0.54$  & $0.00$  & $0.00$  & $0.00$  & $0.00$ \\
+        \bottomrule
+    \end{tabular}}
+\end{table}
+\endgroup% LTC4012_3_modes_WITH_CM4
+
+\begingroup
+\begin{table}[H]
+	\caption{BQ29209 circuit's most relevant voltages expected and measured, for all operational modes, with the CM4 mounted on the prototype.}
+	\label{tab:BQ29209_3_modes_WITH_CM4}
+	\centering
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{lcccccc}
+        \toprule
+		\multicolumn{7}{c}{\textbf{BQ29209 Circuit (CM4 mounted on the board)}} \\
+		\midrule
+        {} & \multicolumn{2}{c}{\textbf{Mode 1}} & \multicolumn{2}{c}{\textbf{Mode 2}} & \multicolumn{2}{c}{\textbf{Mode 3}} \\
+		\midrule
+		{} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} \\
+		\midrule
+		\textbf{VBAT} 		& $8.37$ & $8.35$ & $8.40$ & $8.13$ & $8.40$ & $8.12$ \\
+        \midrule
+		\textbf{BAT1-BAT2} 	& $0.00$ & $0.00$ & $4.20$ & $4.05$ & $4.20$ & $4.05$ \\
+        \midrule
+		\textbf{BAT2} 		& $0.00$ & $0.00$ & $4.20$ & $4.08$ & $4.20$ & $4.08$ \\
+        \midrule
+		\textbf{VBAT\_STAT} & $0.00$ & $8.10$ & $8.40$ & $7.84$ & $8.40$ & $7.88$ \\
+        \bottomrule
+    \end{tabular}}
+\end{table}
+\endgroup% BQ29209_3_modes_WITH_CM4
+
+\begingroup
+\begin{table}[H]
+	\caption{Power switch circuit's most relevant voltages expected and measured, for all operational modes, with the CM4 mounted on the prototype.}
+	\label{tab:PowerSwitch_3_modes_WITH_CM4}
+	\centering
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{lcccccc}
+        \toprule
+		\multicolumn{7}{c}{\textbf{Power Switch Circuit (CM4 mounted on the board)}} \\
+		\midrule
+        {} & \multicolumn{2}{c}{\textbf{Mode 1}} & \multicolumn{2}{c}{\textbf{Mode 2}} & \multicolumn{2}{c}{\textbf{Mode 3}} \\
+		\midrule
+		{} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} \\
+		\midrule
+		\textbf{PWR\_AP64501} 	& $15.00$ & $14.93$ & $8.40$  & $8.27$  & $15.00$ & $14.94$ \\
+        \midrule
+		\textbf{PWR\_LED} 		& $5.00$  & $4.94$  & $5.00$  & $4.95$  & $5.00$  & $4.94$ \\
+        \bottomrule
+    \end{tabular}}
+\end{table}
+\endgroup% PowerSwitch_3_modes_WITH_CM4
+
+\begingroup
+\begin{table}[H]
+	\caption{AP64501 circuit's most relevant voltages expected and measured, for all operational modes, with the CM4 mounted on the prototype.}
+	\label{tab:AP64501_3_modes_WITH_CM4}
+	\centering
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{lcccccc}
+        \toprule
+		\multicolumn{7}{c}{\textbf{AP64501 Circuit (CM4 mounted on the board)}} \\
+		\midrule
+        {} & \multicolumn{2}{c}{\textbf{Mode 1}} & \multicolumn{2}{c}{\textbf{Mode 2}} & \multicolumn{2}{c}{\textbf{Mode 3}} \\
+		\midrule
+		{} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} \\
+		\midrule
+		\textbf{PWR\_AP64501} 	& $15.00$ & $14.93$ & $8.40$  & $8.27$  & $15.00$ & $14.94$ \\
+        \midrule
+		\textbf{VCC (+5V)} 		& $5.00$  & $5.01$  & $5.00$  & $5.01$  & $5.00$  & $5.01$ \\
+        \midrule
+		\textbf{EN}				& $2.96$  & $2.94$ 	& $1.66$  & $1.63$  & $2.96$  & $2.94$ \\
+        % \midrule
+		% \textbf{FB} 			& $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ & $00.00$ \\
+        \bottomrule
+    \end{tabular}}
+\end{table}
+\endgroup% AP64501_3_modes_WITH_CM4
+
+As expected, the values for tables~\ref{tab:LTC4012_3_modes_WITH_CM4}-~\ref{tab:AP64501_3_modes_WITH_CM4} remain essentially unaltered when compared to the same results presented on Section~\ref{sec:5331_CM4_UNmounted}, except for a few slight variations on power supply ICs and, of course, the VBAT net -- which occurred due to the discharge of the cells that make up the battery pack.
+Therefore, the circuit's power supply chain remains in solid operation for all modes.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{Chapters/Figures/chapter5/prototype/7_consumo.png}
+	\caption{Functional testing of the new beRTK\textsuperscript{\textregistered} PCB (external power and battery pack power applied; with the Raspberry Pi CM4).}
+	\label{fig:7_consumo}
+\end{figure}% 7_consumo
+
+%depois é que falo dos LEDs de Activity e PWR
+Also visible on all operation modes are the lighting events of both activity and power LEDs for the CM4, as soon as the power switch is pressed (Figure~\ref{fig:7_consumo}). Before using the CM4, only the power LED lit up (Figure~\ref{fig:5_proto_first_test_ONLY_EXT_PWR}) -- which was the expected behaviour since this LED's power is controlled by an inverter fed with the 5V from the AP64501 output net, as seen in Figure~\ref{fig:CM4_GPIO_circuit}.
+
+\begingroup
+\begin{table}[h]
+	\caption{CM4 GPIO circuit's most relevant voltages expected and measured, for all operational modes, with the CM4 mounted on the prototype.}
+	\label{tab:CM4_GPIO_3_modes_WITH_CM4}
+	\centering
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{lcccccc}
+        \toprule
+		\multicolumn{7}{c}{\textbf{CM4 GPIO Circuit (CM4 mounted on the board)}} \\
+		\midrule
+        {} & \multicolumn{2}{c}{\textbf{Mode 1}} & \multicolumn{2}{c}{\textbf{Mode 2}} & \multicolumn{2}{c}{\textbf{Mode 3}} \\
+		\midrule
+		{} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} \\
+		\midrule
+		\textbf{+5V} 			& $5.00$  & $5.01$  & $5.00$  & $5.01$  & $5.00$  & $5.01$ \\
+        \midrule
+		\textbf{+3V3} 			& $3.30$ & $3.30$ & $3.30$ & $3.30$ & $3.30$ & $3.30$ \\
+        \midrule
+		\textbf{Global\_EN} 	& $5.00$ & $4.82$ & $5.00$ & $4.82$ & $5.00$ & $4.82$ \\
+        \midrule
+		\textbf{RUN\_PG} 		& $3.30$ & $3.29$ & $3.30$ & $3.28$ & $3.30$ & $3.29$ \\
+		\midrule
+		\textbf{nEXTRST} 		& $3.30$ & $3.29$ & $3.30$ & $3.28$ & $3.30$ & $3.29$ \\
+		\midrule
+		% \textbf{WL\_nDisable} 	& $0.00$ & $0.00$ & $0.00$ & $0.00$ & $0.00$ & $0.00$ \\
+		% \midrule
+		% \textbf{BT\_nDisable} 	& $0.00$ & $0.00$ & $0.00$ & $0.00$ & $0.00$ & $0.00$ \\
+		% \midrule
+		\textbf{GPIO12} 		& $0.00$ & $0.03$ & $0.00$ & $0.02$ & $0.00$ & $0.03$ \\
+		\midrule
+		\textbf{GPIO13}			& $0.00$ & $0.02$ & $0.00$ & $0.02$ & $0.00$ & $0.02$ \\
+		\midrule
+		\textbf{GPIO18}			& $0.00$ & $0.01$ & $0.00$ & $0.01$ & $0.00$ & $0.01$ \\
+		\midrule
+		\textbf{GPIO19}			& $0.00$ & $0.01$ & $0.00$ & $0.01$ & $0.00$ & $0.01$ \\
+		\midrule
+		\textbf{GPIO20}			& $0.00$ & $0.03$ & $0.00$ & $0.03$ & $0.00$ & $0.03$ \\
+		\midrule
+		\textbf{GPIO21}			& $0.00$ & $0.01$ & $0.00$ & $0.01$ & $0.00$ & $0.01$ \\
+        \bottomrule
+    \end{tabular}}
+\end{table}
+\endgroup% CM4_GPIO_3_modes_WITH_CM4
+
+\begingroup
+\begin{table}[h]
+	\caption{CM4 high-speed circuit's most relevant voltages expected and measured, for all operational modes, with the CM4 mounted on the prototype.}
+	\label{tab:CM4_HighSpeed_3_modes_WITH_CM4}
+	\centering
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{lcccccc}
+        \toprule
+		\multicolumn{7}{c}{\textbf{CM4 High-Speed Circuit (CM4 mounted on the board)}} \\
+		\midrule
+        {} & \multicolumn{2}{c}{\textbf{Mode 1}} & \multicolumn{2}{c}{\textbf{Mode 2}} & \multicolumn{2}{c}{\textbf{Mode 3}} \\
+		\midrule
+		{} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} \\
+		\midrule
+		\textbf{USB\_OTG\_ID} 	& $0.00$ & $0.00$ & $0.00$ & $0.00$ & $0.00$ & $0.00$ \\
+        \midrule
+		\textbf{HDMI\_5V} 		& $5.00$ & $5.01$ & $5.00$ & $5.01$ & $5.00$ & $5.01$ \\
+        \bottomrule
+    \end{tabular}}
+\end{table}
+\endgroup% CM4_HighSpeed_3_modes_WITH_CM4
+
+The expected values were obtained while measuring the relevant voltages for both connector sides of the CM4, and an established 3.3V net was verified. The HDMI side of the board was also correctly powered.
+
+Before accurate readings on the LAN9514 hub can be done, the CM4 must first be set up. If this is not done, the device will not provide it's intended capabilities, among which is the USB interface. Figure~\ref{fig:HDMI_CM4_not_working} shows the first attempt at connecting the prototype to an external monitor through an HDMI cable. It was successful, since the connection was clearly established without any HDMI-related problems; the monitor screen displays a typical message of a CM4 without an operating system installed: ``SD: card not detected''.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{Chapters/Figures/chapter5/prototype/HDMI_CM4_not_working.png}
+	\caption{First HDMI test of the new beRTK\textsuperscript{\textregistered} PCB (CM4 without the Raspberry Pi OS installed).}
+	\label{fig:HDMI_CM4_not_working}
+\end{figure}% HDMI_CM4_not_working
+
+The CM4 version used on the prototype provides an eMMC flash module installed, and therefore an external SD card was not needed -- the Raspberry Pi OS can simply be installed directly on the module itself. For that, as explained in Section~\ref{sec:3234_LAN9514}, either an upstream USB port or the CM4IO development board can be used -- the latter option was taken, since an upstream USB port was not implemented on the prototype and the CM4IO was available during the development stage of the project. Figure~\ref{fig:9_proto_CM4IO} shows the CM4 mounted on the CM4IO board, connected to a PC via a Micro-USB cable in order to install the Raspberry Pi OS on the module.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{Chapters/Figures/chapter5/prototype/9_proto_CM4IO.png}
+	\caption{Installing the Raspberry Pi OS on the CM4, using the CM4IO board.}
+	\label{fig:9_proto_CM4IO}
+\end{figure}% 9_proto_CM4IO
+
+Connecting the prototype once again to an external monitor using an HDMI cable reveals the operating system was correctly installed on the module, which is now operational, as shown in Figure~\ref{fig:10_proto_HDMI_and_RPiOS_working}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{Chapters/Figures/chapter5/prototype/10_proto_HDMI_and_RPiOS_working.png}
+	\caption{HDMI test of the new beRTK\textsuperscript{\textregistered} PCB (CM4 with the Raspberry Pi OS installed).}
+	\label{fig:10_proto_HDMI_and_RPiOS_working}
+\end{figure}% 10_proto_HDMI_and_RPiOS_working
+
+Table~\ref{tab:LAN9514_3_modes_WITH_CM4} highlights, for all three operational modes, the most relevant voltages expected and measured for the LAN9514 hub, with a CM4 loaded with the Raspberry Pi OS mounted on the board.
+
+% agora podem-se tirar as medidas do LAN9514:
+\begingroup
+\begin{table}[h]
+	\caption{LAN9514 and downstream ports circuits' most relevant voltages expected and measured, for all operational modes, with the CM4 mounted on the prototype.}
+	\label{tab:LAN9514_3_modes_WITH_CM4}
+	\centering
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{lcccccc}
+        \toprule
+		\multicolumn{7}{c}{\textbf{LAN9514 Circuit (CM4 mounted on the board)}} \\
+		\midrule
+        {} & \multicolumn{2}{c}{\textbf{Mode 1}} & \multicolumn{2}{c}{\textbf{Mode 2}} & \multicolumn{2}{c}{\textbf{Mode 3}} \\
+		\midrule
+		{} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} & \textbf{Exp. (V)} & \textbf{Meas. (V)} \\
+		\midrule
+		\textbf{VDD33IO} 	& $3.30$ & $3.30$ & $3.30$ & $3.30$ & $3.30$ & $3.30$ \\
+        \midrule
+		\textbf{VDD33A} 	& $3.30$ & $3.29$ & $3.30$ & $3.29$ & $3.30$ & $3.29$ \\
+        \midrule
+		\textbf{VDD18CORE} 	& $1.80$ & $1.80$ & $1.80$ & $1.80$ & $1.80$ & $1.80$ \\
+		\midrule
+		\textbf{IN -- U11} 	& $5.00$ & $5.01$ & $5.00$ & $5.01$ & $5.00$ & $5.01$ \\
+		\midrule % port 1
+		\textbf{PRTCTL2} 	& $3.30$ & $0.85$ & $3.30$ & $0.85$ & $3.30$ & $0.85$ \\
+		\midrule
+		\textbf{ENA -- U11} & $0.00$ & $3.29$ & $0.00$ & $3.31$ & $0.00$ & $3.29$ \\
+		\midrule
+		\textbf{PWR2} 		& $5.00$ & $0.02$ & $5.00$ & $0.01$ & $5.00$ & $0.02$ \\
+		\midrule % port 2
+		\textbf{PRTCTL3} 	& $3.30$ & $0.82$ & $3.30$ & $0.82$ & $3.30$ & $0.82$ \\
+		\midrule
+		\textbf{ENB -- U11} & $0.00$ & $3.28$ & $0.00$ & $3.30$ & $0.00$ & $3.28$ \\
+		\midrule
+		\textbf{PWR3} 		& $5.00$ & $0.01$ & $5.00$ & $0.01$ & $5.00$ & $0.01$ \\
+		\midrule		
+		\textbf{IN -- U12} 	& $5.00$ & $5.01$ & $5.00$ & $5.01$ & $5.00$ & $5.01$ \\
+		\midrule % port 3
+		\textbf{PRTCTL4} 	& $3.30$ & $0.79$ & $3.30$ & $0.79$ & $3.30$ & $0.79$ \\
+		\midrule
+		\textbf{ENA -- U12} & $0.00$ & $3.31$ & $0.00$ & $3.31$ & $0.00$ & $3.31$ \\
+		\midrule
+		\textbf{PWR4} 		& $5.00$ & $0.02$ & $5.00$ & $0.02$ & $5.00$ & $0.01$ \\
+		\midrule % port 4
+		\textbf{PRTCTL5} 	& $3.30$ & $0.81$ & $3.30$ & $0.81$ & $3.30$ & $0.81$ \\
+		\midrule
+		\textbf{ENB -- U12} & $0.00$ & $3.29$ & $0.00$ & $3.28$ & $0.00$ & $3.29$ \\
+		\midrule
+		\textbf{PWR5} 		& $5.00$ & $0.01$ & $5.00$ & $0.01$ & $5.00$ & $0.01$ \\
+        \bottomrule
+    \end{tabular}}
+\end{table}
+\endgroup% LAN9514_3_modes_WITH_CM4
+
+Analysing the values on Table~\ref{tab:LAN9514_3_modes_WITH_CM4}, it can be noticed that, even though the voltages on all power pins seem to be correct, the voltages on the four USB port power control pins (PRTCTLx) are not.
+
+Before any conclusion could be drawn, the correct functioning of the 25MHz crystal oscillator needed to be verified. For that, using a digital oscilloscope, the crystal's oscillation frequency was measured, as shown in Figure~\ref{fig:25MHz_oscilloscope}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{Chapters/Figures/chapter5/prototype/25MHz_oscilloscope.png}
+	\caption{LAN9514 25MHz crystal oscillator frequency measurement using a digital oscilloscope.}
+	\label{fig:25MHz_oscilloscope}
+\end{figure}% 25MHz_oscilloscope
+
+As seen in Figure~\ref{fig:25MHz_oscilloscope}, it is possible to read and verify the waveform for the expected 25MHz from the crystal oscillator. The waveform observed also seems to have little to no amount of disturbances.
+
+All power pins were also monitored afterwards to check for the presence of noise, and even though a small amount of disturbances were found, these were concluded as not critical for the correct functioning of the hub. 
+
+Since the LAN9514 relies on the CM4 in order to communicate via USB, the CM4 datahseet (\cite{CM4}) informs the user that the module's USB interface is disabled by default on the firmware, in order to save power. However, in recent versions of the Raspberry Pi OS, it is automatically enabled by a single code line -- \verb!otg_mode=1! -- in a configurations file named ``config.txt''. Mounting the CM4 back on the CM4IO board and checking the config.txt file, the line ``\verb!otg_mode=1!'' was indeed verified to be in the file.
+
+As for the remaining LAN9514's USB-related pins -- VBUS\_DET, USBRBIAS, VDD18USBPLL and every data signal pin --, these were verified (with respect to the schematic and layout design) together with the IC's datasheet~\cite{LAN9514}, hardware design checklist manual~\cite{LAN9514_HW_Design_Checklist}, and reference schematic~\cite{LAN9514_ref_schematic}, in order to comply with the specific design requirements for the project. With this, while observing the home screen to the CM4's operating system, connecting a mouse and keyboard to the downstream USB ports of the prototype reported no feedback. Noting once more~\cite{CM4} and~\cite{LAN9514}, it can be concluded that the issue may be related to the lack of a more precise way to set the CM4 as a host or device. Without this definition the USB data transit through the downstream ports appears impossible.
+
+Referring back to the circuit schematic of the USB downstream ports (Figure~\ref{fig:USB_Hub_Downstream_circuit}) exposed in Section~\ref{sec:3234_LAN9514}, it can be seen that each PRTCTL pin connects to the input of a 74AHC1G04 single inverter gate. Subsequently, each inverter controls a single enable pin of a MIC2026A-2YM USB port power controller, which controls the flow of power to each USB downstream port. As previously mentioned, this inverter is placed before the enable pin to counter its active-low nature -- as the MIC2026-1BM USB port power controller, which has an active-high enable pin, suggested by~\cite{LAN9514_ref_schematic}, was not available at the prototyping stage of the project. Analysing Section 5.2.3 of the LAN9514 hardware design checklist manual (\cite{LAN9514_HW_Design_Checklist}), a graphical representation for a typical downstream VBUS port power control implementation can be found. Figure~\ref{fig:VBUS_HW_Design_Chklst} displays such representation.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{Chapters/Figures/chapter5/prototype/VBUS_HW_Design_Chklst.pdf}
+	\caption{Typical downstream VBUS port power control implementation~\cite{LAN9514_HW_Design_Checklist}.}
+	\label{fig:VBUS_HW_Design_Chklst}
+\end{figure}% VBUS_HW_Design_Chklst
+
+\cite{LAN9514_HW_Design_Checklist} also informs the user that the typical implementation shown in Figure~\ref{fig:VBUS_HW_Design_Chklst} assumes a port power controller with an active-high enable input and an active-low, open-drain style fault indicator (for the sensing of overcurrent conditions). It also mentions that ``external polarity inversion through buffers or FETs may be required if the port power controller has different I/O characteristics.'', which is the reason for the implementation of a 74AHC1G04 single inverter gate on both enable inputs of the selected MIC2026A-2YM port power controllers.
+
+However, there is a conflict of information when reviewing another document made available by the manufacturer of the LAN9514: the schematic checklist. In the schematic guidelines' section for the USB downstream interface port 2, the document states that ``\dots care must be taken when selecting a power distribution switch for the LAN9514. Power distribution switches are available with active-high enables or active-low enables. Active-low enable parts will not work with our combined Fault/Enable PRTCTL2 pin. The power distribution switch must have an active-high enable input and an overcurrent fault indication active-low output.''~\cite{LAN9514_Schematic_Checklist}; the same statements are made for each of the remaining three USB downstream interface ports. Figure~\ref{fig:VBUS_Schematic_Chklst} displays a representation of a typical LAN9514 USB downstream port application found in~\cite{LAN9514_Schematic_Checklist}. Comparing such representation to the one previously shown in Figure~\ref{fig:VBUS_HW_Design_Chklst}, the similarities are clear. Granted the schematic checklist document -- last revised in 2013 --, is older than the hardware design checklist document -- which in turn was last revised in 2022 --, the information seems to clash and may inevitably be prone to some design questions.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{Chapters/Figures/chapter5/prototype/VBUS_Schematic_Chklst.pdf}
+	\caption{Typical LAN9514 USB downstream port application~\cite{LAN9514_Schematic_Checklist}.}
+	\label{fig:VBUS_Schematic_Chklst}
+\end{figure}% VBUS_Schematic_Chklst
+
+From what can ultimately be described as a design flaw, the testing of the prototype had to be stopped at the USB data transfer stage. Since this interface is critical to the performance of the new beRTK\textsuperscript{\textregistered} base station, it cannot be bypassed in any way. Redesign of the LAN9514 and CM4 high-speed circuits are necessary in order to solve the issues described and be able to advance to the project's next step.
+
+
 
 
 %modos de operação:
@@ -959,52 +1170,39 @@ FALAR DE U7 TERMINAL 1 TER 2.048V E DE como OS LEDS ficam acesos em cada modo% H
 
 
 
--- As mentioned before, the top and bottom power FETs Q2 and Q9, along with inductor L1 are vital to the PWM control architecture. These components are part of the sub-circuit that starts from the +15VDC source of power and passes across FET Q1 (connected to pin INFET), sense resistor R3, 
-This sub-circuit forms the ``power supply rail'', and upon layout design of the circuit from Figure~\ref{fig:LTC4012_circuit}, this section must bear a track width large enough to withstand large values of currents or any other phenomena that may occur (e.g. voltage/current spikes). The needed track width can be calculated through the following expression:
+% -- As mentioned before, the top and bottom power FETs Q2 and Q9, along with inductor L1 are vital to the PWM control architecture. These components are part of the sub-circuit that starts from the +15VDC source of power and passes across FET Q1 (connected to pin INFET), sense resistor R3, 
+% This sub-circuit forms the ``power supply rail'', and upon layout design of the circuit from Figure~\ref{fig:LTC4012_circuit}, this section must bear a track width large enough to withstand large values of currents or any other phenomena that may occur (e.g. voltage/current spikes). The needed track width can be calculated through the following expression:
 
-XBee: Digi XBee 3 RF Module Hardware Reference Manual
-We design XBee 3 RF Modules to be self-sufficient and have minimal sensitivity to nearby processors,
-crystals or other printed circuit board (PCB) components. Keep power and ground traces thicker than
-signal traces and make sure that they are able to comfortably support the maximum current
-specifications. There are no other special PCB design considerations to integrate XBee 3 RF Modules,
-with the exception of antennas.
+% XBee: Digi XBee 3 RF Module Hardware Reference Manual
+% We design XBee 3 RF Modules to be self-sufficient and have minimal sensitivity to nearby processors,
+% crystals or other printed circuit board (PCB) components. Keep power and ground traces thicker than
+% signal traces and make sure that they are able to comfortably support the maximum current
+% specifications. There are no other special PCB design considerations to integrate XBee 3 RF Modules,
+% with the exception of antennas.
 
 
 
 
 %LTC4012:
-It should be noted that, for the top and bottom FET selection stage, the Si7212DN model suggested is a double FET in one package. The CSD17308Q3 substituting model is a single-channel FET (only one per package), and therefore two units had to be acquired -- Section~\ref{sec:3211_LTC4012}.
+% It should be noted that, for the top and bottom FET selection stage, the Si7212DN model suggested is a double FET in one package. The CSD17308Q3 substituting model is a single-channel FET (only one per package), and therefore two units had to be acquired -- Section~\ref{sec:3211_LTC4012}.
 
 
 
 
     % inductor L2:
-    Meter Eq. 9 do datasheet do AP64501;
+    % Meter Eq. 9 do datasheet do AP64501;
     
-    Peak current determines the required saturation current rating, which influences the size of the inductor. Saturating the inductor decreases the converter efficiency while increasing the temperatures of the inductor and the internal power MOSFETs. Therefore, choosing an inductor with the appropriate saturation current rating is important. 
-    It is recommended by \cite{AP64501} the selection of an inductor value between $1 \mu$H to $10 \mu$H, and therefore, taking into account the values presented in Table~\ref{tab:AP64501_recommended_values}, an inductor of $3.6 \mu$H was selected. It is also advised to select an indcutor with a DC current rating of at least 35\% higher than the maximum 5A load current of the AP64501, which corresponds to 6.75A.
-    For highest efficiency, the inductor's DC resistance should be less than 10mOhm. Use a larger inductance for improved efficiency under light load conditions.
+    % Peak current determines the required saturation current rating, which influences the size of the inductor. Saturating the inductor decreases the converter efficiency while increasing the temperatures of the inductor and the internal power MOSFETs. Therefore, choosing an inductor with the appropriate saturation current rating is important. 
+    % It is recommended by \cite{AP64501} the selection of an inductor value between $1 \mu$H to $10 \mu$H, and therefore, taking into account the values presented in Table~\ref{tab:AP64501_recommended_values}, an inductor of $3.6 \mu$H was selected. It is also advised to select an indcutor with a DC current rating of at least 35\% higher than the maximum 5A load current of the AP64501, which corresponds to 6.75A.
+    % For highest efficiency, the inductor's DC resistance should be less than 10mOhm. Use a larger inductance for improved efficiency under light load conditions.
 
 
-% CM4:
-    At just 40mm $\times$ 55mm and 4.7mm deep, the form factor of the CM4 is one of its biggest advantages, since it allows designers to fit it in almost all designs.
 
-    %HDMI routing:
-    HDMI signals should be routed as 100Ohm differential pairs. Each signal within a pair should ideally be matched to better than 0.15mm. Pairs don't typically need any extra matching, as they only have to be matched to 25mm.
 
-    %USB routing:
-    The differential pair should be routed as a 90Ohm differential pair. The length of the P/N signals should ideally be matched to better than 0.15mm.
-
-    6. The port is capable of being used as a true USB On-The-Go (OTG) port. While there is no official documentation, some users have had success making this work. The USB\_OTG\_ID pin is used to select between USB host and device that is typically wired to the ID pin of a Micro USB connector. To use this functionality it must be enabled in the OS. If using either as a fixed slave or fixed master, please tie the USB\_OTG\_ID pin to ground. tentei isto e nao deu.
-
-	-- It also states that, in order to assemble this module onto a carrier board, one of two possible mating connectors must be chosen. The two options are named DF40C-100DS-0.4v and DF40HC(3.0)-100DS-0.4v and when installed, provide a clearance under the CM4 of 0mm and 1.5mm, respectively. 
-
-% LAN9514:
-    However, USB has the advantage of allowing hot-swapping, making it useful for mobile peripherals, including drives of various kinds. -- mesmo que digam isto ja é possivel por natureza do USB, eu ainda tentei fazer o que dizia no datahseet do LAN9514 para dar enable ao hot-swapping, mas continuou sem funcionar.
 
 
 %-------------------------------
-Basicamente o processo de fazer uma base rtk de zero é simples:
+% Basicamente o processo de fazer uma base rtk de zero é simples:
 % 	- O software é instalares o OS e depois fazeres clone da tal git.
 % 	- Na git estão as instruções de como instalar o software todo. É só seguir e está feito.
 % 	- É possível que tenhas de trocar uma porta nos parâmetros ou algo assim porque em vez do wi-fi estar na USB3 está na USB1 ou algo assim, mas não há de ser muito mais que isso.

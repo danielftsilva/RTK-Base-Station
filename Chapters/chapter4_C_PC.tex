@@ -84,7 +84,7 @@ As an important note, it must be mentioned that the Raspberry Pi Foundation prov
 
 \paragraph{USB 2.0 Interface}	The CM4's USB 2.0 interface enables a signalling rate of 480Mbit/s and is accessible via two pins, USB2\_N and USB2\_P, which represent the negative (D-) and positive (D+) data pins, respectively. In Figure~\ref{fig:CM4_HighSpeed_circuit}, these pins are, in the same order as mentioned, represented by pins 103 and 105; they are connected to pins $\overline{\mbox{USBDM0}}$ and USBDP0 (pins number 58 and 59, respectively) of the LAN9514 USB 2.0 hub, covered in Section~\ref{sec:3234_LAN9514}.
 
-There is one extra pin (numbered 101) used in this interface, labelled as USB\_OTG\_ID. This pin  provides the CM4's USB port the ability of being used as a true On-The-Go (OTG) port, accomplished by (typically) tying the USB\_OTG\_ID pin to the ID pin of a Micro USB connector. This feature allows the CM4 to act interchangeably as either a host or a device. For this version of the project, there is no necessity of the OTG feature, and as such, the USB\_OTG\_ID pin is simply tied to GND, as that ensures the module will be used as either a fixed host or fixed device, according to~\cite{CM4}.
+There is one extra pin (numbered 101) used in this interface, labelled as USB\_OTG\_ID. This pin  provides the CM4's USB port the ability of being used as a true On-The-Go (OTG) port, accomplished by (typically) tying the USB\_OTG\_ID pin to the ID pin of a Micro-USB connector. This feature allows the CM4 to act interchangeably as either a host or a device. For this version of the project, there is no necessity of the OTG feature, and as such, the USB\_OTG\_ID pin is simply tied to GND, as that ensures the module will be used as either a fixed host or fixed device, according to~\cite{CM4}.
 
 % meter aqui circuito do CM4_HighSpeed
 \begin{figure}[h]
@@ -303,7 +303,7 @@ Analysing the circuit of Figure~\ref{fig:ZEDF9P_circuit}, with the help of ZED-F
 
 Regarding the power pins, it can be seen in Figure~\ref{fig:ZEDF9P_circuit} that pin 1 of MOD2 connects to the GND net and pin 2 to the 5V power supply net output from the AP64501, via a Schottky barrier rectifier (D6) -- PMEG2010ER model~\cite{PMEG2010ER}. This diode is strategically placed amid the 5V net and the power input for the GNSS module (net GPS\_VDD) as a way to protect it from possible problems that may arise from discharges or the high switching rate of the buck converter (input capacitors C9 and C10 also aid in such occasions). As such, the model chosen should have a low forward voltage value, in order to maintain the input power for the GNSS module as close as possible to 5V.
 
-Another Schottky barrier rectifier (D7) is placed between the GPS\_VDD net and pin 1 of connector F3, which corresponds to the power pin of a micro USB connector (used as an ISP header for RTK data purposes). With a maximum reverse voltage 20V (\cite{PMEG2010ER}), D7 is placed in such a way that only allows power to flow from the USB connector when it is connected, and not the other way around. This micro USB connector is connected to the GNSS module via the USB data pins of the latter (14 and 12, USB\_D+ and USB\_D-, respectively) and is used to program the ZED-F9P.
+Another Schottky barrier rectifier (D7) is placed between the GPS\_VDD net and pin 1 of connector F3, which corresponds to the power pin of a Micro-USB connector (used as an ISP header for RTK data purposes). With a maximum reverse voltage 20V (\cite{PMEG2010ER}), D7 is placed in such a way that only allows power to flow from the USB connector when it is connected, and not the other way around. This Micro-USB connector is connected to the GNSS module via the USB data pins of the latter (14 and 12, USB\_D+ and USB\_D-, respectively) and is used to program the ZED-F9P.
 
 %não posso meter esta figura aqui porque nao faz parte do meu projeto.
 % \begin{figure}[h]
@@ -330,7 +330,7 @@ As mentioned in Chapter~\ref{cha:chapter2_SotA}, the XBee 3 RF module is used in
 
 Following the module's hardware reference manual (\cite{XBee}), it is recommended that, if only two-way communication is desired from this module, then only pins VCC, GND, DIN and DOUT need to be connected. Pin 4 corresponds to DIO14/DIN/!CONFIG and is, by default, an input pin. It can be defined as either an UART data input or GPIO pin. Setting it up as an UART data input (or an RX pin) and connecting it to pin 3 of the GNSS module (TX2; Figure~\ref{fig:ZEDF9P_circuit}) makes sense, since, as mentioned in Section~\ref{sec:3232_ZEDF9P}, the latter will be defined as an UART output for positioning correction data. Pin 3 corresponds to DIO13/DOUT and is the UART data output counterpart to DIO14/DIN/!CONFIG.
 
-In order to load Zigbee firmware onto the XBee 3 module's hardware and define its pins' functions, connector F2 in Figure~\ref{fig:XBEE3_circuit} is used as an ISP header. This header doubles its functionality, as it also provides power to a regulator, which in turn powers the RF module via the VCC pin. The regulator, named LP2981, is an ultra-low dropout regulator, and its datasheet (\cite{LP2981}) provides a typical application circuit for an LP2981 which, when supplied with 5V by an external regulator (in this case the AP64501), provides a 3.3V output. The design is achieved through the implementation of a total output bypass capacitance ($C_{OUT}$) of no less than $3.3 \mu$F -- which can be increased without limit to improve transient response. Using a different 3.3V power supply just for the XBee is beneficial, since there will be no disturbances from other ICs powered by that source, which would otherwise harm the power signal fed to the vital communication module.
+In order to load Zigbee firmware on the XBee 3 module's hardware and define its pins' functions, connector F2 in Figure~\ref{fig:XBEE3_circuit} is used as an ISP header. This header doubles its functionality, as it also provides power to a regulator, which in turn powers the RF module via the VCC pin. The regulator, named LP2981, is an ultra-low dropout regulator, and its datasheet (\cite{LP2981}) provides a typical application circuit for an LP2981 which, when supplied with 5V by an external regulator (in this case the AP64501), provides a 3.3V output. The design is achieved through the implementation of a total output bypass capacitance ($C_{OUT}$) of no less than $3.3 \mu$F -- which can be increased without limit to improve transient response. Using a different 3.3V power supply just for the XBee is beneficial, since there will be no disturbances from other ICs powered by that source, which would otherwise harm the power signal fed to the vital communication module.
 
 Six other pins of the XBee are also used:
 \begin{itemize}
@@ -362,7 +362,7 @@ As stated earlier in Section~\ref{sec:312_Peripherals_Communications}, the LAN95
 	\label{fig:LAN9514_blockDiagram}
 \end{figure}
 
-Since for this project only the USB specifications of this IC are needed, the TAP, Ethernet (and its PHY) and EEPROM controllers blocks' implementation was (carefully) left out. The upstream USB PHY block implementation was also left out, although it is required to load the Raspberry Pi operating system (Raspberry Pi OS) into the CM4 module. However, this was not a problem, since the CM4IO board (referenced in the last paragraph of Section~\ref{sec:322_CONTROL}) that provides the user with such possibility was available during the project development stage.
+Since for this project only the USB specifications of this IC are needed, the TAP, Ethernet (and its PHY) and EEPROM controllers blocks' implementation was (carefully) left out. The upstream USB PHY block implementation was also left out, although it is required to load the Raspberry Pi operating system (Raspberry Pi OS) on the CM4 module. However, this was not a problem, since the CM4IO board (referenced in the last paragraph of Section~\ref{sec:322_CONTROL}) that provides the user with such possibility was available during the project development stage.
 
 The hub is designed to be fully compliant with the USB 2.0 specification, and is therefore able to comfortably operate with signalling rates of up to 480Mbit/s (i.e. high-speed). This operating mode is particularly interesting to the new beRTK\textsuperscript{\textregistered}'s application, since the CM4 module's USB interface also operates with high-speed signalling rates, as described in Section~\ref{sec:3221_CM4_HSpeed}.
 
@@ -372,7 +372,7 @@ Similarly to the other ICs referenced in this project, a typical application cir
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/USB_Hub_1.pdf}
-	\caption{beRTK\textsuperscript{\textregistered} base station's USB hub schematic diagram.}
+	\caption{beRTK\textsuperscript{\textregistered} base station's LAN9514 USB hub schematic diagram.}
 	\label{fig:USB_Hub_1_circuit}
 \end{figure}
 
@@ -388,7 +388,7 @@ This same 3V3 net is the power supply for the LAN9514. The VDD33IO pins (19, 27,
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/USB_Hub_PwrSplyFiltering.pdf}
-	\caption{beRTK\textsuperscript{\textregistered} base station's USB hub Power Supply Filtering schematic diagram.}
+	\caption{beRTK\textsuperscript{\textregistered} base station's LAN9514 USB hub Power Supply Filtering schematic diagram.}
 	\label{fig:USB_Hub_PwrSplyFiltering_circuit}
 \end{figure}
 
@@ -400,7 +400,7 @@ As stated in Section~\ref{sec:3221_CM4_HSpeed}, the CM4's USB 2.0 interface pins
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1.0\textwidth]{Chapters/Figures/chapter3/USB_Hub_Downstream.pdf}
-	\caption{beRTK\textsuperscript{\textregistered} base station's USB hub Downstream schematic diagram.}
+	\caption{beRTK\textsuperscript{\textregistered} base station's LAN9514 USB hub Downstream schematic diagram.}
 	\label{fig:USB_Hub_Downstream_circuit}
 \end{figure}
 
@@ -409,10 +409,10 @@ Following the USB specification~\cite{USB_Specification}, each downstream port m
 To deliver power to each downstream port, the LAN9514 provides four individual port power control pins named PRTCTL[5:2] (pins 14, 16, 17, and 18 in Figure~\ref{fig:USB_Hub_1_circuit}), that are also able to detect over-current conditions. Each of these terminals must be connected to the enable pin of a power distribution switch.
 \cite{LAN9514_ref_schematic} suggests the MIC2026-1BM for such, however, at the design and prototyping phases of the project, this component was never available. An alternative was chosen, named MIC2026A-2YM~\cite{MIC2026A}. The difference between the alternative and the suggested power distribution switch is, besides a small variation for the on-resistance, the fact that its enable pin is of an active-low nature\footnote[18]{For the MIC2026 and MIC2026A parts, the number after the dash character represents either an active-high or active-low enable pin (-1 or -2, respectively).}.
 
-Therefore, knowing the MIC2026A-2YM enable pin's topology is active-low and that these components offer two power distribution switches in one package, each PRTCTL pins of the LAN9514 was connected to the input of a 74AHC1G04 single inverter gate supplied with 3.3V (which lies within the power supply range of the MIC2026A-2YM enable pin), as shown in Figure~\ref{fig:USB_Hub_Downstream_circuit}. Connecting the IN pin of each MIC2026A-2YM (U11 and U12) to the 5V power net, this same voltage will power each downstream port through the OUTA and OUTB pins, upon receiving the PRTCTL enabling signal by the hub. When this occurs, an LED is lit, signalling a correct power delivery to its respective downstream USB port.
+Therefore, knowing the MIC2026A-2YM enable pin's topology is active-low and that these components offer two power distribution switches in one package, each PRTCTL pins of the LAN9514 was connected to the input of a 74AHC1G04 single inverter gate~\cite{74AHC1G04} supplied with 3.3V (which lies within the power supply range of the MIC2026A-2YM enable pin), as shown in Figure~\ref{fig:USB_Hub_Downstream_circuit}. Connecting the IN pin of each MIC2026A-2YM (U11 and U12) to the 5V power net, this same voltage will power each downstream port through the OUTA and OUTB pins, upon receiving the PRTCTL enabling signal by the hub. When this occurs, an LED is lit, signalling a correct power delivery to its respective downstream USB port.
 
 Referring back to Figure~\ref{fig:USB_Hub_1_circuit}, a very important pin for the USB definition on the LAN9514 is VBUS\_DET. This pin is used to define the hub's powering mode.
-According to~\cite{LAN9514}, if the hub is bus-powered, VBUS\_DET must be tied to VDD33IO (i.e. 3V3); if it is instead self-powered from a permanent connection to a host, VBUS\_DET should be pulled to VDD33IO. In this case, since the hub is permanently connected to CM4, which is a host, VBUS\_DET should be pulled to the 3V3 net. This pin also serves as a detector of the upstream bus power state, in order to, for example, signal connect events of an upstream USB port.	
+According to~\cite{LAN9514}, if the hub is bus-powered, VBUS\_DET must be tied to VDD33IO (i.e. 3V3); if it is instead self-powered from a permanent connection to a host, VBUS\_DET should be pulled to VDD33IO. In this case, since the hub is permanently connected to CM4, which is a host, VBUS\_DET should be pulled to the 3V3 net. This pin also serves as a detector of the upstream bus' power state, in order to, for example, signal connect events of an upstream USB port.	
 
 % REFERÊNCIA needed!!!!!!!!!!!!!!!!!!!!
 %SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
