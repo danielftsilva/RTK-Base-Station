@@ -11,6 +11,7 @@ template.lot
 template.run.xml
 template.toc
 template.lol
+template.pdf
 .DS_store
 /template.*
 .vscode/
