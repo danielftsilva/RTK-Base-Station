@@ -2,53 +2,45 @@
 
 <b>Description</b>
 
-This thesis was developed in collaboration with a Lisbon-based company and details the design, development, and testing of a low-power RTK positioning base station. The objective is to achieve centimeter-level precision for UAV navigation by drastically reducing power consumption while maintaining real-time GNSS corrections. The work encompasses everything from schematic design and prototype testing to integrating cutting-edge low-power electronics and a Raspberry Pi Compute Module 4 for control and communications.
+This thesis was developed in collaboration with a Lisbon-based company and details the development, design and testing of a low-power RTK positioning base station. The objective was to achieve, through the base station, centimeter-level precision for UAV navigation by reducing the device's power consumption while maintaining real-time GNSS corrections. The work encompasses everything from design to prototype testing, and culminated with a written report.
 
 <h2>👨‍💻 Thesis Summary:</h2>
 
-<b>Objective:</b>
+<b>Objectives:</b>
 
-To minimize the power consumption of an RTK base station without compromising the high precision required for real-time UAV navigation.
+- Complete design-to-prototype process - including testing.
 
-<b>Key Contributions:</b>
+- Development of a new low-power power supply architecture with battery balancing, power selection, voltage conversion, and switching circuits.
 
-Complete design-to-prototype process including detailed schematics and testing.
+- Integration of a Raspberry Pi Compute Module 4 for managing GNSS data, wireless communications, and remote configuration.
 
-Development of a novel low-power power supply architecture with battery balancing, power selection, voltage conversion, and switching circuits.
-
-Integration of a Raspberry Pi Compute Module 4 for managing GNSS data, wireless communications, and remote configuration.
-
-Achievement of nearly 50% power consumption reduction compared to the previous design.
+- Achievement of (ideally) 50% power consumption reduction compared to the previous design.
 
 <b>Thesis Structure:</b>
 
-Chapter 1: Introduction – Outlines the problem and motivation.
+- Chapter 1: Introduction – Outlines the problem and motivation.
 
-Chapter 2: State-of-the-Art – Reviews GNSS fundamentals, positioning methods, and RTK techniques.
+- Chapter 2: State-of-the-Art – Reviews GNSS fundamentals, positioning methods, and RTK techniques.
 
-Chapter 3: Hardware Design – Power Supply – Covers detailed circuit designs for a low-power architecture.
+- Chapter 3: Hardware Design – Power Supply – Covers detailed circuit designs for a low-power architecture.
 
-Chapter 4: Hardware Design – Control, Peripherals, and Communications – Describes the integration of control and communication modules.
+- Chapter 4: Hardware Design – Control, Peripherals, and Communications – Describes the integration of control and communication modules.
 
-Chapter 5: Prototyping and Functional Evaluation – Presents PCB layout, assembly, and test results.
+- Chapter 5: Prototyping and Functional Evaluation – Presents PCB layout, assembly, and test results.
 
-Chapter 6: Conclusions and Future Work – Summarizes achievements and suggests potential improvements.
+- Chapter 6: Conclusions and Future Work – Summarizes achievements and suggests potential improvements.
 
 <h2>🛠️ Implementation Details:</h2>
 
-Low-Power Design: Utilizes innovative battery balancing and power management circuits to reduce overall consumption.
+- Low-Power Design: Utilizes battery balancing and power management circuits to reduce overall consumption.
 
-RTK & GNSS Integration: Employs carrier-based corrections and Differential GNSS to achieve high-precision positioning.
+- RTK & GNSS Integration: Employs carrier-based corrections and Differential GNSS to achieve high-precision positioning.
 
-System Control: Integrates a Raspberry Pi Compute Module 4 for handling GNSS data, wireless communication, and remote configuration.
-
-Custom PCB: Features a carefully designed printed circuit board tailored for efficient power management and robust performance.
+- System Control: Integrates a Raspberry Pi Compute Module 4 for handling GNSS data, wireless communication, and remote configuration.
 
 <h2>📊 Prototype & Evaluation:</h2>
 
-Extensive prototyping and testing were conducted on the prototype.
-
-The prototype served as a solid foundation for future improvements and iterations.
+Extensive prototyping and testing were conducted on the prototype, which served as a foundation for future improvements and iterations.
 
 <!-- Add your prototype images/screenshots here -->
 
