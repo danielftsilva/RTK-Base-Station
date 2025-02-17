@@ -47,6 +47,12 @@ Extensive prototyping and testing were conducted on the prototype, which served 
 Below are some screenshots and pictures of the schematics, layout and prototype itself:
 
 <p align="center">
+  <img src="https://github.com/danielftsilva/RTK-Base-Station/blob/main/Chapters/Figures/chapter3/Power_Supply_and_Selection_1.png" alt="Power_Supply_and_Selection_1">
+  <br>
+  <i>New power supply and selection.</i>
+</p>
+
+<p align="center">
   <img src="https://github.com/danielftsilva/RTK-Base-Station/blob/main/Chapters/Figures/chapter5/prototype/10_proto_HDMI_and_RPiOS_working.png" alt="10_proto_HDMI_and_RPiOS_working">
   <br>
   <i>Prototype's HDMI displaying RPiOS screen.</i>
