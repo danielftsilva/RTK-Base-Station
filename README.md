@@ -49,7 +49,7 @@ Below are some screenshots and pictures of the schematics, layout and prototype 
 <p align="center">
   <img src="https://github.com/danielftsilva/RTK-Base-Station/blob/main/Chapters/Figures/chapter3/Power_Supply_and_Selection_1.png" alt="Power_Supply_and_Selection_1">
   <br>
-  <i>New power supply and selection.</i>
+  <i>New proposed power supply and selection.</i>
 </p>
 
 <p align="center">
